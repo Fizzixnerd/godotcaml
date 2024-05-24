@@ -14,9 +14,11 @@ int main(int argc, char **argv) {
     puts("RAWR");
     fflush(stdout);
     printo_closure = *caml_named_value("printo");
-    const char* rawr = "rawr!";
-    v = caml_alloc_tuple(2);
-    Field (v, 0) = caml_copy_string(rawr);
+    intnat rawr = 5;
+    intnat* rawr_p = malloc(sizeof(intnat));
+    *rawr_p = rawr;
+    v = caml_alloc(1, Custom_tag);
+    *(intnat*)Data_custom_val(v) = "rawr?";
     caml_callback(printo_closure, v);
     CAMLreturn(0);
 }
