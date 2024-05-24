@@ -1,4 +1,6 @@
+
 (executable
- (public_name godotcaml)
  (name main)
- (libraries godotcaml))
+ (public_name godotcaml_sanity_check)
+ (libraries godotcaml)
+ (flags (:standard -g)))
