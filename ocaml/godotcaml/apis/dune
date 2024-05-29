@@ -1,0 +1,5 @@
+(executable
+ (name gen_api)
+ (libraries core yojson pprint)
+ (preprocess (pps ppx_jane ppx_yojson_conv))
+ (flags (:standard -g -w -32)))

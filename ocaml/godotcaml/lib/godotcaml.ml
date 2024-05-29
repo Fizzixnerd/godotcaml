@@ -95,10 +95,18 @@ module C (M: SUITE) = struct
 
   let enum = int
 
-  let variant_type = enum
-  let variant_operator = enum
-
   let variant_type = typedef enum (M.typedef_name "VariantType")
+  module VariantType = struct
+    let nil = 0
+
+    let bool = 1
+    let int = 2
+    let float = 3
+    let string = 4
+
+    let string_name = 21
+  end
+
   let variant_operator = typedef enum (M.typedef_name "VariantOperator")
 
   type variant_ptr
@@ -135,11 +143,11 @@ module C (M: SUITE) = struct
 
   type 'a fn_suite = {
     fn : 'a fn;
-    typ : 'a static_funptr typ;
+    typ : 'a typ;
   }
 
   let fn_suite name fn =
-    let typ = typedef (static_funptr fn) name in
+    let typ = typedef (funptr fn) name in
     { fn; typ }
 
   let variant_from_type_constructor_func = fn_suite (M.typedef_name "VariantFromTypeConstructorFunc") (variant_ptr.uninit @-> type_ptr.plain @-> returning void)
@@ -219,8 +227,40 @@ module C (M: SUITE) = struct
   let class_property_can_revert = fn_suite (M.typedef_name "ClassFreePropertyCanRevert") (class_instance_ptr.plain @-> string_name_ptr.const @-> returning gbool)
   let class_property_get_revert = fn_suite (M.typedef_name "ClassFreePropertyGetRevert") (class_instance_ptr.plain @-> string_name_ptr.const @-> variant_ptr.plain @-> returning gbool)
   let class_property_validate_property = fn_suite (M.typedef_name "ClassFreePropertyValidateProperty") (class_instance_ptr.plain @-> property_info_ptr.plain @-> returning gbool)
-  (* deprecated function here *)
+  (* deprecated function was here *)
   let class_notification_2 = fn_suite (M.typedef_name "ClassNotification2") (class_instance_ptr.plain @-> int32_t @-> gbool @-> returning void)
   let class_to_string = fn_suite (M.typedef_name "ClassToString") (class_instance_ptr.plain @-> ptr gbool (* return value *) @-> returning string_ptr.plain (* also return value? *))
 
+  (* snip! *)
+
+  let initialization_level = typedef enum (M.typedef_name "InitializationLevel")
+  module InitializationLevel = struct
+    let core = 0
+    let servers = 1
+    let scene = 2
+    let editor = 3
+    let max = 4
+  end
+
+  module Initialization = struct
+    type t
+
+    let initialization_struct : t structure typ = structure (M.typedef_name "Initialization")
+    let init_func = fn_suite "InitFunc" (ptr void @-> initialization_level @-> returning void)
+    let minimum_initialization_level_f = field initialization_struct "minimum_initialization_level" initialization_level
+    let userdata_f = field initialization_struct "userdata" (ptr void)
+    let initialize_f = field initialization_struct "initialize" init_func.typ
+    let deinitialize_f = field initialization_struct "deinitialize" init_func.typ
+    let () = seal initialization_struct
+    let s = typedef initialization_struct (M.typedef_name "Initialization")
+  end
+  
+  let interface_function_ptr = fn_suite (M.typedef_name "InterfaceFunctionPtr") (void @-> returning void)
+  let interface_get_proc_address = fn_suite (M.typedef_name "InterfaceGetProcAddress") (string @-> returning interface_function_ptr.typ)
+
+  (* snip! *)
+
+  let interface_string_name_new_with_utf8_chars = fn_suite (M.typedef_name "InterfaceStringNameNewWithUtf8Chars") (string_name_ptr.uninit @-> string @-> returning void)
+  let interface_variant_get_ptr_constructor = fn_suite (M.typedef_name "InterfaceVariantGetPtrConstructor") (variant_type @-> int32_t @-> returning ptr_constructor.typ)
+  let interface_variant_get_ptr_destructor = fn_suite (M.typedef_name "InterfaceVariantGetPtrDestructor") (variant_type @-> returning ptr_destructor.typ)
 end
