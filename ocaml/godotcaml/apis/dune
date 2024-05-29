@@ -1,5 +1,14 @@
 (executable
+ (modules Gen_api)
  (name gen_api)
- (libraries core yojson pprint)
+ (libraries core yojson pprint ctypes)
+ (preprocess (pps ppx_jane ppx_yojson_conv))
+ (flags (:standard -g -w -32)))
+
+(executable
+ (modules Api Foreign_api)
+ (public_name api)
+ (name api)
+ (libraries core yojson pprint ctypes godotcaml)
  (preprocess (pps ppx_jane ppx_yojson_conv))
  (flags (:standard -g -w -32)))

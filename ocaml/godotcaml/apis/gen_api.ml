@@ -306,12 +306,12 @@ module Gen = struct
     ; (">=", "(>=)")
     ; ("+", "(+)")
     ; ("-", "(-)")
-    ; ("*", "(*)")
+    ; ("*", "( * )")
     ; ("/", "(/)")
     ; ("unary-", "(~-)")
     ; ("unary+", "(~+)")
     ; ("%", "(%)")
-    ; ("**", "(**)")
+    ; ("**", "( ** )")
     ; ("<<", "(<<<)")
     ; (">>", "(>>>)")
     ; ("&", "(&&&)")
@@ -337,19 +337,31 @@ module Gen = struct
 
   let remove_dots = fun s -> String.concat_map ~f:(function | '.' -> "" | _ as c -> String.of_char c) s
 
-  let rec mod_var = function
+  let rec mod_var_str = function
     | _ as name when String.is_empty name ->
       assert false
     | _ as name when not (String.is_empty name) && Char.(name.[0] = '_') ->
-      mod_var (String.slice name 1 (String.length name))
+      mod_var_str (String.slice name 1 (String.length name))
     | _ as name when String.(capitalize name = name) ->
-      string name
+      name
     | _ as name ->
-      string (String.capitalize name)
+      String.capitalize name
+
+  let mod_var = fun s -> string (mod_var_str s)
 
   let var_str name =
     match name with
-    | "object" | "type" | "method" | "struct" | "end" | "module" | "val" | "let" | "open" | "functor" as name ->
+    | "object" 
+    | "type"
+    | "method"
+    | "struct"
+    | "end"
+    | "module"
+    | "val"
+    | "let"
+    | "open"
+    | "functor"
+    | "match" as name ->
       name ^ "_"
     | "" as name -> name
     | _ as name when String.(prefix name 1 = "(") ->
@@ -389,7 +401,7 @@ module Gen = struct
     ^^ string "end"
 
   let binary_op_type : string -> string -> string -> ocaml = fun t1 t2 rty ->
-    string @@ sprintf "(M.%s.typ @-> M.%s.typ @-> returning M.%s.typ)" (var_str t1) (var_str t2) (var_str rty)
+    string @@ sprintf "(M.%s.typ @-> M.%s.typ @-> returning M.%s.typ)" (mod_var_str t1) (mod_var_str t2) (mod_var_str rty)
 
   let gen_file filename ocaml =
     Out_channel.with_file ~f:(fun oc -> PPrint.ToChannel.pretty 1.0 100 oc ocaml) filename
@@ -469,7 +481,7 @@ module Gen = struct
       dc ^/^ let_ uf.name (rhs fun_name c_type)
 
     let t_list_to_ocaml : t list -> ocaml = fun ufs ->
-      functor_ "UtilityFunction" "M" "FOREIGN" (List.map ~f:t_to_ocaml ufs)
+      functor_ "UtilityFunction" "M" "FOREIGN_API" (List.map ~f:t_to_ocaml ufs)
   end
 
   module BuiltinClass = struct
@@ -506,7 +518,7 @@ module Gen = struct
       let method_name = meth.name in
       let dc = meth.description |> PPrint.optional doc_comment in
       let method_type = mktype this meth.arguments meth.return_type meth.is_static meth.is_vararg in
-      let rhs name t = string "M.foreign_method \"" ^^ var this ^^ string "\" \"" ^^ name ^^ string "\" " ^^ t in
+      let rhs name t = string "M.foreign_method \"" ^^ string this ^^ string "\" \"" ^^ name ^^ string "\" " ^^ t in
       dc ^/^ let_ method_name (rhs (var method_name) method_type)
       
     let constructor_to_ocaml : string -> constructor -> ocaml = fun this cons ->
@@ -535,16 +547,16 @@ module Gen = struct
           | "PackedVector3Array"
           | "PackedVector4Array"
           | "PackedColorArray" ) as t) ->
-          Some (string "M.foreign_operator VariantOperator._OP_IN " ^^ binary_op_type this t this)
+          Some (string "M.foreign_operator \"" ^^ string this ^^ string "\" GlobalEnum.VariantOperator._OP_IN " ^^ binary_op_type this t op.return_type)
         | "in", _ -> 
           (* Should have covered all the cases. *)
           assert false 
         | op_name, None ->
           (* Unary operators. *)
-          Some (string "M.foreign_operator VariantOperator." ^^ string (var_str @@ Map.find_exn op_map op_name) ^/^ (string @@ sprintf "(M.%s.typ @-> returning M.%s.typ)" (var_str this) (var_str op.return_type)))
+          Some (string "M.foreign_operator \"" ^^ string this ^^ string "\" GlobalEnum.VariantOperator." ^^ string (var_str @@ Map.find_exn op_map op_name) ^/^ (string @@ sprintf "(M.%s.typ @-> returning M.%s.typ)" (mod_var_str this) (mod_var_str op.return_type)))
         | op_name, Some t when String.(t = this) ->
           (* Normal path: binary operator. *)
-          Some (string "M.foerign_operator VariantOperator." ^^ string (var_str @@ Map.find_exn op_map op_name) ^/^ binary_op_type this t op.return_type)
+          Some (string "M.foerign_operator \"" ^^ string this ^^ string "\" GlobalEnum.VariantOperator." ^^ string (var_str @@ Map.find_exn op_map op_name) ^/^ binary_op_type this t op.return_type)
         | _ ->
           (* We don't care about the forest of pointless operators.
             We will provide Variant-polymorphic ones if you need them. *)
@@ -553,7 +565,7 @@ module Gen = struct
       let lhs = Map.find_exn op_ocaml_names op.name in
       let lhs = 
         if String.(lhs = "elem")
-        then var_str this ^ "_elem_" ^ Option.value_exn op.right_type
+        then this ^ "_elem_" ^ Option.value_exn op.right_type
         else lhs
       in
       let dc = op.description |> PPrint.optional doc_comment in
@@ -575,18 +587,35 @@ module Gen = struct
     let constant_to_ocaml : constant -> ocaml = fun c ->
       let dc = c.description |> PPrint.optional doc_comment in
       dc ^/^ let_ c.name (string c.value)
+
+    let t_to_ocaml : t -> ocaml = fun bic ->
+      let defs = List.concat
+        [ List.map ~f:(method_to_ocaml bic.name) (bic.methods |> Option.value ~default:[])
+        ; List.map ~f:(operator_to_ocaml bic.name) (bic.operators |> Option.value ~default:[])
+        ; List.map ~f:enum_to_ocaml (bic.enums |> Option.value ~default:[])
+        ; List.map ~f:constant_to_ocaml (bic.constants |> Option.value ~default:[])
+        ]
+      in
+      module_ bic.name defs
+
+    let t_list_to_ocaml : t list -> ocaml = fun bics ->
+      bics
+      |> List.map ~f:t_to_ocaml
+      |> functor_ "BuiltinClass" "M" "FOREIGN_API"
   end
 end
 
 let () = 
   let contents = In_channel.read_all "./extension_api.json" in
   let api_json = Yojson.Safe.from_string contents in 
-  let api = Api.t_of_yojson api_json in
-  let api_json_again = Api.yojson_of_t api in
-  let contents_again = Yojson.Safe.pretty_to_string api_json_again in
-  print_endline contents_again;
-  api.builtin_classes
-  |> List.bind ~f:(fun c -> c.enums |> Option.value ~default:[])
-  |> List.map ~f:Gen.BuiltinClass.enum_to_ocaml
-  |> Gen.functor_ "BuiltinClassDummyConstants" "M" "FOREIGN"
+  let api = Api.t_of_yojson api_json in 
+  let open PPrint in
+
+  [ string "open! Base" ^^ hardline
+  ; string "open Foreign_api" ^^ hardline
+  ; string "open Ctypes" ^^ hardline
+  ; Gen.GlobalEnum.t_list_to_ocaml api.global_enums ^^ hardline ^^ hardline
+  ; Gen.BuiltinClass.t_list_to_ocaml api.builtin_classes ^^ hardline ^^ hardline
+  ]
+  |> PPrint.concat
   |> Gen.gen_file "api.ml"

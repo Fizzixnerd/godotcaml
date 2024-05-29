@@ -37,5 +37,5 @@ let hello_extension_entry (get_proc_address: nativeint) (_library: nativeint) (i
   1
 
 let () =
-  Callback.register "hello_extension_entry" hello_extension_entry;
-
+  Stdlib.Callback.register "hello_extension_entry" hello_extension_entry;
+  
