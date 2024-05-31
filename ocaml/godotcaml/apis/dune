@@ -5,10 +5,19 @@
  (preprocess (pps ppx_jane ppx_yojson_conv))
  (flags (:standard -g -w -32)))
 
+(library 
+ (modules Godotcaml Bootstrap)
+ (name godotcaml)
+ (libraries core ctypes ctypes.foreign lwt)
+ (preprocess (pps ppx_jane))
+ (flags (:standard -w -32 -g)))
+
+
 (executable
- (modules Api Foreign_api)
- (public_name api)
- (name api)
+ (modules Foreign_api Api_types Toy_api)
+ (modes (native (shared_object)))
+ (name toy_api)
+ (foreign_stubs (language c) (names hello-gdextension))
  (libraries core yojson pprint ctypes godotcaml)
  (preprocess (pps ppx_jane ppx_yojson_conv))
  (flags (:standard -g -w -32)))

@@ -1,6 +1,0 @@
-(library
- (name godotcaml)
- (libraries core ctypes ctypes.foreign lwt)
- (preprocess (pps ppx_jane))
- (flags (:standard -w -32 -g)))
-
