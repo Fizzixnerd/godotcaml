@@ -105,10 +105,11 @@ module UntypedSuite : SUITE = struct
     { plain; const; uninit }
 end
 
-module C (M : SUITE) = struct
+module C = struct
   open Ctypes
   open! PosixTypes
   open! Foreign
+  module M = TypedSuite
 
   let enum = int
   let variant_type = typedef enum (M.typedef_name "VariantType")
@@ -192,9 +193,10 @@ module C (M : SUITE) = struct
       (type_ptr.uninit @-> variant_ptr.plain @-> returning void)
 
   let ptr_operator_evaluator =
-    fn_suite
-      (M.typedef_name "PtrOperatorEvaluator")
+    dynamic_funptr
       (type_ptr.const @-> type_ptr.const @-> type_ptr.plain @-> returning void)
+
+  module PtrOperatorEvaluator = (val ptr_operator_evaluator)
 
   let ptr_built_in_method =
     fn_suite
@@ -441,13 +443,14 @@ module C (M : SUITE) = struct
     let s = typedef initialization_struct (M.typedef_name "Initialization")
   end
 
-  let interface_function_ptr =
-    fn_suite (M.typedef_name "InterfaceFunctionPtr") (void @-> returning void)
+  let interface_function_ptr = dynamic_funptr (void @-> returning void)
+
+  module InterfaceFunctionPtr = (val interface_function_ptr)
 
   let interface_get_proc_address =
     fn_suite
       (M.typedef_name "InterfaceGetProcAddress")
-      (string @-> returning interface_function_ptr.typ)
+      (string @-> returning InterfaceFunctionPtr.t)
 
   (* snip! *)
 
@@ -471,5 +474,5 @@ module C (M : SUITE) = struct
     fn_suite
       (M.typedef_name "InterfaceVariantGetPtrOperatorEvaluator")
       (variant_operator @-> variant_type @-> variant_type
-      @-> returning ptr_operator_evaluator.typ)
+      @-> returning PtrOperatorEvaluator.t)
 end

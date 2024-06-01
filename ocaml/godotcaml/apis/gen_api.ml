@@ -331,6 +331,13 @@ module Gen = struct
     ^^ string (String.concat_map ~f:escape contents)
     ^^ string " *)"
 
+  (** Some explanation: This removes the weird `enum::` prefix and replaces it with either "GlobalEnum" if it is unqualified, or leaves it as the qualified enum it is.*)
+  let remove_enum_prefix s =
+    if String.is_prefix ~prefix:"enum::" s then
+      let s' = String.drop_prefix s 6 in
+      if String.contains s '.' then s' else "GlobalEnum." ^ s'
+    else s
+
   let remove_dots s =
     String.concat_map ~f:(function '.' -> "" | _ as c -> String.of_char c) s
 
@@ -346,7 +353,8 @@ module Gen = struct
   let var_str name =
     match name with
     | ( "object" | "type" | "method" | "struct" | "end" | "module" | "val"
-      | "let" | "open" | "functor" | "match" ) as name ->
+      | "let" | "open" | "functor" | "match" | "inherit" | "new" | "begin" ) as
+      name ->
         name ^ "_"
     | "" as name -> name
     | _ as name when String.(prefix name 1 = "(") -> name
@@ -373,8 +381,22 @@ module Gen = struct
   let binary_op_type : string -> string -> string -> ocaml =
    fun t1 t2 rty ->
     string
-    @@ sprintf "(M.%s.typ @-> M.%s.typ @-> M.%s.typ @-> returning void)"
+    @@ sprintf "(%s.typ @-> %s.typ @-> %s.typ @-> returning void)"
          (mod_var_str t1) (mod_var_str t2) (mod_var_str rty)
+
+  let to_type_enum s =
+    let var_str = var_str s in
+    let var_str =
+      if String.(prefix var_str 1 = "_") then String.drop_prefix var_str 1
+      else var_str
+    in
+    let type_str =
+      let tail_str = String.drop_prefix var_str 1 in
+      String.prefix var_str 1
+      ^ String.concat_map tail_str ~f:(fun c ->
+            if Char.is_uppercase c then sprintf "_%c" c else String.of_char c)
+    in
+    "_TYPE_" ^ String.uppercase type_str
 
   let gen_file filename ocaml =
     Out_channel.with_file
@@ -426,10 +448,12 @@ module Gen = struct
       module_ module_name defs
   end
 
-  (** Qualify a name as (roughly) `M.<name>.t`. *)
-  let qualified_t name = string "M." ^^ mod_var name ^^ string ".t"
+  (** Qualify a name as (roughly) <name>.t`. *)
+  let qualified_t name = string "" ^^ mod_var name ^^ string ".t"
 
-  let qualified_typ name = string "M." ^^ mod_var name ^^ string ".typ"
+  let qualified_typ name = string "" ^^ mod_var name ^^ string ".typ"
+  let unqualified_t name = mod_var name ^^ string ".t"
+  let unqualified_typ name = mod_var name ^^ string ".typ"
 
   module UtilityFunction = struct
     (* This is going to generate code that is parameterized over a module M, containing the types *)
@@ -465,15 +489,14 @@ module Gen = struct
       in
       let c_type = assemble_type ty_frags ret_ty_frag in
       let rhs name t =
-        string "M.foreign_utility_function \"" ^^ name ^^ string "\" " ^^ t
+        string "foreign_utility_function \"" ^^ name ^^ string "\" " ^^ t
       in
       let fun_name = var uf.name in
       let dc = uf.description |> PPrint.optional doc_comment in
       dc ^/^ let_ uf.name (rhs fun_name c_type)
 
     let t_list_to_ocaml : t list -> ocaml =
-     fun ufs ->
-      functor_ "UtilityFunction" "M" "FOREIGN_API" (List.map ~f:t_to_ocaml ufs)
+     fun ufs -> module_ "UtilityFunction" (List.map ~f:t_to_ocaml ufs)
   end
 
   module BuiltinClass = struct
@@ -544,7 +567,7 @@ module Gen = struct
           meth.is_vararg
       in
       let rhs name t =
-        string "M.foreign_method \""
+        string "foreign_builtin_method \""
         ^^ string this ^^ string "\" \"" ^^ name ^^ string "\" " ^^ t
       in
       dc ^/^ let_ method_name (rhs (var method_name) method_type)
@@ -555,7 +578,7 @@ module Gen = struct
         var_str this ^ "_" ^ Int.to_string index
       in
       let rhs idx type_name t =
-        string "M.foreign_constructor "
+        string "foreign_builtin_constructor "
         ^^ OCaml.int idx ^^ string " \"" ^^ type_name ^^ string "\" " ^^ t
       in
       let constructor_type =
@@ -570,21 +593,6 @@ module Gen = struct
     let operator_to_ocaml : string -> operator -> ocaml =
      fun this op ->
       let rhs : ocaml option =
-        let to_type_enum s =
-          let var_str = var_str s in
-          let var_str =
-            if String.(prefix var_str 1 = "_") then String.drop_prefix var_str 1
-            else var_str
-          in
-          let type_str =
-            let tail_str = String.drop_prefix var_str 1 in
-            String.prefix var_str 1
-            ^ String.concat_map tail_str ~f:(fun c ->
-                  if Char.is_uppercase c then sprintf "_%c" c
-                  else String.of_char c)
-          in
-          "_TYPE_" ^ String.uppercase type_str
-        in
         match (op.name, op.right_type) with
         | ( "in",
             Some
@@ -594,11 +602,11 @@ module Gen = struct
                | "StringName" | "PackedVector2Array" | "PackedVector3Array"
                | "PackedVector4Array" | "PackedColorArray" ) as t) ) ->
             Some
-              (string "M.foreign_operator GlobalEnum.VariantType."
+              (string "foreign_builtin_operator GlobalEnum.VariantType."
               ^^ string (to_type_enum this)
               ^^ string " (Some GlobalEnum.VariantType."
               ^^ string (to_type_enum t)
-              ^^ string ") Godotcaml.GlobalEnum.VariantOperator._OP_IN"
+              ^^ string ") GlobalEnum.VariantOperator._OP_IN"
               ^/^ parens
                     (string "funptr " ^^ binary_op_type this t op.return_type))
         | "in", _ ->
@@ -607,10 +615,10 @@ module Gen = struct
         | op_name, None ->
             (* Unary operators. *)
             Some
-              (string "M.foreign_operator GlobalEnum.VariantType."
+              (string "foreign_builtin_operator GlobalEnum.VariantType."
               ^^ string (to_type_enum this)
               ^^ string " None "
-              ^^ string " Godotcaml.GlobalEnum.VariantOperator."
+              ^^ string " GlobalEnum.VariantOperator."
               ^^ var (Map.find_exn op_map op_name)
               ^/^ parens
                     (string "funptr " ^^ binary_op_type this this op.return_type)
@@ -618,11 +626,11 @@ module Gen = struct
         | op_name, Some t when String.(t = this) ->
             (* Normal path: binary operator. *)
             Some
-              (string "M.foreign_operator GlobalEnum.VariantType."
+              (string "foreign_builtin_operator GlobalEnum.VariantType."
               ^^ string (to_type_enum this)
               ^^ string " (Some GlobalEnum.VariantType."
               ^^ string (to_type_enum t)
-              ^^ string ") Godotcaml.GlobalEnum.VariantOperator."
+              ^^ string ") GlobalEnum.VariantOperator."
               ^^ var (Map.find_exn op_map op_name)
               ^/^ parens
                     (string "funptr " ^^ binary_op_type this t op.return_type))
@@ -652,7 +660,9 @@ module Gen = struct
      fun e ->
       let module_name = remove_dots e.name in
       let defs = e.values |> List.map ~f:enum_value_to_ocaml in
-      module_ module_name defs
+      let enum_t_def = string "type t = int" in
+      let enum_typ_def = let_ "typ" (string "int") in
+      module_ module_name (enum_t_def :: enum_typ_def :: defs)
 
     let constant_to_ocaml : constant -> ocaml =
      fun c ->
@@ -677,9 +687,165 @@ module Gen = struct
       module_ bic.name defs
 
     let t_list_to_ocaml : t list -> ocaml =
-     fun bics ->
-      bics |> List.map ~f:t_to_ocaml
-      |> functor_ "BuiltinClass" "M" "FOREIGN_API"
+     fun bics -> bics |> List.map ~f:t_to_ocaml |> module_ "BuiltinClass"
+  end
+
+  module Class = struct
+    open Api.Class
+
+    let enum_value_to_ocaml : enum_value -> ocaml =
+     fun value ->
+      let dc = optional doc_comment value.description in
+      let int_value = value.value in
+      dc ^/^ let_ value.name (OCaml.int int_value)
+
+    let enum_to_ocaml : enum -> ocaml =
+     fun e ->
+      let module_name = remove_dots e.name in
+      let defs = e.values |> List.map ~f:enum_value_to_ocaml in
+      let enum_t_def = string "type t = int" in
+      let enum_typ_def = let_ "typ" (string "int") in
+      module_ module_name (enum_t_def :: enum_typ_def :: defs)
+
+    let method_argument_to_ocaml_fragment : method_argument -> ocaml =
+     fun arg ->
+      let ty = unqualified_typ (remove_enum_prefix arg.type_) in
+      ty ^^ string " @-> "
+
+    let signal_argument_to_ocaml_fragment : signal_argument -> ocaml =
+     fun arg ->
+      let ty = unqualified_typ (remove_enum_prefix arg.type_) in
+      ty ^^ string " @-> "
+
+    let return_type_to_ocaml_fragment : string -> ocaml =
+     fun return_type ->
+      string "returning " ^^ qualified_typ (remove_enum_prefix return_type)
+
+    let assemble_type : ocaml list -> ocaml -> ocaml =
+     fun ty_frags return_ty ->
+      PPrint.parens (PPrint.concat ty_frags ^^ return_ty)
+
+    let mk_method_type this args return_type is_static is_vararg =
+      let primary_arguments = args |> Option.value ~default:[] in
+      let var_arg =
+        [
+          {
+            name = "variadic_args";
+            type_ = "variadic";
+            meta = None;
+            default_value = None;
+          };
+        ]
+      in
+      let self_arg =
+        [ { name = "self"; type_ = this; meta = None; default_value = None } ]
+      in
+      (* arguments is guaranteed never empty! *)
+      let arguments =
+        match (primary_arguments, is_static, is_vararg) with
+        | [], true, false ->
+            [
+              {
+                name = "_dummy";
+                type_ = "void";
+                meta = None;
+                default_value = None;
+              };
+            ]
+        | (_ :: _ as args), true, false -> args
+        | args, true, true -> args @ var_arg
+        | args, false, true -> args @ var_arg @ self_arg
+        | args, false, false -> args @ self_arg
+      in
+      let return_type =
+        return_type
+        |> Option.value ~default:"void"
+        |> return_type_to_ocaml_fragment
+      in
+      let method_type =
+        assemble_type
+          (List.map ~f:method_argument_to_ocaml_fragment arguments)
+          return_type
+      in
+      method_type
+
+    let mk_signal_type : signal_argument list option -> ocaml =
+     fun args ->
+      let return_type = return_type_to_ocaml_fragment "void" in
+      let arguments =
+        args |> Option.value ~default:[ { name = "dummy"; type_ = "void" } ]
+        |> function
+        | [] -> [ { name = "dummy"; type_ = "void" } ]
+        | _ as args -> args
+      in
+      assemble_type
+        (List.map ~f:signal_argument_to_ocaml_fragment arguments)
+        return_type
+
+    let method_to_ocaml : string -> method_ -> ocaml =
+     fun this meth ->
+      let method_name = meth.name in
+      let dc = meth.description |> PPrint.optional doc_comment in
+      let return_type_opt =
+        Option.map ~f:(fun x -> x.type_) meth.return_value
+      in
+      let method_type =
+        mk_method_type this meth.arguments return_type_opt meth.is_static
+          meth.is_vararg
+      in
+      let rhs name t =
+        string "foreign_method \"" ^^ string this ^^ string "\" \"" ^^ name
+        ^^ string "\" " ^^ t
+      in
+      dc ^/^ let_ method_name (rhs (var method_name) method_type)
+
+    let constant_to_ocaml : constant -> ocaml =
+     fun c ->
+      let dc = c.description |> PPrint.optional doc_comment in
+      dc ^/^ let_ c.name (OCaml.int c.value)
+
+    let signal_to_ocaml : string -> signal -> ocaml =
+     fun this s ->
+      let dc = s.description |> PPrint.optional doc_comment in
+      let signal_name = s.name in
+      let signal_type = mk_signal_type s.arguments in
+      let rhs name t =
+        string "foreign_signal \"" ^^ string this ^^ string "\" \"" ^^ name
+        ^^ string "\"" ^/^ t
+      in
+      dc ^/^ let_ signal_name (rhs (var signal_name) signal_type)
+
+    let property_to_ocaml : string -> property -> ocaml =
+     fun this prop ->
+      let dc = prop.description |> PPrint.optional doc_comment in
+      let property_name = prop.name in
+      let property_type = var prop.type_ in
+      let rhs name t =
+        string "foreign_property" ^/^ string "\"" ^^ string this ^^ string "\""
+        ^/^ string "\"" ^^ name ^^ string "\"" ^/^ string "\""
+        ^^ OCaml.option var prop.setter
+        ^^ string "\"" ^/^ string "\"" ^^ var prop.getter ^^ string "\"" ^/^ t
+      in
+      dc ^/^ let_ property_name (rhs (var property_name) property_type)
+
+    let t_to_ocaml : t -> ocaml =
+     fun c ->
+      let defs =
+        List.concat
+          [
+            List.map ~f:enum_to_ocaml (c.enums |> Option.value ~default:[]);
+            List.map ~f:constant_to_ocaml
+              (c.constants |> Option.value ~default:[]);
+            List.map ~f:(method_to_ocaml c.name)
+              (c.methods |> Option.value ~default:[]);
+            List.map ~f:(signal_to_ocaml c.name)
+              (c.signals |> Option.value ~default:[]);
+          ]
+      in
+      module_ c.name defs
+
+    let t_list_to_ocaml : t list -> ocaml =
+     fun cs -> cs |> List.map ~f:t_to_ocaml |> module_ "Class"
   end
 
   let gen_api_type type_name =
@@ -750,7 +916,7 @@ module Gen = struct
     module type FOREIGN_API = sig
       %s
 
-      val foreign_operator : int -> int option -> int -> type_ptr structure Godotcaml.TypedSuite.const ptr -> type_ptr structure Godotcaml.TypedSuite.const ptr -> type_ptr structure Godotcaml.TypedSuite.plain ptr -> unit
+      val foreign_operator : int -> int option -> int -> PtrOperatorEvaluator.t
     end
     |}
          (String.concat ~sep:"\n"
@@ -781,8 +947,8 @@ let () =
     string "open Ctypes" ^^ hardline;
     string "module ClassSizes = Godotcaml.BuiltinClassSize.Double_64"
     ^^ hardline;
-    string "module C = Godotcaml.C(Godotcaml.TypedSuite)" ^^ hardline;
-    string "open C" ^^ hardline ^^ hardline ^^ hardline;
+    string "open Godotcaml" ^^ hardline;
+    string "open C" ^^ hardline ^^ hardline;
     Gen.gen_class_sizes_module_type type_names ^^ hardline ^^ hardline;
     Gen.gen_api_type_module_type () ^^ hardline;
     Gen.gen_foreign_api_module_type type_names ^^ hardline;
@@ -796,8 +962,13 @@ let () =
     string "open Foreign_api" ^^ hardline;
     string "open Foreign_api.Godotcaml" ^^ hardline;
     string "open Ctypes" ^^ hardline;
-    string "open Api_types" ^^ hardline ^^ hardline;
+    string "module M = Foreign_api.Make(Api_types.ClassSizes)" ^^ hardline;
+    string "open M" ^^ hardline ^^ hardline;
     string "let funptr = Foreign.funptr" ^^ hardline;
+    Gen.GlobalEnum.t_list_to_ocaml api.global_enums ^^ hardline ^^ hardline;
+    Gen.UtilityFunction.t_list_to_ocaml api.utility_functions
+    ^^ hardline ^^ hardline;
     Gen.BuiltinClass.t_list_to_ocaml api.builtin_classes ^^ hardline ^^ hardline;
+    Gen.Class.t_list_to_ocaml api.classes ^^ hardline ^^ hardline;
   ]
   |> PPrint.concat |> Gen.gen_file "api.ml"

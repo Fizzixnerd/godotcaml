@@ -14,9 +14,9 @@
 
 
 (executable
- (modules Foreign_api Api_types Toy_api)
+ (modules Api Foreign_api Api_types Toy_api)
  (modes (native (shared_object)))
- (name toy_api)
+ (name api)
  (foreign_stubs (language c) (names hello-gdextension))
  (libraries core yojson pprint ctypes godotcaml)
  (preprocess (pps ppx_jane ppx_yojson_conv))
