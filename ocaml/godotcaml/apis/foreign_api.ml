@@ -10,7 +10,7 @@ open Api_types
 let get_proc_address : (string -> InterfaceFunctionPtr.t) ref =
   ref (fun (_ : string) ->
       Stdio.print_endline "get_proc_address -> it does nothing!";
-      Stdlib.Obj.magic ())
+      assert false)
 
 module Make =
 functor
@@ -18,6 +18,12 @@ functor
   ->
   struct
     include Api_types.ApiTypes (ClassSizes)
+
+    module Void = struct
+      type t = unit
+
+      let typ = void
+    end
 
     let plain_to_uninit suite x =
       let open Suite in
@@ -47,9 +53,34 @@ functor
         interface_variant_get_ptr_operator_evaluator.typ operator_enum
         variant_type arg_type
 
+    let variant_get_ptr_builtin_method variant_type method_string_name_const
+        method_hash =
+      get_fun "variant_get_ptr_builtin_method"
+        interface_variant_get_ptr_builtin_method.typ variant_type
+        method_string_name_const method_hash
+
     let foreign_builtin_operator : int -> int option -> int -> 'a typ -> 'a =
      fun variant_type arg_type_opt operator typ ->
       coerce PtrOperatorEvaluator.t typ
         (variant_get_ptr_operator_evaluator operator variant_type
            (arg_type_opt |> Option.value ~default:variant_type))
+
+    let foreign_utility_function : string -> 'a fn -> 'a =
+     fun name fn -> get_fun name (Foreign.funptr fn)
+
+    let foreign_builtin_method : int -> string -> int64 -> 'a fn -> 'a =
+     fun variant_type method_name method_hash fn ->
+      let string_name =
+        coerce StringName.typ string_name_ptr.uninit (StringName.new_uninit ())
+      in
+      let () = string_name_new_with_utf8_chars string_name method_name in
+      let string_name =
+        coerce string_name_ptr.uninit string_name_ptr.const string_name
+      in
+      let ret =
+        coerce PtrBuiltinMethod.t (Foreign.funptr fn)
+          (variant_get_ptr_builtin_method variant_type string_name method_hash)
+      in
+      let () = (* call stringname destructor here *) () in
+      ret
   end

@@ -198,11 +198,12 @@ module C = struct
 
   module PtrOperatorEvaluator = (val ptr_operator_evaluator)
 
-  let ptr_built_in_method =
-    fn_suite
-      (M.typedef_name "PtrBuiltInMethod")
+  let ptr_builtin_method =
+    dynamic_funptr
       (type_ptr.plain @-> ptr type_ptr.const @-> type_ptr.plain @-> int
      @-> returning void)
+
+  module PtrBuiltinMethod = (val ptr_builtin_method)
 
   let ptr_constructor =
     fn_suite
@@ -475,4 +476,10 @@ module C = struct
       (M.typedef_name "InterfaceVariantGetPtrOperatorEvaluator")
       (variant_operator @-> variant_type @-> variant_type
       @-> returning PtrOperatorEvaluator.t)
+
+  let interface_variant_get_ptr_builtin_method =
+    fn_suite
+      (M.typedef_name "InterfaceVariantGetPtrBuiltinMethod")
+      (variant_type @-> string_name_ptr.const @-> gint
+      @-> returning PtrBuiltinMethod.t)
 end

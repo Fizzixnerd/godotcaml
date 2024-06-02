@@ -84,7 +84,7 @@ module Api = struct
       is_vararg : bool;
       is_const : bool;
       is_static : bool;
-      hash : int;
+      hash : int64;
       arguments : argument list option; [@yojson.option]
       description : string option; [@yojson.option]
     }
@@ -181,8 +181,8 @@ module Api = struct
       is_vararg : bool;
       is_static : bool;
       is_virtual : bool;
-      hash : int option; [@yojson.option]
-      hash_compatibility : int list option; [@yojson.option]
+      hash : int64 option; [@yojson.option]
+      hash_compatibility : int64 list option; [@yojson.option]
       return_value : return_value option; [@yojson.option]
       arguments : method_argument list option; [@yojson.option]
       description : string option; [@yojson.option]
@@ -332,10 +332,15 @@ module Gen = struct
     ^^ string " *)"
 
   (** Some explanation: This removes the weird `enum::` prefix and replaces it with either "GlobalEnum" if it is unqualified, or leaves it as the qualified enum it is.*)
-  let remove_enum_prefix s =
+  let remove_enum_prefix this s =
     if String.is_prefix ~prefix:"enum::" s then
       let s' = String.drop_prefix s 6 in
-      if String.contains s '.' then s' else "GlobalEnum." ^ s'
+      if String.contains s '.' then
+        String.split s' ~on:'.' |> function
+        | x :: xs when String.(x = this) -> String.concat ~sep:"." xs
+        | _ :: _ -> s'
+        | _ -> assert false
+      else "GlobalEnum." ^ s'
     else s
 
   let remove_dots s =
@@ -449,23 +454,23 @@ module Gen = struct
   end
 
   (** Qualify a name as (roughly) <name>.t`. *)
-  let qualified_t name = string "" ^^ mod_var name ^^ string ".t"
+  let qualified_t this name =
+    if String.(name <> this) then mod_var name ^^ string ".t" else string "t"
 
-  let qualified_typ name = string "" ^^ mod_var name ^^ string ".typ"
-  let unqualified_t name = mod_var name ^^ string ".t"
-  let unqualified_typ name = mod_var name ^^ string ".typ"
+  let qualified_typ this name =
+    if String.(name <> this) then mod_var name ^^ string ".typ"
+    else string "typ"
 
   module UtilityFunction = struct
-    (* This is going to generate code that is parameterized over a module M, containing the types *)
     open Api.UtilityFunction
 
     let argument_to_ocaml_fragment : argument -> ocaml =
      fun arg ->
-      let ty = qualified_typ arg.type_ in
+      let ty = qualified_typ "@NONE" arg.type_ in
       ty ^^ string " @-> "
 
     let return_type_to_ocaml_fragment : string -> ocaml =
-     fun return_type -> string "returning " ^^ qualified_typ return_type
+     fun return_type -> string "returning " ^^ qualified_typ "@NONE" return_type
 
     let assemble_type : ocaml list -> ocaml -> ocaml =
      fun ty_frags return_ty ->
@@ -502,13 +507,14 @@ module Gen = struct
   module BuiltinClass = struct
     open Api.BuiltinClass
 
-    let argument_to_ocaml_fragment : argument -> ocaml =
-     fun arg ->
-      let ty = qualified_typ arg.type_ in
+    let argument_to_ocaml_fragment : string -> argument -> ocaml =
+     fun this arg ->
+      let ty = qualified_typ this arg.type_ in
       ty ^^ string " @-> "
 
-    let return_type_to_ocaml_fragment : string -> ocaml =
-     fun return_type -> string "returning " ^^ qualified_typ return_type
+    let return_type_to_ocaml_fragment : string -> string -> ocaml =
+     fun this return_type ->
+      string "returning " ^^ qualified_typ this return_type
 
     let assemble_type : ocaml list -> ocaml -> ocaml =
      fun ty_frags return_ty ->
@@ -549,11 +555,11 @@ module Gen = struct
       let return_type =
         return_type
         |> Option.value ~default:"void"
-        |> return_type_to_ocaml_fragment
+        |> return_type_to_ocaml_fragment this
       in
       let method_type =
         assemble_type
-          (List.map ~f:argument_to_ocaml_fragment arguments)
+          (List.map ~f:(argument_to_ocaml_fragment this) arguments)
           return_type
       in
       method_type
@@ -567,8 +573,14 @@ module Gen = struct
           meth.is_vararg
       in
       let rhs name t =
-        string "foreign_builtin_method \""
-        ^^ string this ^^ string "\" \"" ^^ name ^^ string "\" " ^^ t
+        string "foreign_builtin_method"
+        ^/^ string "GlobalEnum.VariantType."
+        ^^ string (to_type_enum this)
+        ^/^ string "\"" ^^ name ^^ string "\""
+        ^/^ parens
+              (string "Base.Int64.of_string \""
+              ^^ OCaml.int64 meth.hash ^^ string "\"")
+        ^/^ t
       in
       dc ^/^ let_ method_name (rhs (var method_name) method_type)
 
@@ -684,7 +696,8 @@ module Gen = struct
               (bic.constants |> Option.value ~default:[]);
           ]
       in
-      module_ bic.name defs
+      module_ bic.name
+        (string (sprintf "include M.%s\n" (mod_var_str bic.name)) :: defs)
 
     let t_list_to_ocaml : t list -> ocaml =
      fun bics -> bics |> List.map ~f:t_to_ocaml |> module_ "BuiltinClass"
@@ -707,19 +720,20 @@ module Gen = struct
       let enum_typ_def = let_ "typ" (string "int") in
       module_ module_name (enum_t_def :: enum_typ_def :: defs)
 
-    let method_argument_to_ocaml_fragment : method_argument -> ocaml =
-     fun arg ->
-      let ty = unqualified_typ (remove_enum_prefix arg.type_) in
+    let method_argument_to_ocaml_fragment : string -> method_argument -> ocaml =
+     fun this arg ->
+      let ty = qualified_typ this (remove_enum_prefix this arg.type_) in
       ty ^^ string " @-> "
 
-    let signal_argument_to_ocaml_fragment : signal_argument -> ocaml =
-     fun arg ->
-      let ty = unqualified_typ (remove_enum_prefix arg.type_) in
+    let signal_argument_to_ocaml_fragment : string -> signal_argument -> ocaml =
+     fun this arg ->
+      let ty = qualified_typ this (remove_enum_prefix this arg.type_) in
       ty ^^ string " @-> "
 
-    let return_type_to_ocaml_fragment : string -> ocaml =
-     fun return_type ->
-      string "returning " ^^ qualified_typ (remove_enum_prefix return_type)
+    let return_type_to_ocaml_fragment : string -> string -> ocaml =
+     fun this return_type ->
+      string "returning "
+      ^^ qualified_typ this (remove_enum_prefix this return_type)
 
     let assemble_type : ocaml list -> ocaml -> ocaml =
      fun ty_frags return_ty ->
@@ -760,18 +774,18 @@ module Gen = struct
       let return_type =
         return_type
         |> Option.value ~default:"void"
-        |> return_type_to_ocaml_fragment
+        |> return_type_to_ocaml_fragment this
       in
       let method_type =
         assemble_type
-          (List.map ~f:method_argument_to_ocaml_fragment arguments)
+          (List.map ~f:(method_argument_to_ocaml_fragment this) arguments)
           return_type
       in
       method_type
 
-    let mk_signal_type : signal_argument list option -> ocaml =
-     fun args ->
-      let return_type = return_type_to_ocaml_fragment "void" in
+    let mk_signal_type : string -> signal_argument list option -> ocaml =
+     fun this args ->
+      let return_type = return_type_to_ocaml_fragment this "void" in
       let arguments =
         args |> Option.value ~default:[ { name = "dummy"; type_ = "void" } ]
         |> function
@@ -779,7 +793,7 @@ module Gen = struct
         | _ as args -> args
       in
       assemble_type
-        (List.map ~f:signal_argument_to_ocaml_fragment arguments)
+        (List.map ~f:(signal_argument_to_ocaml_fragment this) arguments)
         return_type
 
     let method_to_ocaml : string -> method_ -> ocaml =
@@ -808,7 +822,7 @@ module Gen = struct
      fun this s ->
       let dc = s.description |> PPrint.optional doc_comment in
       let signal_name = s.name in
-      let signal_type = mk_signal_type s.arguments in
+      let signal_type = mk_signal_type this s.arguments in
       let rhs name t =
         string "foreign_signal \"" ^^ string this ^^ string "\" \"" ^^ name
         ^^ string "\"" ^/^ t
