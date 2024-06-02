@@ -62,7 +62,7 @@ module Api = struct
       return_type : string option; [@yojson.option]
       category : string;
       is_vararg : bool;
-      hash : int;
+      hash : int64;
       arguments : argument list option; [@yojson.option]
       description : string option; [@yojson.option]
     }
@@ -401,6 +401,17 @@ module Gen = struct
       ^ String.concat_map tail_str ~f:(fun c ->
             if Char.is_uppercase c then sprintf "_%c" c else String.of_char c)
     in
+    let type_str = 
+      (* To anyone reading this: I'm sorry! It seemed like the quickest way at the time... *)
+      if type_str |> String.is_suffix ~suffix:"R_I_D" then
+        String.drop_suffix type_str 5 ^ "RID"
+      else if type_str |> String.is_suffix ~suffix:"_D" then
+        String.drop_suffix type_str 2 ^ "D"
+      else if type_str |> String.is_suffix ~suffix:"A_A_B_B" then
+        String.drop_suffix type_str 7 ^ "AABB"
+      else
+        type_str
+    in
     "_TYPE_" ^ String.uppercase type_str
 
   let gen_file filename ocaml =
@@ -461,6 +472,9 @@ module Gen = struct
     if String.(name <> this) then mod_var name ^^ string ".typ"
     else string "typ"
 
+  let qualified_s this name =
+    if String.(name <> this) then mod_var name ^^ string ".s" else string "s"
+
   module UtilityFunction = struct
     open Api.UtilityFunction
 
@@ -482,19 +496,26 @@ module Gen = struct
         uf.arguments |> Option.value ~default:[]
         |> List.map ~f:argument_to_ocaml_fragment
       in
-      let ty_frags =
+      let ty_frags, is_void =
         match ty_frags with
-        | [] -> [ string "void @-> " ]
-        | _ as ty_frags -> ty_frags
+        | [] -> ([ string "void @-> " ], true)
+        | _ as ty_frags -> (ty_frags, false)
       in
-      let ret_ty_frag =
-        uf.return_type
-        |> Option.value ~default:"void"
-        |> return_type_to_ocaml_fragment
-      in
+      let ret_ty = uf.return_type |> Option.value ~default:"void" in
+      let ret_ty_frag = ret_ty |> return_type_to_ocaml_fragment in
       let c_type = assemble_type ty_frags ret_ty_frag in
       let rhs name t =
-        string "foreign_utility_function \"" ^^ name ^^ string "\" " ^^ t
+        string "foreign_utility_function"
+        ^^
+        if is_void then string "0"
+        else
+          OCaml.int (List.length ty_frags)
+          ^^ (if String.(ret_ty = "void") then string "_void" else string "")
+          ^/^ string "\"" ^^ name ^^ string "\""
+          ^/^ parens
+                (string "Base.Int64.of_string \""
+                ^^ OCaml.int64 uf.hash ^^ string "\"")
+          ^/^ t ^/^ qualified_s "@NONE" ret_ty
       in
       let fun_name = var uf.name in
       let dc = uf.description |> PPrint.optional doc_comment in
@@ -692,8 +713,8 @@ module Gen = struct
               ~f:(operator_to_ocaml bic.name)
               (bic.operators |> Option.value ~default:[]);
             List.map ~f:enum_to_ocaml (bic.enums |> Option.value ~default:[]);
-            List.map ~f:constant_to_ocaml
-              (bic.constants |> Option.value ~default:[]);
+(*             List.map ~f:constant_to_ocaml
+              (bic.constants |> Option.value ~default:[]); *)
           ]
       in
       module_ bic.name

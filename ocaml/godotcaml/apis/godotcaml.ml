@@ -10,7 +10,7 @@ module type SUITE = sig
   type 'a uninit
 
   type 'a ptr_suite = {
-    plain : 'a structure plain ptr typ;
+    plain : 'a structure ptr typ;
     const : 'a structure const ptr typ;
     uninit : 'a structure uninit ptr typ;
   }
@@ -70,37 +70,6 @@ module TypedSuite : SUITE = struct
     let uninit_read x = coerce (ptr void) uninit_ptr x in
     let uninit_write x = to_voidp x in
     let uninit = view ~read:uninit_read ~write:uninit_write (ptr void) in
-
-    { plain; const; uninit }
-end
-
-module UntypedSuite : SUITE = struct
-  open Ctypes
-
-  type 'a plain = unit
-  type 'a const = unit
-  type 'a uninit = unit
-
-  type 'a ptr_suite = {
-    plain : unit ptr typ;
-    const : unit ptr typ;
-    uninit : unit ptr typ;
-  }
-
-  let typedef_name ?prefix ?postfix name =
-    sprintf "GDExtension%s%s%s"
-      (prefix |> Option.value ~default:"")
-      name
-      (postfix |> Option.value ~default:"")
-
-  let ptr_suite name (_ : 'a structure typ) =
-    let def ptr_ty name t =
-      typedef t (typedef_name ~prefix:ptr_ty ~postfix:"Ptr" name)
-    in
-
-    let plain = def "" name (ptr void) in
-    let const = def "Const" name (ptr void) in
-    let uninit = def "Uninitialized" name (ptr void) in
 
     { plain; const; uninit }
 end
@@ -247,6 +216,12 @@ module C = struct
     fn_suite
       (M.typedef_name "PtrKeyedChecker")
       (variant_ptr.const @-> variant_ptr.const @-> returning uint32_t)
+
+  let ptr_utility_function =
+    dynamic_funptr
+      (type_ptr.plain @-> ptr type_ptr.const @-> int @-> returning void)
+
+  module PtrUtilityFunction = (val ptr_utility_function)
 
   let ptr_utility_function =
     fn_suite
@@ -476,6 +451,11 @@ module C = struct
       (M.typedef_name "InterfaceVariantGetPtrOperatorEvaluator")
       (variant_operator @-> variant_type @-> variant_type
       @-> returning PtrOperatorEvaluator.t)
+
+  let interface_variant_get_ptr_utility_function =
+    fn_suite
+      (M.typedef_name "InterfaceVariantGetPtrUtilityFunction")
+      (string_name_ptr.const @-> gint @-> returning PtrUtilityFunction.t)
 
   let interface_variant_get_ptr_builtin_method =
     fn_suite
