@@ -174,6 +174,11 @@ module C = struct
 
   module PtrBuiltinMethod = (val ptr_builtin_method)
 
+  let ptr_builtin_method =
+    Foreign.funptr
+      (type_ptr.plain @-> ptr type_ptr.const @-> type_ptr.plain @-> int
+     @-> returning void)
+
   let ptr_constructor =
     fn_suite
       (M.typedef_name "PtrConstructor")

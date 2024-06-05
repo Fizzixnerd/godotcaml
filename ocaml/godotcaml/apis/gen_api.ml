@@ -401,7 +401,7 @@ module Gen = struct
       ^ String.concat_map tail_str ~f:(fun c ->
             if Char.is_uppercase c then sprintf "_%c" c else String.of_char c)
     in
-    let type_str = 
+    let type_str =
       (* To anyone reading this: I'm sorry! It seemed like the quickest way at the time... *)
       if type_str |> String.is_suffix ~suffix:"R_I_D" then
         String.drop_suffix type_str 5 ^ "RID"
@@ -409,8 +409,7 @@ module Gen = struct
         String.drop_suffix type_str 2 ^ "D"
       else if type_str |> String.is_suffix ~suffix:"A_A_B_B" then
         String.drop_suffix type_str 7 ^ "AABB"
-      else
-        type_str
+      else type_str
     in
     "_TYPE_" ^ String.uppercase type_str
 
@@ -589,19 +588,26 @@ module Gen = struct
      fun this meth ->
       let method_name = meth.name in
       let dc = meth.description |> PPrint.optional doc_comment in
+      let count = meth.arguments |> Option.value ~default:[] |> List.length in
+      let ret_type = meth.return_type |> Option.value ~default:"void" in
+      let is_void_ret = ret_type |> function "void" -> true | _ -> false in
       let method_type =
         mktype this meth.arguments meth.return_type meth.is_static
           meth.is_vararg
       in
       let rhs name t =
         string "foreign_builtin_method"
+        ^^ OCaml.int count
+        ^^ (if meth.is_vararg then string "v" else string "")
+        ^^ (if is_void_ret then string "_void" else string "")
+        ^^ (if meth.is_static then string "_static" else string "")
         ^/^ string "GlobalEnum.VariantType."
         ^^ string (to_type_enum this)
         ^/^ string "\"" ^^ name ^^ string "\""
         ^/^ parens
               (string "Base.Int64.of_string \""
               ^^ OCaml.int64 meth.hash ^^ string "\"")
-        ^/^ t
+        ^/^ t ^/^ qualified_s this ret_type
       in
       dc ^/^ let_ method_name (rhs (var method_name) method_type)
 
@@ -713,8 +719,8 @@ module Gen = struct
               ~f:(operator_to_ocaml bic.name)
               (bic.operators |> Option.value ~default:[]);
             List.map ~f:enum_to_ocaml (bic.enums |> Option.value ~default:[]);
-(*             List.map ~f:constant_to_ocaml
-              (bic.constants |> Option.value ~default:[]); *)
+            (* List.map ~f:constant_to_ocaml
+               (bic.constants |> Option.value ~default:[]); *)
           ]
       in
       module_ bic.name
@@ -821,16 +827,26 @@ module Gen = struct
      fun this meth ->
       let method_name = meth.name in
       let dc = meth.description |> PPrint.optional doc_comment in
+      let count = meth.arguments |> Option.value ~default:[] |> List.length in
       let return_type_opt =
         Option.map ~f:(fun x -> x.type_) meth.return_value
       in
+      let ret_type = return_type_opt |> Option.value ~default:"void" in
+      let is_void_ret = ret_type |> function "void" -> true | _ -> false in
       let method_type =
         mk_method_type this meth.arguments return_type_opt meth.is_static
           meth.is_vararg
       in
       let rhs name t =
-        string "foreign_method \"" ^^ string this ^^ string "\" \"" ^^ name
-        ^^ string "\" " ^^ t
+        string "foreign_method" 
+        ^^ OCaml.int count
+        ^^ (if meth.is_vararg then string "v" else string "")
+        ^^ (if is_void_ret then string "_void" else string "")
+        ^^ (if meth.is_static then string "_static" else string "")
+        ^/^ string "\"" ^^ string this ^^ string "\"" 
+        ^/^ string "\"" ^^ name ^^ string "\""
+        ^/^ qualified_s this ret_type
+        ^/^ t
       in
       dc ^/^ let_ method_name (rhs (var method_name) method_type)
 
