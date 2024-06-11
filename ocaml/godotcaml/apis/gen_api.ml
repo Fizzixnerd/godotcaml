@@ -454,7 +454,14 @@ module Gen = struct
       let module_name = remove_dots ge.name in
       let is_bitfield = OCaml.bool ge.is_bitfield in
       let defs = ge.values |> List.map ~f:value_to_ocaml in
-      module_ module_name (let_ "is_bitfield" is_bitfield :: defs)
+      let defs =
+        let_ "is_bitfield" is_bitfield
+        :: string "type t = int"
+        :: let_ "typ" (string "int")
+        :: let_ "s" (string "int")
+        :: defs
+      in
+      module_ module_name defs
 
     let t_list_to_ocaml : t list -> ocaml =
      fun ges ->
@@ -831,24 +838,36 @@ module Gen = struct
       let return_type_opt =
         Option.map ~f:(fun x -> x.type_) meth.return_value
       in
-      let ret_type = return_type_opt |> Option.value ~default:"void" in
+      let ret_type =
+        return_type_opt
+        |> Option.value ~default:"void"
+        |> remove_enum_prefix this
+      in
       let is_void_ret = ret_type |> function "void" -> true | _ -> false in
       let method_type =
         mk_method_type this meth.arguments return_type_opt meth.is_static
           meth.is_vararg
       in
+      let ret_to_variant = mod_var ret_type ^^ string ".to_variant" in
+      let variant_to_ret = mod_var ret_type ^^ string ".of_variant" in
+      let args = Option.value ~default:[] meth.arguments in
+      let args_to_variants : ocaml =
+        List.fold_left ~init:(string "")
+          ~f:(fun acc x ->
+            acc
+            ^/^ mod_var (remove_enum_prefix this x.type_)
+            ^^ string ".to_variant")
+          args
+      in
       let rhs name t =
-        string "foreign_method" 
-        ^^ OCaml.int count
+        string "foreign_method" ^^ OCaml.int count
         ^^ (if meth.is_vararg then string "v" else string "")
         ^^ (if is_void_ret then string "_void" else string "")
         ^^ (if meth.is_static then string "_static" else string "")
-        ^/^ string "\"" ^^ string this ^^ string "\"" 
-        ^/^ string "\"" ^^ name ^^ string "\""
-        ^/^ qualified_s this ret_type
-        ^/^ t
+        ^/^ string "\"" ^^ string name ^^ string "\"" ^/^ t ^/^ string ret_type
+        ^/^ ret_to_variant ^/^ variant_to_ret ^/^ args_to_variants
       in
-      dc ^/^ let_ method_name (rhs (var method_name) method_type)
+      dc ^/^ let_ (var_str method_name) (rhs method_name method_type)
 
     let constant_to_ocaml : constant -> ocaml =
      fun c ->
@@ -861,10 +880,10 @@ module Gen = struct
       let signal_name = s.name in
       let signal_type = mk_signal_type this s.arguments in
       let rhs name t =
-        string "foreign_signal \"" ^^ string this ^^ string "\" \"" ^^ name
-        ^^ string "\"" ^/^ t
+        string "foreign_signal \"" ^^ string this ^^ string "\" \""
+        ^^ string name ^^ string "\"" ^/^ t
       in
-      dc ^/^ let_ signal_name (rhs (var signal_name) signal_type)
+      dc ^/^ let_ (var_str signal_name) (rhs signal_name signal_type)
 
     let property_to_ocaml : string -> property -> ocaml =
      fun this prop ->
@@ -873,11 +892,11 @@ module Gen = struct
       let property_type = var prop.type_ in
       let rhs name t =
         string "foreign_property" ^/^ string "\"" ^^ string this ^^ string "\""
-        ^/^ string "\"" ^^ name ^^ string "\"" ^/^ string "\""
+        ^/^ string "\"" ^^ string name ^^ string "\"" ^/^ string "\""
         ^^ OCaml.option var prop.setter
         ^^ string "\"" ^/^ string "\"" ^^ var prop.getter ^^ string "\"" ^/^ t
       in
-      dc ^/^ let_ property_name (rhs (var property_name) property_type)
+      dc ^/^ let_ (var_str property_name) (rhs property_name property_type)
 
     let t_to_ocaml : t -> ocaml =
      fun c ->
@@ -908,21 +927,84 @@ module Gen = struct
         let s : t structure typ = structure "%s_Dummy"
         let _ = field s "%s_dummy_do_not_touch" (array ClassSizes.%s uint8_t)
         let () = seal s
+        %s
         let of_voidp = coerce (ptr void) (ptr s)
         let to_voidp = coerce (ptr s) (ptr void)
         let to_type_ptr = coerce (ptr s) type_ptr.plain
         let typ = view ~read:of_voidp ~write:to_voidp (ptr void)
         let size = ClassSizes.%s
+        (** Change this to gc_alloc! (or just remove) *)
         let new_uninit () = allocate_n ~count:1 s
       end
       |}
          (mod_var_str type_name) (mod_var_str type_name) (var_str type_name)
-         (var_str type_name) (var_str type_name))
+         (var_str type_name)
+         (if String.(type_name <> "Variant") then
+            sprintf "let type_enum = GlobalEnum.VariantType.%s"
+              (to_type_enum type_name)
+          else "")
+         (var_str type_name))
+
+  let gen_final_api_type type_name =
+    if String.(type_name = "Variant") then
+      string
+        {|
+      module Variant = struct
+        include Variant
+
+        let to_variant : t structure ptr -> C.variant_ptr structure ptr = coerce_ptr C.variant_ptr.plain
+        let of_variant : C.variant_ptr structure ptr -> t structure ptr = coerce_ptr (ptr s)
+      end
+      |}
+    else
+      string
+        (sprintf
+           {|
+    module %s = struct
+      include %s
+
+      let to_variantizer = get_variant_from_type_constructor type_enum typ
+      let of_variantizer = get_variant_to_type_constructor type_enum typ
+
+      let to_variant : t structure ptr -> C.variant_ptr structure ptr = fun x ->
+        let new_variant_ptr = coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1) in
+        let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+        let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
+        inited_variant_ptr
+
+      let of_variant : C.variant_ptr structure ptr -> t structure ptr = fun x ->
+        let new_type_ptr = gc_alloc s ~count:1 in
+        let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+        let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
+        inited_type_ptr
+
+    end
+    |}
+           (mod_var_str type_name) (mod_var_str type_name))
 
   let gen_api_types : string list -> ocaml =
    fun type_names ->
-    type_names |> List.map ~f:gen_api_type
-    |> functor_ "ApiTypes" "ClassSizes" "CLASS_SIZES"
+    type_names |> List.map ~f:gen_api_type |> module_ "ApiTypes"
+
+  let gen_final_api_types : string list -> ocaml =
+   fun type_names ->
+    type_names |> List.map ~f:gen_final_api_type |> module_ "ApiTypes"
+
+  let gen_final_global_enums : Api.GlobalEnum.t list -> ocaml = fun xs ->
+    let name_to_final_global_enum : string -> ocaml = fun name ->
+      string (sprintf {|
+      module %s = struct
+        include GlobalEnum.%s
+
+        let to_ocaml x = Int.to_ocaml
+        let of_ocaml x = Int.of_ocaml
+        let to_variant = Int.to_variant
+        let of_variant = Int.of_variant
+      end
+      |} (mod_var_str (remove_dots name)) (mod_var_str (remove_dots name)))
+    in
+    let final_global_enums = List.map ~f:(fun x -> name_to_final_global_enum x.name) xs in
+    module_ "GlobalEnum" final_global_enums
 
   let gen_class_sizes_module_type : string list -> ocaml =
    fun type_names ->
@@ -978,11 +1060,12 @@ module Gen = struct
 end
 
 let () =
+  let open PPrint in
   let contents = In_channel.read_all "./extension_api.json" in
   let api_json = Yojson.Safe.from_string contents in
   let api = Api.t_of_yojson api_json in
-  let open PPrint in
   [
+    string "open Ctypes" ^^ hardline ^^ hardline;
     Gen.GlobalEnum.t_list_to_ocaml api.global_enums ^^ hardline ^^ hardline;
     Gen.BuiltinClassSize.t_list_to_ocaml api.builtin_class_sizes
     ^^ hardline ^^ hardline;
@@ -1016,7 +1099,9 @@ let () =
     string "module M = Foreign_api.Make(Api_types.ClassSizes)" ^^ hardline;
     string "open M" ^^ hardline ^^ hardline;
     string "let funptr = Foreign.funptr" ^^ hardline;
+    Gen.gen_final_api_types type_names ^^ hardline ^^ hardline;
     Gen.GlobalEnum.t_list_to_ocaml api.global_enums ^^ hardline ^^ hardline;
+    Gen.gen_final_global_enums api.global_enums ^^ hardline ^^ hardline;
     Gen.UtilityFunction.t_list_to_ocaml api.utility_functions
     ^^ hardline ^^ hardline;
     Gen.BuiltinClass.t_list_to_ocaml api.builtin_classes ^^ hardline ^^ hardline;

@@ -1,7 +1,17 @@
+open Ctypes
+
 module GlobalEnum = struct
   module Side = struct
     let is_bitfield =
     false
+
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
 
     (** Left side, usually used for [Control] or [StyleBox]-derived classes. *)
     let _SIDE_LEFT =
@@ -24,6 +34,14 @@ module GlobalEnum = struct
     let is_bitfield =
     false
 
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
+
     (** Top-left corner. *)
     let _CORNER_TOP_LEFT =
     0
@@ -45,6 +63,14 @@ module GlobalEnum = struct
     let is_bitfield =
     false
 
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
+
     (** General vertical alignment, usually used for [Separator], [ScrollBar], [Slider], etc. *)
     let _VERTICAL =
     1
@@ -58,6 +84,14 @@ module GlobalEnum = struct
     let is_bitfield =
     false
 
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
+
     (** Clockwise rotation. Used by some methods (e.g. [method Image.rotate_90]). *)
     let _CLOCKWISE =
     0
@@ -70,6 +104,14 @@ module GlobalEnum = struct
   module HorizontalAlignment = struct
     let is_bitfield =
     false
+
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
 
     (** Horizontal left alignment, usually for text-derived classes. *)
     let _HORIZONTAL_ALIGNMENT_LEFT =
@@ -92,6 +134,14 @@ module GlobalEnum = struct
     let is_bitfield =
     false
 
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
+
     (** Vertical top alignment, usually for text-derived classes. *)
     let _VERTICAL_ALIGNMENT_TOP =
     0
@@ -112,6 +162,14 @@ module GlobalEnum = struct
   module InlineAlignment = struct
     let is_bitfield =
     false
+
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
 
     (** Aligns the top of the inline object (e.g. image, table) to the position of the text specified by [code]INLINE_ALIGNMENT_TO_ * [/code] constant. *)
     let _INLINE_ALIGNMENT_TOP_TO =
@@ -170,6 +228,14 @@ module GlobalEnum = struct
     let is_bitfield =
     false
 
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
+
     (** Specifies that Euler angles should be in XYZ order. When composing, the order is X, Y, Z. When decomposing, the order is reversed, first Z, then Y, and X last. *)
     let _EULER_ORDER_XYZ =
     0
@@ -198,6 +264,14 @@ module GlobalEnum = struct
   module Key = struct
     let is_bitfield =
     false
+
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
 
     (** Enum value which doesn't correspond to any key. This is used to initialize [enum Key] properties with a generic state. *)
     let _KEY_NONE =
@@ -976,6 +1050,14 @@ module GlobalEnum = struct
     let is_bitfield =
     true
 
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
+
     (** Key Code mask. *)
     let _KEY_CODE_MASK =
     8388607
@@ -1016,6 +1098,14 @@ module GlobalEnum = struct
   module MouseButton = struct
     let is_bitfield =
     false
+
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
 
     (** Enum value which doesn't correspond to any mouse button. This is used to initialize [enum MouseButton] properties with a generic state. *)
     let _MOUSE_BUTTON_NONE =
@@ -1062,6 +1152,14 @@ module GlobalEnum = struct
     let is_bitfield =
     true
 
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
+
     (** Primary mouse button mask, usually for the left button. *)
     let _MOUSE_BUTTON_MASK_LEFT =
     1
@@ -1086,6 +1184,14 @@ module GlobalEnum = struct
   module JoyButton = struct
     let is_bitfield =
     false
+
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
 
     (** An invalid game controller button. *)
     let _JOY_BUTTON_INVALID =
@@ -1191,6 +1297,14 @@ module GlobalEnum = struct
     let is_bitfield =
     false
 
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
+
     (** An invalid game controller axis. *)
     let _JOY_AXIS_INVALID =
     -1
@@ -1231,6 +1345,14 @@ module GlobalEnum = struct
   module MIDIMessage = struct
     let is_bitfield =
     false
+
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
 
     (** Does not correspond to any MIDI message. This is the default value of [member InputEventMIDI.message]. *)
     let _MIDI_MESSAGE_NONE =
@@ -1317,6 +1439,14 @@ module GlobalEnum = struct
   module Error = struct
     let is_bitfield =
     false
+
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
 
     (** Methods that return [enum Error] return [constant OK] when no error occurred.
 Since [constant OK] has value 0, and all other error constants are positive integers, it can also be used in boolean checks.
@@ -1531,6 +1661,14 @@ if error:
   module PropertyHint = struct
     let is_bitfield =
     false
+
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
 
     (** The property has no hint for the editor. *)
     let _PROPERTY_HINT_NONE =
@@ -1755,6 +1893,14 @@ hintString = $""{Variant.Type.Array:D}:{Variant.Type.Object:D}/{PropertyHint.Res
     let is_bitfield =
     true
 
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
+
     (** The property is not stored, and does not display in the editor. This is the default for non-exported properties. *)
     let _PROPERTY_USAGE_NONE =
     0
@@ -1890,6 +2036,14 @@ hintString = $""{Variant.Type.Array:D}:{Variant.Type.Object:D}/{PropertyHint.Res
     let is_bitfield =
     true
 
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
+
     (** Flag for a normal method. *)
     let _METHOD_FLAG_NORMAL =
     1
@@ -1926,6 +2080,14 @@ hintString = $""{Variant.Type.Array:D}:{Variant.Type.Object:D}/{PropertyHint.Res
   module VariantType = struct
     let is_bitfield =
     false
+
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
 
     (** Variable is [code]null[/code]. *)
     let _TYPE_NIL =
@@ -2087,6 +2249,14 @@ hintString = $""{Variant.Type.Array:D}:{Variant.Type.Object:D}/{PropertyHint.Res
   module VariantOperator = struct
     let is_bitfield =
     false
+
+    type t = int
+
+    let typ =
+    int
+
+    let s =
+    int
 
     (** Equality operator ([code]==[/code]). *)
     let _OP_EQUAL =

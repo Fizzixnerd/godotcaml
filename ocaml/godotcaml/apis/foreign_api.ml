@@ -13,6 +13,30 @@ let get_proc_address : (string -> InterfaceFunctionPtr.t) ref =
       assert false)
 
 let gc_alloc = allocate_n
+let global_call_error = allocate_n CallError.s ~count:1
+
+exception Invalid_method
+exception Invalid_argument of int * int
+exception Too_many_arguments of int * int
+exception Too_few_arguments of int * int
+exception Instance_is_null
+exception Method_not_const
+exception Unknown_call_error
+
+let is_error : CallError.t structure ptr -> bool =
+ fun err -> !@(err |-> CallError.error_f) <> 0
+
+(* FIXME to use proper values from CallError.t *)
+let to_exn : CallError.t structure ptr -> exn =
+ fun err ->
+  match !@(err |-> CallError.error_f) with
+  | 1 -> Invalid_method
+  | 2 -> Invalid_argument (0, 0)
+  | 3 -> Too_many_arguments (0, 0)
+  | 4 -> Too_few_arguments (0, 0)
+  | 5 -> Instance_is_null
+  | 6 -> Method_not_const
+  | _ -> Unknown_call_error
 
 let coerce_ptr new_typ x =
   let voidp = to_voidp x in
@@ -23,7 +47,7 @@ functor
   (ClassSizes : CLASS_SIZES)
   ->
   struct
-    include Api_types.ApiTypes (ClassSizes)
+    include Api_types.ApiTypes
 
     module Void = struct
       type t = unit
@@ -102,6 +126,29 @@ functor
       let () = () (* call destructor for string_name here. *) in
       ret
 
+    let variant_call = get_fun "variant_call" variant_call.typ
+
+    let get_variant_from_type_constructor variant_type
+        (variant_typ : 'a ptr typ) =
+      let getter =
+        get_fun "get_variant_from_type_constructor"
+          GetVariantFromTypeConstructor.t
+      in
+      coerce VariantFromTypeConstructorFunc.t
+        (variant_from_type_constructor_func variant_typ).typ
+        (coerce GetVariantFromTypeConstructor.t
+           get_variant_from_type_constructor.typ getter variant_type)
+
+    let get_variant_to_type_constructor (variant_type : int)
+        (variant_typ : 'a ptr typ) =
+      let getter =
+        get_fun "get_variant_to_type_constructor" GetVariantToTypeConstructor.t
+      in
+      coerce VariantToTypeConstructorFunc.t
+        (variant_to_type_constructor_func variant_typ).typ
+        (coerce GetVariantToTypeConstructor.t
+           get_variant_to_type_constructor.typ getter variant_type)
+
     let foreign_builtin_operator : int -> int option -> int -> 'a typ -> 'a =
      fun variant_type arg_type_opt operator typ ->
       coerce PtrOperatorEvaluator.t typ
@@ -110,6 +157,7 @@ functor
 
     let foreign_arr0 = coerce_ptr (ptr type_ptr.const) null
 
+    (** Can be cast to any ptr-to-ptr!*)
     let foreign_arr1 x =
       let count = 1 in
       let arr = allocate_n type_ptr.const ~count in
@@ -987,7 +1035,7 @@ functor
         int64 ->
         ('a -> Variadic.t -> 'base ptr -> unit) fn ->
         'any ->
-          'a ->
+        'a ->
         Variadic.t ->
         'base ptr ->
         unit =
@@ -1008,27 +1056,31 @@ functor
         in
         ()
 
-
-    let foreign_method1 : 
+    let foreign_method1 :
         string ->
         ('a -> 'base ptr -> 'r ptr) fn ->
         'r typ ->
+        ('a -> variant_ptr ptr) ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
         'a ->
         'base ptr ->
         'r ptr =
-      fun method_name _fn ret_typ ->
-        (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-        let string_name = string_name_of_string method_name in
-        (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-        let err = global_call_error in
-        let count = 1 in
-        fun x base ->
-          let ret = coerce (ptr ret_typ) type_ptr.plain (gc_alloc ret_typ ~count:1) in
-          let arr = (foreign_variant_arr1 x) in
-          let base = coerce_ptr type_ptr.plain base in
-          let () = coerce VariantCall.t variant_call base string_name arr count ret err in
-          if is_error err
-            then raise (to_exn err)
-            else coerce type_ptr.plain (ptr ret_typ) ret
-
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 1 in
+      fun x base ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr1 x') in
+        let base = coerce_ptr variant_ptr.plain base in
+        let () = variant_call base string_name arr count ret err in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
   end

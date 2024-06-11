@@ -133,7 +133,7 @@ module C = struct
 
   (* VARIANT DATA I/O *)
 
-  module ExtensionCallError = struct
+  module CallError = struct
     type t
 
     let call_error_type = typedef enum "GDExtensionCallErrorType"
@@ -152,14 +152,45 @@ module C = struct
     { fn; typ }
 
   let variant_from_type_constructor_func =
+    dynamic_funptr (variant_ptr.uninit @-> type_ptr.plain @-> returning void)
+
+  module VariantFromTypeConstructorFunc =
+    (val variant_from_type_constructor_func)
+
+  let variant_from_type_constructor_func typ =
     fn_suite
       (M.typedef_name "VariantFromTypeConstructorFunc")
-      (variant_ptr.uninit @-> type_ptr.plain @-> returning void)
+      (variant_ptr.uninit @-> typ @-> returning void)
 
-  let type_constructor_from_variant_func =
+  let get_variant_from_type_constructor =
+    dynamic_funptr (variant_type @-> returning VariantFromTypeConstructorFunc.t)
+
+  module GetVariantFromTypeConstructor = (val get_variant_from_type_constructor)
+
+  let get_variant_from_type_constructor =
     fn_suite
-      (M.typedef_name "TypeConstructorFromVariantFunc")
-      (type_ptr.uninit @-> variant_ptr.plain @-> returning void)
+      (M.typedef_name "GetVariantFromTypeConstructor")
+      (variant_type @-> returning VariantFromTypeConstructorFunc.t)
+
+  let variant_to_type_constructor_func =
+    dynamic_funptr (type_ptr.uninit @-> variant_ptr.plain @-> returning void)
+
+  module VariantToTypeConstructorFunc = (val variant_to_type_constructor_func)
+
+  let variant_to_type_constructor_func typ =
+    fn_suite
+      (M.typedef_name "VariantToTypeConstructorFunc")
+      (typ @-> variant_ptr.plain @-> returning void)
+
+  let get_variant_to_type_constructor =
+    dynamic_funptr (variant_type @-> returning VariantToTypeConstructorFunc.t)
+
+  module GetVariantToTypeConstructor = (val get_variant_to_type_constructor)
+
+  let get_variant_to_type_constructor =
+    fn_suite
+      (M.typedef_name "GetVariantToTypeConstructor")
+      (variant_type @-> returning VariantToTypeConstructorFunc.t)
 
   let ptr_operator_evaluator =
     dynamic_funptr
@@ -232,6 +263,19 @@ module C = struct
     fn_suite
       (M.typedef_name "PtrUtilityFunction")
       (type_ptr.plain @-> ptr type_ptr.const @-> int @-> returning void)
+
+  let variant_call =
+    dynamic_funptr
+      (variant_ptr.plain @-> string_name_ptr.const @-> ptr variant_ptr.const
+     @-> gint @-> variant_ptr.uninit @-> ptr CallError.s @-> returning void)
+
+  module VariantCall = (val variant_call)
+
+  let variant_call =
+    fn_suite
+      (M.typedef_name "VariantCall")
+      (variant_ptr.plain @-> string_name_ptr.const @-> ptr variant_ptr.const
+     @-> gint @-> variant_ptr.uninit @-> ptr CallError.s @-> returning void)
 
   let class_constructor =
     fn_suite
@@ -451,6 +495,7 @@ module C = struct
       (variant_type @-> returning ptr_destructor.typ)
 
   (* turbo snip *)
+
   let interface_variant_get_ptr_operator_evaluator =
     fn_suite
       (M.typedef_name "InterfaceVariantGetPtrOperatorEvaluator")
