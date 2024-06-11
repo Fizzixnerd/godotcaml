@@ -933,6 +933,7 @@ module Gen = struct
         let to_type_ptr = coerce (ptr s) type_ptr.plain
         let typ = view ~read:of_voidp ~write:to_voidp (ptr void)
         let size = ClassSizes.%s
+        
         (** Change this to gc_alloc! (or just remove) *)
         let new_uninit () = allocate_n ~count:1 s
       end
@@ -990,9 +991,13 @@ module Gen = struct
    fun type_names ->
     type_names |> List.map ~f:gen_final_api_type |> module_ "ApiTypes"
 
-  let gen_final_global_enums : Api.GlobalEnum.t list -> ocaml = fun xs ->
-    let name_to_final_global_enum : string -> ocaml = fun name ->
-      string (sprintf {|
+  let gen_final_global_enums : Api.GlobalEnum.t list -> ocaml =
+   fun xs ->
+    let name_to_final_global_enum : string -> ocaml =
+     fun name ->
+      string
+        (sprintf
+           {|
       module %s = struct
         include GlobalEnum.%s
 
@@ -1001,9 +1006,13 @@ module Gen = struct
         let to_variant = Int.to_variant
         let of_variant = Int.of_variant
       end
-      |} (mod_var_str (remove_dots name)) (mod_var_str (remove_dots name)))
+      |}
+           (mod_var_str (remove_dots name))
+           (mod_var_str (remove_dots name)))
     in
-    let final_global_enums = List.map ~f:(fun x -> name_to_final_global_enum x.name) xs in
+    let final_global_enums =
+      List.map ~f:(fun x -> name_to_final_global_enum x.name) xs
+    in
     module_ "GlobalEnum" final_global_enums
 
   let gen_class_sizes_module_type : string list -> ocaml =
