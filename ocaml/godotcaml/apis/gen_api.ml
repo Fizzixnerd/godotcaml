@@ -331,8 +331,9 @@ module Gen = struct
     ^^ string (String.concat_map ~f:escape contents)
     ^^ string " *)"
 
-  (** Some explanation: This removes the weird `enum::` prefix and replaces it with either "GlobalEnum" if it is unqualified, or leaves it as the qualified enum it is.*)
-  let remove_enum_prefix this s =
+  (** Some explanation: This removes the weird `enum::` prefix and replaces it with either "GlobalEnum" if it is unqualified, or leaves it as the qualified enum it is.
+      Also, does the same crap for `typedarray::`... *)
+  let remove_prefix this s =
     if String.is_prefix ~prefix:"enum::" s then
       let s' = String.drop_prefix s 6 in
       if String.contains s '.' then
@@ -341,6 +342,12 @@ module Gen = struct
         | _ :: _ -> s'
         | _ -> assert false
       else "GlobalEnum." ^ s'
+    else if String.is_prefix ~prefix:"typedarray::" s then
+      let s' = String.drop_prefix s 12 in
+      s'
+    else if String.is_prefix ~prefix:"bitfield::" s then
+      let s' = String.drop_prefix s 10 in
+      s'
     else s
 
   let remove_dots s =
@@ -371,9 +378,36 @@ module Gen = struct
   let let_ name value =
     string "let " ^^ var name ^^ string " =" ^/^ nest 2 value
 
+  let val_ name type_ =
+    string "val " ^^ var name ^^ string " : " ^/^ nest 2 type_
+
   let module_ module_name defs =
     string "module " ^^ mod_var module_name ^^ string " = struct"
     ^^ nest 2 (break 1 ^^ separate (hardline ^^ hardline) defs ^^ break 1)
+    ^^ string "end"
+
+  let module_rec module_name defs =
+    string "module rec " ^^ mod_var module_name ^^ string " : "
+    ^^ string (String.uppercase module_name)
+    ^^ string " = struct"
+    ^^ nest 2 (break 1 ^^ separate (hardline ^^ hardline) defs ^^ break 1)
+    ^^ string "end"
+
+  let module_type module_type_name decls =
+    string "module type " ^^ mod_var module_type_name ^^ string " = sig"
+    ^^ nest 2 (break 1 ^^ separate (hardline ^^ hardline) decls ^^ break 1)
+    ^^ string "end"
+
+  let module_and module_name defs =
+    string "and " ^^ mod_var module_name ^^ string " : "
+    ^^ string (String.uppercase module_name)
+    ^^ string " = struct"
+    ^^ nest 2 (break 1 ^^ separate (hardline ^^ hardline) defs ^^ break 1)
+    ^^ string "end"
+
+  let module_type_and module_type_name decls =
+    string "and " ^^ mod_var module_type_name ^^ string " = sig"
+    ^^ nest 2 (break 1 ^^ separate (hardline ^^ hardline) decls ^^ break 1)
     ^^ string "end"
 
   let functor_ module_name m_name sig_name defs =
@@ -455,17 +489,13 @@ module Gen = struct
       let is_bitfield = OCaml.bool ge.is_bitfield in
       let defs = ge.values |> List.map ~f:value_to_ocaml in
       let defs =
-        let_ "is_bitfield" is_bitfield
-        :: string "type t = int"
-        :: let_ "typ" (string "int")
-        :: let_ "s" (string "int")
-        :: defs
+        let_ "is_bitfield" is_bitfield :: string "type t = int" :: defs
       in
       module_ module_name defs
 
     let t_list_to_ocaml : t list -> ocaml =
      fun ges ->
-      let module_name = "GlobalEnum" in
+      let module_name = "GlobalEnum0" in
       let defs = ges |> List.map ~f:t_to_ocaml in
       module_ module_name defs
   end
@@ -706,8 +736,8 @@ module Gen = struct
      fun e ->
       let module_name = remove_dots e.name in
       let defs = e.values |> List.map ~f:enum_value_to_ocaml in
-      let enum_t_def = string "type t = int" in
-      let enum_typ_def = let_ "typ" (string "int") in
+      let enum_t_def = string "type t = Int.t" in
+      let enum_typ_def = let_ "typ" (string "Int.typ") in
       module_ module_name (enum_t_def :: enum_typ_def :: defs)
 
     let constant_to_ocaml : constant -> ocaml =
@@ -746,34 +776,59 @@ module Gen = struct
       let int_value = value.value in
       dc ^/^ let_ value.name (OCaml.int int_value)
 
+    let enum_value_to_mli : enum_value -> ocaml =
+     fun value ->
+      let dc = optional doc_comment value.description in
+      dc ^/^ val_ value.name (string "int")
+
     let enum_to_ocaml : enum -> ocaml =
      fun e ->
       let module_name = remove_dots e.name in
       let defs = e.values |> List.map ~f:enum_value_to_ocaml in
-      let enum_t_def = string "type t = int" in
-      let enum_typ_def = let_ "typ" (string "int") in
-      module_ module_name (enum_t_def :: enum_typ_def :: defs)
+      let include_int = string "include ApiTypes.Int" in
+      module_ module_name (include_int :: defs)
+
+    let enum_to_mli : enum -> ocaml =
+     fun e ->
+      let module_name = remove_dots e.name in
+      let defs = e.values |> List.map ~f:enum_value_to_mli in
+      let include_int = string "include ApiTypes.INT" in
+      module_type module_name (include_int :: defs)
 
     let method_argument_to_ocaml_fragment : string -> method_argument -> ocaml =
      fun this arg ->
-      let ty = qualified_typ this (remove_enum_prefix this arg.type_) in
+      let ty = qualified_typ this (remove_prefix this arg.type_) in
       ty ^^ string " @-> "
+
+    let method_argument_to_mli_fragment : string -> method_argument -> ocaml =
+     fun this arg ->
+      let ty = qualified_t this (remove_prefix this arg.type_) in
+      ty ^^ string " -> "
 
     let signal_argument_to_ocaml_fragment : string -> signal_argument -> ocaml =
      fun this arg ->
-      let ty = qualified_typ this (remove_enum_prefix this arg.type_) in
+      let ty = qualified_typ this (remove_prefix this arg.type_) in
       ty ^^ string " @-> "
+
+    let signal_argument_to_mli_fragment : string -> signal_argument -> ocaml =
+     fun this arg ->
+      let ty = qualified_t this (remove_prefix this arg.type_) in
+      ty ^^ string " -> "
 
     let return_type_to_ocaml_fragment : string -> string -> ocaml =
      fun this return_type ->
-      string "returning "
-      ^^ qualified_typ this (remove_enum_prefix this return_type)
+      string "returning " ^^ qualified_typ this (remove_prefix this return_type)
+
+    let return_type_to_mli_fragment : string -> string -> ocaml =
+     fun this return_type ->
+      if String.(return_type = "void") then string "unit"
+      else qualified_t this (remove_prefix this return_type)
 
     let assemble_type : ocaml list -> ocaml -> ocaml =
      fun ty_frags return_ty ->
       PPrint.parens (PPrint.concat ty_frags ^^ return_ty)
 
-    let mk_method_type this args return_type is_static is_vararg =
+    let mk_method_type' f g this args return_type is_static is_vararg =
       let primary_arguments = args |> Option.value ~default:[] in
       let var_arg =
         [
@@ -805,30 +860,37 @@ module Gen = struct
         | args, false, true -> args @ var_arg @ self_arg
         | args, false, false -> args @ self_arg
       in
-      let return_type =
-        return_type
-        |> Option.value ~default:"void"
-        |> return_type_to_ocaml_fragment this
-      in
+      let return_type = return_type |> Option.value ~default:"void" |> g this in
       let method_type =
-        assemble_type
-          (List.map ~f:(method_argument_to_ocaml_fragment this) arguments)
-          return_type
+        assemble_type (List.map ~f:(f this) arguments) return_type
       in
       method_type
 
-    let mk_signal_type : string -> signal_argument list option -> ocaml =
-     fun this args ->
-      let return_type = return_type_to_ocaml_fragment this "void" in
+    let mk_method_type =
+      mk_method_type' method_argument_to_ocaml_fragment
+        return_type_to_ocaml_fragment
+
+    let mk_method_val_type =
+      mk_method_type' method_argument_to_mli_fragment
+        return_type_to_mli_fragment
+
+    let mk_signal_type' f g this args =
+      let return_type = g this "void" in
       let arguments =
         args |> Option.value ~default:[ { name = "dummy"; type_ = "void" } ]
         |> function
         | [] -> [ { name = "dummy"; type_ = "void" } ]
         | _ as args -> args
       in
-      assemble_type
-        (List.map ~f:(signal_argument_to_ocaml_fragment this) arguments)
-        return_type
+      assemble_type (List.map ~f:(f this) arguments) return_type
+
+    let mk_signal_type =
+      mk_signal_type' signal_argument_to_ocaml_fragment
+        return_type_to_ocaml_fragment
+
+    let mk_signal_val_type =
+      mk_signal_type' signal_argument_to_mli_fragment
+        return_type_to_mli_fragment
 
     let method_to_ocaml : string -> method_ -> ocaml =
      fun this meth ->
@@ -839,9 +901,7 @@ module Gen = struct
         Option.map ~f:(fun x -> x.type_) meth.return_value
       in
       let ret_type =
-        return_type_opt
-        |> Option.value ~default:"void"
-        |> remove_enum_prefix this
+        return_type_opt |> Option.value ~default:"void" |> remove_prefix this
       in
       let is_void_ret = ret_type |> function "void" -> true | _ -> false in
       let method_type =
@@ -854,9 +914,7 @@ module Gen = struct
       let args_to_variants : ocaml =
         List.fold_left ~init:(string "")
           ~f:(fun acc x ->
-            acc
-            ^/^ mod_var (remove_enum_prefix this x.type_)
-            ^^ string ".to_variant")
+            acc ^/^ mod_var (remove_prefix this x.type_) ^^ string ".to_variant")
           args
       in
       let rhs name t =
@@ -864,15 +922,32 @@ module Gen = struct
         ^^ (if meth.is_vararg then string "v" else string "")
         ^^ (if is_void_ret then string "_void" else string "")
         ^^ (if meth.is_static then string "_static" else string "")
-        ^/^ string "\"" ^^ string name ^^ string "\"" ^/^ t ^/^ string ret_type
-        ^/^ ret_to_variant ^/^ variant_to_ret ^/^ args_to_variants
+        ^/^ string "\"" ^^ string name ^^ string "\"" ^/^ t
+        ^/^ qualified_s this ret_type ^/^ ret_to_variant ^/^ variant_to_ret
+        ^/^ args_to_variants
       in
       dc ^/^ let_ (var_str method_name) (rhs method_name method_type)
+
+    let method_to_mli : string -> method_ -> ocaml =
+     fun this meth ->
+      let return_type_opt =
+        Option.map ~f:(fun x -> x.type_) meth.return_value
+      in
+      let method_val_type =
+        mk_method_val_type this meth.arguments return_type_opt meth.is_static
+          meth.is_vararg
+      in
+      val_ (var_str meth.name) method_val_type
 
     let constant_to_ocaml : constant -> ocaml =
      fun c ->
       let dc = c.description |> PPrint.optional doc_comment in
       dc ^/^ let_ c.name (OCaml.int c.value)
+
+    let constant_to_mli : constant -> ocaml =
+     fun c ->
+      let dc = c.description |> PPrint.optional doc_comment in
+      dc ^/^ val_ c.name (string "int")
 
     let signal_to_ocaml : string -> signal -> ocaml =
      fun this s ->
@@ -884,6 +959,13 @@ module Gen = struct
         ^^ string name ^^ string "\"" ^/^ t
       in
       dc ^/^ let_ (var_str signal_name) (rhs signal_name signal_type)
+
+    let signal_to_mli : string -> signal -> ocaml =
+     fun this s ->
+      let dc = s.description |> PPrint.optional doc_comment in
+      let signal_name = s.name in
+      let signal_type = mk_signal_val_type this s.arguments in
+      dc ^/^ val_ (var_str signal_name) (signal_type ^^ string " signal_t")
 
     let property_to_ocaml : string -> property -> ocaml =
      fun this prop ->
@@ -898,11 +980,15 @@ module Gen = struct
       in
       dc ^/^ let_ (var_str property_name) (rhs property_name property_type)
 
-    let t_to_ocaml : t -> ocaml =
-     fun c ->
+    let t_to_ocaml : int -> t -> ocaml =
+     fun n c ->
       let defs =
         List.concat
           [
+            [ string "open ApiTypes"; string "include ApiTypes.Object" ];
+            c.inherits |> Option.to_list
+            |> List.map ~f:(fun x ->
+                   string (sprintf "include %s" (mod_var_str x)));
             List.map ~f:enum_to_ocaml (c.enums |> Option.value ~default:[]);
             List.map ~f:constant_to_ocaml
               (c.constants |> Option.value ~default:[]);
@@ -912,10 +998,44 @@ module Gen = struct
               (c.signals |> Option.value ~default:[]);
           ]
       in
-      module_ c.name defs
+      if n = 0 then module_rec c.name defs else module_and c.name defs
+
+    let t_to_mli : int -> t -> ocaml =
+     fun _n c ->
+      let decls =
+        List.concat
+          [
+            [ string "open ApiTypes"; string "include ApiTypes.OBJECT" ];
+            c.inherits |> Option.to_list
+            |> List.map ~f:(fun x ->
+                   string
+                     (sprintf "include %s" (String.uppercase @@ mod_var_str x)));
+            List.map ~f:enum_to_mli (c.enums |> Option.value ~default:[]);
+            List.map ~f:constant_to_mli (c.constants |> Option.value ~default:[]);
+            List.map ~f:(method_to_mli c.name)
+              (c.methods |> Option.value ~default:[]);
+            List.map ~f:(signal_to_mli c.name)
+              (c.signals |> Option.value ~default:[]);
+          ]
+      in
+      module_type (String.uppercase c.name) decls
 
     let t_list_to_ocaml : t list -> ocaml =
-     fun cs -> cs |> List.map ~f:t_to_ocaml |> module_ "Class"
+     fun cs ->
+      let blacklist_regex =
+        [ "OpenXR"; "Audio"; "Movie" ] |> List.map ~f:Re.str |> Re.alt
+        |> fun x ->
+        Re.seq [ x; Re.any ] |> fun x ->
+        Re.alt [ x; Re.seq [ Re.any; Re.str "Extension" ] ] |> Re.compile
+      in
+      let cs =
+        cs
+        |> List.filter ~f:(fun c ->
+               c.name |> Re.exec_opt blacklist_regex |> Option.is_none)
+      in
+      let ml = cs |> List.mapi ~f:t_to_ocaml in
+      let mli = cs |> List.mapi ~f:t_to_mli in
+      mli @ ml |> module_ "Class"
   end
 
   let gen_api_type type_name =
@@ -933,7 +1053,7 @@ module Gen = struct
         let to_type_ptr = coerce (ptr s) type_ptr.plain
         let typ = view ~read:of_voidp ~write:to_voidp (ptr void)
         let size = ClassSizes.%s
-        
+
         (** Change this to gc_alloc! (or just remove) *)
         let new_uninit () = allocate_n ~count:1 s
       end
@@ -941,7 +1061,7 @@ module Gen = struct
          (mod_var_str type_name) (mod_var_str type_name) (var_str type_name)
          (var_str type_name)
          (if String.(type_name <> "Variant") then
-            sprintf "let type_enum = GlobalEnum.VariantType.%s"
+            sprintf "let type_enum = GlobalEnum0.VariantType.%s"
               (to_type_enum type_name)
           else "")
          (var_str type_name))
@@ -963,6 +1083,7 @@ module Gen = struct
            {|
     module %s = struct
       include %s
+      include Conv.%s
 
       let to_variantizer = get_variant_from_type_constructor type_enum typ
       let of_variantizer = get_variant_to_type_constructor type_enum typ
@@ -981,7 +1102,8 @@ module Gen = struct
 
     end
     |}
-           (mod_var_str type_name) (mod_var_str type_name))
+           (mod_var_str type_name) (mod_var_str type_name)
+           (mod_var_str type_name))
 
   let gen_api_types : string list -> ocaml =
    fun type_names ->
@@ -989,7 +1111,9 @@ module Gen = struct
 
   let gen_final_api_types : string list -> ocaml =
    fun type_names ->
-    type_names |> List.map ~f:gen_final_api_type |> module_ "ApiTypes"
+    string "module Void = struct include M.Void end"
+    :: (type_names |> List.map ~f:gen_final_api_type)
+    |> module_ "ApiTypes"
 
   let gen_final_global_enums : Api.GlobalEnum.t list -> ocaml =
    fun xs ->
@@ -999,12 +1123,15 @@ module Gen = struct
         (sprintf
            {|
       module %s = struct
-        include GlobalEnum.%s
+        include GlobalEnum0.%s
 
-        let to_ocaml x = Int.to_ocaml
-        let of_ocaml x = Int.of_ocaml
-        let to_variant = Int.to_variant
-        let of_variant = Int.of_variant
+        let to_ocaml = Conv.Int.to_ocaml
+        let of_ocaml = Conv.Int.of_ocaml
+        let to_variant = ApiTypes.Int.to_variant
+        let of_variant = ApiTypes.Int.of_variant
+
+        let s = Int.s
+        let typ = Int.typ
       end
       |}
            (mod_var_str (remove_dots name))
@@ -1074,7 +1201,6 @@ let () =
   let api_json = Yojson.Safe.from_string contents in
   let api = Api.t_of_yojson api_json in
   [
-    string "open Ctypes" ^^ hardline ^^ hardline;
     Gen.GlobalEnum.t_list_to_ocaml api.global_enums ^^ hardline ^^ hardline;
     Gen.BuiltinClassSize.t_list_to_ocaml api.builtin_class_sizes
     ^^ hardline ^^ hardline;
