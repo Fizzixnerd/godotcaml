@@ -1,7 +1,7 @@
 (executable
  (modules Gen_api)
  (name gen_api)
- (libraries core yojson pprint ctypes re)
+ (libraries core yojson pprint ctypes re topological_sort)
  (preprocess (pps ppx_jane ppx_yojson_conv))
  (flags (:standard -g -w -32)))
 
@@ -13,9 +13,9 @@
  (flags (:standard -g -w -32)))
 
 (executable
- (modules Api Foreign_api Api_types Toy_api Conv)
+ (modules Api_classes Api_builtins Foreign_api Api_types Toy_api Conv)
  (modes (native (shared_object)))
- (name api)
+ (name api_classes)
  (foreign_stubs (language c) (names hello-gdextension))
  (libraries core yojson pprint ctypes godotcaml)
  (preprocess (pps ppx_jane ppx_yojson_conv))

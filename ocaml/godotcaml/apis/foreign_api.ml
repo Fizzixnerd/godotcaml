@@ -76,6 +76,22 @@ functor
           (ptr type_ptr.const)
     end
 
+    module VariadicVariants = struct
+      type t = variant_ptr structure Suite.const ptr list
+
+      let length = Base.List.length
+      let of_list = Base.List.of_list
+      let of_array = Base.List.of_array
+
+      let typ =
+        view
+          ~read:(fun _ -> assert false)
+            (* we never read from a VariadicVariants.t. *)
+          ~write:(fun variadic ->
+            CArray.start (CArray.of_list variant_ptr.const variadic))
+          (ptr variant_ptr.const)
+    end
+
     let plain_to_uninit suite x =
       let open Suite in
       coerce suite.plain suite.uninit x
@@ -132,6 +148,9 @@ functor
       ret
 
     let variant_call = get_fun "variant_call" variant_call.typ
+
+    let variant_call_static =
+      get_fun "variant_call_static" variant_call_static.typ
 
     let get_variant_from_type_constructor variant_type
         (variant_typ : 'a ptr typ) =
@@ -237,6 +256,105 @@ functor
       let () = arr +@ 5 <-@ coerce_ptr type_ptr.const t in
       let () = arr +@ 6 <-@ coerce_ptr type_ptr.const u in
       let () = arr +@ 7 <-@ coerce_ptr type_ptr.const v in
+      arr
+
+    let foreign_arr9 x y z w s t u v i =
+      let count = 9 in
+      let arr = allocate_n type_ptr.const ~count in
+      let () = arr <-@ coerce_ptr type_ptr.const x in
+      let () = arr +@ 1 <-@ coerce_ptr type_ptr.const y in
+      let () = arr +@ 2 <-@ coerce_ptr type_ptr.const z in
+      let () = arr +@ 3 <-@ coerce_ptr type_ptr.const w in
+      let () = arr +@ 4 <-@ coerce_ptr type_ptr.const s in
+      let () = arr +@ 5 <-@ coerce_ptr type_ptr.const t in
+      let () = arr +@ 6 <-@ coerce_ptr type_ptr.const u in
+      let () = arr +@ 7 <-@ coerce_ptr type_ptr.const v in
+      let () = arr +@ 8 <-@ coerce_ptr type_ptr.const i in
+      arr
+
+    let foreign_arr10 x y z w s t u v i j =
+      let count = 10 in
+      let arr = allocate_n type_ptr.const ~count in
+      let () = arr <-@ coerce_ptr type_ptr.const x in
+      let () = arr +@ 1 <-@ coerce_ptr type_ptr.const y in
+      let () = arr +@ 2 <-@ coerce_ptr type_ptr.const z in
+      let () = arr +@ 3 <-@ coerce_ptr type_ptr.const w in
+      let () = arr +@ 4 <-@ coerce_ptr type_ptr.const s in
+      let () = arr +@ 5 <-@ coerce_ptr type_ptr.const t in
+      let () = arr +@ 6 <-@ coerce_ptr type_ptr.const u in
+      let () = arr +@ 7 <-@ coerce_ptr type_ptr.const v in
+      let () = arr +@ 8 <-@ coerce_ptr type_ptr.const i in
+      let () = arr +@ 9 <-@ coerce_ptr type_ptr.const j in
+      arr
+
+    let foreign_arr12 x y z w s t u v i j k l =
+      let count = 12 in
+      let arr = allocate_n type_ptr.const ~count in
+      let () = arr <-@ coerce_ptr type_ptr.const x in
+      let () = arr +@ 1 <-@ coerce_ptr type_ptr.const y in
+      let () = arr +@ 2 <-@ coerce_ptr type_ptr.const z in
+      let () = arr +@ 3 <-@ coerce_ptr type_ptr.const w in
+      let () = arr +@ 4 <-@ coerce_ptr type_ptr.const s in
+      let () = arr +@ 5 <-@ coerce_ptr type_ptr.const t in
+      let () = arr +@ 6 <-@ coerce_ptr type_ptr.const u in
+      let () = arr +@ 7 <-@ coerce_ptr type_ptr.const v in
+      let () = arr +@ 8 <-@ coerce_ptr type_ptr.const i in
+      let () = arr +@ 9 <-@ coerce_ptr type_ptr.const j in
+      let () = arr +@ 10 <-@ coerce_ptr type_ptr.const k in
+      let () = arr +@ 11 <-@ coerce_ptr type_ptr.const l in
+      arr
+
+    let foreign_arr13 x y z w s t u v i j k l m =
+      let count = 13 in
+      let arr = allocate_n type_ptr.const ~count in
+      let () = arr <-@ coerce_ptr type_ptr.const x in
+      let () = arr +@ 1 <-@ coerce_ptr type_ptr.const y in
+      let () = arr +@ 2 <-@ coerce_ptr type_ptr.const z in
+      let () = arr +@ 3 <-@ coerce_ptr type_ptr.const w in
+      let () = arr +@ 4 <-@ coerce_ptr type_ptr.const s in
+      let () = arr +@ 5 <-@ coerce_ptr type_ptr.const t in
+      let () = arr +@ 6 <-@ coerce_ptr type_ptr.const u in
+      let () = arr +@ 7 <-@ coerce_ptr type_ptr.const v in
+      let () = arr +@ 8 <-@ coerce_ptr type_ptr.const i in
+      let () = arr +@ 9 <-@ coerce_ptr type_ptr.const j in
+      let () = arr +@ 10 <-@ coerce_ptr type_ptr.const k in
+      let () = arr +@ 11 <-@ coerce_ptr type_ptr.const l in
+      let () = arr +@ 12 <-@ coerce_ptr type_ptr.const m in
+      arr
+
+    let foreign_arr14 x y z w s t u v i j k l m n =
+      let count = 14 in
+      let arr = allocate_n type_ptr.const ~count in
+      let () = arr <-@ coerce_ptr type_ptr.const x in
+      let () = arr +@ 1 <-@ coerce_ptr type_ptr.const y in
+      let () = arr +@ 2 <-@ coerce_ptr type_ptr.const z in
+      let () = arr +@ 3 <-@ coerce_ptr type_ptr.const w in
+      let () = arr +@ 4 <-@ coerce_ptr type_ptr.const s in
+      let () = arr +@ 5 <-@ coerce_ptr type_ptr.const t in
+      let () = arr +@ 6 <-@ coerce_ptr type_ptr.const u in
+      let () = arr +@ 7 <-@ coerce_ptr type_ptr.const v in
+      let () = arr +@ 8 <-@ coerce_ptr type_ptr.const i in
+      let () = arr +@ 9 <-@ coerce_ptr type_ptr.const j in
+      let () = arr +@ 10 <-@ coerce_ptr type_ptr.const k in
+      let () = arr +@ 11 <-@ coerce_ptr type_ptr.const l in
+      let () = arr +@ 12 <-@ coerce_ptr type_ptr.const m in
+      let () = arr +@ 13 <-@ coerce_ptr type_ptr.const n in
+      arr
+
+    let foreign_arr11 x y z w s t u v i j k =
+      let count = 11 in
+      let arr = allocate_n type_ptr.const ~count in
+      let () = arr <-@ coerce_ptr type_ptr.const x in
+      let () = arr +@ 1 <-@ coerce_ptr type_ptr.const y in
+      let () = arr +@ 2 <-@ coerce_ptr type_ptr.const z in
+      let () = arr +@ 3 <-@ coerce_ptr type_ptr.const w in
+      let () = arr +@ 4 <-@ coerce_ptr type_ptr.const s in
+      let () = arr +@ 5 <-@ coerce_ptr type_ptr.const t in
+      let () = arr +@ 6 <-@ coerce_ptr type_ptr.const u in
+      let () = arr +@ 7 <-@ coerce_ptr type_ptr.const v in
+      let () = arr +@ 8 <-@ coerce_ptr type_ptr.const i in
+      let () = arr +@ 9 <-@ coerce_ptr type_ptr.const j in
+      let () = arr +@ 10 <-@ coerce_ptr type_ptr.const k in
       arr
 
     let foreign_arrv xs =
@@ -1074,7 +1192,7 @@ functor
       let string_name = string_name_of_string method_name in
       (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
       let err = global_call_error in
-      let count = Int64.of_int 1 in
+      let count = Int64.of_int 0 in
       fun base ->
         let ret =
           coerce_ptr variant_ptr.uninit
@@ -1083,6 +1201,81 @@ functor
         let arr = coerce_ptr (ptr variant_ptr.const) foreign_arr0 in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
         let () = variant_call base string_name arr count ret err in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method0_void_static :
+        string ->
+        (unit -> unit) fn ->
+        unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        unit ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 0 in
+      fun () ->
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let arr = coerce_ptr (ptr variant_ptr.const) foreign_arr0 in
+        let () =
+          variant_call_static VariantType.object_ string_name arr count ret err
+        in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method0v :
+        string ->
+        (VariadicVariants.t -> 'base ptr -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        VariadicVariants.t ->
+        'base ptr ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      fun vs base ->
+        let count = Int64.of_int (List.length vs) in
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arrv vs) in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method0_static :
+        string ->
+        (unit -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        (unit -> variant_ptr structure ptr) ->
+        unit ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant _x_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 0 in
+      fun () ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let arr = coerce_ptr (ptr variant_ptr.const) foreign_arr0 in
+        let () =
+          variant_call_static VariantType.object_ string_name arr count ret err
+        in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -1099,10 +1292,70 @@ functor
       let string_name = string_name_of_string method_name in
       (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
       let err = global_call_error in
-      let count = Int64.of_int 1 in
+      let count = Int64.of_int 0 in
       fun base ->
         let ret = coerce_ptr variant_ptr.uninit null in
         let arr = coerce_ptr (ptr variant_ptr.const) foreign_arr0 in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method1v :
+        string ->
+        ('a -> VariadicVariants.t -> 'base ptr -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        'a ->
+        VariadicVariants.t ->
+        'base ptr ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      fun x vs base ->
+        let count = Int64.of_int (1 + List.length vs) in
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arrv (coerce_ptr variant_ptr.const x' :: vs))
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method1v_void :
+        string ->
+        ('a -> VariadicVariants.t -> 'base ptr -> unit) fn ->
+        unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        'a ->
+        VariadicVariants.t ->
+        'base ptr ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      fun x vs base ->
+        let count = Int64.of_int (1 + VariadicVariants.length vs) in
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arrv (coerce_ptr variant_ptr.const x' :: vs))
+        in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
         let () = variant_call base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
@@ -1159,6 +1412,58 @@ functor
         let () = variant_call base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
+    let foreign_method1_void_static :
+        string ->
+        ('a -> unit) fn ->
+        unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        'a ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 1 in
+      fun x ->
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr1 x') in
+        let () =
+          variant_call_static VariantType.object_ string_name arr count ret err
+        in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method1_static :
+        string ->
+        ('a -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        'a ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 1 in
+      fun x ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr1 x') in
+        let () =
+          variant_call_static VariantType.object_ string_name arr count ret err
+        in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
     let foreign_method2 :
         string ->
         ('a -> 'b -> 'base ptr -> 'r ptr) fn ->
@@ -1186,6 +1491,105 @@ functor
         let x' = x_to_variant x in
         let y' = y_to_variant y in
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr2 x' y') in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method2_static :
+        string ->
+        ('a -> 'b -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant
+         y_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 2 in
+      fun x y ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr2 x' y') in
+        let () =
+          variant_call_static VariantType.object_ string_name arr count ret err
+        in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method2_void_static :
+        string ->
+        ('a -> 'b -> unit) fn ->
+        unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant
+         y_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 2 in
+      fun x y ->
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr2 x' y') in
+        let () =
+          variant_call_static VariantType.object_ string_name arr count ret err
+        in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method2v :
+        string ->
+        ('a -> 'b -> VariadicVariants.t -> 'base ptr -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        VariadicVariants.t ->
+        'base ptr ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant
+         y_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      fun x y vs base ->
+        let count = Int64.of_int (2 + VariadicVariants.length vs) in
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arrv
+               (coerce_ptr variant_ptr.const x'
+               :: coerce_ptr variant_ptr.const y'
+               :: vs))
+        in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
         let () = variant_call base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
@@ -1219,6 +1623,41 @@ functor
         let () = variant_call base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
+    let foreign_method2v_void :
+        string ->
+        ('a -> 'b -> VariadicVariants.t -> 'base ptr -> unit) fn ->
+        unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        VariadicVariants.t ->
+        'base ptr ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant
+         y_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      fun x y vs base ->
+        let count = Int64.of_int (2 + VariadicVariants.length vs) in
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arrv
+               (coerce_ptr variant_ptr.const x'
+               :: coerce_ptr variant_ptr.const y'
+               :: vs))
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        if is_error err then raise (to_exn err) else ()
+
     let foreign_method3 :
         string ->
         ('a -> 'b -> 'c -> 'base ptr -> 'r ptr) fn ->
@@ -1239,7 +1678,7 @@ functor
       let string_name = string_name_of_string method_name in
       (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
       let err = global_call_error in
-      let count = Int64.of_int 2 in
+      let count = Int64.of_int 3 in
       fun x y z base ->
         let ret =
           coerce_ptr variant_ptr.uninit
@@ -1251,6 +1690,41 @@ functor
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr3 x' y' z') in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
         let () = variant_call base string_name arr count ret err in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method3_static :
+        string ->
+        ('a -> 'b -> 'c -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant
+         y_to_variant z_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 3 in
+      fun x y z ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr3 x' y' z') in
+        let () =
+          variant_call_static VariantType.object_ string_name arr count ret err
+        in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -1274,13 +1748,1290 @@ functor
       let string_name = string_name_of_string method_name in
       (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
       let err = global_call_error in
-      let count = Int64.of_int 2 in
+      let count = Int64.of_int 3 in
       fun x y z base ->
         let ret = coerce_ptr variant_ptr.uninit null in
         let x' = x_to_variant x in
         let y' = y_to_variant y in
         let z' = z_to_variant z in
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr3 x' y' z') in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method3v_void :
+        string ->
+        ('a -> 'b -> 'c -> VariadicVariants.t -> 'base ptr -> unit) fn ->
+        unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        VariadicVariants.t ->
+        'base ptr ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant
+         y_to_variant z_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      fun x y z vs base ->
+        let count = Int64.of_int (3 + VariadicVariants.length vs) in
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arrv
+               (coerce_ptr variant_ptr.const x'
+               :: coerce_ptr variant_ptr.const y'
+               :: coerce_ptr variant_ptr.const z'
+               :: vs))
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method4 :
+        string ->
+        ('a -> 'b -> 'c -> 'd -> 'base ptr -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'base ptr ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 4 in
+      fun x y z w base ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const) (foreign_arr4 x' y' z' w')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method4_static :
+        string ->
+        ('a -> 'b -> 'c -> 'd -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 4 in
+      fun x y z w ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const) (foreign_arr4 x' y' z' w')
+        in
+        let () =
+          variant_call_static VariantType.object_ string_name arr count ret err
+        in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method4_void :
+        string ->
+        ('a -> 'b -> 'c -> 'd -> 'base ptr -> unit) fn ->
+        unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'base ptr ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 4 in
+      fun x y z w base ->
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const) (foreign_arr4 x' y' z' w')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method5 :
+        string ->
+        ('a -> 'b -> 'c -> 'd -> 'e -> 'base ptr -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'base ptr ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 5 in
+      fun x y z w s base ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const) (foreign_arr5 x' y' z' w' s')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method5_void :
+        string ->
+        ('a -> 'b -> 'c -> 'd -> 'e -> 'base ptr -> unit) fn ->
+        unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'base ptr ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 5 in
+      fun x y z w s base ->
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const) (foreign_arr5 x' y' z' w' s')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method5_static :
+        string ->
+        ('a -> 'b -> 'c -> 'd -> 'e -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 5 in
+      fun x y z w s ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const) (foreign_arr5 x' y' z' w' s')
+        in
+        let () =
+          variant_call_static VariantType.object_ string_name arr count ret err
+        in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method6 :
+        string ->
+        ('a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'base ptr -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'base ptr ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 6 in
+      fun x y z w s t base ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const) (foreign_arr6 x' y' z' w' s' t')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method6_static :
+        string ->
+        ('a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 6 in
+      fun x y z w s t ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const) (foreign_arr6 x' y' z' w' s' t')
+        in
+        let () =
+          variant_call_static VariantType.object_ string_name arr count ret err
+        in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method6_void :
+        string ->
+        ('a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'base ptr -> unit) fn ->
+        unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'base ptr ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 6 in
+      fun x y z w s t base ->
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const) (foreign_arr6 x' y' z' w' s' t')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method7 :
+        string ->
+        ('a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'g -> 'base ptr -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        ('g -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'base ptr ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant
+         u_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 7 in
+      fun x y z w s t u base ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let u' = u_to_variant u in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const) (foreign_arr7 x' y' z' w' s' t' u')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method7_void :
+        string ->
+        ('a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'g -> 'base ptr -> unit) fn ->
+        'unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        ('g -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'base ptr ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant
+         u_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 7 in
+      fun x y z w s t u base ->
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let u' = u_to_variant u in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const) (foreign_arr7 x' y' z' w' s' t' u')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method8 :
+        string ->
+        ('a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'g -> 'h -> 'base ptr -> 'r ptr) fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        ('g -> variant_ptr structure ptr) ->
+        ('h -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'base ptr ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant
+         u_to_variant v_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 8 in
+      fun x y z w s t u v base ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let u' = u_to_variant u in
+        let v' = v_to_variant v in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arr8 x' y' z' w' s' t' u' v')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method8_void :
+        string ->
+        ('a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'g -> 'h -> 'base ptr -> unit) fn ->
+        'unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        ('g -> variant_ptr structure ptr) ->
+        ('h -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'base ptr ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant
+         u_to_variant v_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 8 in
+      fun x y z w s t u v base ->
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let u' = u_to_variant u in
+        let v' = v_to_variant v in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arr8 x' y' z' w' s' t' u' v')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method9 :
+        string ->
+        ('a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'base ptr ->
+        'r ptr)
+        fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        ('g -> variant_ptr structure ptr) ->
+        ('h -> variant_ptr structure ptr) ->
+        ('i -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'base ptr ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant
+         u_to_variant v_to_variant i_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 9 in
+      fun x y z w s t u v i base ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let u' = u_to_variant u in
+        let v' = v_to_variant v in
+        let i' = i_to_variant i in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arr9 x' y' z' w' s' t' u' v' i')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method9_void :
+        string ->
+        ('a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'base ptr ->
+        unit)
+        fn ->
+        'unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        ('g -> variant_ptr structure ptr) ->
+        ('h -> variant_ptr structure ptr) ->
+        ('i -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'base ptr ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant
+         u_to_variant v_to_variant i_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 9 in
+      fun x y z w s t u v i base ->
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let u' = u_to_variant u in
+        let v' = v_to_variant v in
+        let i' = i_to_variant i in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arr9 x' y' z' w' s' t' u' v' i')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method10 :
+        string ->
+        ('a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'j ->
+        'base ptr ->
+        'r ptr)
+        fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        ('g -> variant_ptr structure ptr) ->
+        ('h -> variant_ptr structure ptr) ->
+        ('i -> variant_ptr structure ptr) ->
+        ('j -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'j ->
+        'base ptr ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant
+         u_to_variant v_to_variant i_to_variant j_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 10 in
+      fun x y z w s t u v i j base ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let u' = u_to_variant u in
+        let v' = v_to_variant v in
+        let i' = i_to_variant i in
+        let j' = j_to_variant j in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arr10 x' y' z' w' s' t' u' v' i' j')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method10_void :
+        string ->
+        ('a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'j ->
+        'base ptr ->
+        unit)
+        fn ->
+        'unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        ('g -> variant_ptr structure ptr) ->
+        ('h -> variant_ptr structure ptr) ->
+        ('i -> variant_ptr structure ptr) ->
+        ('j -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'j ->
+        'base ptr ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant
+         u_to_variant v_to_variant i_to_variant j_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 10 in
+      fun x y z w s t u v i j base ->
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let u' = u_to_variant u in
+        let v' = v_to_variant v in
+        let i' = i_to_variant i in
+        let j' = j_to_variant j in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arr10 x' y' z' w' s' t' u' v' i' j')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method11 :
+        string ->
+        ('a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'j ->
+        'k ->
+        'base ptr ->
+        'r ptr)
+        fn ->
+        'r typ ->
+        ('r ptr -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> 'r ptr) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        ('g -> variant_ptr structure ptr) ->
+        ('h -> variant_ptr structure ptr) ->
+        ('i -> variant_ptr structure ptr) ->
+        ('j -> variant_ptr structure ptr) ->
+        ('k -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'j ->
+        'k ->
+        'base ptr ->
+        'r ptr =
+     fun method_name _fn ret_typ ret_to_variant ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant
+         u_to_variant v_to_variant i_to_variant j_to_variant k_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 10 in
+      fun x y z w s t u v i j k base ->
+        let ret =
+          coerce_ptr variant_ptr.uninit
+            (ret_to_variant (gc_alloc ret_typ ~count:1))
+        in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let u' = u_to_variant u in
+        let v' = v_to_variant v in
+        let i' = i_to_variant i in
+        let j' = j_to_variant j in
+        let k' = k_to_variant k in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arr11 x' y' z' w' s' t' u' v' i' j' k')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        let ret = coerce_ptr variant_ptr.plain ret in
+        if is_error err then raise (to_exn err) else ret_of_variant ret
+
+    let foreign_method11_void :
+        string ->
+        ('a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'j ->
+        'k ->
+        'base ptr ->
+        unit)
+        fn ->
+        'unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        ('g -> variant_ptr structure ptr) ->
+        ('h -> variant_ptr structure ptr) ->
+        ('i -> variant_ptr structure ptr) ->
+        ('j -> variant_ptr structure ptr) ->
+        ('k -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'j ->
+        'k ->
+        'base ptr ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant
+         u_to_variant v_to_variant i_to_variant j_to_variant k_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 11 in
+      fun x y z w s t u v i j k base ->
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let u' = u_to_variant u in
+        let v' = v_to_variant v in
+        let i' = i_to_variant i in
+        let j' = j_to_variant j in
+        let k' = k_to_variant k in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arr11 x' y' z' w' s' t' u' v' i' j' k')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method12_void :
+        string ->
+        ('a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'j ->
+        'k ->
+        'l ->
+        'base ptr ->
+        unit)
+        fn ->
+        'unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        ('g -> variant_ptr structure ptr) ->
+        ('h -> variant_ptr structure ptr) ->
+        ('i -> variant_ptr structure ptr) ->
+        ('j -> variant_ptr structure ptr) ->
+        ('k -> variant_ptr structure ptr) ->
+        ('l -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'j ->
+        'k ->
+        'l ->
+        'base ptr ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant
+         u_to_variant v_to_variant i_to_variant j_to_variant k_to_variant
+         l_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 12 in
+      fun x y z w s t u v i j k l base ->
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let u' = u_to_variant u in
+        let v' = v_to_variant v in
+        let i' = i_to_variant i in
+        let j' = j_to_variant j in
+        let k' = k_to_variant k in
+        let l' = l_to_variant l in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arr12 x' y' z' w' s' t' u' v' i' j' k' l')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method13_void :
+        string ->
+        ('a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'j ->
+        'k ->
+        'l ->
+        'm ->
+        'base ptr ->
+        unit)
+        fn ->
+        'unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        ('g -> variant_ptr structure ptr) ->
+        ('h -> variant_ptr structure ptr) ->
+        ('i -> variant_ptr structure ptr) ->
+        ('j -> variant_ptr structure ptr) ->
+        ('k -> variant_ptr structure ptr) ->
+        ('l -> variant_ptr structure ptr) ->
+        ('m -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'j ->
+        'k ->
+        'l ->
+        'm ->
+        'base ptr ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant
+         u_to_variant v_to_variant i_to_variant j_to_variant k_to_variant
+         l_to_variant m_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 13 in
+      fun x y z w s t u v i j k l m base ->
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let u' = u_to_variant u in
+        let v' = v_to_variant v in
+        let i' = i_to_variant i in
+        let j' = j_to_variant j in
+        let k' = k_to_variant k in
+        let l' = l_to_variant l in
+        let m' = m_to_variant m in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arr13 x' y' z' w' s' t' u' v' i' j' k' l' m')
+        in
+        let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+        let () = variant_call base string_name arr count ret err in
+        if is_error err then raise (to_exn err) else ()
+
+    let foreign_method14_void :
+        string ->
+        ('a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'j ->
+        'k ->
+        'l ->
+        'm ->
+        'n ->
+        'base ptr ->
+        unit)
+        fn ->
+        'unit typ ->
+        (unit -> variant_ptr structure ptr) ->
+        (variant_ptr structure ptr -> unit) ->
+        ('a -> variant_ptr structure ptr) ->
+        ('b -> variant_ptr structure ptr) ->
+        ('c -> variant_ptr structure ptr) ->
+        ('d -> variant_ptr structure ptr) ->
+        ('e -> variant_ptr structure ptr) ->
+        ('f -> variant_ptr structure ptr) ->
+        ('g -> variant_ptr structure ptr) ->
+        ('h -> variant_ptr structure ptr) ->
+        ('i -> variant_ptr structure ptr) ->
+        ('j -> variant_ptr structure ptr) ->
+        ('k -> variant_ptr structure ptr) ->
+        ('l -> variant_ptr structure ptr) ->
+        ('m -> variant_ptr structure ptr) ->
+        ('n -> variant_ptr structure ptr) ->
+        'a ->
+        'b ->
+        'c ->
+        'd ->
+        'e ->
+        'f ->
+        'g ->
+        'h ->
+        'i ->
+        'j ->
+        'k ->
+        'l ->
+        'm ->
+        'n ->
+        'base ptr ->
+        unit =
+     fun method_name _fn _ret_typ _ret_to_variant _ret_of_variant x_to_variant
+         y_to_variant z_to_variant w_to_variant s_to_variant t_to_variant
+         u_to_variant v_to_variant i_to_variant j_to_variant k_to_variant
+         l_to_variant m_to_variant n_to_variant ->
+      (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+      let string_name = string_name_of_string method_name in
+      (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+      let err = global_call_error in
+      let count = Int64.of_int 14 in
+      fun x y z w s t u v i j k l m n base ->
+        let ret = coerce_ptr variant_ptr.uninit null in
+        let x' = x_to_variant x in
+        let y' = y_to_variant y in
+        let z' = z_to_variant z in
+        let w' = w_to_variant w in
+        let s' = s_to_variant s in
+        let t' = t_to_variant t in
+        let u' = u_to_variant u in
+        let v' = v_to_variant v in
+        let i' = i_to_variant i in
+        let j' = j_to_variant j in
+        let k' = k_to_variant k in
+        let l' = l_to_variant l in
+        let m' = m_to_variant m in
+        let n' = n_to_variant n in
+        let arr =
+          coerce_ptr (ptr variant_ptr.const)
+            (foreign_arr14 x' y' z' w' s' t' u' v' i' j' k' l' m' n')
+        in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
         let () = variant_call base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()

@@ -89,6 +89,7 @@ module C = struct
     let int = 2
     let float = 3
     let string = 4
+    let object_ = 14
     let string_name = 21
   end
 
@@ -276,6 +277,19 @@ module C = struct
       (M.typedef_name "VariantCall")
       (variant_ptr.plain @-> string_name_ptr.const @-> ptr variant_ptr.const
      @-> gint @-> variant_ptr.uninit @-> ptr CallError.s @-> returning void)
+
+  let variant_call_static =
+    dynamic_funptr
+      (variant_type @-> string_name_ptr.const @-> ptr variant_ptr.const @-> gint
+     @-> variant_ptr.uninit @-> ptr CallError.s @-> returning void)
+
+  module VariantCallStatic = (val variant_call_static)
+
+  let variant_call_static =
+    fn_suite
+      (M.typedef_name "VariantCallStatic")
+      (variant_type @-> string_name_ptr.const @-> ptr variant_ptr.const @-> gint
+     @-> variant_ptr.uninit @-> ptr CallError.s @-> returning void)
 
   let class_constructor =
     fn_suite

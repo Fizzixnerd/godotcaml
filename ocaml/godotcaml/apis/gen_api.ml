@@ -152,20 +152,20 @@ module Api = struct
       value : int;
       description : string option; [@yojson.option]
     }
-    [@@deriving yojson]
+    [@@deriving yojson, sexp, hash, equal, compare]
 
     type enum = {
       name : string;
       is_bitfield : bool option; [@yojson.option]
       values : enum_value list;
     }
-    [@@deriving yojson]
+    [@@deriving yojson, sexp, hash, equal, compare]
 
     type return_value = {
       type_ : string; [@key "type"]
       meta : string option; [@yojson.option]
     }
-    [@@deriving yojson]
+    [@@deriving yojson, sexp, hash, equal, compare]
 
     type method_argument = {
       name : string;
@@ -173,7 +173,7 @@ module Api = struct
       meta : string option; [@yojson.option]
       default_value : string option; [@yojson.option]
     }
-    [@@deriving yojson]
+    [@@deriving yojson, sexp, hash, equal, compare]
 
     type method_ = {
       name : string;
@@ -187,24 +187,24 @@ module Api = struct
       arguments : method_argument list option; [@yojson.option]
       description : string option; [@yojson.option]
     }
-    [@@deriving yojson]
+    [@@deriving yojson, sexp, hash, equal, compare]
 
     type constant = {
       name : string;
       value : int;
       description : string option; [@yojson.option]
     }
-    [@@deriving yojson]
+    [@@deriving yojson, sexp, hash, equal, compare]
 
     type signal_argument = { name : string; type_ : string [@key "type"] }
-    [@@deriving yojson]
+    [@@deriving yojson, sexp, hash, equal, compare]
 
     type signal = {
       name : string;
       arguments : signal_argument list option; [@yojson.option]
       description : string option; [@yojson.option]
     }
-    [@@deriving yojson]
+    [@@deriving yojson, sexp, hash, equal, compare]
 
     type property = {
       name : string;
@@ -214,7 +214,7 @@ module Api = struct
       getter : string;
       description : string option; [@yojson.option]
     }
-    [@@deriving yojson]
+    [@@deriving yojson, sexp, hash, equal, compare]
 
     type t = {
       name : string;
@@ -230,7 +230,7 @@ module Api = struct
       brief_description : string option; [@yojson.option]
       description : string option; [@yojson.option]
     }
-    [@@deriving yojson]
+    [@@deriving yojson, sexp, hash, equal, compare]
   end
 
   module Singleton = struct
@@ -331,36 +331,120 @@ module Gen = struct
     ^^ string (String.concat_map ~f:escape contents)
     ^^ string " *)"
 
-  (** Some explanation: This removes the weird `enum::` prefix and replaces it with either "GlobalEnum" if it is unqualified, or leaves it as the qualified enum it is.
-      Also, does the same crap for `typedarray::`... *)
-  let remove_prefix this s =
-    if String.is_prefix ~prefix:"enum::" s then
-      let s' = String.drop_prefix s 6 in
-      if String.contains s '.' then
-        String.split s' ~on:'.' |> function
-        | x :: xs when String.(x = this) -> String.concat ~sep:"." xs
-        | _ :: _ -> s'
-        | _ -> assert false
-      else "GlobalEnum." ^ s'
-    else if String.is_prefix ~prefix:"typedarray::" s then
-      let s' = String.drop_prefix s 12 in
-      s'
-    else if String.is_prefix ~prefix:"bitfield::" s then
-      let s' = String.drop_prefix s 10 in
-      s'
-    else s
+  module NamesSet = Set.Make (String)
 
-  let remove_dots s =
-    String.concat_map ~f:(function '.' -> "" | _ as c -> String.of_char c) s
+  let bic_names =
+    [
+      "Nil";
+      "bool";
+      "int";
+      "float";
+      "String";
+      "Vector2";
+      "Vector2i";
+      "Rect2";
+      "Rect2i";
+      "Vector3";
+      "Vector3i";
+      "Transform2D";
+      "Vector4";
+      "Vector4i";
+      "Plane";
+      "Quaternion";
+      "AABB";
+      "Basis";
+      "Transform3D";
+      "Projection";
+      "Color";
+      "StringName";
+      "NodePath";
+      "RID";
+      "Object";
+      "Callable";
+      "Signal";
+      "Dictionary";
+      "Array";
+      "PackedByteArray";
+      "PackedInt32Array";
+      "PackedInt64Array";
+      "PackedFloat32Array";
+      "PackedFloat64Array";
+      "PackedStringArray";
+      "PackedVector2Array";
+      "PackedVector3Array";
+      "PackedColorArray";
+      "Variant";
+    ]
+    |> NamesSet.of_list
 
   let rec mod_var_str = function
-    | _ as name when String.is_empty name -> assert false
+    | _ as name when String.is_empty name -> ""
     | _ as name when (not (String.is_empty name)) && Char.(name.[0] = '_') ->
         mod_var_str (String.slice name 1 (String.length name))
     | _ as name when String.(capitalize name = name) -> name
     | _ as name -> String.capitalize name
 
   let mod_var s = string (mod_var_str s)
+  let ptr_to s = s ^^ string " ptr"
+
+  let ge_names =
+    NamesSet.of_list
+      [
+        "Side";
+        "Corner";
+        "Orientation";
+        "ClockDirection";
+        "HorizontalAlignment";
+        "VerticalAlignment";
+        "InlineAlignment";
+        "EulerOrder";
+        "Key";
+        "KeyModifierMask";
+        "MouseButton";
+        "MouseButtonMask";
+        "JoyButton";
+        "JoyAxis";
+        "MIDIMessage";
+        "Error";
+        "PropertyHint";
+        "PropertyUsageFlags";
+        "MethodFlags";
+      ]
+
+  let qualify_nicely _this s' =
+    s' |> String.split ~on:'.'
+    |> (function
+         | x :: xs
+           when String.(
+                  x = "Variadic" || x = "VariadicVariants" || x = "Void"
+                  || x = "void") ->
+             x :: xs
+         | x :: y :: zs when String.(x = "Variant") ->
+             "GlobalEnum" :: (x ^ y) :: zs
+         | x :: xs when x |> Set.mem ge_names -> "GlobalEnum" :: x :: xs
+         | x :: xs when x |> Set.mem bic_names ->
+             "BuiltinClass0" :: mod_var_str x :: xs
+         | x :: xs -> "Class0" :: mod_var_str x :: xs
+         | ys -> ys)
+    |> String.concat ~sep:"."
+
+  (** Some explanation: This removes the weird `enum::` prefix and replaces it with either "GlobalEnum" if it is unqualified, or leaves it as the qualified enum it is...
+      Also, does the same stuff for `typedarray::` and `bitfield::`... *)
+  let remove_prefix this s =
+    (if String.is_prefix ~prefix:"enum::" s then
+       let s' = String.drop_prefix s 6 in
+       s'
+     else if String.is_prefix ~prefix:"typedarray::" s then
+       let s' = String.drop_prefix s 12 in
+       s'
+     else if String.is_prefix ~prefix:"bitfield::" s then
+       let s' = String.drop_prefix s 10 in
+       s'
+     else s)
+    |> qualify_nicely this
+
+  let remove_dots s =
+    String.concat_map ~f:(function '.' -> "" | _ as c -> String.of_char c) s
 
   let var_str name =
     match name with
@@ -421,6 +505,14 @@ module Gen = struct
    fun t1 t2 rty ->
     string
     @@ sprintf "(%s.typ @-> %s.typ @-> %s.typ @-> returning void)"
+         (mod_var_str t1) (mod_var_str t2) (mod_var_str rty)
+
+  let binary_op_val_type : string -> string -> string -> ocaml =
+   fun t1 t2 rty ->
+    string
+    @@ sprintf
+         "(%s.t structure ptr -> %s.t structure ptr -> %s.t structure ptr -> \
+          unit)"
          (mod_var_str t1) (mod_var_str t2) (mod_var_str rty)
 
   let to_type_enum s =
@@ -501,15 +593,22 @@ module Gen = struct
   end
 
   (** Qualify a name as (roughly) <name>.t`. *)
-  let qualified_t this name =
-    if String.(name <> this) then mod_var name ^^ string ".t" else string "t"
+  let qualified_t _this name =
+    if String.(name <> "") then mod_var name ^^ string ".t" else string "t"
 
-  let qualified_typ this name =
-    if String.(name <> this) then mod_var name ^^ string ".typ"
-    else string "typ"
+  let qualified_typ _this name =
+    if String.(name <> "") then mod_var name ^^ string ".typ" else string "typ"
 
-  let qualified_s this name =
-    if String.(name <> this) then mod_var name ^^ string ".s" else string "s"
+  let qualified_s _this name =
+    if String.(name <> "") then mod_var name ^^ string ".s" else string "s"
+
+  let qualified_st _this name =
+    if String.(name <> "") then mod_var name ^^ string ".t structure"
+    else string "t structure"
+
+  let unqualified_st _this name =
+    if String.(name <> "") then mod_var name ^^ string ".t structure"
+    else string "t structure"
 
   module UtilityFunction = struct
     open Api.UtilityFunction
@@ -569,21 +668,34 @@ module Gen = struct
       let ty = qualified_typ this arg.type_ in
       ty ^^ string " @-> "
 
+    let argument_to_mli_fragment : string -> argument -> ocaml =
+     fun this arg ->
+      let ty =
+        if String.(arg.type_ = "void") then string "unit"
+        else ptr_to @@ qualified_st this (remove_prefix this arg.type_)
+      in
+      ty ^^ string " -> "
+
     let return_type_to_ocaml_fragment : string -> string -> ocaml =
      fun this return_type ->
       string "returning " ^^ qualified_typ this return_type
+
+    let return_type_to_mli_fragment : string -> string -> ocaml =
+     fun this return_type ->
+      if String.(return_type = "void") then string "unit"
+      else ptr_to @@ qualified_st this (remove_prefix this return_type)
 
     let assemble_type : ocaml list -> ocaml -> ocaml =
      fun ty_frags return_ty ->
       PPrint.parens (PPrint.concat ty_frags ^^ return_ty)
 
-    let mktype this args return_type is_static is_vararg =
+    let mktype' f g this args return_type is_static is_vararg =
       let primary_arguments = args |> Option.value ~default:[] in
       let var_arg =
         [
           {
             name = "variadic_args";
-            type_ = "variadic";
+            type_ = "Variadic";
             meta = None;
             default_value = None;
           };
@@ -609,17 +721,16 @@ module Gen = struct
         | args, false, true -> args @ var_arg @ self_arg
         | args, false, false -> args @ self_arg
       in
-      let return_type =
-        return_type
-        |> Option.value ~default:"void"
-        |> return_type_to_ocaml_fragment this
-      in
+      let return_type = return_type |> Option.value ~default:"void" |> g this in
       let method_type =
-        assemble_type
-          (List.map ~f:(argument_to_ocaml_fragment this) arguments)
-          return_type
+        assemble_type (List.map ~f:(f this) arguments) return_type
       in
       method_type
+
+    let mktype =
+      mktype' argument_to_ocaml_fragment return_type_to_ocaml_fragment
+
+    let mkvaltype = mktype' argument_to_mli_fragment return_type_to_mli_fragment
 
     let method_to_ocaml : string -> method_ -> ocaml =
      fun this meth ->
@@ -647,6 +758,16 @@ module Gen = struct
         ^/^ t ^/^ qualified_s this ret_type
       in
       dc ^/^ let_ method_name (rhs (var method_name) method_type)
+
+    let method_to_mli : string -> method_ -> ocaml =
+     fun this meth ->
+      let method_name = meth.name in
+      let dc = meth.description |> PPrint.optional doc_comment in
+      let method_type =
+        mkvaltype this meth.arguments meth.return_type meth.is_static
+          meth.is_vararg
+      in
+      dc ^/^ val_ method_name method_type
 
     let constructor_to_ocaml : string -> constructor -> ocaml =
      fun this cons ->
@@ -726,11 +847,53 @@ module Gen = struct
       |> Option.map ~f:(fun the_rhs -> dc ^/^ let_ lhs the_rhs)
       |> Option.value ~default:(string "")
 
+    let operator_to_mli : string -> operator -> ocaml =
+     fun this op ->
+      let type_ : ocaml option =
+        match (op.name, op.right_type) with
+        | ( "in",
+            Some
+              (( "Dictionary" | "Array" | "Object" | "PackedByteArray"
+               | "PackedStringArray" | "PackedInt32Array" | "PackedInt64Array"
+               | "PackedFloat32Array" | "PackedFloat64Array" | "String"
+               | "StringName" | "PackedVector2Array" | "PackedVector3Array"
+               | "PackedVector4Array" | "PackedColorArray" ) as t) ) ->
+            Some (binary_op_val_type this t op.return_type)
+        | "in", _ ->
+            (* Should have covered all the cases; fail otherwise for my sake. *)
+            assert false
+        | _op_name, None ->
+            (* Unary operators. *)
+            Some (binary_op_val_type this this op.return_type)
+        | _op_name, Some t when String.(t = this) ->
+            (* Normal path: binary operator. *)
+            Some (binary_op_val_type this t op.return_type)
+        | _ ->
+            (* We don't care about the forest of pointless operators.
+               We will provide Variant-polymorphic ones if you need them. *)
+            None
+      in
+      let lhs = Map.find_exn op_ocaml_names op.name in
+      let lhs =
+        if String.(lhs = "elem") then
+          this ^ "_elem_" ^ Option.value_exn op.right_type
+        else lhs
+      in
+      let dc = op.description |> PPrint.optional doc_comment in
+      type_
+      |> Option.map ~f:(fun the_type -> dc ^/^ val_ lhs the_type)
+      |> Option.value ~default:(string "")
+
     let enum_value_to_ocaml : enum_value -> ocaml =
      fun value ->
       let dc = optional doc_comment value.description in
       let int_value = value.value in
       dc ^/^ let_ value.name (OCaml.int int_value)
+
+    let enum_value_to_mli : enum_value -> ocaml =
+     fun value ->
+      let dc = optional doc_comment value.description in
+      dc ^/^ val_ value.name (string "int")
 
     let enum_to_ocaml : enum -> ocaml =
      fun e ->
@@ -739,6 +902,18 @@ module Gen = struct
       let enum_t_def = string "type t = Int.t" in
       let enum_typ_def = let_ "typ" (string "Int.typ") in
       module_ module_name (enum_t_def :: enum_typ_def :: defs)
+
+    let enum_to_mli : enum -> ocaml =
+     fun e ->
+      let module_name = String.uppercase (remove_dots e.name) in
+      let decls = e.values |> List.map ~f:enum_value_to_mli in
+      let enum_t_def = string "type t" in
+      let enum_typ_def = val_ "typ" (string "Int.t structure ptr typ") in
+      string "module " ^^ string module_name ^^ string " : sig "
+      ^^ PPrint.concat_map
+           (fun x -> x ^^ hardline ^^ hardline)
+           (enum_t_def :: enum_typ_def :: decls)
+      ^^ string "end"
 
     let constant_to_ocaml : constant -> ocaml =
      fun c ->
@@ -763,8 +938,32 @@ module Gen = struct
       module_ bic.name
         (string (sprintf "include M.%s\n" (mod_var_str bic.name)) :: defs)
 
+    let t_to_mli : t -> ocaml =
+     fun bic ->
+      let decls =
+        List.concat
+          [
+            [
+              string "type t" ^^ hardline;
+              string "include Api_types.API_TYPE with type t := t"
+              ^^ hardline ^^ hardline;
+            ];
+            List.map ~f:(method_to_mli bic.name)
+              (bic.methods |> Option.value ~default:[]);
+            List.map ~f:(operator_to_mli bic.name)
+              (bic.operators |> Option.value ~default:[]);
+            List.map ~f:enum_to_mli (bic.enums |> Option.value ~default:[]);
+            (* List.map ~f:constant_to_ocaml
+               (bic.constants |> Option.value ~default:[]); *)
+          ]
+      in
+      module_type (String.uppercase bic.name) decls
+
     let t_list_to_ocaml : t list -> ocaml =
-     fun bics -> bics |> List.map ~f:t_to_ocaml |> module_ "BuiltinClass"
+     fun bics ->
+      let mli = bics |> List.map ~f:t_to_mli in
+      let ml = bics |> List.map ~f:t_to_ocaml in
+      mli @ ml |> module_ "BuiltinClass"
   end
 
   module Class = struct
@@ -790,7 +989,7 @@ module Gen = struct
 
     let enum_to_mli : enum -> ocaml =
      fun e ->
-      let module_name = remove_dots e.name in
+      let module_name = String.uppercase (remove_dots e.name) in
       let defs = e.values |> List.map ~f:enum_value_to_mli in
       let include_int = string "include ApiTypes.INT" in
       module_type module_name (include_int :: defs)
@@ -802,7 +1001,10 @@ module Gen = struct
 
     let method_argument_to_mli_fragment : string -> method_argument -> ocaml =
      fun this arg ->
-      let ty = qualified_t this (remove_prefix this arg.type_) in
+      let ty =
+        if String.(arg.type_ = "void") then string "unit"
+        else ptr_to @@ unqualified_st this (remove_prefix this arg.type_)
+      in
       ty ^^ string " -> "
 
     let signal_argument_to_ocaml_fragment : string -> signal_argument -> ocaml =
@@ -812,7 +1014,10 @@ module Gen = struct
 
     let signal_argument_to_mli_fragment : string -> signal_argument -> ocaml =
      fun this arg ->
-      let ty = qualified_t this (remove_prefix this arg.type_) in
+      let ty =
+        if String.(arg.type_ = "void") then string "unit"
+        else ptr_to @@ unqualified_st this (remove_prefix this arg.type_)
+      in
       ty ^^ string " -> "
 
     let return_type_to_ocaml_fragment : string -> string -> ocaml =
@@ -822,7 +1027,7 @@ module Gen = struct
     let return_type_to_mli_fragment : string -> string -> ocaml =
      fun this return_type ->
       if String.(return_type = "void") then string "unit"
-      else qualified_t this (remove_prefix this return_type)
+      else ptr_to @@ unqualified_st this (remove_prefix this return_type)
 
     let assemble_type : ocaml list -> ocaml -> ocaml =
      fun ty_frags return_ty ->
@@ -834,7 +1039,7 @@ module Gen = struct
         [
           {
             name = "variadic_args";
-            type_ = "variadic";
+            type_ = "VariadicVariants";
             meta = None;
             default_value = None;
           };
@@ -994,8 +1199,8 @@ module Gen = struct
               (c.constants |> Option.value ~default:[]);
             List.map ~f:(method_to_ocaml c.name)
               (c.methods |> Option.value ~default:[]);
-            List.map ~f:(signal_to_ocaml c.name)
-              (c.signals |> Option.value ~default:[]);
+            (* List.map ~f:(signal_to_ocaml c.name)
+               (c.signals |> Option.value ~default:[]); *)
           ]
       in
       if n = 0 then module_rec c.name defs else module_and c.name defs
@@ -1014,8 +1219,8 @@ module Gen = struct
             List.map ~f:constant_to_mli (c.constants |> Option.value ~default:[]);
             List.map ~f:(method_to_mli c.name)
               (c.methods |> Option.value ~default:[]);
-            List.map ~f:(signal_to_mli c.name)
-              (c.signals |> Option.value ~default:[]);
+            (* List.map ~f:(signal_to_mli c.name)
+               (c.signals |> Option.value ~default:[]); *)
           ]
       in
       module_type (String.uppercase c.name) decls
@@ -1023,7 +1228,8 @@ module Gen = struct
     let t_list_to_ocaml : t list -> ocaml =
      fun cs ->
       let blacklist_regex =
-        [ "OpenXR"; "Audio"; "Movie" ] |> List.map ~f:Re.str |> Re.alt
+        [ "OpenXR"; "Audio"; "Movie"; "TextServer" ]
+        |> List.map ~f:Re.str |> Re.alt
         |> fun x ->
         Re.seq [ x; Re.any ] |> fun x ->
         Re.alt [ x; Re.seq [ Re.any; Re.str "Extension" ] ] |> Re.compile
@@ -1068,8 +1274,16 @@ module Gen = struct
 
   let gen_final_api_type type_name =
     if String.(type_name = "Variant") then
-      string
-        {|
+      module_type
+        (String.uppercase type_name)
+        (List.map ~f:string
+           [
+             "include Api_types.SUB_API_TYPE";
+             "val to_variant : t structure ptr -> C.variant_ptr structure ptr";
+             "val of_variant : C.variant_ptr structure ptr -> t structure ptr";
+           ])
+      ^/^ string
+            {|
       module Variant = struct
         include Variant
 
@@ -1078,9 +1292,18 @@ module Gen = struct
       end
       |}
     else
-      string
-        (sprintf
-           {|
+      module_type
+        (String.uppercase type_name)
+        (List.map ~f:string [ "include Api_types.API_TYPE" ]
+        @ [
+            val_ "to_variant"
+              (string "t structure ptr -> C.variant_ptr structure ptr");
+            val_ "of_variant"
+              (string "C.variant_ptr structure ptr-> t structure ptr");
+          ])
+      ^/^ string
+            (sprintf
+               {|
     module %s = struct
       include %s
       include Conv.%s
@@ -1102,8 +1325,8 @@ module Gen = struct
 
     end
     |}
-           (mod_var_str type_name) (mod_var_str type_name)
-           (mod_var_str type_name))
+               (mod_var_str type_name) (mod_var_str type_name)
+               (mod_var_str type_name))
 
   let gen_api_types : string list -> ocaml =
    fun type_names ->
@@ -1177,22 +1400,115 @@ module Gen = struct
     end
     |}
 
-  let gen_foreign_api_module_type : string list -> ocaml =
-   fun type_names ->
-    string
-      (sprintf
-         {|
-    module type FOREIGN_API = sig
-      %s
+  (* let gen_foreign_api_module_type : string list -> ocaml =
+     fun type_names ->
+      string
+        (sprintf
+           {|
+      module type FOREIGN_API = sig
+        %s
 
-      val foreign_operator : int -> int option -> int -> PtrOperatorEvaluator.t
-    end
-    |}
-         (String.concat ~sep:"\n"
-            (List.map type_names ~f:(fun tn ->
-                 if String.(tn <> "Variant") then
-                   sprintf "module %s : API_TYPE" (mod_var_str tn)
-                 else "module Variant : SUB_API_TYPE"))))
+        val foreign_operator : int -> int option -> int -> PtrOperatorEvaluator.t
+      end
+      |}
+           (String.concat ~sep:"\n"
+              (List.map type_names ~f:(fun tn ->
+                   if String.(tn <> "Variant") then
+                     sprintf "module %s : API_TYPE" (mod_var_str tn)
+                   else "module Variant : SUB_API_TYPE"))))
+  *)
+  let gen_pre_class_type_defs (cs : Api.Class.t list) : ocaml =
+    cs
+    |> List.map ~f:(fun c ->
+           [
+             string "include ApiTypes.Object";
+             c.enums |> Option.value ~default:[]
+             |> List.map ~f:(fun e ->
+                    [ string "include ApiTypes.Int" ]
+                    |> module_ (mod_var_str e.name)
+                    |> fun x -> x ^^ hardline)
+             |> PPrint.concat;
+           ]
+           |> module_ (mod_var_str c.name)
+           |> fun x -> x ^^ hardline)
+    |> module_ "Class0"
+
+  let gen_pre_builtin_class_type_defs (bics : Api.BuiltinClass.t list) : ocaml =
+    let variant =
+      Api.BuiltinClass.
+        {
+          name = "Variant";
+          indexing_return_type = None;
+          is_keyed = false;
+          members = None;
+          constants = None;
+          enums = None;
+          methods = None;
+          operators = None;
+          constructors = None;
+          has_destructor = false;
+          brief_description = None;
+          description = None;
+        }
+    in
+    let object_ =
+      Api.BuiltinClass.
+        {
+          name = "Object";
+          indexing_return_type = None;
+          is_keyed = false;
+          members = None;
+          constants = None;
+          enums = None;
+          methods = None;
+          operators = None;
+          constructors = None;
+          has_destructor = false;
+          brief_description = None;
+          description = None;
+        }
+    in
+    object_ :: variant :: bics
+    |> List.map ~f:(fun c ->
+           [
+             string ("include ApiTypes." ^ mod_var_str c.name);
+             c.enums |> Option.value ~default:[]
+             |> List.map ~f:(fun e ->
+                    [ string "include ApiTypes.Int" ]
+                    |> module_ (mod_var_str e.name)
+                    |> fun x -> x ^^ hardline)
+             |> PPrint.concat;
+           ]
+           |> module_ (mod_var_str c.name)
+           |> fun x -> x ^^ hardline)
+    |> module_ "BuiltinClass0"
+end
+
+module DepSort = struct
+  open Topological_sort
+  module ClassMap = Map.Make (String)
+
+  let get_edges : Api.Class.t ClassMap.t -> Api.Class.t Edge.t list =
+   fun classes ->
+    classes |> Map.to_alist
+    |> List.filter_map ~f:(fun (_name, c) ->
+           c.inherits
+           |> Option.map ~f:(fun inherit_ ->
+                  let from = Map.find_exn classes inherit_ in
+                  let to_ = c in
+                  { Edge.from; to_ })
+           |> Option.value
+                ~default:{ from = Map.find_exn classes "Object"; to_ = c }
+           |> fun x ->
+           Option.some_if String.(x.Edge.to_.Api.Class.name <> x.from.name) x)
+
+  let get_nodes : Api.Class.t ClassMap.t -> Api.Class.t list =
+   fun classes -> classes |> Map.to_alist |> List.map ~f:snd
+
+  let sort class_map =
+    Topological_sort.sort
+      (module Api.Class)
+      ~what:What.Nodes ~nodes:(get_nodes class_map) ~edges:(get_edges class_map)
 end
 
 let () =
@@ -1200,6 +1516,12 @@ let () =
   let contents = In_channel.read_all "./extension_api.json" in
   let api_json = Yojson.Safe.from_string contents in
   let api = Api.t_of_yojson api_json in
+  let class_map =
+    api.classes
+    |> List.map ~f:(fun c -> (c.name, c))
+    |> DepSort.ClassMap.of_alist_exn
+  in
+  let classes_topsorted = DepSort.sort class_map |> Or_error.ok_exn in
   [
     Gen.GlobalEnum.t_list_to_ocaml api.global_enums ^^ hardline ^^ hardline;
     Gen.BuiltinClassSize.t_list_to_ocaml api.builtin_class_sizes
@@ -1220,7 +1542,7 @@ let () =
     string "open C" ^^ hardline ^^ hardline;
     Gen.gen_class_sizes_module_type type_names ^^ hardline ^^ hardline;
     Gen.gen_api_type_module_type () ^^ hardline;
-    Gen.gen_foreign_api_module_type type_names ^^ hardline;
+    (* Gen.gen_foreign_api_module_type type_names ^^ hardline; *)
     Gen.gen_api_types type_names;
   ]
   |> PPrint.concat
@@ -1239,7 +1561,34 @@ let () =
     Gen.gen_final_global_enums api.global_enums ^^ hardline ^^ hardline;
     Gen.UtilityFunction.t_list_to_ocaml api.utility_functions
     ^^ hardline ^^ hardline;
+    Gen.gen_pre_builtin_class_type_defs api.builtin_classes
+    ^^ hardline ^^ hardline;
     Gen.BuiltinClass.t_list_to_ocaml api.builtin_classes ^^ hardline ^^ hardline;
-    Gen.Class.t_list_to_ocaml api.classes ^^ hardline ^^ hardline;
   ]
-  |> PPrint.concat |> Gen.gen_file "api.ml"
+  |> PPrint.concat
+  |> Gen.gen_file "api_builtins.ml";
+
+  [
+    string "open! Base" ^^ hardline;
+    string "open Foreign_api" ^^ hardline;
+    string "open Foreign_api.Godotcaml" ^^ hardline;
+    string "open Ctypes" ^^ hardline;
+    string "module M = Foreign_api.Make(Api_types.ClassSizes)" ^^ hardline;
+    string "open M" ^^ hardline ^^ hardline;
+    string "let funptr = Foreign.funptr" ^^ hardline;
+    string "open Api_builtins" ^^ hardline;
+    Gen.gen_pre_class_type_defs classes_topsorted ^^ hardline ^^ hardline;
+    Gen.Class.t_list_to_ocaml classes_topsorted ^^ hardline ^^ hardline;
+  ]
+  |> PPrint.concat
+  |> Gen.gen_file "api_classes.ml";
+
+  ()
+
+(* form the bicnames list *)
+(* for x = 0 to List.length api.global_enums - 1 do
+     printf "%s\n"
+       ( api.global_enums |> List.map ~f:(fun x -> x.name) |> fun y ->
+         List.nth_exn y x )
+   done
+*)

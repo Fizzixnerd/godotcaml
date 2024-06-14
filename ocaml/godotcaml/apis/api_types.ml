@@ -64,50 +64,6 @@ module type API_TYPE = sig
     t structure ptr -> type_ptr structure Godotcaml.TypedSuite.plain ptr
 end
 
-module type FOREIGN_API = sig
-  module Nil : API_TYPE
-  module Bool : API_TYPE
-  module Int : API_TYPE
-  module Float : API_TYPE
-  module String : API_TYPE
-  module Vector2 : API_TYPE
-  module Vector2i : API_TYPE
-  module Rect2 : API_TYPE
-  module Rect2i : API_TYPE
-  module Vector3 : API_TYPE
-  module Vector3i : API_TYPE
-  module Transform2D : API_TYPE
-  module Vector4 : API_TYPE
-  module Vector4i : API_TYPE
-  module Plane : API_TYPE
-  module Quaternion : API_TYPE
-  module AABB : API_TYPE
-  module Basis : API_TYPE
-  module Transform3D : API_TYPE
-  module Projection : API_TYPE
-  module Color : API_TYPE
-  module StringName : API_TYPE
-  module NodePath : API_TYPE
-  module RID : API_TYPE
-  module Object : API_TYPE
-  module Callable : API_TYPE
-  module Signal : API_TYPE
-  module Dictionary : API_TYPE
-  module Array : API_TYPE
-  module PackedByteArray : API_TYPE
-  module PackedInt32Array : API_TYPE
-  module PackedInt64Array : API_TYPE
-  module PackedFloat32Array : API_TYPE
-  module PackedFloat64Array : API_TYPE
-  module PackedStringArray : API_TYPE
-  module PackedVector2Array : API_TYPE
-  module PackedVector3Array : API_TYPE
-  module PackedColorArray : API_TYPE
-  module Variant : SUB_API_TYPE
-
-  val foreign_operator : int -> int option -> int -> PtrOperatorEvaluator.t
-end
-
 module ApiTypes = struct
   module Nil = struct
     type t
