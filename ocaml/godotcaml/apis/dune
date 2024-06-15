@@ -13,9 +13,9 @@
  (flags (:standard -g -w -32)))
 
 (executable
- (modules Api_classes Api_classes_intf Api_builtins Foreign_api Api_types Toy_api Conv)
+ (modules My_ocaml_extension Api_classes Api_classes_intf Api_builtins Foreign_api Api_types Conv)
  (modes (native (shared_object)))
- (name api_classes)
+ (name my_ocaml_extension)
  (foreign_stubs (language c) (names hello-gdextension))
  (libraries core yojson pprint ctypes godotcaml)
  (preprocess (pps ppx_jane ppx_yojson_conv))

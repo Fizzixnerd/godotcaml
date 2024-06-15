@@ -147,9 +147,9 @@ functor
       let () = () (* call destructor for string_name here. *) in
       ret
 
-    let variant_call = get_fun "variant_call" variant_call.typ
+    let variant_call () = get_fun "variant_call" variant_call.typ
 
-    let variant_call_static =
+    let variant_call_static () =
       get_fun "variant_call_static" variant_call_static.typ
 
     let get_variant_from_type_constructor variant_type
@@ -1200,7 +1200,7 @@ functor
         in
         let arr = coerce_ptr (ptr variant_ptr.const) foreign_arr0 in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -1222,7 +1222,8 @@ functor
         let ret = coerce_ptr variant_ptr.uninit null in
         let arr = coerce_ptr (ptr variant_ptr.const) foreign_arr0 in
         let () =
-          variant_call_static VariantType.object_ string_name arr count ret err
+          variant_call_static () VariantType.object_ string_name arr count ret
+            err
         in
         if is_error err then raise (to_exn err) else ()
 
@@ -1248,7 +1249,7 @@ functor
         in
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arrv vs) in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -1274,7 +1275,8 @@ functor
         in
         let arr = coerce_ptr (ptr variant_ptr.const) foreign_arr0 in
         let () =
-          variant_call_static VariantType.object_ string_name arr count ret err
+          variant_call_static () VariantType.object_ string_name arr count ret
+            err
         in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
@@ -1297,7 +1299,7 @@ functor
         let ret = coerce_ptr variant_ptr.uninit null in
         let arr = coerce_ptr (ptr variant_ptr.const) foreign_arr0 in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method1v :
@@ -1328,7 +1330,7 @@ functor
             (foreign_arrv (coerce_ptr variant_ptr.const x' :: vs))
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -1357,7 +1359,7 @@ functor
             (foreign_arrv (coerce_ptr variant_ptr.const x' :: vs))
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method1 :
@@ -1384,7 +1386,7 @@ functor
         let x' = x_to_variant x in
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr1 x') in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -1409,7 +1411,7 @@ functor
         let x' = x_to_variant x in
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr1 x') in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method1_void_static :
@@ -1432,7 +1434,8 @@ functor
         let x' = x_to_variant x in
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr1 x') in
         let () =
-          variant_call_static VariantType.object_ string_name arr count ret err
+          variant_call_static () VariantType.object_ string_name arr count ret
+            err
         in
         if is_error err then raise (to_exn err) else ()
 
@@ -1459,7 +1462,8 @@ functor
         let x' = x_to_variant x in
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr1 x') in
         let () =
-          variant_call_static VariantType.object_ string_name arr count ret err
+          variant_call_static () VariantType.object_ string_name arr count ret
+            err
         in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
@@ -1492,7 +1496,7 @@ functor
         let y' = y_to_variant y in
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr2 x' y') in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -1523,7 +1527,8 @@ functor
         let y' = y_to_variant y in
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr2 x' y') in
         let () =
-          variant_call_static VariantType.object_ string_name arr count ret err
+          variant_call_static () VariantType.object_ string_name arr count ret
+            err
         in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
@@ -1552,7 +1557,8 @@ functor
         let y' = y_to_variant y in
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr2 x' y') in
         let () =
-          variant_call_static VariantType.object_ string_name arr count ret err
+          variant_call_static () VariantType.object_ string_name arr count ret
+            err
         in
         if is_error err then raise (to_exn err) else ()
 
@@ -1591,7 +1597,7 @@ functor
                :: vs))
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -1620,7 +1626,7 @@ functor
         let y' = y_to_variant y in
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr2 x' y') in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method2v_void :
@@ -1655,7 +1661,7 @@ functor
                :: vs))
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method3 :
@@ -1689,7 +1695,7 @@ functor
         let z' = z_to_variant z in
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr3 x' y' z') in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -1723,7 +1729,8 @@ functor
         let z' = z_to_variant z in
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr3 x' y' z') in
         let () =
-          variant_call_static VariantType.object_ string_name arr count ret err
+          variant_call_static () VariantType.object_ string_name arr count ret
+            err
         in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
@@ -1756,7 +1763,7 @@ functor
         let z' = z_to_variant z in
         let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr3 x' y' z') in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method3v_void :
@@ -1795,7 +1802,7 @@ functor
                :: vs))
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method4 :
@@ -1834,7 +1841,7 @@ functor
           coerce_ptr (ptr variant_ptr.const) (foreign_arr4 x' y' z' w')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -1873,7 +1880,8 @@ functor
           coerce_ptr (ptr variant_ptr.const) (foreign_arr4 x' y' z' w')
         in
         let () =
-          variant_call_static VariantType.object_ string_name arr count ret err
+          variant_call_static () VariantType.object_ string_name arr count ret
+            err
         in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
@@ -1911,7 +1919,7 @@ functor
           coerce_ptr (ptr variant_ptr.const) (foreign_arr4 x' y' z' w')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method5 :
@@ -1953,7 +1961,7 @@ functor
           coerce_ptr (ptr variant_ptr.const) (foreign_arr5 x' y' z' w' s')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -1993,7 +2001,7 @@ functor
           coerce_ptr (ptr variant_ptr.const) (foreign_arr5 x' y' z' w' s')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method5_static :
@@ -2034,7 +2042,8 @@ functor
           coerce_ptr (ptr variant_ptr.const) (foreign_arr5 x' y' z' w' s')
         in
         let () =
-          variant_call_static VariantType.object_ string_name arr count ret err
+          variant_call_static () VariantType.object_ string_name arr count ret
+            err
         in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
@@ -2081,7 +2090,7 @@ functor
           coerce_ptr (ptr variant_ptr.const) (foreign_arr6 x' y' z' w' s' t')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -2126,7 +2135,8 @@ functor
           coerce_ptr (ptr variant_ptr.const) (foreign_arr6 x' y' z' w' s' t')
         in
         let () =
-          variant_call_static VariantType.object_ string_name arr count ret err
+          variant_call_static () VariantType.object_ string_name arr count ret
+            err
         in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
@@ -2170,7 +2180,7 @@ functor
           coerce_ptr (ptr variant_ptr.const) (foreign_arr6 x' y' z' w' s' t')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method7 :
@@ -2219,7 +2229,7 @@ functor
           coerce_ptr (ptr variant_ptr.const) (foreign_arr7 x' y' z' w' s' t' u')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -2266,7 +2276,7 @@ functor
           coerce_ptr (ptr variant_ptr.const) (foreign_arr7 x' y' z' w' s' t' u')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method8 :
@@ -2319,7 +2329,7 @@ functor
             (foreign_arr8 x' y' z' w' s' t' u' v')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -2370,7 +2380,7 @@ functor
             (foreign_arr8 x' y' z' w' s' t' u' v')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method9 :
@@ -2437,7 +2447,7 @@ functor
             (foreign_arr9 x' y' z' w' s' t' u' v' i')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -2502,7 +2512,7 @@ functor
             (foreign_arr9 x' y' z' w' s' t' u' v' i')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method10 :
@@ -2573,7 +2583,7 @@ functor
             (foreign_arr10 x' y' z' w' s' t' u' v' i' j')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -2642,7 +2652,7 @@ functor
             (foreign_arr10 x' y' z' w' s' t' u' v' i' j')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method11 :
@@ -2695,7 +2705,7 @@ functor
       let string_name = string_name_of_string method_name in
       (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
       let err = global_call_error in
-      let count = Int64.of_int 10 in
+      let count = Int64.of_int 11 in
       fun x y z w s t u v i j k base ->
         let ret =
           coerce_ptr variant_ptr.uninit
@@ -2717,7 +2727,7 @@ functor
             (foreign_arr11 x' y' z' w' s' t' u' v' i' j' k')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         let ret = coerce_ptr variant_ptr.plain ret in
         if is_error err then raise (to_exn err) else ret_of_variant ret
 
@@ -2790,7 +2800,7 @@ functor
             (foreign_arr11 x' y' z' w' s' t' u' v' i' j' k')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method12_void :
@@ -2867,7 +2877,7 @@ functor
             (foreign_arr12 x' y' z' w' s' t' u' v' i' j' k' l')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method13_void :
@@ -2948,7 +2958,7 @@ functor
             (foreign_arr13 x' y' z' w' s' t' u' v' i' j' k' l' m')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
 
     let foreign_method14_void :
@@ -3033,6 +3043,6 @@ functor
             (foreign_arr14 x' y' z' w' s' t' u' v' i' j' k' l' m' n')
         in
         let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-        let () = variant_call base string_name arr count ret err in
+        let () = variant_call () base string_name arr count ret err in
         if is_error err then raise (to_exn err) else ()
   end

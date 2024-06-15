@@ -460,7 +460,14 @@ module Gen = struct
   let var name = string (var_str name)
 
   let let_ name value =
-    string "let " ^^ var name ^^ string " =" ^/^ nest 2 value
+    string "let " ^^ var name ^^ string " = " ^/^ nest 2 value
+
+  let let_fun n name value =
+    let args =
+      List.range 0 n |> List.map ~f:(fun k -> string (sprintf " x%i " k))
+    in
+    string "let " ^^ var name ^^ PPrint.concat args ^^ string " = "
+    ^/^ nest 2 value ^^ PPrint.concat args
 
   let val_ name type_ =
     string "val " ^^ var name ^^ string " : " ^/^ nest 2 type_
@@ -654,7 +661,7 @@ module Gen = struct
       in
       let fun_name = var uf.name in
       let dc = uf.description |> PPrint.optional doc_comment in
-      dc ^/^ let_ uf.name (rhs fun_name c_type)
+      dc ^/^ let_fun (List.length ty_frags) uf.name (rhs fun_name c_type)
 
     let t_list_to_ocaml : t list -> ocaml =
      fun ufs -> module_ "UtilityFunction" (List.map ~f:t_to_ocaml ufs)
@@ -757,7 +764,11 @@ module Gen = struct
               ^^ OCaml.int64 meth.hash ^^ string "\"")
         ^/^ t ^/^ qualified_s this ret_type
       in
-      dc ^/^ let_ method_name (rhs (var method_name) method_type)
+      dc
+      ^/^ let_fun
+            (count + if meth.is_static then 0 else 1)
+            method_name
+            (rhs (var method_name) method_type)
 
     let method_to_mli : string -> method_ -> ocaml =
      fun this meth ->
@@ -844,7 +855,7 @@ module Gen = struct
       in
       let dc = op.description |> PPrint.optional doc_comment in
       rhs
-      |> Option.map ~f:(fun the_rhs -> dc ^/^ let_ lhs the_rhs)
+      |> Option.map ~f:(fun the_rhs -> dc ^/^ let_fun 3 lhs the_rhs)
       |> Option.value ~default:(string "")
 
     let operator_to_mli : string -> operator -> ocaml =
@@ -1131,7 +1142,11 @@ module Gen = struct
         ^/^ qualified_s this ret_type ^/^ ret_to_variant ^/^ variant_to_ret
         ^/^ args_to_variants
       in
-      dc ^/^ let_ (var_str method_name) (rhs method_name method_type)
+      dc
+      ^/^ let_fun
+            (count + if meth.is_static then 0 else 1)
+            (var_str method_name)
+            (rhs method_name method_type)
 
     let method_to_mli : string -> method_ -> ocaml =
      fun this meth ->
@@ -1308,18 +1323,15 @@ module Gen = struct
       include %s
       include Conv.%s
 
-      let to_variantizer = get_variant_from_type_constructor type_enum typ
-      let of_variantizer = get_variant_to_type_constructor type_enum typ
-
       let to_variant : t structure ptr -> C.variant_ptr structure ptr = fun x ->
         let new_variant_ptr = coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1) in
-        let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+        let () = get_variant_from_type_constructor type_enum typ new_variant_ptr (coerce_ptr typ x) in
         let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
         inited_variant_ptr
 
       let of_variant : C.variant_ptr structure ptr -> t structure ptr = fun x ->
         let new_type_ptr = gc_alloc s ~count:1 in
-        let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+        let () = get_variant_to_type_constructor type_enum typ (coerce_ptr typ new_type_ptr) x in
         let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
         inited_type_ptr
 

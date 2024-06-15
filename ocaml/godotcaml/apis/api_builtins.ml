@@ -23,22 +23,26 @@ module ApiTypes = struct
     include Nil
     include Conv.Nil
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -54,22 +58,26 @@ module ApiTypes = struct
     include Bool
     include Conv.Bool
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -85,22 +93,26 @@ module ApiTypes = struct
     include Int
     include Conv.Int
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -116,22 +128,26 @@ module ApiTypes = struct
     include Float
     include Conv.Float
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -147,22 +163,26 @@ module ApiTypes = struct
     include String
     include Conv.String
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -178,22 +198,26 @@ module ApiTypes = struct
     include Vector2
     include Conv.Vector2
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -209,22 +233,26 @@ module ApiTypes = struct
     include Vector2i
     include Conv.Vector2i
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -240,22 +268,26 @@ module ApiTypes = struct
     include Rect2
     include Conv.Rect2
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -271,22 +303,26 @@ module ApiTypes = struct
     include Rect2i
     include Conv.Rect2i
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -302,22 +338,26 @@ module ApiTypes = struct
     include Vector3
     include Conv.Vector3
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -333,22 +373,26 @@ module ApiTypes = struct
     include Vector3i
     include Conv.Vector3i
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -364,22 +408,26 @@ module ApiTypes = struct
     include Transform2D
     include Conv.Transform2D
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -395,22 +443,26 @@ module ApiTypes = struct
     include Vector4
     include Conv.Vector4
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -426,22 +478,26 @@ module ApiTypes = struct
     include Vector4i
     include Conv.Vector4i
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -457,22 +513,26 @@ module ApiTypes = struct
     include Plane
     include Conv.Plane
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -488,22 +548,26 @@ module ApiTypes = struct
     include Quaternion
     include Conv.Quaternion
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -519,22 +583,26 @@ module ApiTypes = struct
     include AABB
     include Conv.AABB
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -550,22 +618,26 @@ module ApiTypes = struct
     include Basis
     include Conv.Basis
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -581,22 +653,26 @@ module ApiTypes = struct
     include Transform3D
     include Conv.Transform3D
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -612,22 +688,26 @@ module ApiTypes = struct
     include Projection
     include Conv.Projection
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -643,22 +723,26 @@ module ApiTypes = struct
     include Color
     include Conv.Color
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -674,22 +758,26 @@ module ApiTypes = struct
     include StringName
     include Conv.StringName
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -705,22 +793,26 @@ module ApiTypes = struct
     include NodePath
     include Conv.NodePath
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -736,22 +828,26 @@ module ApiTypes = struct
     include RID
     include Conv.RID
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -767,22 +863,26 @@ module ApiTypes = struct
     include Object
     include Conv.Object
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -798,22 +898,26 @@ module ApiTypes = struct
     include Callable
     include Conv.Callable
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -829,22 +933,26 @@ module ApiTypes = struct
     include Signal
     include Conv.Signal
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -860,22 +968,26 @@ module ApiTypes = struct
     include Dictionary
     include Conv.Dictionary
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -891,22 +1003,26 @@ module ApiTypes = struct
     include Array
     include Conv.Array
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -922,22 +1038,26 @@ module ApiTypes = struct
     include PackedByteArray
     include Conv.PackedByteArray
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -953,22 +1073,26 @@ module ApiTypes = struct
     include PackedInt32Array
     include Conv.PackedInt32Array
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -984,22 +1108,26 @@ module ApiTypes = struct
     include PackedInt64Array
     include Conv.PackedInt64Array
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -1015,22 +1143,26 @@ module ApiTypes = struct
     include PackedFloat32Array
     include Conv.PackedFloat32Array
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -1046,22 +1178,26 @@ module ApiTypes = struct
     include PackedFloat64Array
     include Conv.PackedFloat64Array
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -1077,22 +1213,26 @@ module ApiTypes = struct
     include PackedStringArray
     include Conv.PackedStringArray
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -1108,22 +1248,26 @@ module ApiTypes = struct
     include PackedVector2Array
     include Conv.PackedVector2Array
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -1139,22 +1283,26 @@ module ApiTypes = struct
     include PackedVector3Array
     include Conv.PackedVector3Array
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -1170,22 +1318,26 @@ module ApiTypes = struct
     include PackedColorArray
     include Conv.PackedColorArray
 
-    let to_variantizer = get_variant_from_type_constructor type_enum typ
-    let of_variantizer = get_variant_to_type_constructor type_enum typ
-
     let to_variant : t structure ptr -> C.variant_ptr structure ptr =
      fun x ->
       let new_variant_ptr =
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
-      let () = to_variantizer new_variant_ptr (coerce_ptr typ x) in
+      let () =
+        get_variant_from_type_constructor type_enum typ new_variant_ptr
+          (coerce_ptr typ x)
+      in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
 
     let of_variant : C.variant_ptr structure ptr -> t structure ptr =
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
-      let () = of_variantizer (coerce_ptr typ new_type_ptr) x in
+      let () =
+        get_variant_to_type_constructor type_enum typ
+          (coerce_ptr typ new_type_ptr)
+          x
+      in
       let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
       inited_type_ptr
   end
@@ -3226,11 +3378,11 @@ module UtilityFunction = struct
 sin(0.523599)       # Returns 0.5
 sin(deg_to_rad(90)) # Returns 1.0
 [/codeblock] *)
-  let sin =
+  let sin x0 =
     foreign_utility_function1 "sin"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns the cosine of angle [param angle_rad] in radians.
 [codeblock]
@@ -3238,75 +3390,75 @@ cos(PI  *  2)         # Returns 1.0
 cos(PI)             # Returns -1.0
 cos(deg_to_rad(90)) # Returns 0.0
 [/codeblock] *)
-  let cos =
+  let cos x0 =
     foreign_utility_function1 "cos"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns the tangent of angle [param angle_rad] in radians.
 [codeblock]
 tan(deg_to_rad(45)) # Returns 1
 [/codeblock] *)
-  let tan =
+  let tan x0 =
     foreign_utility_function1 "tan"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns the hyperbolic sine of [param x].
 [codeblock]
 var a = log(2.0) # Returns 0.693147
 sinh(a) # Returns 0.75
 [/codeblock] *)
-  let sinh =
+  let sinh x0 =
     foreign_utility_function1 "sinh"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns the hyperbolic cosine of [param x] in radians.
 [codeblock]
 print(cosh(1)) # Prints 1.543081
 [/codeblock] *)
-  let cosh =
+  let cosh x0 =
     foreign_utility_function1 "cosh"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns the hyperbolic tangent of [param x].
 [codeblock]
 var a = log(2.0) # Returns 0.693147
 tanh(a)          # Returns 0.6
 [/codeblock] *)
-  let tanh =
+  let tanh x0 =
     foreign_utility_function1 "tanh"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns the arc sine of [param x] in radians. Use to get the angle of sine [param x]. [param x] will be clamped between [code]-1.0[/code] and [code]1.0[/code] (inclusive), in order to prevent [method asin] from returning [constant @GDScript.NAN].
 [codeblock]
 # s is 0.523599 or 30 degrees if converted with rad_to_deg(s)
 var s = asin(0.5)
 [/codeblock] *)
-  let asin =
+  let asin x0 =
     foreign_utility_function1 "asin"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns the arc cosine of [param x] in radians. Use to get the angle of cosine [param x]. [param x] will be clamped between [code]-1.0[/code] and [code]1.0[/code] (inclusive), in order to prevent [method acos] from returning [constant @GDScript.NAN].
 [codeblock]
 # c is 0.523599 or 30 degrees if converted with rad_to_deg(c)
 var c = acos(0.866025)
 [/codeblock] *)
-  let acos =
+  let acos x0 =
     foreign_utility_function1 "acos"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns the arc tangent of [param x] in radians. Use it to get the angle from an angle's tangent in trigonometry.
 The method cannot know in which quadrant the angle should fall. See [method atan2] if you have both [code]y[/code] and [code skip-lint]x[/code].
@@ -3314,33 +3466,33 @@ The method cannot know in which quadrant the angle should fall. See [method atan
 var a = atan(0.5) # a is 0.463648
 [/codeblock]
 If [param x] is between [code]-PI / 2[/code] and [code]PI / 2[/code] (inclusive), [code]atan(tan(x))[/code] is equal to [param x]. *)
-  let atan =
+  let atan x0 =
     foreign_utility_function1 "atan"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns the arc tangent of [code]y/x[/code] in radians. Use to get the angle of tangent [code]y/x[/code]. To compute the value, the method takes into account the sign of both arguments in order to determine the quadrant.
 Important note: The Y coordinate comes first, by convention.
 [codeblock]
 var a = atan2(0, -1) # a is 3.141593
 [/codeblock] *)
-  let atan2 =
+  let atan2 x0 x1 =
     foreign_utility_function2 "atan2"
       (Base.Int64.of_string "92296394")
       (Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1
 
   (** Returns the hyperbolic arc (also called inverse) sine of [param x], returning a value in radians. Use it to get the angle from an angle's sine in hyperbolic space.
 [codeblock]
 var a = asinh(0.9) # Returns 0.8088669356527824
 sinh(a) # Returns 0.9
 [/codeblock] *)
-  let asinh =
+  let asinh x0 =
     foreign_utility_function1 "asinh"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns the hyperbolic arc (also called inverse) cosine of [param x], returning a value in radians. Use it to get the angle from an angle's cosine in hyperbolic space if [param x] is larger or equal to 1. For values of [param x] lower than 1, it will return 0, in order to prevent [method acosh] from returning [constant @GDScript.NAN].
 [codeblock]
@@ -3349,11 +3501,11 @@ cosh(a) # Returns 2
 
 var b = acosh(-1) # Returns 0
 [/codeblock] *)
-  let acosh =
+  let acosh x0 =
     foreign_utility_function1 "acosh"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns the hyperbolic arc (also called inverse) tangent of [param x], returning a value in radians. Use it to get the angle from an angle's tangent in hyperbolic space if [param x] is between -1 and 1 (non-inclusive).
 In mathematics, the inverse hyperbolic tangent is only defined for -1 < [param x] < 1 in the real set, so values equal or lower to -1 for [param x] return negative [constant @GDScript.INF] and values equal or higher than 1 return positive [constant @GDScript.INF] in order to prevent [method atanh] from returning [constant @GDScript.NAN].
@@ -3364,11 +3516,11 @@ tanh(a) # Returns 0.9
 var b = atanh(-2) # Returns -inf
 tanh(b) # Returns -1
 [/codeblock] *)
-  let atanh =
+  let atanh x0 =
     foreign_utility_function1 "atanh"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns the square root of [param x], where [param x] is a non-negative number.
 [codeblock]
@@ -3377,22 +3529,22 @@ sqrt(10.24) # Returns 3.2
 sqrt(-1)    # Returns NaN
 [/codeblock]
 [b]Note:[/b] Negative values of [param x] return NaN (""Not a Number""). in C#, if you need negative inputs, use [code]System.Numerics.Complex[/code]. *)
-  let sqrt =
+  let sqrt x0 =
     foreign_utility_function1 "sqrt"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns the floating-point remainder of [param x] divided by [param y], keeping the sign of [param x].
 [codeblock]
 var remainder = fmod(7, 5.5) # remainder is 1.5
 [/codeblock]
 For the integer remainder operation, use the [code]%[/code] operator. *)
-  let fmod =
+  let fmod x0 x1 =
     foreign_utility_function2 "fmod"
       (Base.Int64.of_string "92296394")
       (Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1
 
   (** Returns the floating-point modulus of [param x] divided by [param y], wrapping equally in positive and negative.
 [codeblock]
@@ -3412,11 +3564,11 @@ Produces:
  1.0            1.0  |  1.0
  1.5            0.0  |  0.0
 [/codeblock] *)
-  let fposmod =
+  let fposmod x0 x1 =
     foreign_utility_function2 "fposmod"
       (Base.Int64.of_string "92296394")
       (Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1
 
   (** Returns the integer modulus of [param x] divided by [param y] that wraps equally in positive and negative.
 [codeblock]
@@ -3435,11 +3587,11 @@ Produces:
  2        2  |  2
  3        0  |  0
 [/codeblock] *)
-  let posmod =
+  let posmod x0 x1 =
     foreign_utility_function2 "posmod"
       (Base.Int64.of_string "3133453818")
       (Int.typ @-> Int.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0 x1
 
   (** Rounds [param x] downward (towards negative infinity), returning the largest whole number that is not more than [param x]. Supported types: [int], [float], [Vector2], [Vector2i], [Vector3], [Vector3i], [Vector4], [Vector4i].
 [codeblock]
@@ -3448,28 +3600,28 @@ a = floor(-2.99)    # a is -3.0
 [/codeblock]
 See also [method ceil], [method round], and [method snapped].
 [b]Note:[/b] For better type safety, use [method floorf], [method floori], [method Vector2.floor], [method Vector3.floor], or [method Vector4.floor]. *)
-  let floor =
+  let floor x0 =
     foreign_utility_function1 "floor"
       (Base.Int64.of_string "4776452")
       (Variant.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0
 
   (** Rounds [param x] downward (towards negative infinity), returning the largest whole number that is not more than [param x].
 A type-safe version of [method floor], returning a [float]. *)
-  let floorf =
+  let floorf x0 =
     foreign_utility_function1 "floorf"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Rounds [param x] downward (towards negative infinity), returning the largest whole number that is not more than [param x].
 A type-safe version of [method floor], returning an [int].
 [b]Note:[/b] This function is [i]not[/i] the same as [code]int(x)[/code], which rounds towards 0. *)
-  let floori =
+  let floori x0 =
     foreign_utility_function1 "floori"
       (Base.Int64.of_string "2780425386")
       (Float.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0
 
   (** Rounds [param x] upward (towards positive infinity), returning the smallest whole number that is not less than [param x]. Supported types: [int], [float], [Vector2], [Vector2i], [Vector3], [Vector3i], [Vector4], [Vector4i].
 [codeblock]
@@ -3478,27 +3630,27 @@ i = ceil(1.001)    # i is 2.0
 [/codeblock]
 See also [method floor], [method round], and [method snapped].
 [b]Note:[/b] For better type safety, use [method ceilf], [method ceili], [method Vector2.ceil], [method Vector3.ceil], or [method Vector4.ceil]. *)
-  let ceil =
+  let ceil x0 =
     foreign_utility_function1 "ceil"
       (Base.Int64.of_string "4776452")
       (Variant.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0
 
   (** Rounds [param x] upward (towards positive infinity), returning the smallest whole number that is not less than [param x].
 A type-safe version of [method ceil], returning a [float]. *)
-  let ceilf =
+  let ceilf x0 =
     foreign_utility_function1 "ceilf"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Rounds [param x] upward (towards positive infinity), returning the smallest whole number that is not less than [param x].
 A type-safe version of [method ceil], returning an [int]. *)
-  let ceili =
+  let ceili x0 =
     foreign_utility_function1 "ceili"
       (Base.Int64.of_string "2780425386")
       (Float.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0
 
   (** Rounds [param x] to the nearest whole number, with halfway cases rounded away from 0. Supported types: [int], [float], [Vector2], [Vector2i], [Vector3], [Vector3i], [Vector4], [Vector4i].
 [codeblock]
@@ -3508,27 +3660,27 @@ round(2.6) # Returns 3
 [/codeblock]
 See also [method floor], [method ceil], and [method snapped].
 [b]Note:[/b] For better type safety, use [method roundf], [method roundi], [method Vector2.round], [method Vector3.round], or [method Vector4.round]. *)
-  let round =
+  let round x0 =
     foreign_utility_function1 "round"
       (Base.Int64.of_string "4776452")
       (Variant.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0
 
   (** Rounds [param x] to the nearest whole number, with halfway cases rounded away from 0.
 A type-safe version of [method round], returning a [float]. *)
-  let roundf =
+  let roundf x0 =
     foreign_utility_function1 "roundf"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Rounds [param x] to the nearest whole number, with halfway cases rounded away from 0.
 A type-safe version of [method round], returning an [int]. *)
-  let roundi =
+  let roundi x0 =
     foreign_utility_function1 "roundi"
       (Base.Int64.of_string "2780425386")
       (Float.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0
 
   (** Returns the absolute value of a [Variant] parameter [param x] (i.e. non-negative value). Supported types: [int], [float], [Vector2], [Vector2i], [Vector3], [Vector3i], [Vector4], [Vector4i].
 [codeblock]
@@ -3551,33 +3703,33 @@ var f = abs(Vector3i(-7, -8, -9))
 # f is (7, 8, 9)
 [/codeblock]
 [b]Note:[/b] For better type safety, use [method absf], [method absi], [method Vector2.abs], [method Vector2i.abs], [method Vector3.abs], [method Vector3i.abs], [method Vector4.abs], or [method Vector4i.abs]. *)
-  let abs =
+  let abs x0 =
     foreign_utility_function1 "abs"
       (Base.Int64.of_string "4776452")
       (Variant.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0
 
   (** Returns the absolute value of float parameter [param x] (i.e. positive value).
 [codeblock]
 # a is 1.2
 var a = absf(-1.2)
 [/codeblock] *)
-  let absf =
+  let absf x0 =
     foreign_utility_function1 "absf"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns the absolute value of int parameter [param x] (i.e. positive value).
 [codeblock]
 # a is 1
 var a = absi(-1)
 [/codeblock] *)
-  let absi =
+  let absi x0 =
     foreign_utility_function1 "absi"
       (Base.Int64.of_string "2157319888")
       (Int.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0
 
   (** Returns the same type of [Variant] as [param x], with [code]-1[/code] for negative values, [code]1[/code] for positive values, and [code]0[/code] for zeros. For [code]nan[/code] values it returns 0.
 Supported types: [int], [float], [Vector2], [Vector2i], [Vector3], [Vector3i], [Vector4], [Vector4i].
@@ -3590,11 +3742,11 @@ sign(NAN)  # Returns 0
 sign(Vector3(-6.0, 0.0, 6.0)) # Returns (-1, 0, 1)
 [/codeblock]
 [b]Note:[/b] For better type safety, use [method signf], [method signi], [method Vector2.sign], [method Vector2i.sign], [method Vector3.sign], [method Vector3i.sign], [method Vector4.sign], or [method Vector4i.sign]. *)
-  let sign =
+  let sign x0 =
     foreign_utility_function1 "sign"
       (Base.Int64.of_string "4776452")
       (Variant.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0
 
   (** Returns [code]-1.0[/code] if [param x] is negative, [code]1.0[/code] if [param x] is positive, and [code]0.0[/code] if [param x] is zero. For [code]nan[/code] values of [param x] it returns 0.0.
 [codeblock]
@@ -3603,11 +3755,11 @@ signf(0.0)  # Returns 0.0
 signf(6.5)  # Returns 1.0
 signf(NAN)  # Returns 0.0
 [/codeblock] *)
-  let signf =
+  let signf x0 =
     foreign_utility_function1 "signf"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns [code]-1[/code] if [param x] is negative, [code]1[/code] if [param x] is positive, and [code]0[/code] if if [param x] is zero.
 [codeblock]
@@ -3615,11 +3767,11 @@ signi(-6) # Returns -1
 signi(0)  # Returns 0
 signi(6)  # Returns 1
 [/codeblock] *)
-  let signi =
+  let signi x0 =
     foreign_utility_function1 "signi"
       (Base.Int64.of_string "2157319888")
       (Int.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0
 
   (** Returns the multiple of [param step] that is the closest to [param x]. This can also be used to round a floating point number to an arbitrary number of decimals.
 The returned value is the same type of [Variant] as [param step]. Supported types: [int], [float], [Vector2], [Vector2i], [Vector3], [Vector3i], [Vector4], [Vector4i].
@@ -3631,11 +3783,11 @@ snapped(Vector2(34, 70), Vector2(8, 8))  # Returns (32, 72)
 [/codeblock]
 See also [method ceil], [method floor], and [method round].
 [b]Note:[/b] For better type safety, use [method snappedf], [method snappedi], [method Vector2.snapped], [method Vector2i.snapped], [method Vector3.snapped], [method Vector3i.snapped], [method Vector4.snapped], or [method Vector4i.snapped]. *)
-  let snapped =
+  let snapped x0 x1 =
     foreign_utility_function2 "snapped"
       (Base.Int64.of_string "459914704")
       (Variant.typ @-> Variant.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0 x1
 
   (** Returns the multiple of [param step] that is the closest to [param x]. This can also be used to round a floating point number to an arbitrary number of decimals.
 A type-safe version of [method snapped], returning a [float].
@@ -3643,11 +3795,11 @@ A type-safe version of [method snapped], returning a [float].
 snappedf(32.0, 2.5)  # Returns 32.5
 snappedf(3.14159, 0.01)  # Returns 3.14
 [/codeblock] *)
-  let snappedf =
+  let snappedf x0 x1 =
     foreign_utility_function2 "snappedf"
       (Base.Int64.of_string "92296394")
       (Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1
 
   (** Returns the multiple of [param step] that is the closest to [param x].
 A type-safe version of [method snapped], returning an [int].
@@ -3655,11 +3807,11 @@ A type-safe version of [method snapped], returning an [int].
 snappedi(53, 16)  # Returns 48
 snappedi(4096, 100)  # Returns 4100
 [/codeblock] *)
-  let snappedi =
+  let snappedi x0 x1 =
     foreign_utility_function2 "snappedi"
       (Base.Int64.of_string "3570758393")
       (Float.typ @-> Int.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0 x1
 
   (** Returns the result of [param base] raised to the power of [param exp].
 In GDScript, this is the equivalent of the [code] *  * [/code] operator.
@@ -3667,11 +3819,11 @@ In GDScript, this is the equivalent of the [code] *  * [/code] operator.
 pow(2, 5)   # Returns 32.0
 pow(4, 1.5) # Returns 8.0
 [/codeblock] *)
-  let pow =
+  let pow x0 x1 =
     foreign_utility_function2 "pow"
       (Base.Int64.of_string "92296394")
       (Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1
 
   (** Returns the [url=https://en.wikipedia.org/wiki/Natural_logarithm]natural logarithm[/url] of [param x] (base [url=https://en.wikipedia.org/wiki/E_(mathematical_constant)][i]e[/i][/url], with [i]e[/i] being approximately 2.71828). This is the amount of time needed to reach a certain level of continuous growth.
 [b]Note:[/b] This is not the same as the ""log"" function on most calculators, which uses a base 10 logarithm. To use base 10 logarithm, use [code]log(x) / log(10)[/code].
@@ -3679,11 +3831,11 @@ pow(4, 1.5) # Returns 8.0
 log(10) # Returns 2.302585
 [/codeblock]
 [b]Note:[/b] The logarithm of [code]0[/code] returns [code]-inf[/code], while negative values return [code]-nan[/code]. *)
-  let log =
+  let log x0 =
     foreign_utility_function1 "log"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** The natural exponential function. It raises the mathematical constant [i]e[/i] to the power of [param x] and returns it.
 [i]e[/i] has an approximate value of 2.71828, and can be obtained with [code]exp(1)[/code].
@@ -3691,49 +3843,49 @@ For exponents to other bases use the method [method pow].
 [codeblock]
 var a = exp(2) # Approximately 7.39
 [/codeblock] *)
-  let exp =
+  let exp x0 =
     foreign_utility_function1 "exp"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Returns [code]true[/code] if [param x] is a NaN (""Not a Number"" or invalid) value. *)
-  let is_nan =
+  let is_nan x0 =
     foreign_utility_function1 "is_nan"
       (Base.Int64.of_string "3569215213")
       (Float.typ @-> returning Bool.typ)
-      Bool.s
+      Bool.s x0
 
   (** Returns [code]true[/code] if [param x] is either positive infinity or negative infinity. *)
-  let is_inf =
+  let is_inf x0 =
     foreign_utility_function1 "is_inf"
       (Base.Int64.of_string "3569215213")
       (Float.typ @-> returning Bool.typ)
-      Bool.s
+      Bool.s x0
 
   (** Returns [code]true[/code] if [param a] and [param b] are approximately equal to each other.
 Here, ""approximately equal"" means that [param a] and [param b] are within a small internal epsilon of each other, which scales with the magnitude of the numbers.
 Infinity values of the same sign are considered equal. *)
-  let is_equal_approx =
+  let is_equal_approx x0 x1 =
     foreign_utility_function2 "is_equal_approx"
       (Base.Int64.of_string "1400789633")
       (Float.typ @-> Float.typ @-> returning Bool.typ)
-      Bool.s
+      Bool.s x0 x1
 
   (** Returns [code]true[/code] if [param x] is zero or almost zero. The comparison is done using a tolerance calculation with a small internal epsilon.
 This function is faster than using [method is_equal_approx] with one value as zero. *)
-  let is_zero_approx =
+  let is_zero_approx x0 =
     foreign_utility_function1 "is_zero_approx"
       (Base.Int64.of_string "3569215213")
       (Float.typ @-> returning Bool.typ)
-      Bool.s
+      Bool.s x0
 
   (** Returns whether [param x] is a finite value, i.e. it is not [constant @GDScript.NAN], positive infinity, or negative infinity. *)
-  let is_finite =
+  let is_finite x0 =
     foreign_utility_function1 "is_finite"
       (Base.Int64.of_string "3569215213")
       (Float.typ @-> returning Bool.typ)
-      Bool.s
+      Bool.s x0
 
   (** Returns an ""eased"" value of [param x] based on an easing function defined with [param curve]. This easing function is based on an exponent. The [param curve] can be any floating-point number, with specific values leading to the following behaviors:
 [codeblock]
@@ -3747,11 +3899,11 @@ This function is faster than using [method is_equal_approx] with one value as ze
 [/codeblock]
 [url=https://raw.githubusercontent.com/godotengine/godot-docs/master/img/ease_cheatsheet.png]ease() curve values cheatsheet[/url]
 See also [method smoothstep]. If you need to perform more advanced transitions, use [method Tween.interpolate_value]. *)
-  let ease =
+  let ease x0 x1 =
     foreign_utility_function2 "ease"
       (Base.Int64.of_string "92296394")
       (Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1
 
   (** Returns the position of the first non-zero digit, after the decimal point. Note that the maximum return value is 10, which is a design decision in the implementation.
 [codeblock]
@@ -3759,11 +3911,11 @@ var n = step_decimals(5)       # n is 0
 n = step_decimals(1.0005)      # n is 4
 n = step_decimals(0.000000005) # n is 9
 [/codeblock] *)
-  let step_decimals =
+  let step_decimals x0 =
     foreign_utility_function1 "step_decimals"
       (Base.Int64.of_string "2780425386")
       (Float.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0
 
   (** Linearly interpolates between two values by the factor defined in [param weight]. To perform interpolation, [param weight] should be between [code]0.0[/code] and [code]1.0[/code] (inclusive). However, values outside this range are allowed and can be used to perform [i]extrapolation[/i]. If this is not desired, use [method clamp] on the result of this function.
 Both [param from] and [param to] must be the same type. Supported types: [int], [float], [Vector2], [Vector3], [Vector4], [Color], [Quaternion], [Basis].
@@ -3772,79 +3924,79 @@ lerp(0, 4, 0.75) # Returns 3.0
 [/codeblock]
 See also [method inverse_lerp] which performs the reverse of this operation. To perform eased interpolation with [method lerp], combine it with [method ease] or [method smoothstep]. See also [method remap] to map a continuous series of values to another.
 [b]Note:[/b] For better type safety, use [method lerpf], [method Vector2.lerp], [method Vector3.lerp], [method Vector4.lerp], [method Color.lerp], [method Quaternion.slerp] or [method Basis.slerp]. *)
-  let lerp =
+  let lerp x0 x1 x2 =
     foreign_utility_function3 "lerp"
       (Base.Int64.of_string "3389874542")
       (Variant.typ @-> Variant.typ @-> Variant.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0 x1 x2
 
   (** Linearly interpolates between two values by the factor defined in [param weight]. To perform interpolation, [param weight] should be between [code]0.0[/code] and [code]1.0[/code] (inclusive). However, values outside this range are allowed and can be used to perform [i]extrapolation[/i]. If this is not desired, use [method clampf] on the result of this function.
 [codeblock]
 lerpf(0, 4, 0.75) # Returns 3.0
 [/codeblock]
 See also [method inverse_lerp] which performs the reverse of this operation. To perform eased interpolation with [method lerp], combine it with [method ease] or [method smoothstep]. *)
-  let lerpf =
+  let lerpf x0 x1 x2 =
     foreign_utility_function3 "lerpf"
       (Base.Int64.of_string "998901048")
       (Float.typ @-> Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2
 
   (** Cubic interpolates between two values by the factor defined in [param weight] with [param pre] and [param post] values. *)
-  let cubic_interpolate =
+  let cubic_interpolate x0 x1 x2 x3 x4 =
     foreign_utility_function5 "cubic_interpolate"
       (Base.Int64.of_string "1090965791")
       (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ @-> Float.typ
      @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2 x3 x4
 
   (** Cubic interpolates between two rotation values with shortest path by the factor defined in [param weight] with [param pre] and [param post] values. See also [method lerp_angle]. *)
-  let cubic_interpolate_angle =
+  let cubic_interpolate_angle x0 x1 x2 x3 x4 =
     foreign_utility_function5 "cubic_interpolate_angle"
       (Base.Int64.of_string "1090965791")
       (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ @-> Float.typ
      @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2 x3 x4
 
   (** Cubic interpolates between two values by the factor defined in [param weight] with [param pre] and [param post] values.
 It can perform smoother interpolation than [method cubic_interpolate] by the time values. *)
-  let cubic_interpolate_in_time =
+  let cubic_interpolate_in_time x0 x1 x2 x3 x4 x5 x6 x7 =
     foreign_utility_function8 "cubic_interpolate_in_time"
       (Base.Int64.of_string "388121036")
       (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ @-> Float.typ
      @-> Float.typ @-> Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2 x3 x4 x5 x6 x7
 
   (** Cubic interpolates between two rotation values with shortest path by the factor defined in [param weight] with [param pre] and [param post] values. See also [method lerp_angle].
 It can perform smoother interpolation than [method cubic_interpolate] by the time values. *)
-  let cubic_interpolate_angle_in_time =
+  let cubic_interpolate_angle_in_time x0 x1 x2 x3 x4 x5 x6 x7 =
     foreign_utility_function8 "cubic_interpolate_angle_in_time"
       (Base.Int64.of_string "388121036")
       (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ @-> Float.typ
      @-> Float.typ @-> Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2 x3 x4 x5 x6 x7
 
   (** Returns the point at the given [param t] on a one-dimensional [url=https://en.wikipedia.org/wiki/B%C3%A9zier_curve]Bézier curve[/url] defined by the given [param control_1], [param control_2], and [param end] points. *)
-  let bezier_interpolate =
+  let bezier_interpolate x0 x1 x2 x3 x4 =
     foreign_utility_function5 "bezier_interpolate"
       (Base.Int64.of_string "1090965791")
       (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ @-> Float.typ
      @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2 x3 x4
 
   (** Returns the derivative at the given [param t] on a one-dimensional [url=https://en.wikipedia.org/wiki/B%C3%A9zier_curve]Bézier curve[/url] defined by the given [param control_1], [param control_2], and [param end] points. *)
-  let bezier_derivative =
+  let bezier_derivative x0 x1 x2 x3 x4 =
     foreign_utility_function5 "bezier_derivative"
       (Base.Int64.of_string "1090965791")
       (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ @-> Float.typ
      @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2 x3 x4
 
   (** Returns the difference between the two angles, in the range of [code][-PI, +PI][/code]. When [param from] and [param to] are opposite, returns [code]-PI[/code] if [param from] is smaller than [param to], or [code]PI[/code] otherwise. *)
-  let angle_difference =
+  let angle_difference x0 x1 =
     foreign_utility_function2 "angle_difference"
       (Base.Int64.of_string "92296394")
       (Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1
 
   (** Linearly interpolates between two angles (in radians) by a [param weight] value between 0.0 and 1.0.
 Similar to [method lerp], but interpolates correctly when the angles wrap around [constant @GDScript.TAU]. To perform eased interpolation with [method lerp_angle], combine it with [method ease] or [method smoothstep].
@@ -3858,11 +4010,11 @@ func _process(delta):
     elapsed += delta
 [/codeblock]
 [b]Note:[/b] This function lerps through the shortest path between [param from] and [param to]. However, when these two angles are approximately [code]PI + k  *  TAU[/code] apart for any integer [code]k[/code], it's not obvious which way they lerp due to floating-point precision errors. For example, [code]lerp_angle(0, PI, weight)[/code] lerps counter-clockwise, while [code]lerp_angle(0, PI + 5  *  TAU, weight)[/code] lerps clockwise. *)
-  let lerp_angle =
+  let lerp_angle x0 x1 x2 =
     foreign_utility_function3 "lerp_angle"
       (Base.Int64.of_string "998901048")
       (Float.typ @-> Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2
 
   (** Returns an interpolation or extrapolation factor considering the range specified in [param from] and [param to], and the interpolated value specified in [param weight]. The returned value will be between [code]0.0[/code] and [code]1.0[/code] if [param weight] is between [param from] and [param to] (inclusive). If [param weight] is located outside this range, then an extrapolation factor will be returned (return value lower than [code]0.0[/code] or greater than [code]1.0[/code]). Use [method clamp] on the result of [method inverse_lerp] if this is not desired.
 [codeblock]
@@ -3875,23 +4027,23 @@ var ratio = inverse_lerp(20, 30, 27.5)
 # ratio is now 0.75.
 [/codeblock]
 See also [method lerp], which performs the reverse of this operation, and [method remap] to map a continuous series of values to another. *)
-  let inverse_lerp =
+  let inverse_lerp x0 x1 x2 =
     foreign_utility_function3 "inverse_lerp"
       (Base.Int64.of_string "998901048")
       (Float.typ @-> Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2
 
   (** Maps a [param value] from range [code][istart, istop][/code] to [code][ostart, ostop][/code]. See also [method lerp] and [method inverse_lerp]. If [param value] is outside [code][istart, istop][/code], then the resulting value will also be outside [code][ostart, ostop][/code]. If this is not desired, use [method clamp] on the result of this function.
 [codeblock]
 remap(75, 0, 100, -1, 1) # Returns 0.5
 [/codeblock]
 For complex use cases where multiple ranges are needed, consider using [Curve] or [Gradient] instead. *)
-  let remap =
+  let remap x0 x1 x2 x3 x4 =
     foreign_utility_function5 "remap"
       (Base.Int64.of_string "1090965791")
       (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ @-> Float.typ
      @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2 x3 x4
 
   (** Returns the result of smoothly interpolating the value of [param x] between [code]0[/code] and [code]1[/code], based on the where [param x] lies with respect to the edges [param from] and [param to].
 The return value is [code]0[/code] if [code]x <= from[/code], and [code]1[/code] if [code]x >= to[/code]. If [param x] lies between [param from] and [param to], the returned value follows an S-shaped curve that maps [param x] between [code]0[/code] and [code]1[/code].
@@ -3904,11 +4056,11 @@ smoothstep(0, 2, 2.0) # Returns 1.0
 [/codeblock]
 Compared to [method ease] with a curve value of [code]-1.6521[/code], [method smoothstep] returns the smoothest possible curve with no sudden changes in the derivative. If you need to perform more advanced transitions, use [Tween] or [AnimationPlayer].
 [url=https://raw.githubusercontent.com/godotengine/godot-docs/master/img/smoothstep_ease_comparison.png]Comparison between smoothstep() and ease(x, -1.6521) return values[/url] *)
-  let smoothstep =
+  let smoothstep x0 x1 x2 =
     foreign_utility_function3 "smoothstep"
       (Base.Int64.of_string "998901048")
       (Float.typ @-> Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2
 
   (** Moves [param from] toward [param to] by the [param delta] amount. Will not go past [param to].
 Use a negative [param delta] value to move away.
@@ -3918,30 +4070,30 @@ move_toward(10, 5, 4)    # Returns 6
 move_toward(5, 10, 9)    # Returns 10
 move_toward(10, 5, -1.5) # Returns 11.5
 [/codeblock] *)
-  let move_toward =
+  let move_toward x0 x1 x2 =
     foreign_utility_function3 "move_toward"
       (Base.Int64.of_string "998901048")
       (Float.typ @-> Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2
 
   (** Rotates [param from] toward [param to] by the [param delta] amount. Will not go past [param to].
 Similar to [method move_toward], but interpolates correctly when the angles wrap around [constant @GDScript.TAU].
 If [param delta] is negative, this function will rotate away from [param to], toward the opposite angle, and will not go past the opposite angle. *)
-  let rotate_toward =
+  let rotate_toward x0 x1 x2 =
     foreign_utility_function3 "rotate_toward"
       (Base.Int64.of_string "998901048")
       (Float.typ @-> Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2
 
   (** Converts an angle expressed in degrees to radians.
 [codeblock]
 var r = deg_to_rad(180) # r is 3.141593
 [/codeblock] *)
-  let deg_to_rad =
+  let deg_to_rad x0 =
     foreign_utility_function1 "deg_to_rad"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Converts an angle expressed in radians to degrees.
 [codeblock]
@@ -3949,11 +4101,11 @@ rad_to_deg(0.523599) # Returns 30
 rad_to_deg(PI)       # Returns 180
 rad_to_deg(PI  *  2)   # Returns 360
 [/codeblock] *)
-  let rad_to_deg =
+  let rad_to_deg x0 =
     foreign_utility_function1 "rad_to_deg"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Converts from linear energy to decibels (audio). This can be used to implement volume sliders that behave as expected (since volume isn't linear).
 [b]Example:[/b]
@@ -3963,18 +4115,18 @@ rad_to_deg(PI  *  2)   # Returns 360
 # Change the bus name if you'd like to change the volume of a specific bus only.
 AudioServer.set_bus_volume_db(AudioServer.get_bus_index(""Master""), linear_to_db($Slider.value))
 [/codeblock] *)
-  let linear_to_db =
+  let linear_to_db x0 =
     foreign_utility_function1 "linear_to_db"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Converts from decibels to linear energy (audio). *)
-  let db_to_linear =
+  let db_to_linear x0 =
     foreign_utility_function1 "db_to_linear"
       (Base.Int64.of_string "2140049587")
       (Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0
 
   (** Wraps the [Variant] [param value] between [param min] and [param max]. Can be used for creating loop-alike behavior or infinite surfaces.
 Variant types [int] and [float] are supported. If any of the arguments is [float] this function returns a [float], otherwise it returns an [int].
@@ -3988,11 +4140,11 @@ var a = wrap(7, 5, 10)
 var a = wrap(10.5, 5, 10)
 # a is 5.5 (float)
 [/codeblock] *)
-  let wrap =
+  let wrap x0 x1 x2 =
     foreign_utility_function3 "wrap"
       (Base.Int64.of_string "3389874542")
       (Variant.typ @-> Variant.typ @-> Variant.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0 x1 x2
 
   (** Wraps the integer [param value] between [param min] and [param max]. Can be used for creating loop-alike behavior or infinite surfaces.
 [codeblock]
@@ -4003,11 +4155,11 @@ frame = wrapi(frame + 1, 5, 10)
 # result is -2
 var result = wrapi(-6, -5, -1)
 [/codeblock] *)
-  let wrapi =
+  let wrapi x0 x1 x2 =
     foreign_utility_function3 "wrapi"
       (Base.Int64.of_string "650295447")
       (Int.typ @-> Int.typ @-> Int.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0 x1 x2
 
   (** Wraps the float [param value] between [param min] and [param max]. Can be used for creating loop-alike behavior or infinite surfaces.
 [codeblock]
@@ -4024,75 +4176,75 @@ angle = wrapf(angle + 0.1, -PI, PI)
 [/codeblock]
 [b]Note:[/b] If [param min] is [code]0[/code], this is equivalent to [method fposmod], so prefer using that instead.
 [method wrapf] is more flexible than using the [method fposmod] approach by giving the user control over the minimum value. *)
-  let wrapf =
+  let wrapf x0 x1 x2 =
     foreign_utility_function3 "wrapf"
       (Base.Int64.of_string "998901048")
       (Float.typ @-> Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2
 
   (** Returns the maximum of the given numeric values. This function can take any number of arguments.
 [codeblock]
 max(1, 7, 3, -6, 5) # Returns 7
 [/codeblock] *)
-  let max =
+  let max x0 x1 =
     foreign_utility_function2 "max"
       (Base.Int64.of_string "3896050336")
       (Variant.typ @-> Variant.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0 x1
 
   (** Returns the maximum of two [int] values.
 [codeblock]
 maxi(1, 2)   # Returns 2
 maxi(-3, -4) # Returns -3
 [/codeblock] *)
-  let maxi =
+  let maxi x0 x1 =
     foreign_utility_function2 "maxi"
       (Base.Int64.of_string "3133453818")
       (Int.typ @-> Int.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0 x1
 
   (** Returns the maximum of two [float] values.
 [codeblock]
 maxf(3.6, 24)   # Returns 24.0
 maxf(-3.99, -4) # Returns -3.99
 [/codeblock] *)
-  let maxf =
+  let maxf x0 x1 =
     foreign_utility_function2 "maxf"
       (Base.Int64.of_string "92296394")
       (Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1
 
   (** Returns the minimum of the given numeric values. This function can take any number of arguments.
 [codeblock]
 min(1, 7, 3, -6, 5) # Returns -6
 [/codeblock] *)
-  let min =
+  let min x0 x1 =
     foreign_utility_function2 "min"
       (Base.Int64.of_string "3896050336")
       (Variant.typ @-> Variant.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0 x1
 
   (** Returns the minimum of two [int] values.
 [codeblock]
 mini(1, 2)   # Returns 1
 mini(-3, -4) # Returns -4
 [/codeblock] *)
-  let mini =
+  let mini x0 x1 =
     foreign_utility_function2 "mini"
       (Base.Int64.of_string "3133453818")
       (Int.typ @-> Int.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0 x1
 
   (** Returns the minimum of two [float] values.
 [codeblock]
 minf(3.6, 24)   # Returns 3.6
 minf(-3.99, -4) # Returns -4.0
 [/codeblock] *)
-  let minf =
+  let minf x0 x1 =
     foreign_utility_function2 "minf"
       (Base.Int64.of_string "92296394")
       (Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1
 
   (** Clamps the [param value], returning a [Variant] not less than [param min] and not more than [param max]. Any values that can be compared with the less than and greater than operators will work.
 [codeblock]
@@ -4104,11 +4256,11 @@ var b = clamp(8.1, 0.9, 5.5)
 [/codeblock]
 [b]Note:[/b] For better type safety, use [method clampf], [method clampi], [method Vector2.clamp], [method Vector2i.clamp], [method Vector3.clamp], [method Vector3i.clamp], [method Vector4.clamp], [method Vector4i.clamp], or [method Color.clamp] (not currently supported by this method).
 [b]Note:[/b] When using this on vectors it will [i]not[/i] perform component-wise clamping, and will pick [param min] if [code]value < min[/code] or [param max] if [code]value > max[/code]. To perform component-wise clamping use the methods listed above. *)
-  let clamp =
+  let clamp x0 x1 x2 =
     foreign_utility_function3 "clamp"
       (Base.Int64.of_string "3389874542")
       (Variant.typ @-> Variant.typ @-> Variant.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0 x1 x2
 
   (** Clamps the [param value], returning an [int] not less than [param min] and not more than [param max].
 [codeblock]
@@ -4118,11 +4270,11 @@ var a = clampi(speed, 1, 20) # a is 20
 speed = -10
 var b = clampi(speed, -1, 1) # b is -1
 [/codeblock] *)
-  let clampi =
+  let clampi x0 x1 x2 =
     foreign_utility_function3 "clampi"
       (Base.Int64.of_string "650295447")
       (Int.typ @-> Int.typ @-> Int.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0 x1 x2
 
   (** Clamps the [param value], returning a [float] not less than [param min] and not more than [param max].
 [codeblock]
@@ -4132,11 +4284,11 @@ var a = clampf(speed, 1.0, 20.5) # a is 20.5
 speed = -10.0
 var b = clampf(speed, -1.0, 1.0) # b is -1.0
 [/codeblock] *)
-  let clampf =
+  let clampf x0 x1 x2 =
     foreign_utility_function3 "clampf"
       (Base.Int64.of_string "998901048")
       (Float.typ @-> Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1 x2
 
   (** Returns the smallest integer power of 2 that is greater than or equal to [param value].
 [codeblock]
@@ -4148,11 +4300,11 @@ nearest_po2(0)  # Returns 0 (this may not be expected)
 nearest_po2(-1) # Returns 0 (this may not be expected)
 [/codeblock]
 [b]Warning:[/b] Due to its implementation, this method returns [code]0[/code] rather than [code]1[/code] for values less than or equal to [code]0[/code], with an exception for [param value] being the smallest negative 64-bit integer ([code]-9223372036854775808[/code]) in which case the [param value] is returned unchanged. *)
-  let nearest_po2 =
+  let nearest_po2 x0 =
     foreign_utility_function1 "nearest_po2"
       (Base.Int64.of_string "2157319888")
       (Int.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0
 
   (** Wraps [param value] between [code]0[/code] and the [param length]. If the limit is reached, the next value the function returns is decreased to the [code]0[/code] side or increased to the [param length] side (like a triangle wave). If [param length] is less than zero, it becomes positive.
 [codeblock]
@@ -4167,15 +4319,15 @@ pingpong(4.0, 3.0)  # Returns 2.0
 pingpong(5.0, 3.0)  # Returns 1.0
 pingpong(6.0, 3.0)  # Returns 0.0
 [/codeblock] *)
-  let pingpong =
+  let pingpong x0 x1 =
     foreign_utility_function2 "pingpong"
       (Base.Int64.of_string "92296394")
       (Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1
 
   (** Randomizes the seed (or the internal state) of the random number generator. The current implementation uses a number based on the device's time.
 [b]Note:[/b] This function is called automatically when the project is run. If you need to fix the seed to have consistent, reproducible results, use [method seed] to initialize the random number generator. *)
-  let randomize = foreign_utility_function0
+  let randomize x0 = foreign_utility_function0 x0
 
   (** Returns a random unsigned 32-bit integer. Use remainder to obtain a random value in the interval [code][0, N - 1][/code] (where N is smaller than 2^32).
 [codeblocks]
@@ -4192,7 +4344,7 @@ GD.Randi() % 100;     // Returns random integer between 0 and 99
 GD.Randi() % 100 + 1; // Returns random integer between 1 and 100
 [/csharp]
 [/codeblocks] *)
-  let randi = foreign_utility_function0
+  let randi x0 = foreign_utility_function0 x0
 
   (** Returns a random floating point value between [code]0.0[/code] and [code]1.0[/code] (inclusive).
 [codeblocks]
@@ -4203,7 +4355,7 @@ randf() # Returns e.g. 0.375671
 GD.Randf(); // Returns e.g. 0.375671
 [/csharp]
 [/codeblocks] *)
-  let randf = foreign_utility_function0
+  let randf x0 = foreign_utility_function0 x0
 
   (** Returns a random signed 32-bit integer between [param from] and [param to] (inclusive). If [param to] is lesser than [param from], they are swapped.
 [codeblocks]
@@ -4216,11 +4368,11 @@ GD.RandRange(0, 1);      // Returns either 0 or 1
 GD.RandRange(-10, 1000); // Returns random integer between -10 and 1000
 [/csharp]
 [/codeblocks] *)
-  let randi_range =
+  let randi_range x0 x1 =
     foreign_utility_function2 "randi_range"
       (Base.Int64.of_string "3133453818")
       (Int.typ @-> Int.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0 x1
 
   (** Returns a random floating point value between [param from] and [param to] (inclusive).
 [codeblocks]
@@ -4233,18 +4385,18 @@ GD.RandRange(0.0, 20.5);   // Returns e.g. 7.45315
 GD.RandRange(-10.0, 10.0); // Returns e.g. -3.844535
 [/csharp]
 [/codeblocks] *)
-  let randf_range =
+  let randf_range x0 x1 =
     foreign_utility_function2 "randf_range"
       (Base.Int64.of_string "92296394")
       (Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1
 
   (** Returns a normally-distributed pseudo-random floating point value using Box-Muller transform with the specified [param mean] and a standard [param deviation]. This is also called Gaussian distribution. *)
-  let randfn =
+  let randfn x0 x1 =
     foreign_utility_function2 "randfn"
       (Base.Int64.of_string "92296394")
       (Float.typ @-> Float.typ @-> returning Float.typ)
-      Float.s
+      Float.s x0 x1
 
   (** Sets the seed for the random number generator to [param base]. Setting the seed manually can ensure consistent, repeatable results for most random functions.
 [codeblocks]
@@ -4265,11 +4417,11 @@ var b = GD.Randf() + GD.Randi();
 // a and b are now identical
 [/csharp]
 [/codeblocks] *)
-  let seed =
+  let seed x0 =
     foreign_utility_function1_void "seed"
       (Base.Int64.of_string "382931173")
       (Int.typ @-> returning Void.typ)
-      Void.s
+      Void.s x0
 
   (** Given a [param seed], returns a [PackedInt64Array] of size [code]2[/code], where its first element is the randomized [int] value, and the second element is the same as [param seed]. Passing the same [param seed] consistently returns the same array.
 [b]Note:[/b] ""Seed"" here refers to the internal state of the pseudo random number generator, currently implemented as a 64 bit integer.
@@ -4279,19 +4431,19 @@ var a = rand_from_seed(4)
 print(a[0])# Prints 2879024997
 print(a[1])# Prints 4
 [/codeblock] *)
-  let rand_from_seed =
+  let rand_from_seed x0 =
     foreign_utility_function1 "rand_from_seed"
       (Base.Int64.of_string "1391063685")
       (Int.typ @-> returning PackedInt64Array.typ)
-      PackedInt64Array.s
+      PackedInt64Array.s x0
 
   (** Returns a [WeakRef] instance holding a weak reference to [param obj]. Returns an empty [WeakRef] instance if [param obj] is [code]null[/code]. Prints an error and returns [code]null[/code] if [param obj] is neither [Object]-derived nor [code]null[/code].
 A weak reference to an object is not enough to keep the object alive: when the only remaining references to a referent are weak references, garbage collection is free to destroy the referent and reuse its memory for something else. However, until the object is actually destroyed the weak reference may return the object even if there are no strong references to it. *)
-  let weakref =
+  let weakref x0 =
     foreign_utility_function1 "weakref"
       (Base.Int64.of_string "4776452")
       (Variant.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0
 
   (** Returns the internal type of the given [param variable], using the [enum Variant.Type] values.
 [codeblock]
@@ -4304,11 +4456,11 @@ else:
     print(""Unexpected result"")
 [/codeblock]
 See also [method type_string]. *)
-  let typeof =
+  let typeof x0 =
     foreign_utility_function1 "typeof"
       (Base.Int64.of_string "326422594")
       (Variant.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0
 
   (** Converts the given [param variant] to the given [param type], using the [enum Variant.Type] values. This method is generous with how it handles types, it can automatically convert between array types, convert numeric [String]s to [int], and converting most things to [String].
 If the type conversion cannot be done, this method will return the default value for that type, for example converting [Rect2] to [Vector2] will always return [constant Vector2.ZERO]. This method will never show error messages as long as [param type] is a valid Variant type.
@@ -4320,11 +4472,11 @@ type_convert(123.4, TYPE_INT) # Returns 123
 type_convert(5, TYPE_VECTOR2) # Returns (0, 0)
 type_convert(""Hi!"", TYPE_NIL) # Returns null
 [/codeblock] *)
-  let type_convert =
+  let type_convert x0 x1 =
     foreign_utility_function2 "type_convert"
       (Base.Int64.of_string "2453062746")
       (Variant.typ @-> Int.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0 x1
 
   (** Converts one or more arguments of any [Variant] type to a [String] in the best way possible.
 [codeblock]
@@ -4333,11 +4485,11 @@ var b = str(a)
 print(len(a)) # Prints 3 (the number of elements in the array).
 print(len(b)) # Prints 12 (the length of the string ""[10, 20, 30]"").
 [/codeblock] *)
-  let str =
+  let str x0 =
     foreign_utility_function1 "str"
       (Base.Int64.of_string "32569176")
       (Variant.typ @-> returning String.typ)
-      String.s
+      String.s x0
 
   (** Returns a human-readable name for the given [enum Error] code.
 [codeblock]
@@ -4346,11 +4498,11 @@ print(error_string(OK))                # Prints OK
 print(error_string(ERR_BUSY))          # Prints Busy
 print(error_string(ERR_OUT_OF_MEMORY)) # Prints Out of memory
 [/codeblock] *)
-  let error_string =
+  let error_string x0 =
     foreign_utility_function1 "error_string"
       (Base.Int64.of_string "942708242")
       (Int.typ @-> returning String.typ)
-      String.s
+      String.s x0
 
   (** Returns a human-readable name of the given [param type], using the [enum Variant.Type] values.
 [codeblock]
@@ -4359,11 +4511,11 @@ print(type_string(TYPE_INT)) # Prints ""int"".
 print(type_string(TYPE_STRING)) # Prints ""String"".
 [/codeblock]
 See also [method typeof]. *)
-  let type_string =
+  let type_string x0 =
     foreign_utility_function1 "type_string"
       (Base.Int64.of_string "942708242")
       (Int.typ @-> returning String.typ)
-      String.s
+      String.s x0
 
   (** Converts one or more arguments of any type to string in the best way possible and prints them to the console.
 [codeblocks]
@@ -4377,11 +4529,11 @@ GD.Print(""a"", ""b"", a); // Prints ab[1, 2, 3]
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] Consider using [method push_error] and [method push_warning] to print error and warning messages instead of [method print] or [method print_rich]. This distinguishes them from print messages used for debugging purposes, while also displaying a stack trace when an error or warning is printed. *)
-  let print =
+  let print x0 =
     foreign_utility_function1_void "print"
       (Base.Int64.of_string "2648703342")
       (Variant.typ @-> returning Void.typ)
-      Void.s
+      Void.s x0
 
   (** Converts one or more arguments of any type to string in the best way possible and prints them to the console.
 The following BBCode tags are supported: [code]b[/code], [code]i[/code], [code]u[/code], [code]s[/code], [code]indent[/code], [code]code[/code], [code]url[/code], [code]center[/code], [code]right[/code], [code]color[/code], [code]bgcolor[/code], [code]fgcolor[/code].
@@ -4398,11 +4550,11 @@ GD.PrintRich(""[color=green][b]Hello world![/b][/color]""); // Prints out ""Hell
 [/codeblocks]
 [b]Note:[/b] Consider using [method push_error] and [method push_warning] to print error and warning messages instead of [method print] or [method print_rich]. This distinguishes them from print messages used for debugging purposes, while also displaying a stack trace when an error or warning is printed.
 [b]Note:[/b] On Windows, only Windows 10 and later correctly displays ANSI escape codes in standard output. *)
-  let print_rich =
+  let print_rich x0 =
     foreign_utility_function1_void "print_rich"
       (Base.Int64.of_string "2648703342")
       (Variant.typ @-> returning Void.typ)
-      Void.s
+      Void.s x0
 
   (** Prints one or more arguments to strings in the best way possible to standard error line.
 [codeblocks]
@@ -4413,11 +4565,11 @@ printerr(""prints to stderr"")
 GD.PrintErr(""prints to stderr"");
 [/csharp]
 [/codeblocks] *)
-  let printerr =
+  let printerr x0 =
     foreign_utility_function1_void "printerr"
       (Base.Int64.of_string "2648703342")
       (Variant.typ @-> returning Void.typ)
-      Void.s
+      Void.s x0
 
   (** Prints one or more arguments to the console with a tab between each argument.
 [codeblocks]
@@ -4428,11 +4580,11 @@ printt(""A"", ""B"", ""C"") # Prints A       B       C
 GD.PrintT(""A"", ""B"", ""C""); // Prints A       B       C
 [/csharp]
 [/codeblocks] *)
-  let printt =
+  let printt x0 =
     foreign_utility_function1_void "printt"
       (Base.Int64.of_string "2648703342")
       (Variant.typ @-> returning Void.typ)
-      Void.s
+      Void.s x0
 
   (** Prints one or more arguments to the console with a space between each argument.
 [codeblocks]
@@ -4443,11 +4595,11 @@ prints(""A"", ""B"", ""C"") # Prints A B C
 GD.PrintS(""A"", ""B"", ""C""); // Prints A B C
 [/csharp]
 [/codeblocks] *)
-  let prints =
+  let prints x0 =
     foreign_utility_function1_void "prints"
       (Base.Int64.of_string "2648703342")
       (Variant.typ @-> returning Void.typ)
-      Void.s
+      Void.s x0
 
   (** Prints one or more arguments to strings in the best way possible to the OS terminal. Unlike [method print], no newline is automatically added at the end.
 [codeblocks]
@@ -4464,18 +4616,18 @@ GD.PrintRaw(""C"");
 // Prints ABC to terminal
 [/csharp]
 [/codeblocks] *)
-  let printraw =
+  let printraw x0 =
     foreign_utility_function1_void "printraw"
       (Base.Int64.of_string "2648703342")
       (Variant.typ @-> returning Void.typ)
-      Void.s
+      Void.s x0
 
   (** If verbose mode is enabled ([method OS.is_stdout_verbose] returning [code]true[/code]), converts one or more arguments of any type to string in the best way possible and prints them to the console. *)
-  let print_verbose =
+  let print_verbose x0 =
     foreign_utility_function1_void "print_verbose"
       (Base.Int64.of_string "2648703342")
       (Variant.typ @-> returning Void.typ)
-      Void.s
+      Void.s x0
 
   (** Pushes an error message to Godot's built-in debugger and to the OS terminal.
 [codeblocks]
@@ -4487,11 +4639,11 @@ GD.PushError(""test error""); // Prints ""test error"" to debugger and terminal 
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] This function does not pause project execution. To print an error message and pause project execution in debug builds, use [code]assert(false, ""test error"")[/code] instead. *)
-  let push_error =
+  let push_error x0 =
     foreign_utility_function1_void "push_error"
       (Base.Int64.of_string "2648703342")
       (Variant.typ @-> returning Void.typ)
-      Void.s
+      Void.s x0
 
   (** Pushes a warning message to Godot's built-in debugger and to the OS terminal.
 [codeblocks]
@@ -4502,11 +4654,11 @@ push_warning(""test warning"") # Prints ""test warning"" to debugger and termina
 GD.PushWarning(""test warning""); // Prints ""test warning"" to debugger and terminal as warning call
 [/csharp]
 [/codeblocks] *)
-  let push_warning =
+  let push_warning x0 =
     foreign_utility_function1_void "push_warning"
       (Base.Int64.of_string "2648703342")
       (Variant.typ @-> returning Void.typ)
-      Void.s
+      Void.s x0
 
   (** Converts a [Variant] [param variable] to a formatted [String] that can then be parsed using [method str_to_var].
 [codeblocks]
@@ -4527,11 +4679,11 @@ Prints:
 }
 [/codeblock]
 [b]Note:[/b] Converting [Signal] or [Callable] is not supported and will result in an empty value for these types, regardless of their data. *)
-  let var_to_str =
+  let var_to_str x0 =
     foreign_utility_function1 "var_to_str"
       (Base.Int64.of_string "866625479")
       (Variant.typ @-> returning String.typ)
-      String.s
+      String.s x0
 
   (** Converts a formatted [param string] that was returned by [method var_to_str] to the original [Variant].
 [codeblocks]
@@ -4546,44 +4698,44 @@ var dict = GD.StrToVar(data).AsGodotDictionary(); // dict is a Dictionary
 GD.Print(dict[""a""]);                              // Prints 1
 [/csharp]
 [/codeblocks] *)
-  let str_to_var =
+  let str_to_var x0 =
     foreign_utility_function1 "str_to_var"
       (Base.Int64.of_string "1891498491")
       (String.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0
 
   (** Encodes a [Variant] value to a byte array, without encoding objects. Deserialization can be done with [method bytes_to_var].
 [b]Note:[/b] If you need object serialization, see [method var_to_bytes_with_objects].
 [b]Note:[/b] Encoding [Callable] is not supported and will result in an empty value, regardless of the data. *)
-  let var_to_bytes =
+  let var_to_bytes x0 =
     foreign_utility_function1 "var_to_bytes"
       (Base.Int64.of_string "2947269930")
       (Variant.typ @-> returning PackedByteArray.typ)
-      PackedByteArray.s
+      PackedByteArray.s x0
 
   (** Decodes a byte array back to a [Variant] value, without decoding objects.
 [b]Note:[/b] If you need object deserialization, see [method bytes_to_var_with_objects]. *)
-  let bytes_to_var =
+  let bytes_to_var x0 =
     foreign_utility_function1 "bytes_to_var"
       (Base.Int64.of_string "4249819452")
       (PackedByteArray.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0
 
   (** Encodes a [Variant] value to a byte array. Encoding objects is allowed (and can potentially include executable code). Deserialization can be done with [method bytes_to_var_with_objects].
 [b]Note:[/b] Encoding [Callable] is not supported and will result in an empty value, regardless of the data. *)
-  let var_to_bytes_with_objects =
+  let var_to_bytes_with_objects x0 =
     foreign_utility_function1 "var_to_bytes_with_objects"
       (Base.Int64.of_string "2947269930")
       (Variant.typ @-> returning PackedByteArray.typ)
-      PackedByteArray.s
+      PackedByteArray.s x0
 
   (** Decodes a byte array back to a [Variant] value. Decoding objects is allowed.
 [b]Warning:[/b] Deserialized object can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats (remote code execution). *)
-  let bytes_to_var_with_objects =
+  let bytes_to_var_with_objects x0 =
     foreign_utility_function1 "bytes_to_var_with_objects"
       (Base.Int64.of_string "4249819452")
       (PackedByteArray.typ @-> returning Variant.typ)
-      Variant.s
+      Variant.s x0
 
   (** Returns the integer hash of the passed [param variable].
 [codeblocks]
@@ -4594,11 +4746,11 @@ print(hash(""a"")) # Prints 177670
 GD.Print(GD.Hash(""a"")); // Prints 177670
 [/csharp]
 [/codeblocks] *)
-  let hash =
+  let hash x0 =
     foreign_utility_function1 "hash"
       (Base.Int64.of_string "326422594")
       (Variant.typ @-> returning Int.typ)
-      Int.s
+      Int.s x0
 
   (** Returns the [Object] that corresponds to [param instance_id]. All Objects have a unique instance ID. See also [method Object.get_instance_id].
 [codeblocks]
@@ -4624,35 +4776,35 @@ public partial class MyNode : Node
 }
 [/csharp]
 [/codeblocks] *)
-  let instance_from_id =
+  let instance_from_id x0 =
     foreign_utility_function1 "instance_from_id"
       (Base.Int64.of_string "1156694636")
       (Int.typ @-> returning Object.typ)
-      Object.s
+      Object.s x0
 
   (** Returns [code]true[/code] if the Object that corresponds to [param id] is a valid object (e.g. has not been deleted from memory). All Objects have a unique instance ID. *)
-  let is_instance_id_valid =
+  let is_instance_id_valid x0 =
     foreign_utility_function1 "is_instance_id_valid"
       (Base.Int64.of_string "2232439758")
       (Int.typ @-> returning Bool.typ)
-      Bool.s
+      Bool.s x0
 
   (** Returns [code]true[/code] if [param instance] is a valid Object (e.g. has not been deleted from memory). *)
-  let is_instance_valid =
+  let is_instance_valid x0 =
     foreign_utility_function1 "is_instance_valid"
       (Base.Int64.of_string "996128841")
       (Variant.typ @-> returning Bool.typ)
-      Bool.s
+      Bool.s x0
 
   (** Allocates a unique ID which can be used by the implementation to construct a RID. This is used mainly from native extensions to implement servers. *)
-  let rid_allocate_id = foreign_utility_function0
+  let rid_allocate_id x0 = foreign_utility_function0 x0
 
   (** Creates a RID from a [param base]. This is used mainly from native extensions to build servers. *)
-  let rid_from_int64 =
+  let rid_from_int64 x0 =
     foreign_utility_function1 "rid_from_int64"
       (Base.Int64.of_string "3426892196")
       (Int.typ @-> returning RID.typ)
-      RID.s
+      RID.s x0
 
   (** Returns [code]true[/code], for value types, if [param a] and [param b] share the same value. Returns [code]true[/code], for reference types, if the references of [param a] and [param b] are the same.
 [codeblock]
@@ -4672,11 +4824,11 @@ is_same(arr_a, arr_b)  # false
 [/codeblock]
 These are [Variant] value types: [code]null[/code], [bool], [int], [float], [String], [StringName], [Vector2], [Vector2i], [Vector3], [Vector3i], [Vector4], [Vector4i], [Rect2], [Rect2i], [Transform2D], [Transform3D], [Plane], [Quaternion], [AABB], [Basis], [Projection], [Color], [NodePath], [RID], [Callable] and [Signal].
 These are [Variant] reference types: [Object], [Dictionary], [Array], [PackedByteArray], [PackedInt32Array], [PackedInt64Array], [PackedFloat32Array], [PackedFloat64Array], [PackedStringArray], [PackedVector2Array], [PackedVector3Array] and [PackedColorArray]. *)
-  let is_same =
+  let is_same x0 x1 =
     foreign_utility_function2 "is_same"
       (Base.Int64.of_string "1409423524")
       (Variant.typ @-> Variant.typ @-> returning Bool.typ)
-      Bool.s
+      Bool.s x0 x1
 end
 
 module BuiltinClass0 = struct
@@ -14279,194 +14431,221 @@ If either [param begin] or [param end] are negative, they will be relative to th
   module Nil = struct
     include M.Nil
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NIL None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Nil.typ @-> Nil.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Nil_elem_Dictionary =
+    let _Nil_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NIL
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Nil.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Nil_elem_Array =
+    let _Nil_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NIL
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Nil.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Bool = struct
     include M.Bool
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the two booleans are equal. That is, both are [code]true[/code] or both are [code]false[/code]. This operation can be seen as a logical EQ or XNOR. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_BOOL)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the two booleans are not equal. That is, one is [code]true[/code] and the other is [code]false[/code]. This operation can be seen as a logical XOR. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_BOOL)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left operand is [code]false[/code] and the right operand is [code]true[/code]. *)
-    let ( < ) =
+    let ( < ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_BOOL)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left operand is [code]true[/code] and the right operand is [code]false[/code]. *)
-    let ( > ) =
+    let ( > ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_BOOL)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let ( && ) =
+    let ( && ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_BOOL)
         GlobalEnum.VariantOperator._OP_AND
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let ( || ) =
+    let ( || ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_BOOL)
         GlobalEnum.VariantOperator._OP_OR
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let ( ~^^ ) =
+    let ( ~^^ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_BOOL)
         GlobalEnum.VariantOperator._OP_XOR
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let bool_elem_Dictionary =
+    let bool_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Bool.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let bool_elem_Array =
+    let bool_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Bool.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Int = struct
     include M.Int
 
     (** Returns the negated value of the [int]. If positive, turns the number negative. If negative, turns the number positive. If zero, does nothing. *)
-    let ( ~- ) =
+    let ( ~- ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) =
+    let ( ~+ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
+        x0 x1 x2
 
     (** Performs the bitwise [code]NOT[/code] operation on the [int]. Due to [url=https://en.wikipedia.org/wiki/Two%27s_complement]2's complement[/url], it's effectively equal to [code]-(int + 1)[/code].
 [codeblock]
 print(~4) # Prints -5
 print(~(-7)) # Prints 6
 [/codeblock] *)
-    let ( ~~~ ) =
+    let ( ~~~ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT None
         GlobalEnum.VariantOperator._OP_BIT_NEGATE
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
+        x0 x1 x2
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the two [int]s are equal. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the [int]s are not equal. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left [int] is less than the right [int]. *)
-    let ( < ) =
+    let ( < ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left [int] is less than or equal to the right [int]. *)
-    let ( <= ) =
+    let ( <= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left [int] is greater than the right [int]. *)
-    let ( > ) =
+    let ( > ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left [int] is greater than or equal to the right [int]. *)
-    let ( >= ) =
+    let ( >= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Adds the two [int]s. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
+        x0 x1 x2
 
     (** Subtracts the two [int]s. *)
-    let ( - ) =
+    let ( - ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
+        x0 x1 x2
 
     (** Multiplies the two [int]s. *)
-    let ( * ) =
+    let ( * ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
+        x0 x1 x2
 
     (** Divides the two [int]s. The result is an [int]. This will truncate the [float], discarding anything after the floating point.
 [codeblock]
 print(6 / 2) # Prints 3
 print(5 / 3) # Prints 1
 [/codeblock] *)
-    let ( / ) =
+    let ( / ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns the remainder after dividing two [int]s. Uses truncated division, which returns a negative number if the dividend is negative. If this is not desired, consider using [method @GlobalScope.posmod].
 [codeblock]
@@ -14474,43 +14653,47 @@ print(6 % 2) # Prints 0
 print(11 % 4) # Prints 3
 print(-5 % 3) # Prints -2
 [/codeblock] *)
-    let ( % ) =
+    let ( % ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_MODULE
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
+        x0 x1 x2
 
     (** Raises the left [int] to a power of the right [int].
 [codeblock]
 print(3  *  *  4) # Prints 81
 [/codeblock] *)
-    let ( ** ) =
+    let ( ** ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_POWER
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
+        x0 x1 x2
 
     (** Performs the bitwise shift left operation. Effectively the same as multiplying by a power of 2.
 [codeblock]
 print(0b1010 << 1) # Prints 20 (binary 10100)
 print(0b1010 << 3) # Prints 80 (binary 1010000)
 [/codeblock] *)
-    let ( <<< ) =
+    let ( <<< ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_SHIFT_LEFT
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
+        x0 x1 x2
 
     (** Performs the bitwise shift right operation. Effectively the same as dividing by a power of 2.
 [codeblock]
 print(0b1010 >> 1) # Prints 5 (binary 101)
 print(0b1010 >> 2) # Prints 2 (binary 10)
 [/codeblock] *)
-    let ( >>> ) =
+    let ( >>> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_SHIFT_RIGHT
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
+        x0 x1 x2
 
     (** Performs the bitwise [code]AND[/code] operation.
 [codeblock]
@@ -14523,11 +14706,12 @@ var flags = 0b101
 if flags & 0b011:
     do_stuff() # This line will run.
 [/codeblock] *)
-    let ( &&& ) =
+    let ( &&& ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_BIT_AND
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
+        x0 x1 x2
 
     (** Performs the bitwise [code]OR[/code] operation.
 [codeblock]
@@ -14538,259 +14722,295 @@ This is useful for storing binary flags in a variable.
 var flags = 0
 flags |= 0b101 # Turn the first and third bits on.
 [/codeblock] *)
-    let ( ||| ) =
+    let ( ||| ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_BIT_OR
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
+        x0 x1 x2
 
     (** Performs the bitwise [code]XOR[/code] operation.
 [codeblock]
 print(0b1100 ^ 0b1010) # Prints 6 (binary 110)
 [/codeblock] *)
-    let ( ^^^ ) =
+    let ( ^^^ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_BIT_XOR
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
+        x0 x1 x2
 
-    let ( && ) =
+    let ( && ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_AND
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let ( || ) =
+    let ( || ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_OR
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let ( ~^^ ) =
+    let ( ~^^ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_XOR
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let int_elem_Dictionary =
+    let int_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Int.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let int_elem_Array =
+    let int_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Int.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let int_elem_PackedByteArray =
+    let int_elem_PackedByteArray x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Int.typ @-> PackedByteArray.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let int_elem_PackedInt32Array =
+    let int_elem_PackedInt32Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Int.typ @-> PackedInt32Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let int_elem_PackedInt64Array =
+    let int_elem_PackedInt64Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Int.typ @-> PackedInt64Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let int_elem_PackedFloat32Array =
+    let int_elem_PackedFloat32Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Int.typ @-> PackedFloat32Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let int_elem_PackedFloat64Array =
+    let int_elem_PackedFloat64Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Int.typ @-> PackedFloat64Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Float = struct
     include M.Float
 
     (** Returns the negative value of the [float]. If positive, turns the number negative. If negative, turns the number positive. With floats, the number zero can be either positive or negative. *)
-    let ( ~- ) =
+    let ( ~- ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr (Float.typ @-> Float.typ @-> Float.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) =
+    let ( ~+ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr (Float.typ @-> Float.typ @-> Float.typ @-> returning void))
+        x0 x1 x2
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if both floats are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method @GlobalScope.is_equal_approx] or [method @GlobalScope.is_zero_approx] instead, which are more reliable.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if two floats are different from each other.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left float is less than the right one.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( < ) =
+    let ( < ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left float is less than or equal to the right one.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <= ) =
+    let ( <= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left float is greater than the right one.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( > ) =
+    let ( > ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left float is greater than or equal to the right one.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( >= ) =
+    let ( >= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Adds two floats. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr (Float.typ @-> Float.typ @-> Float.typ @-> returning void))
+        x0 x1 x2
 
     (** Subtracts a float from a float. *)
-    let ( - ) =
+    let ( - ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr (Float.typ @-> Float.typ @-> Float.typ @-> returning void))
+        x0 x1 x2
 
     (** Multiplies two [float]s. *)
-    let ( * ) =
+    let ( * ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr (Float.typ @-> Float.typ @-> Float.typ @-> returning void))
+        x0 x1 x2
 
     (** Divides two floats. *)
-    let ( / ) =
+    let ( / ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr (Float.typ @-> Float.typ @-> Float.typ @-> returning void))
+        x0 x1 x2
 
     (** Raises a [float] to a power of a [float].
 [codeblock]
 print(39.0625 *  * 0.25) # 2.5
 [/codeblock] *)
-    let ( ** ) =
+    let ( ** ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_POWER
         (funptr (Float.typ @-> Float.typ @-> Float.typ @-> returning void))
+        x0 x1 x2
 
-    let ( && ) =
+    let ( && ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_AND
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let ( || ) =
+    let ( || ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_OR
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let ( ~^^ ) =
+    let ( ~^^ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_XOR
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let float_elem_Dictionary =
+    let float_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Float.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let float_elem_Array =
+    let float_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Float.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let float_elem_PackedByteArray =
+    let float_elem_PackedByteArray x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Float.typ @-> PackedByteArray.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let float_elem_PackedInt32Array =
+    let float_elem_PackedInt32Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Float.typ @-> PackedInt32Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let float_elem_PackedInt64Array =
+    let float_elem_PackedInt64Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Float.typ @-> PackedInt64Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let float_elem_PackedFloat32Array =
+    let float_elem_PackedFloat32Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Float.typ @-> PackedFloat32Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let float_elem_PackedFloat64Array =
+    let float_elem_PackedFloat64Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Float.typ @-> PackedFloat64Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module String = struct
@@ -14799,56 +15019,56 @@ print(39.0625 *  * 0.25) # 2.5
     (** Performs a case-sensitive comparison to another string. Returns [code]-1[/code] if less than, [code]1[/code] if greater than, or [code]0[/code] if equal. ""Less than"" and ""greater than"" are determined by the [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode code points[/url] of each string, which roughly matches the alphabetical order.
 With different string lengths, returns [code]1[/code] if this string is longer than the [param to] string, or [code]-1[/code] if shorter. Note that the length of empty strings is [i]always[/i] [code]0[/code].
 To get a [bool] result from a string comparison, use the [code]==[/code] operator instead. See also [method nocasecmp_to], [method naturalcasecmp_to], and [method naturalnocasecmp_to]. *)
-    let casecmp_to =
+    let casecmp_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "casecmp_to"
         (Base.Int64.of_string "2920860731")
         (String.typ @-> String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Performs a [b]case-insensitive[/b] comparison to another string. Returns [code]-1[/code] if less than, [code]1[/code] if greater than, or [code]0[/code] if equal. ""Less than"" or ""greater than"" are determined by the [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode code points[/url] of each string, which roughly matches the alphabetical order. Internally, lowercase characters are converted to uppercase for the comparison.
 With different string lengths, returns [code]1[/code] if this string is longer than the [param to] string, or [code]-1[/code] if shorter. Note that the length of empty strings is [i]always[/i] [code]0[/code].
 To get a [bool] result from a string comparison, use the [code]==[/code] operator instead. See also [method casecmp_to], [method naturalcasecmp_to], and [method naturalnocasecmp_to]. *)
-    let nocasecmp_to =
+    let nocasecmp_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "nocasecmp_to"
         (Base.Int64.of_string "2920860731")
         (String.typ @-> String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Performs a [b]case-sensitive[/b], [i]natural order[/i] comparison to another string. Returns [code]-1[/code] if less than, [code]1[/code] if greater than, or [code]0[/code] if equal. ""Less than"" or ""greater than"" are determined by the [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode code points[/url] of each string, which roughly matches the alphabetical order.
 When used for sorting, natural order comparison orders sequences of numbers by the combined value of each digit as is often expected, instead of the single digit's value. A sorted sequence of numbered strings will be [code][""1"", ""2"", ""3"", ...][/code], not [code][""1"", ""10"", ""2"", ""3"", ...][/code].
 With different string lengths, returns [code]1[/code] if this string is longer than the [param to] string, or [code]-1[/code] if shorter. Note that the length of empty strings is [i]always[/i] [code]0[/code].
 To get a [bool] result from a string comparison, use the [code]==[/code] operator instead. See also [method naturalnocasecmp_to], [method nocasecmp_to], and [method casecmp_to]. *)
-    let naturalcasecmp_to =
+    let naturalcasecmp_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING
         "naturalcasecmp_to"
         (Base.Int64.of_string "2920860731")
         (String.typ @-> String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Performs a [b]case-insensitive[/b], [i]natural order[/i] comparison to another string. Returns [code]-1[/code] if less than, [code]1[/code] if greater than, or [code]0[/code] if equal. ""Less than"" or ""greater than"" are determined by the [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode code points[/url] of each string, which roughly matches the alphabetical order. Internally, lowercase characters are converted to uppercase for the comparison.
 When used for sorting, natural order comparison orders sequences of numbers by the combined value of each digit as is often expected, instead of the single digit's value. A sorted sequence of numbered strings will be [code][""1"", ""2"", ""3"", ...][/code], not [code][""1"", ""10"", ""2"", ""3"", ...][/code].
 With different string lengths, returns [code]1[/code] if this string is longer than the [param to] string, or [code]-1[/code] if shorter. Note that the length of empty strings is [i]always[/i] [code]0[/code].
 To get a [bool] result from a string comparison, use the [code]==[/code] operator instead. See also [method naturalcasecmp_to], [method nocasecmp_to], and [method casecmp_to]. *)
-    let naturalnocasecmp_to =
+    let naturalnocasecmp_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING
         "naturalnocasecmp_to"
         (Base.Int64.of_string "2920860731")
         (String.typ @-> String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Returns the number of characters in the string. Empty strings ([code]""""[/code]) always return [code]0[/code]. See also [method is_empty]. *)
-    let length =
+    let length x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "length"
         (Base.Int64.of_string "3173160232")
         (String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns part of the string from the position [param from] with length [param len]. If [param len] is [code]-1[/code] (as by default), returns the rest of the string starting from the given position. *)
-    let substr =
+    let substr x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "substr"
         (Base.Int64.of_string "787537301")
         (Int.typ @-> Int.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Splits the string using a [param delimiter] and returns the substring at index [param slice]. Returns the original string if [param delimiter] does not occur in the string. Returns an empty string if the [param slice] does not exist.
 This is faster than [method split], if you only need one substring.
@@ -14856,27 +15076,27 @@ This is faster than [method split], if you only need one substring.
 [codeblock]
 print(""i/am/example/hi"".get_slice(""/"", 2)) # Prints ""example""
 [/codeblock] *)
-    let get_slice =
+    let get_slice x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "get_slice"
         (Base.Int64.of_string "3535100402")
         (String.typ @-> Int.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Splits the string using a Unicode character with code [param delimiter] and returns the substring at index [param slice]. Returns an empty string if the [param slice] does not exist.
 This is faster than [method split], if you only need one substring. *)
-    let get_slicec =
+    let get_slicec x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "get_slicec"
         (Base.Int64.of_string "787537301")
         (Int.typ @-> Int.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Returns the total number of slices when the string is split with the given [param delimiter] (see [method split]). *)
-    let get_slice_count =
+    let get_slice_count x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING
         "get_slice_count"
         (Base.Int64.of_string "2920860731")
         (String.typ @-> String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Returns the index of the [b]first[/b] occurrence of [param what] in this string, or [code]-1[/code] if there are none. The search's start can be specified with [param from], continuing to the end of the string.
 [codeblocks]
@@ -14896,74 +15116,74 @@ GD.Print(""Potato"".Find(""t"", 5)); // Prints -1
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] If you just want to know whether the string contains [param what], use [method contains]. In GDScript, you may also use the [code]in[/code] operator. *)
-    let find =
+    let find x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "find"
         (Base.Int64.of_string "1760645412")
         (String.typ @-> Int.typ @-> String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the number of occurrences of the substring [param what] between [param from] and [param to] positions. If [param to] is 0, the search continues until the end of the string. *)
-    let count =
+    let count x0 x1 x2 x3 =
       foreign_builtin_method3 GlobalEnum.VariantType._TYPE_STRING "count"
         (Base.Int64.of_string "2343087891")
         (String.typ @-> Int.typ @-> Int.typ @-> String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2 x3
 
     (** Returns the number of occurrences of the substring [param what] between [param from] and [param to] positions, [b]ignoring case[/b]. If [param to] is 0, the search continues until the end of the string. *)
-    let countn =
+    let countn x0 x1 x2 x3 =
       foreign_builtin_method3 GlobalEnum.VariantType._TYPE_STRING "countn"
         (Base.Int64.of_string "2343087891")
         (String.typ @-> Int.typ @-> Int.typ @-> String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2 x3
 
     (** Returns the index of the [b]first[/b] [b]case-insensitive[/b] occurrence of [param what] in this string, or [code]-1[/code] if there are none. The starting search index can be specified with [param from], continuing to the end of the string. *)
-    let findn =
+    let findn x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "findn"
         (Base.Int64.of_string "1760645412")
         (String.typ @-> Int.typ @-> String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the index of the [b]last[/b] occurrence of [param what] in this string, or [code]-1[/code] if there are none. The search's start can be specified with [param from], continuing to the beginning of the string. This method is the reverse of [method find]. *)
-    let rfind =
+    let rfind x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "rfind"
         (Base.Int64.of_string "1760645412")
         (String.typ @-> Int.typ @-> String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the index of the [b]last[/b] [b]case-insensitive[/b] occurrence of [param what] in this string, or [code]-1[/code] if there are none. The starting search index can be specified with [param from], continuing to the beginning of the string. This method is the reverse of [method findn]. *)
-    let rfindn =
+    let rfindn x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "rfindn"
         (Base.Int64.of_string "1760645412")
         (String.typ @-> Int.typ @-> String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Does a simple expression match (also called ""glob"" or ""globbing""), where [code] * [/code] matches zero or more arbitrary characters and [code]?[/code] matches any single character except a period ([code].[/code]). An empty string or empty expression always evaluates to [code]false[/code]. *)
-    let match_ =
+    let match_ x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "match_"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Does a simple [b]case-insensitive[/b] expression match, where [code] * [/code] matches zero or more arbitrary characters and [code]?[/code] matches any single character except a period ([code].[/code]). An empty string or empty expression always evaluates to [code]false[/code]. *)
-    let matchn =
+    let matchn x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "matchn"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the string begins with the given [param text]. See also [method ends_with]. *)
-    let begins_with =
+    let begins_with x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "begins_with"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the string ends with the given [param text]. See also [method begins_with]. *)
-    let ends_with =
+    let ends_with x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "ends_with"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if all characters of this string can be found in [param text] in their original order.
 [codeblock]
@@ -14974,30 +15194,30 @@ print(""Word!"".is_subsequence_of(text))    # Prints true
 print(""Window"".is_subsequence_of(text))   # Prints false
 print("""".is_subsequence_of(text))         # Prints true
 [/codeblock] *)
-    let is_subsequence_of =
+    let is_subsequence_of x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING
         "is_subsequence_of"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if all characters of this string can be found in [param text] in their original order, [b]ignoring case[/b]. *)
-    let is_subsequence_ofn =
+    let is_subsequence_ofn x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING
         "is_subsequence_ofn"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns an array containing the bigrams (pairs of consecutive characters) of this string.
 [codeblock]
 print(""Get up!"".bigrams()) # Prints [""Ge"", ""et"", ""t "", "" u"", ""up"", ""p!""]
 [/codeblock] *)
-    let bigrams =
+    let bigrams x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "bigrams"
         (Base.Int64.of_string "747180633")
         (String.typ @-> returning PackedStringArray.typ)
-        PackedStringArray.s
+        PackedStringArray.s x0
 
     (** Returns the similarity index ([url=https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient]Sorensen-Dice coefficient[/url]) of this string compared to another. A result of [code]1.0[/code] means totally similar, while [code]0.0[/code] means totally dissimilar.
 [codeblock]
@@ -15006,11 +15226,11 @@ print(""ABC123"".similarity(""XYZ456"")) # Prints 0.0
 print(""ABC123"".similarity(""123ABC"")) # Prints 0.8
 print(""ABC123"".similarity(""abc123"")) # Prints 0.4
 [/codeblock] *)
-    let similarity =
+    let similarity x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "similarity"
         (Base.Int64.of_string "2697460964")
         (String.typ @-> String.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Formats the string by replacing all occurrences of [param placeholder] with the elements of [param values].
 [param values] can be a [Dictionary] or an [Array]. Any underscores in [param placeholder] will be replaced with the corresponding keys in advance. Array elements use their index as keys.
@@ -15037,53 +15257,53 @@ print(""{foo} {bar}"".format({""foo"": ""{bar}"", ""bar"": ""baz""})) # Prints "
 print(""{foo} {bar}"".format({""bar"": ""baz"", ""foo"": ""{bar}""})) # Prints ""{bar} baz"".
 [/codeblock]
 [b]Note:[/b] In C#, it's recommended to [url=https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated]interpolate strings with ""$""[/url], instead. *)
-    let format =
+    let format x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "format"
         (Base.Int64.of_string "3212199029")
         (Variant.typ @-> String.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Replaces all occurrences of [param what] inside the string with the given [param forwhat]. *)
-    let replace =
+    let replace x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "replace"
         (Base.Int64.of_string "1340436205")
         (String.typ @-> String.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Replaces all [b]case-insensitive[/b] occurrences of [param what] inside the string with the given [param forwhat]. *)
-    let replacen =
+    let replacen x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "replacen"
         (Base.Int64.of_string "1340436205")
         (String.typ @-> String.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Repeats this string a number of times. [param count] needs to be greater than [code]0[/code]. Otherwise, returns an empty string. *)
-    let repeat =
+    let repeat x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "repeat"
         (Base.Int64.of_string "2162347432")
         (Int.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Returns the copy of this string in reverse order. *)
-    let reverse =
+    let reverse x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "reverse"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Inserts [param what] at the given [param position] in the string. *)
-    let insert =
+    let insert x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "insert"
         (Base.Int64.of_string "248737229")
         (Int.typ @-> String.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Returns a string with [param chars] characters erased starting from [param position]. If [param chars] goes beyond the string's length given the specified [param position], fewer characters will be erased from the returned string. Returns an empty string if either [param position] or [param chars] is negative. Returns the original string unmodified if [param chars] is [code]0[/code]. *)
-    let erase =
+    let erase x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "erase"
         (Base.Int64.of_string "787537301")
         (Int.typ @-> Int.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Changes the appearance of the string: replaces underscores ([code]_[/code]) with spaces, adds spaces before uppercase letters in the middle of a word, converts all letters to lowercase, then converts the first one and each one following a space to uppercase.
 [codeblocks]
@@ -15098,27 +15318,27 @@ print(""{foo} {bar}"".format({""bar"": ""baz"", ""foo"": ""{bar}""})) # Prints "
 ""2D, FPS, PNG"".Capitalize();   // Returns ""2d, Fps, Png""
 [/csharp]
 [/codeblocks] *)
-    let capitalize =
+    let capitalize x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "capitalize"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the string converted to [code]camelCase[/code]. *)
-    let to_camel_case =
+    let to_camel_case x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "to_camel_case"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the string converted to [code]PascalCase[/code]. *)
-    let to_pascal_case =
+    let to_pascal_case x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "to_pascal_case"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the string converted to [code]snake_case[/code].
 [b]Note:[/b] Numbers followed by a [i]single[/i] letter are not separated in the conversion to keep some words (such as ""2D"") together.
@@ -15134,12 +15354,12 @@ print(""{foo} {bar}"".format({""bar"": ""baz"", ""foo"": ""{bar}""})) # Prints "
 ""Texture3DAssetFolder"".ToSnakeCase(); // Returns ""texture_3d_asset_folder""
 [/csharp]
 [/codeblocks] *)
-    let to_snake_case =
+    let to_snake_case x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "to_snake_case"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Splits the string using a [param delimiter] and returns an array of the substrings. If [param delimiter] is an empty string, each substring will be a single character. This method is the opposite of [method join].
 If [param allow_empty] is [code]false[/code], empty strings between adjacent delimiters are excluded from the array.
@@ -15164,12 +15384,12 @@ GD.Print(someArray[2]); // Prints ""Three""
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] If you only need one substring from the array, consider using [method get_slice] which is faster. If you need to split strings with more complex rules, use the [RegEx] class instead. *)
-    let split =
+    let split x0 x1 x2 x3 =
       foreign_builtin_method3 GlobalEnum.VariantType._TYPE_STRING "split"
         (Base.Int64.of_string "1252735785")
         (String.typ @-> Bool.typ @-> Int.typ @-> String.typ
         @-> returning PackedStringArray.typ)
-        PackedStringArray.s
+        PackedStringArray.s x0 x1 x2 x3
 
     (** Splits the string using a [param delimiter] and returns an array of the substrings, starting from the end of the string. The splits in the returned array appear in the same order as the original string. If [param delimiter] is an empty string, each substring will be a single character.
 If [param allow_empty] is [code]false[/code], empty strings between adjacent delimiters are excluded from the array.
@@ -15188,12 +15408,12 @@ print(some_array[1])     # Prints ""Four""
 // In C#, there is no String.RSplit() method.
 [/csharp]
 [/codeblocks] *)
-    let rsplit =
+    let rsplit x0 x1 x2 x3 =
       foreign_builtin_method3 GlobalEnum.VariantType._TYPE_STRING "rsplit"
         (Base.Int64.of_string "1252735785")
         (String.typ @-> Bool.typ @-> Int.typ @-> String.typ
         @-> returning PackedStringArray.typ)
-        PackedStringArray.s
+        PackedStringArray.s x0 x1 x2 x3
 
     (** Splits the string into floats by using a [param delimiter] and returns a [PackedFloat64Array].
 If [param allow_empty] is [code]false[/code], empty or invalid [float] conversions between adjacent delimiters are excluded.
@@ -15202,12 +15422,12 @@ var a = ""1,2,4.5"".split_floats("","")         # a is [1.0, 2.0, 4.5]
 var c = ""1| ||4.5"".split_floats(""|"")        # c is [1.0, 0.0, 0.0, 4.5]
 var b = ""1| ||4.5"".split_floats(""|"", false) # b is [1.0, 4.5]
 [/codeblock] *)
-    let split_floats =
+    let split_floats x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "split_floats"
         (Base.Int64.of_string "2092079095")
         (String.typ @-> Bool.typ @-> String.typ
         @-> returning PackedFloat64Array.typ)
-        PackedFloat64Array.s
+        PackedFloat64Array.s x0 x1 x2
 
     (** Returns the concatenation of [param parts]' elements, with each element separated by the string calling this method. This method is the opposite of [method split].
 [b]Example:[/b]
@@ -15226,79 +15446,79 @@ GD.Print(string.Join("", "", fruits));  // Prints ""Apple, Orange, Pear, Kiwi""
 GD.Print(string.Join(""---"", fruits)); // Prints ""Apple---Orange---Pear---Kiwi""
 [/csharp]
 [/codeblocks] *)
-    let join =
+    let join x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "join"
         (Base.Int64.of_string "3595973238")
         (PackedStringArray.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Returns the string converted to [code]UPPERCASE[/code]. *)
-    let to_upper =
+    let to_upper x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "to_upper"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the string converted to [code]lowercase[/code]. *)
-    let to_lower =
+    let to_lower x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "to_lower"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the first [param length] characters from the beginning of the string. If [param length] is negative, strips the last [param length] characters from the string's end.
 [codeblock]
 print(""Hello World!"".left(3))  # Prints ""Hel""
 print(""Hello World!"".left(-4)) # Prints ""Hello Wo""
 [/codeblock] *)
-    let left =
+    let left x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "left"
         (Base.Int64.of_string "2162347432")
         (Int.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Returns the last [param length] characters from the end of the string. If [param length] is negative, strips the first [param length] characters from the string's beginning.
 [codeblock]
 print(""Hello World!"".right(3))  # Prints ""ld!""
 print(""Hello World!"".right(-4)) # Prints ""o World!""
 [/codeblock] *)
-    let right =
+    let right x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "right"
         (Base.Int64.of_string "2162347432")
         (Int.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Strips all non-printable characters from the beginning and the end of the string. These include spaces, tabulations ([code]\t[/code]), and newlines ([code]\n[/code] [code]\r[/code]).
 If [param left] is [code]false[/code], ignores the string's beginning. Likewise, if [param right] is [code]false[/code], ignores the string's end. *)
-    let strip_edges =
+    let strip_edges x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "strip_edges"
         (Base.Int64.of_string "907855311")
         (Bool.typ @-> Bool.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Strips all escape characters from the string. These include all non-printable control characters of the first page of the ASCII table (values from 0 to 31), such as tabulation ([code]\t[/code]) and newline ([code]\n[/code], [code]\r[/code]) characters, but [i]not[/i] spaces. *)
-    let strip_escapes =
+    let strip_escapes x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "strip_escapes"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Removes a set of characters defined in [param chars] from the string's beginning. See also [method rstrip].
 [b]Note:[/b] [param chars] is not a prefix. Use [method trim_prefix] to remove a single prefix, rather than a set of characters. *)
-    let lstrip =
+    let lstrip x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "lstrip"
         (Base.Int64.of_string "3134094431")
         (String.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Removes a set of characters defined in [param chars] from the string's end. See also [method lstrip].
 [b]Note:[/b] [param chars] is not a suffix. Use [method trim_suffix] to remove a single suffix, rather than a set of characters. *)
-    let rstrip =
+    let rstrip x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "rstrip"
         (Base.Int64.of_string "3134094431")
         (String.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** If the string is a valid file name or path, returns the file extension without the leading period ([code].[/code]). Otherwise, returns an empty string.
 [codeblock]
@@ -15312,110 +15532,110 @@ var f = ""file.txt.."".get_extension() # f is """"
 var g = ""txt"".get_extension()        # g is """"
 var h = """".get_extension()           # h is """"
 [/codeblock] *)
-    let get_extension =
+    let get_extension x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "get_extension"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** If the string is a valid file path, returns the full file path, without the extension.
 [codeblock]
 var base = ""/path/to/file.txt"".get_basename() # base is ""/path/to/file""
 [/codeblock] *)
-    let get_basename =
+    let get_basename x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "get_basename"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Concatenates [param file] at the end of the string as a subpath, adding [code]/[/code] if necessary.
 [b]Example:[/b] [code]""this/is"".path_join(""path"") == ""this/is/path""[/code]. *)
-    let path_join =
+    let path_join x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "path_join"
         (Base.Int64.of_string "3134094431")
         (String.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Returns the character code at position [param at]. *)
-    let unicode_at =
+    let unicode_at x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "unicode_at"
         (Base.Int64.of_string "4103005248")
         (Int.typ @-> String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Indents every line of the string with the given [param prefix]. Empty lines are not indented. See also [method dedent] to remove indentation.
 For example, the string can be indented with two tabulations using [code]""\t\t""[/code], or four spaces using [code]""    ""[/code]. *)
-    let indent =
+    let indent x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "indent"
         (Base.Int64.of_string "3134094431")
         (String.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Returns a copy of the string with indentation (leading tabs and spaces) removed. See also [method indent] to add indentation. *)
-    let dedent =
+    let dedent x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "dedent"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the 32-bit hash value representing the string's contents.
 [b]Note:[/b] Strings with equal hash values are [i]not[/i] guaranteed to be the same, as a result of hash collisions. On the contrary, strings with different hash values are guaranteed to be different. *)
-    let hash =
+    let hash x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "hash"
         (Base.Int64.of_string "3173160232")
         (String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the [url=https://en.wikipedia.org/wiki/MD5]MD5 hash[/url] of the string as another [String]. *)
-    let md5_text =
+    let md5_text x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "md5_text"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the [url=https://en.wikipedia.org/wiki/SHA-1]SHA-1[/url] hash of the string as another [String]. *)
-    let sha1_text =
+    let sha1_text x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "sha1_text"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the [url=https://en.wikipedia.org/wiki/SHA-2]SHA-256[/url] hash of the string as another [String]. *)
-    let sha256_text =
+    let sha256_text x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "sha256_text"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the [url=https://en.wikipedia.org/wiki/MD5]MD5 hash[/url] of the string as a [PackedByteArray]. *)
-    let md5_buffer =
+    let md5_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "md5_buffer"
         (Base.Int64.of_string "247621236")
         (String.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Returns the [url=https://en.wikipedia.org/wiki/SHA-1]SHA-1[/url] hash of the string as a [PackedByteArray]. *)
-    let sha1_buffer =
+    let sha1_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "sha1_buffer"
         (Base.Int64.of_string "247621236")
         (String.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Returns the [url=https://en.wikipedia.org/wiki/SHA-2]SHA-256[/url] hash of the string as a [PackedByteArray]. *)
-    let sha256_buffer =
+    let sha256_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "sha256_buffer"
         (Base.Int64.of_string "247621236")
         (String.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Returns [code]true[/code] if the string's length is [code]0[/code] ([code]""""[/code]). See also [method length]. *)
-    let is_empty =
+    let is_empty x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "is_empty"
         (Base.Int64.of_string "3918633141")
         (String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if the string contains [param what]. In GDScript, this corresponds to the [code]in[/code] operator.
 [codeblocks]
@@ -15430,74 +15650,74 @@ GD.Print(""team"".Contains(""I""));  // Prints false
 [/csharp]
 [/codeblocks]
 If you need to know where [param what] is within the string, use [method find]. *)
-    let contains =
+    let contains x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "contains"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the string is a path to a file or directory, and its starting point is explicitly defined. This method is the opposite of [method is_relative_path].
 This includes all paths starting with [code]""res://""[/code], [code]""user://""[/code], [code]""C:\""[/code], [code]""/""[/code], etc. *)
-    let is_absolute_path =
+    let is_absolute_path x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "is_absolute_path"
         (Base.Int64.of_string "3918633141")
         (String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if the string is a path, and its starting point is dependent on context. The path could begin from the current directory, or the current [Node] (if the string is derived from a [NodePath]), and may sometimes be prefixed with [code]""./""[/code]. This method is the opposite of [method is_absolute_path]. *)
-    let is_relative_path =
+    let is_relative_path x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "is_relative_path"
         (Base.Int64.of_string "3918633141")
         (String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** If the string is a valid file path, converts the string into a canonical path. This is the shortest possible path, without [code]""./""[/code], and all the unnecessary [code]""..""[/code] and [code]""/""[/code].
 [codeblock]
 var simple_path = ""./path/to///../file"".simplify_path()
 print(simple_path) # Prints ""path/file""
 [/codeblock] *)
-    let simplify_path =
+    let simplify_path x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "simplify_path"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** If the string is a valid file path, returns the base directory name.
 [codeblock]
 var dir_path = ""/path/to/file.txt"".get_base_dir() # dir_path is ""/path/to""
 [/codeblock] *)
-    let get_base_dir =
+    let get_base_dir x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "get_base_dir"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** If the string is a valid file path, returns the file name, including the extension.
 [codeblock]
 var file = ""/path/to/icon.png"".get_file() # file is ""icon.png""
 [/codeblock] *)
-    let get_file =
+    let get_file x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "get_file"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns a copy of the string with special characters escaped using the XML standard. If [param escape_quotes] is [code]true[/code], the single quote ([code]'[/code]) and double quote ([code]""[/code]) characters are also escaped. *)
-    let xml_escape =
+    let xml_escape x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "xml_escape"
         (Base.Int64.of_string "3429816538")
         (Bool.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Returns a copy of the string with escaped characters replaced by their meanings according to the XML standard. *)
-    let xml_unescape =
+    let xml_unescape x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "xml_unescape"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Encodes the string to URL-friendly format. This method is meant to properly encode the parameters in a URL when sending an HTTP request. See also [method uri_decode].
 [codeblocks]
@@ -15514,11 +15734,11 @@ var url = prefix + ""Godot Engine:docs"".URIEncode();
 GD.Print(url); // Prints ""$DOCS_URL/?highlight=Godot%20Engine%3%docs""
 [/csharp]
 [/codeblocks] *)
-    let uri_encode =
+    let uri_encode x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "uri_encode"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Decodes the string from its URL-encoded format. This method is meant to properly decode the parameters in a URL when receiving an HTTP request. See also [method uri_encode].
 [codeblocks]
@@ -15531,49 +15751,49 @@ var url = ""$DOCS_URL/?highlight=Godot%20Engine%3%docs""
 GD.Print(url.URIDecode()) // Prints ""$DOCS_URL/?highlight=Godot Engine:docs""
 [/csharp]
 [/codeblocks] *)
-    let uri_decode =
+    let uri_decode x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "uri_decode"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns a copy of the string with special characters escaped using the C language standard. *)
-    let c_escape =
+    let c_escape x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "c_escape"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns a copy of the string with escaped characters replaced by their meanings. Supported escape sequences are [code]\'[/code], [code]\""[/code], [code]\\[/code], [code]\a[/code], [code]\b[/code], [code]\f[/code], [code]\n[/code], [code]\r[/code], [code]\t[/code], [code]\v[/code].
 [b]Note:[/b] Unlike the GDScript parser, this method doesn't support the [code]\uXXXX[/code] escape sequence. *)
-    let c_unescape =
+    let c_unescape x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "c_unescape"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns a copy of the string with special characters escaped using the JSON standard. Because it closely matches the C standard, it is possible to use [method c_unescape] to unescape the string, if necessary. *)
-    let json_escape =
+    let json_escape x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "json_escape"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns a copy of the string with all characters that are not allowed in [member Node.name] ([code].[/code] [code]:[/code] [code]@[/code] [code]/[/code] [code]""[/code] [code]%[/code]) replaced with underscores. *)
-    let validate_node_name =
+    let validate_node_name x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "validate_node_name"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns a copy of the string with all characters that are not allowed in [method is_valid_filename] replaced with underscores. *)
-    let validate_filename =
+    let validate_filename x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "validate_filename"
         (Base.Int64.of_string "3942272618")
         (String.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns [code]true[/code] if this string is a valid identifier. A valid identifier may contain only letters, digits and underscores ([code]_[/code]), and the first character may not be a digit.
 [codeblock]
@@ -15582,12 +15802,12 @@ print(""TYPE_FLOAT"".is_valid_identifier()) # Prints true
 print(""1st_method"".is_valid_identifier()) # Prints false
 print(""MyMethod#2"".is_valid_identifier()) # Prints false
 [/codeblock] *)
-    let is_valid_identifier =
+    let is_valid_identifier x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "is_valid_identifier"
         (Base.Int64.of_string "3918633141")
         (String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this string represents a valid integer. A valid integer only contains digits, and may be prefixed with a positive ([code]+[/code]) or negative ([code]-[/code]) sign. See also [method to_int].
 [codeblock]
@@ -15597,11 +15817,11 @@ print(""Hi"".is_valid_int())   # Prints false
 print(""+3"".is_valid_int())   # Prints true
 print(""-12"".is_valid_int())  # Prints true
 [/codeblock] *)
-    let is_valid_int =
+    let is_valid_int x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "is_valid_int"
         (Base.Int64.of_string "3918633141")
         (String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this string represents a valid floating-point number. A valid float may contain only digits, one decimal point ([code].[/code]), and the exponent letter ([code]e[/code]). It may also be prefixed with a positive ([code]+[/code]) or negative ([code]-[/code]) sign. Any valid integer is also a valid float (see [method is_valid_int]). See also [method to_float].
 [codeblock]
@@ -15610,12 +15830,12 @@ print(""24"".is_valid_float())    # Prints true
 print(""7e3"".is_valid_float())   # Prints true
 print(""Hello"".is_valid_float()) # Prints false
 [/codeblock] *)
-    let is_valid_float =
+    let is_valid_float x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "is_valid_float"
         (Base.Int64.of_string "3918633141")
         (String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this string is a valid hexadecimal number. A valid hexadecimal number only contains digits or letters [code]A[/code] to [code]F[/code] (either uppercase or lowercase), and may be prefixed with a positive ([code]+[/code]) or negative ([code]-[/code]) sign.
 If [param with_prefix] is [code]true[/code], the hexadecimal number needs to prefixed by [code]""0x""[/code] to be considered valid.
@@ -15626,36 +15846,36 @@ print(""2.5"".is_valid_hex_number())     # Prints false
 
 print(""0xDEADC0DE"".is_valid_hex_number(true)) # Prints true
 [/codeblock] *)
-    let is_valid_hex_number =
+    let is_valid_hex_number x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING
         "is_valid_hex_number"
         (Base.Int64.of_string "593672999")
         (Bool.typ @-> String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this string is a valid color in hexadecimal HTML notation. The string must be a hexadecimal value (see [method is_valid_hex_number]) of either 3, 4, 6 or 8 digits, and may be prefixed by a hash sign ([code]#[/code]). Other HTML notations for colors, such as names or [code]hsl()[/code], are not considered valid. See also [method Color.html]. *)
-    let is_valid_html_color =
+    let is_valid_html_color x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "is_valid_html_color"
         (Base.Int64.of_string "3918633141")
         (String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this string represents a well-formatted IPv4 or IPv6 address. This method considers [url=https://en.wikipedia.org/wiki/Reserved_IP_addresses]reserved IP addresses[/url] such as [code]""0.0.0.0""[/code] and [code]""ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff""[/code] as valid. *)
-    let is_valid_ip_address =
+    let is_valid_ip_address x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "is_valid_ip_address"
         (Base.Int64.of_string "3918633141")
         (String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this string does not contain characters that are not allowed in file names ([code]:[/code] [code]/[/code] [code]\[/code] [code]?[/code] [code] * [/code] [code]""[/code] [code]|[/code] [code]%[/code] [code]<[/code] [code]>[/code]). *)
-    let is_valid_filename =
+    let is_valid_filename x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "is_valid_filename"
         (Base.Int64.of_string "3918633141")
         (String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Converts the string representing an integer number into an [int]. This method removes any non-number character and stops at the first decimal point ([code].[/code]). See also [method is_valid_int].
 [codeblock]
@@ -15664,11 +15884,11 @@ var b = ""x1y2z3"".to_int() # b is 123
 var c = ""-1.2.3"".to_int() # c is -1
 var d = ""Hello!"".to_int() # d is 0
 [/codeblock] *)
-    let to_int =
+    let to_int x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "to_int"
         (Base.Int64.of_string "3173160232")
         (String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Converts the string representing a decimal number into a [float]. This method stops on the first non-number character, except the first decimal point ([code].[/code]) and the exponent letter ([code]e[/code]). See also [method is_valid_float].
 [codeblock]
@@ -15678,11 +15898,11 @@ var c = ""12xy3"".to_float()  # c is 12.0
 var d = ""1e3"".to_float()    # d is 1000.0
 var e = ""Hello!"".to_float() # e is 0.0
 [/codeblock] *)
-    let to_float =
+    let to_float x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "to_float"
         (Base.Int64.of_string "466405837")
         (String.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Converts the string representing a hexadecimal number into an [int]. The string may be optionally prefixed with [code]""0x""[/code], and an additional [code]-[/code] prefix for negative numbers.
 [codeblocks]
@@ -15695,11 +15915,11 @@ GD.Print(""0xff"".HexToInt()); // Prints 255
 GD.Print(""ab"".HexToInt());   // Prints 171
 [/csharp]
 [/codeblocks] *)
-    let hex_to_int =
+    let hex_to_int x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "hex_to_int"
         (Base.Int64.of_string "3173160232")
         (String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Converts the string representing a binary number into an [int]. The string may optionally be prefixed with [code]""0b""[/code], and an additional [code]-[/code] prefix for negative numbers.
 [codeblocks]
@@ -15714,85 +15934,85 @@ GD.Print(""0b101"".BinToInt()); // Prints 5
 GD.Print(""-0b10"".BinToInt()); // Prints -2
 [/csharp]
 [/codeblocks] *)
-    let bin_to_int =
+    let bin_to_int x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "bin_to_int"
         (Base.Int64.of_string "3173160232")
         (String.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Formats the string to be at least [param min_length] long by adding [param character]s to the left of the string, if necessary. See also [method rpad]. *)
-    let lpad =
+    let lpad x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "lpad"
         (Base.Int64.of_string "248737229")
         (Int.typ @-> String.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Formats the string to be at least [param min_length] long, by adding [param character]s to the right of the string, if necessary. See also [method lpad]. *)
-    let rpad =
+    let rpad x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING "rpad"
         (Base.Int64.of_string "248737229")
         (Int.typ @-> String.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Formats the string representing a number to have an exact number of [param digits] [i]after[/i] the decimal point. *)
-    let pad_decimals =
+    let pad_decimals x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "pad_decimals"
         (Base.Int64.of_string "2162347432")
         (Int.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Formats the string representing a number to have an exact number of [param digits] [i]before[/i] the decimal point. *)
-    let pad_zeros =
+    let pad_zeros x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "pad_zeros"
         (Base.Int64.of_string "2162347432")
         (Int.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Removes the given [param prefix] from the start of the string, or returns the string unchanged. *)
-    let trim_prefix =
+    let trim_prefix x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "trim_prefix"
         (Base.Int64.of_string "3134094431")
         (String.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Removes the given [param suffix] from the end of the string, or returns the string unchanged. *)
-    let trim_suffix =
+    let trim_suffix x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING "trim_suffix"
         (Base.Int64.of_string "3134094431")
         (String.typ @-> String.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Converts the string to an [url=https://en.wikipedia.org/wiki/ASCII]ASCII[/url]/Latin-1 encoded [PackedByteArray]. This method is slightly faster than [method to_utf8_buffer], but replaces all unsupported characters with spaces. This is the inverse of [method PackedByteArray.get_string_from_ascii]. *)
-    let to_ascii_buffer =
+    let to_ascii_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "to_ascii_buffer"
         (Base.Int64.of_string "247621236")
         (String.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Converts the string to a [url=https://en.wikipedia.org/wiki/UTF-8]UTF-8[/url] encoded [PackedByteArray]. This method is slightly slower than [method to_ascii_buffer], but supports all UTF-8 characters. For most cases, prefer using this method. This is the inverse of [method PackedByteArray.get_string_from_utf8]. *)
-    let to_utf8_buffer =
+    let to_utf8_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "to_utf8_buffer"
         (Base.Int64.of_string "247621236")
         (String.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Converts the string to a [url=https://en.wikipedia.org/wiki/UTF-16]UTF-16[/url] encoded [PackedByteArray]. This is the inverse of [method PackedByteArray.get_string_from_utf16]. *)
-    let to_utf16_buffer =
+    let to_utf16_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "to_utf16_buffer"
         (Base.Int64.of_string "247621236")
         (String.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Converts the string to a [url=https://en.wikipedia.org/wiki/UTF-32]UTF-32[/url] encoded [PackedByteArray]. This is the inverse of [method PackedByteArray.get_string_from_utf32]. *)
-    let to_utf32_buffer =
+    let to_utf32_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "to_utf32_buffer"
         (Base.Int64.of_string "247621236")
         (String.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Decodes a hexadecimal string as a [PackedByteArray].
 [codeblocks]
@@ -15807,19 +16027,19 @@ var encoded = text.ToUtf8Buffer().HexEncode(); // outputs ""68656c6c6f20776f726c
 GD.Print(buf.HexDecode().GetStringFromUtf8());
 [/csharp]
 [/codeblocks] *)
-    let hex_decode =
+    let hex_decode x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING "hex_decode"
         (Base.Int64.of_string "247621236")
         (String.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Converts the string to a [url=https://en.wikipedia.org/wiki/Wide_character]wide character[/url] ([code]wchar_t[/code], UTF-16 on Windows, UTF-32 on other platforms) encoded [PackedByteArray]. This is the inverse of [method PackedByteArray.get_string_from_wchar]. *)
-    let to_wchar_buffer =
+    let to_wchar_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING
         "to_wchar_buffer"
         (Base.Int64.of_string "247621236")
         (String.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Converts the given [param number] to a string representation, in scientific notation.
 [codeblocks]
@@ -15837,12 +16057,12 @@ GD.Print(n.ToString(""e1"")); // Prints -5.2e+008
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] In C#, this method is not implemented. To achieve similar results, see C#'s [url=https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings]Standard numeric format strings[/url] *)
-    let num_scientific =
+    let num_scientific x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_STRING
         "num_scientific"
         (Base.Int64.of_string "2710373411")
         (Float.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Converts a [float] to a string representation of a decimal number, with the number of decimal places specified in [param decimals].
 If [param decimals] is [code]-1[/code] as by default, the string representation may only have up to 14 significant digits, with digits before the decimal point having priority over digits after.
@@ -15861,148 +16081,163 @@ String.num(42.129999, 5) # Returns ""42.13""
 String.num(-0.0000012345432123454321)     # Returns ""-0.00000123454321""
 String.num(-10000.0000012345432123454321) # Returns ""-10000.0000012345""
 [/codeblock] *)
-    let num =
+    let num x0 x1 =
       foreign_builtin_method2_static GlobalEnum.VariantType._TYPE_STRING "num"
         (Base.Int64.of_string "1555901022")
         (Float.typ @-> Int.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Converts the given [param number] to a string representation, with the given [param base].
 By default, [param base] is set to decimal ([code]10[/code]). Other common bases in programming include binary ([code]2[/code]), [url=https://en.wikipedia.org/wiki/Octal]octal[/url] ([code]8[/code]), hexadecimal ([code]16[/code]).
 If [param capitalize_hex] is [code]true[/code], digits higher than 9 are represented in uppercase. *)
-    let num_int64 =
+    let num_int64 x0 x1 x2 =
       foreign_builtin_method3_static GlobalEnum.VariantType._TYPE_STRING
         "num_int64"
         (Base.Int64.of_string "2111271071")
         (Int.typ @-> Int.typ @-> Bool.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Converts the given unsigned [int] to a string representation, with the given [param base].
 By default, [param base] is set to decimal ([code]10[/code]). Other common bases in programming include binary ([code]2[/code]), [url=https://en.wikipedia.org/wiki/Octal]octal[/url] ([code]8[/code]), hexadecimal ([code]16[/code]).
 If [param capitalize_hex] is [code]true[/code], digits higher than 9 are represented in uppercase. *)
-    let num_uint64 =
+    let num_uint64 x0 x1 x2 =
       foreign_builtin_method3_static GlobalEnum.VariantType._TYPE_STRING
         "num_uint64"
         (Base.Int64.of_string "2111271071")
         (Int.typ @-> Int.typ @-> Bool.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Returns a single Unicode character from the decimal [param char]. You may use [url=https://unicodelookup.com/]unicodelookup.com[/url] or [url=https://www.unicode.org/charts/]unicode.org[/url] as points of reference.
 [codeblock]
 print(String.chr(65))     # Prints ""A""
 print(String.chr(129302)) # Prints ""🤖"" (robot face emoji)
 [/codeblock] *)
-    let chr =
+    let chr x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_STRING "chr"
         (Base.Int64.of_string "897497541")
         (Int.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Converts [param size] which represents a number of bytes into a human-readable form.
 The result is in [url=https://en.wikipedia.org/wiki/Binary_prefix#IEC_prefixes]IEC prefix format[/url], which may end in either [code]""B""[/code], [code]""KiB""[/code], [code]""MiB""[/code], [code]""GiB""[/code], [code]""TiB""[/code], [code]""PiB""[/code], or [code]""EiB""[/code]. *)
-    let humanize_size =
+    let humanize_size x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_STRING
         "humanize_size"
         (Base.Int64.of_string "897497541")
         (Int.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if both strings contain the same sequence of characters. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if both strings do not contain the same sequence of characters. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left [String] comes before [param right] in [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url], which roughly matches the alphabetical order. Useful for sorting. *)
-    let ( < ) =
+    let ( < ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left [String] comes before [param right] in [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url], which roughly matches the alphabetical order, or if both are equal. *)
-    let ( <= ) =
+    let ( <= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left [String] comes after [param right] in [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url], which roughly matches the alphabetical order. Useful for sorting. *)
-    let ( > ) =
+    let ( > ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left [String] comes after [param right] in [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url], which roughly matches the alphabetical order, or if both are equal. *)
-    let ( >= ) =
+    let ( >= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Appends [param right] at the end of this [String], also known as a string concatenation. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr (String.typ @-> String.typ @-> String.typ @-> returning void))
+        x0 x1 x2
 
-    let ( % ) =
+    let ( % ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_MODULE
         (funptr (String.typ @-> String.typ @-> String.typ @-> returning void))
+        x0 x1 x2
 
-    let _String_elem_String =
+    let _String_elem_String x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _String_elem_StringName =
+    let _String_elem_StringName x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (String.typ @-> StringName.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _String_elem_Object =
+    let _String_elem_Object x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_OBJECT)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (String.typ @-> Object.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _String_elem_Dictionary =
+    let _String_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (String.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _String_elem_Array =
+    let _String_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (String.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _String_elem_PackedStringArray =
+    let _String_elem_PackedStringArray x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (String.typ @-> PackedStringArray.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Vector2 = struct
@@ -16012,323 +16247,323 @@ The result is in [url=https://en.wikipedia.org/wiki/Binary_prefix#IEC_prefixes]I
 For example, [code]Vector2.RIGHT.angle()[/code] will return zero, [code]Vector2.DOWN.angle()[/code] will return [code]PI / 2[/code] (a quarter turn, or 90 degrees), and [code]Vector2(1, -1).angle()[/code] will return [code]-PI / 4[/code] (a negative eighth turn, or -45 degrees).
 [url=https://raw.githubusercontent.com/godotengine/godot-docs/master/img/vector2_angle.png]Illustration of the returned angle.[/url]
 Equivalent to the result of [method @GlobalScope.atan2] when called with the vector's [member y] and [member x] as parameters: [code]atan2(y, x)[/code]. *)
-    let angle =
+    let angle x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2 "angle"
         (Base.Int64.of_string "466405837")
         (Vector2.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the angle to the given vector, in radians.
 [url=https://raw.githubusercontent.com/godotengine/godot-docs/master/img/vector2_angle_to.png]Illustration of the returned angle.[/url] *)
-    let angle_to =
+    let angle_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2 "angle_to"
         (Base.Int64.of_string "3819070308")
         (Vector2.typ @-> Vector2.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the angle between the line connecting the two points and the X axis, in radians.
 [code]a.angle_to_point(b)[/code] is equivalent of doing [code](b - a).angle()[/code].
 [url=https://raw.githubusercontent.com/godotengine/godot-docs/master/img/vector2_angle_to_point.png]Illustration of the returned angle.[/url] *)
-    let angle_to_point =
+    let angle_to_point x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2
         "angle_to_point"
         (Base.Int64.of_string "3819070308")
         (Vector2.typ @-> Vector2.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the normalized vector pointing from this vector to [param to]. This is equivalent to using [code](b - a).normalized()[/code]. *)
-    let direction_to =
+    let direction_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2
         "direction_to"
         (Base.Int64.of_string "2026743667")
         (Vector2.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1
 
     (** Returns the distance between this vector and [param to]. *)
-    let distance_to =
+    let distance_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2 "distance_to"
         (Base.Int64.of_string "3819070308")
         (Vector2.typ @-> Vector2.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the squared distance between this vector and [param to].
 This method runs faster than [method distance_to], so prefer it if you need to compare vectors or need the squared distance for some formula. *)
-    let distance_squared_to =
+    let distance_squared_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2
         "distance_squared_to"
         (Base.Int64.of_string "3819070308")
         (Vector2.typ @-> Vector2.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the length (magnitude) of this vector. *)
-    let length =
+    let length x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2 "length"
         (Base.Int64.of_string "466405837")
         (Vector2.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the squared length (squared magnitude) of this vector.
 This method runs faster than [method length], so prefer it if you need to compare vectors or need the squared distance for some formula. *)
-    let length_squared =
+    let length_squared x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2
         "length_squared"
         (Base.Int64.of_string "466405837")
         (Vector2.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the vector with a maximum length by limiting its length to [param length]. *)
-    let limit_length =
+    let limit_length x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2
         "limit_length"
         (Base.Int64.of_string "2544004089")
         (Float.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1
 
     (** Returns the result of scaling the vector to unit length. Equivalent to [code]v / v.length()[/code]. See also [method is_normalized].
 [b]Note:[/b] This function may return incorrect values if the input vector length is near zero. *)
-    let normalized =
+    let normalized x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2 "normalized"
         (Base.Int64.of_string "2428350749")
         (Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0
 
     (** Returns [code]true[/code] if the vector is normalized, i.e. its length is approximately equal to 1. *)
-    let is_normalized =
+    let is_normalized x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2
         "is_normalized"
         (Base.Int64.of_string "3918633141")
         (Vector2.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this vector and [param to] are approximately equal, by running [method @GlobalScope.is_equal_approx] on each component. *)
-    let is_equal_approx =
+    let is_equal_approx x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2
         "is_equal_approx"
         (Base.Int64.of_string "3190634762")
         (Vector2.typ @-> Vector2.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this vector's values are approximately zero, by running [method @GlobalScope.is_zero_approx] on each component.
 This method is faster than using [method is_equal_approx] with one value as a zero vector. *)
-    let is_zero_approx =
+    let is_zero_approx x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2
         "is_zero_approx"
         (Base.Int64.of_string "3918633141")
         (Vector2.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this vector is finite, by calling [method @GlobalScope.is_finite] on each component. *)
-    let is_finite =
+    let is_finite x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2 "is_finite"
         (Base.Int64.of_string "3918633141")
         (Vector2.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns a vector composed of the [method @GlobalScope.fposmod] of this vector's components and [param mod]. *)
-    let posmod =
+    let posmod x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2 "posmod"
         (Base.Int64.of_string "2544004089")
         (Float.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1
 
     (** Returns a vector composed of the [method @GlobalScope.fposmod] of this vector's components and [param modv]'s components. *)
-    let posmodv =
+    let posmodv x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2 "posmodv"
         (Base.Int64.of_string "2026743667")
         (Vector2.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1
 
     (** Returns the result of projecting the vector onto the given vector [param b]. *)
-    let project =
+    let project x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2 "project"
         (Base.Int64.of_string "2026743667")
         (Vector2.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1
 
     (** Returns the result of the linear interpolation between this vector and [param to] by amount [param weight]. [param weight] is on the range of [code]0.0[/code] to [code]1.0[/code], representing the amount of interpolation. *)
-    let lerp =
+    let lerp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR2 "lerp"
         (Base.Int64.of_string "4250033116")
         (Vector2.typ @-> Float.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1 x2
 
     (** Returns the result of spherical linear interpolation between this vector and [param to], by amount [param weight]. [param weight] is on the range of 0.0 to 1.0, representing the amount of interpolation.
 This method also handles interpolating the lengths if the input vectors have different lengths. For the special case of one or both input vectors having zero length, this method behaves like [method lerp]. *)
-    let slerp =
+    let slerp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR2 "slerp"
         (Base.Int64.of_string "4250033116")
         (Vector2.typ @-> Float.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1 x2
 
     (** Performs a cubic interpolation between this vector and [param b] using [param pre_a] and [param post_b] as handles, and returns the result at position [param weight]. [param weight] is on the range of 0.0 to 1.0, representing the amount of interpolation. *)
-    let cubic_interpolate =
+    let cubic_interpolate x0 x1 x2 x3 x4 =
       foreign_builtin_method4 GlobalEnum.VariantType._TYPE_VECTOR2
         "cubic_interpolate"
         (Base.Int64.of_string "193522989")
         (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> Float.typ
        @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1 x2 x3 x4
 
     (** Performs a cubic interpolation between this vector and [param b] using [param pre_a] and [param post_b] as handles, and returns the result at position [param weight]. [param weight] is on the range of 0.0 to 1.0, representing the amount of interpolation.
 It can perform smoother interpolation than [method cubic_interpolate] by the time values. *)
-    let cubic_interpolate_in_time =
+    let cubic_interpolate_in_time x0 x1 x2 x3 x4 x5 x6 x7 =
       foreign_builtin_method7 GlobalEnum.VariantType._TYPE_VECTOR2
         "cubic_interpolate_in_time"
         (Base.Int64.of_string "1957055074")
         (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> Float.typ @-> Float.typ
        @-> Float.typ @-> Float.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1 x2 x3 x4 x5 x6 x7
 
     (** Returns the point at the given [param t] on the [url=https://en.wikipedia.org/wiki/B%C3%A9zier_curve]Bézier curve[/url] defined by this vector and the given [param control_1], [param control_2], and [param end] points. *)
-    let bezier_interpolate =
+    let bezier_interpolate x0 x1 x2 x3 x4 =
       foreign_builtin_method4 GlobalEnum.VariantType._TYPE_VECTOR2
         "bezier_interpolate"
         (Base.Int64.of_string "193522989")
         (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> Float.typ
        @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1 x2 x3 x4
 
     (** Returns the derivative at the given [param t] on the [url=https://en.wikipedia.org/wiki/B%C3%A9zier_curve]Bézier curve[/url] defined by this vector and the given [param control_1], [param control_2], and [param end] points. *)
-    let bezier_derivative =
+    let bezier_derivative x0 x1 x2 x3 x4 =
       foreign_builtin_method4 GlobalEnum.VariantType._TYPE_VECTOR2
         "bezier_derivative"
         (Base.Int64.of_string "193522989")
         (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> Float.typ
        @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1 x2 x3 x4
 
     (** Returns the axis of the vector's highest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_X]. *)
-    let max_axis_index =
+    let max_axis_index x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2
         "max_axis_index"
         (Base.Int64.of_string "3173160232")
         (Vector2.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the axis of the vector's lowest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_Y]. *)
-    let min_axis_index =
+    let min_axis_index x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2
         "min_axis_index"
         (Base.Int64.of_string "3173160232")
         (Vector2.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns a new vector moved toward [param to] by the fixed [param delta] amount. Will not go past the final value. *)
-    let move_toward =
+    let move_toward x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR2 "move_toward"
         (Base.Int64.of_string "4250033116")
         (Vector2.typ @-> Float.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1 x2
 
     (** Returns the result of rotating this vector by [param angle] (in radians). See also [method @GlobalScope.deg_to_rad]. *)
-    let rotated =
+    let rotated x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2 "rotated"
         (Base.Int64.of_string "2544004089")
         (Float.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1
 
     (** Returns a perpendicular vector rotated 90 degrees counter-clockwise compared to the original, with the same length. *)
-    let orthogonal =
+    let orthogonal x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2 "orthogonal"
         (Base.Int64.of_string "2428350749")
         (Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0
 
     (** Returns a new vector with all components rounded down (towards negative infinity). *)
-    let floor =
+    let floor x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2 "floor"
         (Base.Int64.of_string "2428350749")
         (Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0
 
     (** Returns a new vector with all components rounded up (towards positive infinity). *)
-    let ceil =
+    let ceil x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2 "ceil"
         (Base.Int64.of_string "2428350749")
         (Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0
 
     (** Returns a new vector with all components rounded to the nearest integer, with halfway cases rounded away from zero. *)
-    let round =
+    let round x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2 "round"
         (Base.Int64.of_string "2428350749")
         (Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0
 
     (** Returns the aspect ratio of this vector, the ratio of [member x] to [member y]. *)
-    let aspect =
+    let aspect x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2 "aspect"
         (Base.Int64.of_string "466405837")
         (Vector2.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the dot product of this vector and [param with]. This can be used to compare the angle between two vectors. For example, this can be used to determine whether an enemy is facing the player.
 The dot product will be [code]0[/code] for a straight angle (90 degrees), greater than 0 for angles narrower than 90 degrees and lower than 0 for angles wider than 90 degrees.
 When using unit (normalized) vectors, the result will always be between [code]-1.0[/code] (180 degree angle) when the vectors are facing opposite directions, and [code]1.0[/code] (0 degree angle) when the vectors are aligned.
 [b]Note:[/b] [code]a.dot(b)[/code] is equivalent to [code]b.dot(a)[/code]. *)
-    let dot =
+    let dot x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2 "dot"
         (Base.Int64.of_string "3819070308")
         (Vector2.typ @-> Vector2.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the result of sliding the vector along a plane defined by the given normal. *)
-    let slide =
+    let slide x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2 "slide"
         (Base.Int64.of_string "2026743667")
         (Vector2.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1
 
     (** Returns a new vector ""bounced off"" from a plane defined by the given normal. *)
-    let bounce =
+    let bounce x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2 "bounce"
         (Base.Int64.of_string "2026743667")
         (Vector2.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1
 
     (** Returns the result of reflecting the vector from a line defined by the given direction vector [param n]. *)
-    let reflect =
+    let reflect x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2 "reflect"
         (Base.Int64.of_string "2026743667")
         (Vector2.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1
 
     (** Returns the 2D analog of the cross product for this vector and [param with].
 This is the signed area of the parallelogram formed by the two vectors. If the second vector is clockwise from the first vector, then the cross product is the positive area. If counter-clockwise, the cross product is the negative area. If the two vectors are parallel this returns zero, making it useful for testing if two vectors are parallel.
 [b]Note:[/b] Cross product is not defined in 2D mathematically. This method embeds the 2D vectors in the XY plane of 3D space and uses their cross product's Z component as the analog. *)
-    let cross =
+    let cross x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2 "cross"
         (Base.Int64.of_string "3819070308")
         (Vector2.typ @-> Vector2.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns a new vector with all components in absolute values (i.e. positive). *)
-    let abs =
+    let abs x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2 "abs"
         (Base.Int64.of_string "2428350749")
         (Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0
 
     (** Returns a new vector with each component set to [code]1.0[/code] if it's positive, [code]-1.0[/code] if it's negative, and [code]0.0[/code] if it's zero. The result is identical to calling [method @GlobalScope.sign] on each component. *)
-    let sign =
+    let sign x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2 "sign"
         (Base.Int64.of_string "2428350749")
         (Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0
 
     (** Returns a new vector with all components clamped between the components of [param min] and [param max], by running [method @GlobalScope.clamp] on each component. *)
-    let clamp =
+    let clamp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR2 "clamp"
         (Base.Int64.of_string "318031021")
         (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1 x2
 
     (** Returns a new vector with each component snapped to the nearest multiple of the corresponding component in [param step]. This can also be used to round the components to an arbitrary number of decimals. *)
-    let snapped =
+    let snapped x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2 "snapped"
         (Base.Int64.of_string "2026743667")
         (Vector2.typ @-> Vector2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1
 
     (** Creates a unit [Vector2] rotated to the given [param angle] in radians. This is equivalent to doing [code]Vector2(cos(angle), sin(angle))[/code] or [code]Vector2.RIGHT.rotated(angle)[/code].
 [codeblock]
@@ -16336,146 +16571,162 @@ print(Vector2.from_angle(0)) # Prints (1, 0).
 print(Vector2(1, 0).angle()) # Prints 0, which is the angle used above.
 print(Vector2.from_angle(PI / 2)) # Prints (0, 1).
 [/codeblock] *)
-    let from_angle =
+    let from_angle x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_VECTOR2
         "from_angle"
         (Base.Int64.of_string "889263119")
         (Float.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0
 
     (** Returns the negative value of the [Vector2]. This is the same as writing [code]Vector2(-v.x, -v.y)[/code]. This operation flips the direction of the vector while keeping the same magnitude. With floats, the number zero can be either positive or negative. *)
-    let ( ~- ) =
+    let ( ~- ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2 None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr
            (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) =
+    let ( ~+ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2 None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr
            (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> returning void))
+        x0 x1 x2
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2 None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Vector2.typ @-> Vector2.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the vectors are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Vector2.typ @-> Vector2.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the vectors are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Vector2.typ @-> Vector2.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector2] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( < ) =
+    let ( < ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Vector2.typ @-> Vector2.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector2] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <= ) =
+    let ( <= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Vector2.typ @-> Vector2.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector2] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( > ) =
+    let ( > ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Vector2.typ @-> Vector2.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector2] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( >= ) =
+    let ( >= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Vector2.typ @-> Vector2.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Adds each component of the [Vector2] by the components of the given [Vector2].
 [codeblock]
 print(Vector2(10, 20) + Vector2(3, 4)) # Prints ""(13, 24)""
 [/codeblock] *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> returning void))
+        x0 x1 x2
 
     (** Subtracts each component of the [Vector2] by the components of the given [Vector2].
 [codeblock]
 print(Vector2(10, 20) - Vector2(3, 4)) # Prints ""(7, 16)""
 [/codeblock] *)
-    let ( - ) =
+    let ( - ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr
            (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> returning void))
+        x0 x1 x2
 
     (** Multiplies each component of the [Vector2] by the components of the given [Vector2].
 [codeblock]
 print(Vector2(10, 20)  *  Vector2(3, 4)) # Prints ""(30, 80)""
 [/codeblock] *)
-    let ( * ) =
+    let ( * ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> returning void))
+        x0 x1 x2
 
     (** Divides each component of the [Vector2] by the components of the given [Vector2].
 [codeblock]
 print(Vector2(10, 20) / Vector2(2, 5)) # Prints ""(5, 4)""
 [/codeblock] *)
-    let ( / ) =
+    let ( / ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr
            (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> returning void))
+        x0 x1 x2
 
-    let _Vector2_elem_Dictionary =
+    let _Vector2_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector2.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Vector2_elem_Array =
+    let _Vector2_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Vector2.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Vector2_elem_PackedVector2Array =
+    let _Vector2_elem_PackedVector2Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector2.typ @-> PackedVector2Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     module Axis = struct
       type t = Int.t
@@ -16494,201 +16745,217 @@ print(Vector2(10, 20) / Vector2(2, 5)) # Prints ""(5, 4)""
     include M.Vector2i
 
     (** Returns the aspect ratio of this vector, the ratio of [member x] to [member y]. *)
-    let aspect =
+    let aspect x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2I "aspect"
         (Base.Int64.of_string "466405837")
         (Vector2i.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the axis of the vector's highest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_X]. *)
-    let max_axis_index =
+    let max_axis_index x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2I
         "max_axis_index"
         (Base.Int64.of_string "3173160232")
         (Vector2i.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the axis of the vector's lowest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_Y]. *)
-    let min_axis_index =
+    let min_axis_index x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2I
         "min_axis_index"
         (Base.Int64.of_string "3173160232")
         (Vector2i.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the length (magnitude) of this vector. *)
-    let length =
+    let length x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2I "length"
         (Base.Int64.of_string "466405837")
         (Vector2i.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the squared length (squared magnitude) of this vector.
 This method runs faster than [method length], so prefer it if you need to compare vectors or need the squared distance for some formula. *)
-    let length_squared =
+    let length_squared x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2I
         "length_squared"
         (Base.Int64.of_string "3173160232")
         (Vector2i.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns a new vector with each component set to [code]1[/code] if it's positive, [code]-1[/code] if it's negative, and [code]0[/code] if it's zero. The result is identical to calling [method @GlobalScope.sign] on each component. *)
-    let sign =
+    let sign x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2I "sign"
         (Base.Int64.of_string "3444277866")
         (Vector2i.typ @-> returning Vector2i.typ)
-        Vector2i.s
+        Vector2i.s x0
 
     (** Returns a new vector with all components in absolute values (i.e. positive). *)
-    let abs =
+    let abs x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR2I "abs"
         (Base.Int64.of_string "3444277866")
         (Vector2i.typ @-> returning Vector2i.typ)
-        Vector2i.s
+        Vector2i.s x0
 
     (** Returns a new vector with all components clamped between the components of [param min] and [param max], by running [method @GlobalScope.clamp] on each component. *)
-    let clamp =
+    let clamp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR2I "clamp"
         (Base.Int64.of_string "186568249")
         (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ
        @-> returning Vector2i.typ)
-        Vector2i.s
+        Vector2i.s x0 x1 x2
 
     (** Returns a new vector with each component snapped to the closest multiple of the corresponding component in [param step]. *)
-    let snapped =
+    let snapped x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR2I "snapped"
         (Base.Int64.of_string "1735278196")
         (Vector2i.typ @-> Vector2i.typ @-> returning Vector2i.typ)
-        Vector2i.s
+        Vector2i.s x0 x1
 
     (** Returns the negative value of the [Vector2i]. This is the same as writing [code]Vector2i(-v.x, -v.y)[/code]. This operation flips the direction of the vector while keeping the same magnitude. *)
-    let ( ~- ) =
+    let ( ~- ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr
            (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) =
+    let ( ~+ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr
            (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ @-> returning void))
+        x0 x1 x2
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Vector2i.typ @-> Vector2i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the vectors are equal. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Vector2i.typ @-> Vector2i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the vectors are not equal. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Vector2i.typ @-> Vector2i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector2i] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors. *)
-    let ( < ) =
+    let ( < ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Vector2i.typ @-> Vector2i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector2i] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors. *)
-    let ( <= ) =
+    let ( <= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Vector2i.typ @-> Vector2i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector2i] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors. *)
-    let ( > ) =
+    let ( > ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Vector2i.typ @-> Vector2i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector2i] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors. *)
-    let ( >= ) =
+    let ( >= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Vector2i.typ @-> Vector2i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Adds each component of the [Vector2i] by the components of the given [Vector2i].
 [codeblock]
 print(Vector2i(10, 20) + Vector2i(3, 4)) # Prints ""(13, 24)""
 [/codeblock] *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ @-> returning void))
+        x0 x1 x2
 
     (** Subtracts each component of the [Vector2i] by the components of the given [Vector2i].
 [codeblock]
 print(Vector2i(10, 20) - Vector2i(3, 4)) # Prints ""(7, 16)""
 [/codeblock] *)
-    let ( - ) =
+    let ( - ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr
            (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ @-> returning void))
+        x0 x1 x2
 
     (** Multiplies each component of the [Vector2i] by the components of the given [Vector2i].
 [codeblock]
 print(Vector2i(10, 20)  *  Vector2i(3, 4)) # Prints ""(30, 80)""
 [/codeblock] *)
-    let ( * ) =
+    let ( * ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ @-> returning void))
+        x0 x1 x2
 
     (** Divides each component of the [Vector2i] by the components of the given [Vector2i].
 [codeblock]
 print(Vector2i(10, 20) / Vector2i(2, 5)) # Prints ""(5, 4)""
 [/codeblock] *)
-    let ( / ) =
+    let ( / ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr
            (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ @-> returning void))
+        x0 x1 x2
 
     (** Gets the remainder of each component of the [Vector2i] with the components of the given [Vector2i]. This operation uses truncated division, which is often not desired as it does not work well with negative numbers. Consider using [method @GlobalScope.posmod] instead if you want to handle negative numbers.
 [codeblock]
 print(Vector2i(10, -20) % Vector2i(7, 8)) # Prints ""(3, -4)""
 [/codeblock] *)
-    let ( % ) =
+    let ( % ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_MODULE
         (funptr
            (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ @-> returning void))
+        x0 x1 x2
 
-    let _Vector2i_elem_Dictionary =
+    let _Vector2i_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector2i.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Vector2i_elem_Array =
+    let _Vector2i_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Vector2i.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     module Axis = struct
       type t = Int.t
@@ -16707,62 +16974,62 @@ print(Vector2i(10, -20) % Vector2i(7, 8)) # Prints ""(3, -4)""
     include M.Rect2
 
     (** Returns the center point of the rectangle. This is the same as [code]position + (size / 2.0)[/code]. *)
-    let get_center =
+    let get_center x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_RECT2 "get_center"
         (Base.Int64.of_string "2428350749")
         (Rect2.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0
 
     (** Returns the rectangle's area. This is equivalent to [code]size.x  *  size.y[/code]. See also [method has_area]. *)
-    let get_area =
+    let get_area x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_RECT2 "get_area"
         (Base.Int64.of_string "466405837")
         (Rect2.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns [code]true[/code] if this rectangle has positive width and height. See also [method get_area]. *)
-    let has_area =
+    let has_area x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_RECT2 "has_area"
         (Base.Int64.of_string "3918633141")
         (Rect2.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if the rectangle contains the given [param point]. By convention, points on the right and bottom edges are [b]not[/b] included.
 [b]Note:[/b] This method is not reliable for [Rect2] with a [i]negative[/i] [member size]. Use [method abs] first to get a valid rectangle. *)
-    let has_point =
+    let has_point x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_RECT2 "has_point"
         (Base.Int64.of_string "3190634762")
         (Vector2.typ @-> Rect2.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this rectangle and [param rect] are approximately equal, by calling [method Vector2.is_equal_approx] on the [member position] and the [member size]. *)
-    let is_equal_approx =
+    let is_equal_approx x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_RECT2
         "is_equal_approx"
         (Base.Int64.of_string "1908192260")
         (Rect2.typ @-> Rect2.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this rectangle's values are finite, by calling [method Vector2.is_finite] on the [member position] and the [member size]. *)
-    let is_finite =
+    let is_finite x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_RECT2 "is_finite"
         (Base.Int64.of_string "3918633141")
         (Rect2.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this rectangle overlaps with the [param b] rectangle. The edges of both rectangles are excluded, unless [param include_borders] is [code]true[/code]. *)
-    let intersects =
+    let intersects x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_RECT2 "intersects"
         (Base.Int64.of_string "819294880")
         (Rect2.typ @-> Bool.typ @-> Rect2.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1 x2
 
     (** Returns [code]true[/code] if this rectangle [i]completely[/i] encloses the [param b] rectangle. *)
-    let encloses =
+    let encloses x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_RECT2 "encloses"
         (Base.Int64.of_string "1908192260")
         (Rect2.typ @-> Rect2.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns the intersection between this rectangle and [param b]. If the rectangles do not intersect, returns an empty [Rect2].
 [codeblocks]
@@ -16780,18 +17047,18 @@ var a = rect1.Intersection(rect2); // a is Rect2(2, 0, 3, 4)
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] If you only need to know whether two rectangles are overlapping, use [method intersects], instead. *)
-    let intersection =
+    let intersection x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_RECT2 "intersection"
         (Base.Int64.of_string "2282977743")
         (Rect2.typ @-> Rect2.typ @-> returning Rect2.typ)
-        Rect2.s
+        Rect2.s x0 x1
 
     (** Returns a [Rect2] that encloses both this rectangle and [param b] around the edges. See also [method encloses]. *)
-    let merge =
+    let merge x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_RECT2 "merge"
         (Base.Int64.of_string "2282977743")
         (Rect2.typ @-> Rect2.typ @-> returning Rect2.typ)
-        Rect2.s
+        Rect2.s x0 x1
 
     (** Returns a copy of this rectangle expanded to align the edges with the given [param to] point, if necessary.
 [codeblocks]
@@ -16808,11 +17075,11 @@ rect = rect.Expand(new Vector2(10, 0)); // rect is Rect2(0, 0, 10, 2)
 rect = rect.Expand(new Vector2(-5, 5)); // rect is Rect2(-5, 0, 10, 5)
 [/csharp]
 [/codeblocks] *)
-    let expand =
+    let expand x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_RECT2 "expand"
         (Base.Int64.of_string "293272265")
         (Vector2.typ @-> Rect2.typ @-> returning Rect2.typ)
-        Rect2.s
+        Rect2.s x0 x1
 
     (** Returns a copy of this rectangle extended on all sides by the given [param amount]. A negative [param amount] shrinks the rectangle instead. See also [method grow_individual] and [method grow_side].
 [codeblocks]
@@ -16825,27 +17092,27 @@ var a = new Rect2(4, 4, 8, 8).Grow(4); // a is Rect2(0, 0, 16, 16)
 var b = new Rect2(0, 0, 8, 4).Grow(2); // b is Rect2(-2, -2, 12, 8)
 [/csharp]
 [/codeblocks] *)
-    let grow =
+    let grow x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_RECT2 "grow"
         (Base.Int64.of_string "39664498")
         (Float.typ @-> Rect2.typ @-> returning Rect2.typ)
-        Rect2.s
+        Rect2.s x0 x1
 
     (** Returns a copy of this rectangle with its [param side] extended by the given [param amount] (see [enum Side] constants). A negative [param amount] shrinks the rectangle, instead. See also [method grow] and [method grow_individual]. *)
-    let grow_side =
+    let grow_side x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_RECT2 "grow_side"
         (Base.Int64.of_string "4177736158")
         (Int.typ @-> Float.typ @-> Rect2.typ @-> returning Rect2.typ)
-        Rect2.s
+        Rect2.s x0 x1 x2
 
     (** Returns a copy of this rectangle with its [param left], [param top], [param right], and [param bottom] sides extended by the given amounts. Negative values shrink the sides, instead. See also [method grow] and [method grow_side]. *)
-    let grow_individual =
+    let grow_individual x0 x1 x2 x3 x4 =
       foreign_builtin_method4 GlobalEnum.VariantType._TYPE_RECT2
         "grow_individual"
         (Base.Int64.of_string "3203390369")
         (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ @-> Rect2.typ
        @-> returning Rect2.typ)
-        Rect2.s
+        Rect2.s x0 x1 x2 x3 x4
 
     (** Returns a [Rect2] equivalent to this rectangle, with its width and height modified to be non-negative values, and with its [member position] being the top-left corner of the rectangle.
 [codeblocks]
@@ -16859,44 +17126,49 @@ var absolute = rect.Abs(); // absolute is Rect2(-75, -25, 100, 50)
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] It's recommended to use this method when [member size] is negative, as most other methods in Godot assume that the [member position] is the top-left corner, and the [member end] is the bottom-right corner. *)
-    let abs =
+    let abs x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_RECT2 "abs"
         (Base.Int64.of_string "3107653634")
         (Rect2.typ @-> returning Rect2.typ)
-        Rect2.s
+        Rect2.s x0
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2 None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Rect2.typ @-> Rect2.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if both [member position] and [member size] of the rectangles are exactly equal, respectively.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2
         (Some GlobalEnum.VariantType._TYPE_RECT2)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Rect2.typ @-> Rect2.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the [member position] or [member size] of both rectangles are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2
         (Some GlobalEnum.VariantType._TYPE_RECT2)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Rect2.typ @-> Rect2.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Rect2_elem_Dictionary =
+    let _Rect2_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Rect2.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Rect2_elem_Array =
+    let _Rect2_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Rect2.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Rect2i = struct
@@ -16904,47 +17176,47 @@ var absolute = rect.Abs(); // absolute is Rect2(-75, -25, 100, 50)
 
     (** Returns the center point of the rectangle. This is the same as [code]position + (size / 2)[/code].
 [b]Note:[/b] If the [member size] is odd, the result will be rounded towards [member position]. *)
-    let get_center =
+    let get_center x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_RECT2I "get_center"
         (Base.Int64.of_string "3444277866")
         (Rect2i.typ @-> returning Vector2i.typ)
-        Vector2i.s
+        Vector2i.s x0
 
     (** Returns the rectangle's area. This is equivalent to [code]size.x  *  size.y[/code]. See also [method has_area]. *)
-    let get_area =
+    let get_area x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_RECT2I "get_area"
         (Base.Int64.of_string "3173160232")
         (Rect2i.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns [code]true[/code] if this rectangle has positive width and height. See also [method get_area]. *)
-    let has_area =
+    let has_area x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_RECT2I "has_area"
         (Base.Int64.of_string "3918633141")
         (Rect2i.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if the rectangle contains the given [param point]. By convention, points on the right and bottom edges are [b]not[/b] included.
 [b]Note:[/b] This method is not reliable for [Rect2i] with a [i]negative[/i] [member size]. Use [method abs] first to get a valid rectangle. *)
-    let has_point =
+    let has_point x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_RECT2I "has_point"
         (Base.Int64.of_string "328189994")
         (Vector2i.typ @-> Rect2i.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this rectangle overlaps with the [param b] rectangle. The edges of both rectangles are excluded. *)
-    let intersects =
+    let intersects x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_RECT2I "intersects"
         (Base.Int64.of_string "3434691493")
         (Rect2i.typ @-> Rect2i.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this [Rect2i] completely encloses another one. *)
-    let encloses =
+    let encloses x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_RECT2I "encloses"
         (Base.Int64.of_string "3434691493")
         (Rect2i.typ @-> Rect2i.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns the intersection between this rectangle and [param b]. If the rectangles do not intersect, returns an empty [Rect2i].
 [codeblocks]
@@ -16962,18 +17234,18 @@ var c = rect1.Intersection(rect2); // c is Rect2I(2, 0, 3, 4)
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] If you only need to know whether two rectangles are overlapping, use [method intersects], instead. *)
-    let intersection =
+    let intersection x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_RECT2I "intersection"
         (Base.Int64.of_string "717431873")
         (Rect2i.typ @-> Rect2i.typ @-> returning Rect2i.typ)
-        Rect2i.s
+        Rect2i.s x0 x1
 
     (** Returns a [Rect2i] that encloses both this rectangle and [param b] around the edges. See also [method encloses]. *)
-    let merge =
+    let merge x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_RECT2I "merge"
         (Base.Int64.of_string "717431873")
         (Rect2i.typ @-> Rect2i.typ @-> returning Rect2i.typ)
-        Rect2i.s
+        Rect2i.s x0 x1
 
     (** Returns a copy of this rectangle expanded to align the edges with the given [param to] point, if necessary.
 [codeblocks]
@@ -16990,11 +17262,11 @@ rect = rect.Expand(new Vector2I(10, 0)); // rect is Rect2I(0, 0, 10, 2)
 rect = rect.Expand(new Vector2I(-5, 5)); // rect is Rect2I(-5, 0, 10, 5)
 [/csharp]
 [/codeblocks] *)
-    let expand =
+    let expand x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_RECT2I "expand"
         (Base.Int64.of_string "1355196872")
         (Vector2i.typ @-> Rect2i.typ @-> returning Rect2i.typ)
-        Rect2i.s
+        Rect2i.s x0 x1
 
     (** Returns a copy of this rectangle extended on all sides by the given [param amount]. A negative [param amount] shrinks the rectangle instead. See also [method grow_individual] and [method grow_side].
 [codeblocks]
@@ -17007,27 +17279,27 @@ var a = new Rect2I(4, 4, 8, 8).Grow(4); // a is Rect2I(0, 0, 16, 16)
 var b = new Rect2I(0, 0, 8, 4).Grow(2); // b is Rect2I(-2, -2, 12, 8)
 [/csharp]
 [/codeblocks] *)
-    let grow =
+    let grow x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_RECT2I "grow"
         (Base.Int64.of_string "1578070074")
         (Int.typ @-> Rect2i.typ @-> returning Rect2i.typ)
-        Rect2i.s
+        Rect2i.s x0 x1
 
     (** Returns a copy of this rectangle with its [param side] extended by the given [param amount] (see [enum Side] constants). A negative [param amount] shrinks the rectangle, instead. See also [method grow] and [method grow_individual]. *)
-    let grow_side =
+    let grow_side x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_RECT2I "grow_side"
         (Base.Int64.of_string "3191154199")
         (Int.typ @-> Int.typ @-> Rect2i.typ @-> returning Rect2i.typ)
-        Rect2i.s
+        Rect2i.s x0 x1 x2
 
     (** Returns a copy of this rectangle with its [param left], [param top], [param right], and [param bottom] sides extended by the given amounts. Negative values shrink the sides, instead. See also [method grow] and [method grow_side]. *)
-    let grow_individual =
+    let grow_individual x0 x1 x2 x3 x4 =
       foreign_builtin_method4 GlobalEnum.VariantType._TYPE_RECT2I
         "grow_individual"
         (Base.Int64.of_string "1893743416")
         (Int.typ @-> Int.typ @-> Int.typ @-> Int.typ @-> Rect2i.typ
        @-> returning Rect2i.typ)
-        Rect2i.s
+        Rect2i.s x0 x1 x2 x3 x4
 
     (** Returns a [Rect2i] equivalent to this rectangle, with its width and height modified to be non-negative values, and with its [member position] being the top-left corner of the rectangle.
 [codeblocks]
@@ -17041,506 +17313,527 @@ var absolute = rect.Abs(); // absolute is Rect2I(-75, -25, 100, 50)
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] It's recommended to use this method when [member size] is negative, as most other methods in Godot assume that the [member position] is the top-left corner, and the [member end] is the bottom-right corner. *)
-    let abs =
+    let abs x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_RECT2I "abs"
         (Base.Int64.of_string "1469025700")
         (Rect2i.typ @-> returning Rect2i.typ)
-        Rect2i.s
+        Rect2i.s x0
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2I None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Rect2i.typ @-> Rect2i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if both [member position] and [member size] of the rectangles are equal, respectively. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2I
         (Some GlobalEnum.VariantType._TYPE_RECT2I)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Rect2i.typ @-> Rect2i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the [member position] or [member size] of both rectangles are not equal. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2I
         (Some GlobalEnum.VariantType._TYPE_RECT2I)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Rect2i.typ @-> Rect2i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Rect2i_elem_Dictionary =
+    let _Rect2i_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2I
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Rect2i.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Rect2i_elem_Array =
+    let _Rect2i_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2I
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Rect2i.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Vector3 = struct
     include M.Vector3
 
     (** Returns the axis of the vector's lowest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_Z]. *)
-    let min_axis_index =
+    let min_axis_index x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3
         "min_axis_index"
         (Base.Int64.of_string "3173160232")
         (Vector3.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the axis of the vector's highest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_X]. *)
-    let max_axis_index =
+    let max_axis_index x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3
         "max_axis_index"
         (Base.Int64.of_string "3173160232")
         (Vector3.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the unsigned minimum angle to the given vector, in radians. *)
-    let angle_to =
+    let angle_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3 "angle_to"
         (Base.Int64.of_string "1047977935")
         (Vector3.typ @-> Vector3.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the signed angle to the given vector, in radians. The sign of the angle is positive in a counter-clockwise direction and negative in a clockwise direction when viewed from the side specified by the [param axis]. *)
-    let signed_angle_to =
+    let signed_angle_to x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR3
         "signed_angle_to"
         (Base.Int64.of_string "2781412522")
         (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1 x2
 
     (** Returns the normalized vector pointing from this vector to [param to]. This is equivalent to using [code](b - a).normalized()[/code]. *)
-    let direction_to =
+    let direction_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3
         "direction_to"
         (Base.Int64.of_string "2923479887")
         (Vector3.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Returns the distance between this vector and [param to]. *)
-    let distance_to =
+    let distance_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3 "distance_to"
         (Base.Int64.of_string "1047977935")
         (Vector3.typ @-> Vector3.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the squared distance between this vector and [param to].
 This method runs faster than [method distance_to], so prefer it if you need to compare vectors or need the squared distance for some formula. *)
-    let distance_squared_to =
+    let distance_squared_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3
         "distance_squared_to"
         (Base.Int64.of_string "1047977935")
         (Vector3.typ @-> Vector3.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the length (magnitude) of this vector. *)
-    let length =
+    let length x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3 "length"
         (Base.Int64.of_string "466405837")
         (Vector3.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the squared length (squared magnitude) of this vector.
 This method runs faster than [method length], so prefer it if you need to compare vectors or need the squared distance for some formula. *)
-    let length_squared =
+    let length_squared x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3
         "length_squared"
         (Base.Int64.of_string "466405837")
         (Vector3.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the vector with a maximum length by limiting its length to [param length]. *)
-    let limit_length =
+    let limit_length x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3
         "limit_length"
         (Base.Int64.of_string "514930144")
         (Float.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Returns the result of scaling the vector to unit length. Equivalent to [code]v / v.length()[/code]. See also [method is_normalized].
 [b]Note:[/b] This function may return incorrect values if the input vector length is near zero. *)
-    let normalized =
+    let normalized x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3 "normalized"
         (Base.Int64.of_string "1776574132")
         (Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0
 
     (** Returns [code]true[/code] if the vector is normalized, i.e. its length is approximately equal to 1. *)
-    let is_normalized =
+    let is_normalized x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3
         "is_normalized"
         (Base.Int64.of_string "3918633141")
         (Vector3.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this vector and [param to] are approximately equal, by running [method @GlobalScope.is_equal_approx] on each component. *)
-    let is_equal_approx =
+    let is_equal_approx x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3
         "is_equal_approx"
         (Base.Int64.of_string "1749054343")
         (Vector3.typ @-> Vector3.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this vector's values are approximately zero, by running [method @GlobalScope.is_zero_approx] on each component.
 This method is faster than using [method is_equal_approx] with one value as a zero vector. *)
-    let is_zero_approx =
+    let is_zero_approx x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3
         "is_zero_approx"
         (Base.Int64.of_string "3918633141")
         (Vector3.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this vector is finite, by calling [method @GlobalScope.is_finite] on each component. *)
-    let is_finite =
+    let is_finite x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3 "is_finite"
         (Base.Int64.of_string "3918633141")
         (Vector3.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns the inverse of the vector. This is the same as [code]Vector3(1.0 / v.x, 1.0 / v.y, 1.0 / v.z)[/code]. *)
-    let inverse =
+    let inverse x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3 "inverse"
         (Base.Int64.of_string "1776574132")
         (Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0
 
     (** Returns a new vector with all components clamped between the components of [param min] and [param max], by running [method @GlobalScope.clamp] on each component. *)
-    let clamp =
+    let clamp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR3 "clamp"
         (Base.Int64.of_string "4145107892")
         (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1 x2
 
     (** Returns a new vector with each component snapped to the nearest multiple of the corresponding component in [param step]. This can also be used to round the components to an arbitrary number of decimals. *)
-    let snapped =
+    let snapped x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3 "snapped"
         (Base.Int64.of_string "2923479887")
         (Vector3.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Returns the result of rotating this vector around a given axis by [param angle] (in radians). The axis must be a normalized vector. See also [method @GlobalScope.deg_to_rad]. *)
-    let rotated =
+    let rotated x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR3 "rotated"
         (Base.Int64.of_string "1682608829")
         (Vector3.typ @-> Float.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1 x2
 
     (** Returns the result of the linear interpolation between this vector and [param to] by amount [param weight]. [param weight] is on the range of [code]0.0[/code] to [code]1.0[/code], representing the amount of interpolation. *)
-    let lerp =
+    let lerp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR3 "lerp"
         (Base.Int64.of_string "1682608829")
         (Vector3.typ @-> Float.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1 x2
 
     (** Returns the result of spherical linear interpolation between this vector and [param to], by amount [param weight]. [param weight] is on the range of 0.0 to 1.0, representing the amount of interpolation.
 This method also handles interpolating the lengths if the input vectors have different lengths. For the special case of one or both input vectors having zero length, this method behaves like [method lerp]. *)
-    let slerp =
+    let slerp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR3 "slerp"
         (Base.Int64.of_string "1682608829")
         (Vector3.typ @-> Float.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1 x2
 
     (** Performs a cubic interpolation between this vector and [param b] using [param pre_a] and [param post_b] as handles, and returns the result at position [param weight]. [param weight] is on the range of 0.0 to 1.0, representing the amount of interpolation. *)
-    let cubic_interpolate =
+    let cubic_interpolate x0 x1 x2 x3 x4 =
       foreign_builtin_method4 GlobalEnum.VariantType._TYPE_VECTOR3
         "cubic_interpolate"
         (Base.Int64.of_string "2597922253")
         (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> Float.typ
        @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1 x2 x3 x4
 
     (** Performs a cubic interpolation between this vector and [param b] using [param pre_a] and [param post_b] as handles, and returns the result at position [param weight]. [param weight] is on the range of 0.0 to 1.0, representing the amount of interpolation.
 It can perform smoother interpolation than [method cubic_interpolate] by the time values. *)
-    let cubic_interpolate_in_time =
+    let cubic_interpolate_in_time x0 x1 x2 x3 x4 x5 x6 x7 =
       foreign_builtin_method7 GlobalEnum.VariantType._TYPE_VECTOR3
         "cubic_interpolate_in_time"
         (Base.Int64.of_string "3256682901")
         (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> Float.typ @-> Float.typ
        @-> Float.typ @-> Float.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1 x2 x3 x4 x5 x6 x7
 
     (** Returns the point at the given [param t] on the [url=https://en.wikipedia.org/wiki/B%C3%A9zier_curve]Bézier curve[/url] defined by this vector and the given [param control_1], [param control_2], and [param end] points. *)
-    let bezier_interpolate =
+    let bezier_interpolate x0 x1 x2 x3 x4 =
       foreign_builtin_method4 GlobalEnum.VariantType._TYPE_VECTOR3
         "bezier_interpolate"
         (Base.Int64.of_string "2597922253")
         (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> Float.typ
        @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1 x2 x3 x4
 
     (** Returns the derivative at the given [param t] on the [url=https://en.wikipedia.org/wiki/B%C3%A9zier_curve]Bézier curve[/url] defined by this vector and the given [param control_1], [param control_2], and [param end] points. *)
-    let bezier_derivative =
+    let bezier_derivative x0 x1 x2 x3 x4 =
       foreign_builtin_method4 GlobalEnum.VariantType._TYPE_VECTOR3
         "bezier_derivative"
         (Base.Int64.of_string "2597922253")
         (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> Float.typ
        @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1 x2 x3 x4
 
     (** Returns a new vector moved toward [param to] by the fixed [param delta] amount. Will not go past the final value. *)
-    let move_toward =
+    let move_toward x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR3 "move_toward"
         (Base.Int64.of_string "1682608829")
         (Vector3.typ @-> Float.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1 x2
 
     (** Returns the dot product of this vector and [param with]. This can be used to compare the angle between two vectors. For example, this can be used to determine whether an enemy is facing the player.
 The dot product will be [code]0[/code] for a straight angle (90 degrees), greater than 0 for angles narrower than 90 degrees and lower than 0 for angles wider than 90 degrees.
 When using unit (normalized) vectors, the result will always be between [code]-1.0[/code] (180 degree angle) when the vectors are facing opposite directions, and [code]1.0[/code] (0 degree angle) when the vectors are aligned.
 [b]Note:[/b] [code]a.dot(b)[/code] is equivalent to [code]b.dot(a)[/code]. *)
-    let dot =
+    let dot x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3 "dot"
         (Base.Int64.of_string "1047977935")
         (Vector3.typ @-> Vector3.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the cross product of this vector and [param with].
 This returns a vector perpendicular to both this and [param with], which would be the normal vector of the plane defined by the two vectors. As there are two such vectors, in opposite directions, this method returns the vector defined by a right-handed coordinate system. If the two vectors are parallel this returns an empty vector, making it useful for testing if two vectors are parallel. *)
-    let cross =
+    let cross x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3 "cross"
         (Base.Int64.of_string "2923479887")
         (Vector3.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Returns the outer product with [param with]. *)
-    let outer =
+    let outer x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3 "outer"
         (Base.Int64.of_string "3934786792")
         (Vector3.typ @-> Vector3.typ @-> returning Basis.typ)
-        Basis.s
+        Basis.s x0 x1
 
     (** Returns a new vector with all components in absolute values (i.e. positive). *)
-    let abs =
+    let abs x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3 "abs"
         (Base.Int64.of_string "1776574132")
         (Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0
 
     (** Returns a new vector with all components rounded down (towards negative infinity). *)
-    let floor =
+    let floor x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3 "floor"
         (Base.Int64.of_string "1776574132")
         (Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0
 
     (** Returns a new vector with all components rounded up (towards positive infinity). *)
-    let ceil =
+    let ceil x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3 "ceil"
         (Base.Int64.of_string "1776574132")
         (Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0
 
     (** Returns a new vector with all components rounded to the nearest integer, with halfway cases rounded away from zero. *)
-    let round =
+    let round x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3 "round"
         (Base.Int64.of_string "1776574132")
         (Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0
 
     (** Returns a vector composed of the [method @GlobalScope.fposmod] of this vector's components and [param mod]. *)
-    let posmod =
+    let posmod x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3 "posmod"
         (Base.Int64.of_string "514930144")
         (Float.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Returns a vector composed of the [method @GlobalScope.fposmod] of this vector's components and [param modv]'s components. *)
-    let posmodv =
+    let posmodv x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3 "posmodv"
         (Base.Int64.of_string "2923479887")
         (Vector3.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Returns the result of projecting the vector onto the given vector [param b]. *)
-    let project =
+    let project x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3 "project"
         (Base.Int64.of_string "2923479887")
         (Vector3.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Returns a new vector slid along a plane defined by the given normal. *)
-    let slide =
+    let slide x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3 "slide"
         (Base.Int64.of_string "2923479887")
         (Vector3.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Returns the vector ""bounced off"" from a plane defined by the given normal. *)
-    let bounce =
+    let bounce x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3 "bounce"
         (Base.Int64.of_string "2923479887")
         (Vector3.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Returns the result of reflecting the vector from a plane defined by the given normal [param n]. *)
-    let reflect =
+    let reflect x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3 "reflect"
         (Base.Int64.of_string "2923479887")
         (Vector3.typ @-> Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Returns a new vector with each component set to [code]1.0[/code] if it's positive, [code]-1.0[/code] if it's negative, and [code]0.0[/code] if it's zero. The result is identical to calling [method @GlobalScope.sign] on each component. *)
-    let sign =
+    let sign x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3 "sign"
         (Base.Int64.of_string "1776574132")
         (Vector3.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0
 
     (** Returns the octahedral-encoded (oct32) form of this [Vector3] as a [Vector2]. Since a [Vector2] occupies 1/3 less memory compared to [Vector3], this form of compression can be used to pass greater amounts of [method normalized] [Vector3]s without increasing storage or memory requirements. See also [method octahedron_decode].
 [b]Note:[/b] [method octahedron_encode] can only be used for [method normalized] vectors. [method octahedron_encode] does [i]not[/i] check whether this [Vector3] is normalized, and will return a value that does not decompress to the original value if the [Vector3] is not normalized.
 [b]Note:[/b] Octahedral compression is [i]lossy[/i], although visual differences are rarely perceptible in real world scenarios. *)
-    let octahedron_encode =
+    let octahedron_encode x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3
         "octahedron_encode"
         (Base.Int64.of_string "2428350749")
         (Vector3.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0
 
     (** Returns the [Vector3] from an octahedral-compressed form created using [method octahedron_encode] (stored as a [Vector2]). *)
-    let octahedron_decode =
+    let octahedron_decode x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_VECTOR3
         "octahedron_decode"
         (Base.Int64.of_string "3991820552")
         (Vector2.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0
 
     (** Returns the negative value of the [Vector3]. This is the same as writing [code]Vector3(-v.x, -v.y, -v.z)[/code]. This operation flips the direction of the vector while keeping the same magnitude. With floats, the number zero can be either positive or negative. *)
-    let ( ~- ) =
+    let ( ~- ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3 None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr
            (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) =
+    let ( ~+ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3 None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr
            (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> returning void))
+        x0 x1 x2
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3 None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the vectors are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the vectors are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector3] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( < ) =
+    let ( < ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector3] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <= ) =
+    let ( <= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector3] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( > ) =
+    let ( > ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector3] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( >= ) =
+    let ( >= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Adds each component of the [Vector3] by the components of the given [Vector3].
 [codeblock]
 print(Vector3(10, 20, 30) + Vector3(3, 4, 5)) # Prints ""(13, 24, 35)""
 [/codeblock] *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> returning void))
+        x0 x1 x2
 
     (** Subtracts each component of the [Vector3] by the components of the given [Vector3].
 [codeblock]
 print(Vector3(10, 20, 30) - Vector3(3, 4, 5)) # Prints ""(7, 16, 25)""
 [/codeblock] *)
-    let ( - ) =
+    let ( - ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr
            (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> returning void))
+        x0 x1 x2
 
     (** Multiplies each component of the [Vector3] by the components of the given [Vector3].
 [codeblock]
 print(Vector3(10, 20, 30)  *  Vector3(3, 4, 5)) # Prints ""(30, 80, 150)""
 [/codeblock] *)
-    let ( * ) =
+    let ( * ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> returning void))
+        x0 x1 x2
 
     (** Divides each component of the [Vector3] by the components of the given [Vector3].
 [codeblock]
 print(Vector3(10, 20, 30) / Vector3(2, 5, 3)) # Prints ""(5, 4, 10)""
 [/codeblock] *)
-    let ( / ) =
+    let ( / ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr
            (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> returning void))
+        x0 x1 x2
 
-    let _Vector3_elem_Dictionary =
+    let _Vector3_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector3.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Vector3_elem_Array =
+    let _Vector3_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Vector3.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Vector3_elem_PackedVector3Array =
+    let _Vector3_elem_PackedVector3Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector3.typ @-> PackedVector3Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     module Axis = struct
       type t = Int.t
@@ -17562,194 +17855,210 @@ print(Vector3(10, 20, 30) / Vector3(2, 5, 3)) # Prints ""(5, 4, 10)""
     include M.Vector3i
 
     (** Returns the axis of the vector's lowest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_Z]. *)
-    let min_axis_index =
+    let min_axis_index x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3I
         "min_axis_index"
         (Base.Int64.of_string "3173160232")
         (Vector3i.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the axis of the vector's highest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_X]. *)
-    let max_axis_index =
+    let max_axis_index x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3I
         "max_axis_index"
         (Base.Int64.of_string "3173160232")
         (Vector3i.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the length (magnitude) of this vector. *)
-    let length =
+    let length x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3I "length"
         (Base.Int64.of_string "466405837")
         (Vector3i.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the squared length (squared magnitude) of this vector.
 This method runs faster than [method length], so prefer it if you need to compare vectors or need the squared distance for some formula. *)
-    let length_squared =
+    let length_squared x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3I
         "length_squared"
         (Base.Int64.of_string "3173160232")
         (Vector3i.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns a new vector with each component set to [code]1[/code] if it's positive, [code]-1[/code] if it's negative, and [code]0[/code] if it's zero. The result is identical to calling [method @GlobalScope.sign] on each component. *)
-    let sign =
+    let sign x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3I "sign"
         (Base.Int64.of_string "3729604559")
         (Vector3i.typ @-> returning Vector3i.typ)
-        Vector3i.s
+        Vector3i.s x0
 
     (** Returns a new vector with all components in absolute values (i.e. positive). *)
-    let abs =
+    let abs x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR3I "abs"
         (Base.Int64.of_string "3729604559")
         (Vector3i.typ @-> returning Vector3i.typ)
-        Vector3i.s
+        Vector3i.s x0
 
     (** Returns a new vector with all components clamped between the components of [param min] and [param max], by running [method @GlobalScope.clamp] on each component. *)
-    let clamp =
+    let clamp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR3I "clamp"
         (Base.Int64.of_string "1086892323")
         (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ
        @-> returning Vector3i.typ)
-        Vector3i.s
+        Vector3i.s x0 x1 x2
 
     (** Returns a new vector with each component snapped to the closest multiple of the corresponding component in [param step]. *)
-    let snapped =
+    let snapped x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR3I "snapped"
         (Base.Int64.of_string "1989319750")
         (Vector3i.typ @-> Vector3i.typ @-> returning Vector3i.typ)
-        Vector3i.s
+        Vector3i.s x0 x1
 
     (** Returns the negative value of the [Vector3i]. This is the same as writing [code]Vector3i(-v.x, -v.y, -v.z)[/code]. This operation flips the direction of the vector while keeping the same magnitude. *)
-    let ( ~- ) =
+    let ( ~- ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr
            (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) =
+    let ( ~+ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr
            (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ @-> returning void))
+        x0 x1 x2
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Vector3i.typ @-> Vector3i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the vectors are equal. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Vector3i.typ @-> Vector3i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the vectors are not equal. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Vector3i.typ @-> Vector3i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector3i] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors. *)
-    let ( < ) =
+    let ( < ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Vector3i.typ @-> Vector3i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector3i] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors. *)
-    let ( <= ) =
+    let ( <= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Vector3i.typ @-> Vector3i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector3i] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors. *)
-    let ( > ) =
+    let ( > ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Vector3i.typ @-> Vector3i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector3i] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors. *)
-    let ( >= ) =
+    let ( >= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Vector3i.typ @-> Vector3i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Adds each component of the [Vector3i] by the components of the given [Vector3i].
 [codeblock]
 print(Vector3i(10, 20, 30) + Vector3i(3, 4, 5)) # Prints ""(13, 24, 35)""
 [/codeblock] *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ @-> returning void))
+        x0 x1 x2
 
     (** Subtracts each component of the [Vector3i] by the components of the given [Vector3i].
 [codeblock]
 print(Vector3i(10, 20, 30) - Vector3i(3, 4, 5)) # Prints ""(7, 16, 25)""
 [/codeblock] *)
-    let ( - ) =
+    let ( - ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr
            (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ @-> returning void))
+        x0 x1 x2
 
     (** Multiplies each component of the [Vector3i] by the components of the given [Vector3i].
 [codeblock]
 print(Vector3i(10, 20, 30)  *  Vector3i(3, 4, 5)) # Prints ""(30, 80, 150)""
 [/codeblock] *)
-    let ( * ) =
+    let ( * ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ @-> returning void))
+        x0 x1 x2
 
     (** Divides each component of the [Vector3i] by the components of the given [Vector3i].
 [codeblock]
 print(Vector3i(10, 20, 30) / Vector3i(2, 5, 3)) # Prints ""(5, 4, 10)""
 [/codeblock] *)
-    let ( / ) =
+    let ( / ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr
            (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ @-> returning void))
+        x0 x1 x2
 
     (** Gets the remainder of each component of the [Vector3i] with the components of the given [Vector3i]. This operation uses truncated division, which is often not desired as it does not work well with negative numbers. Consider using [method @GlobalScope.posmod] instead if you want to handle negative numbers.
 [codeblock]
 print(Vector3i(10, -20, 30) % Vector3i(7, 8, 9)) # Prints ""(3, -4, 3)""
 [/codeblock] *)
-    let ( % ) =
+    let ( % ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_MODULE
         (funptr
            (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ @-> returning void))
+        x0 x1 x2
 
-    let _Vector3i_elem_Dictionary =
+    let _Vector3i_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector3i.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Vector3i_elem_Array =
+    let _Vector3i_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Vector3i.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     module Axis = struct
       type t = Int.t
@@ -17771,563 +18080,584 @@ print(Vector3i(10, -20, 30) % Vector3i(7, 8, 9)) # Prints ""(3, -4, 3)""
     include M.Transform2D
 
     (** Returns the inverse of the transform, under the assumption that the transformation basis is orthonormal (i.e. rotation/reflection is fine, scaling/skew is not). Use [method affine_inverse] for non-orthonormal transforms (e.g. with scaling). *)
-    let inverse =
+    let inverse x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_TRANSFORM2D "inverse"
         (Base.Int64.of_string "1420440541")
         (Transform2D.typ @-> returning Transform2D.typ)
-        Transform2D.s
+        Transform2D.s x0
 
     (** Returns the inverse of the transform, under the assumption that the basis is invertible (must have non-zero determinant). *)
-    let affine_inverse =
+    let affine_inverse x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "affine_inverse"
         (Base.Int64.of_string "1420440541")
         (Transform2D.typ @-> returning Transform2D.typ)
-        Transform2D.s
+        Transform2D.s x0
 
     (** Returns the transform's rotation (in radians). *)
-    let get_rotation =
+    let get_rotation x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "get_rotation"
         (Base.Int64.of_string "466405837")
         (Transform2D.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the transform's origin (translation). *)
-    let get_origin =
+    let get_origin x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "get_origin"
         (Base.Int64.of_string "2428350749")
         (Transform2D.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0
 
     (** Returns the scale. *)
-    let get_scale =
+    let get_scale x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "get_scale"
         (Base.Int64.of_string "2428350749")
         (Transform2D.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0
 
     (** Returns the transform's skew (in radians). *)
-    let get_skew =
+    let get_skew x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "get_skew"
         (Base.Int64.of_string "466405837")
         (Transform2D.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the transform with the basis orthogonal (90 degrees), and normalized axis vectors (scale of 1 or -1). *)
-    let orthonormalized =
+    let orthonormalized x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "orthonormalized"
         (Base.Int64.of_string "1420440541")
         (Transform2D.typ @-> returning Transform2D.typ)
-        Transform2D.s
+        Transform2D.s x0
 
     (** Returns a copy of the transform rotated by the given [param angle] (in radians).
 This method is an optimized version of multiplying the given transform [code]X[/code] with a corresponding rotation transform [code]R[/code] from the left, i.e., [code]R  *  X[/code].
 This can be seen as transforming with respect to the global/parent frame. *)
-    let rotated =
+    let rotated x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM2D "rotated"
         (Base.Int64.of_string "729597514")
         (Float.typ @-> Transform2D.typ @-> returning Transform2D.typ)
-        Transform2D.s
+        Transform2D.s x0 x1
 
     (** Returns a copy of the transform rotated by the given [param angle] (in radians).
 This method is an optimized version of multiplying the given transform [code]X[/code] with a corresponding rotation transform [code]R[/code] from the right, i.e., [code]X  *  R[/code].
 This can be seen as transforming with respect to the local frame. *)
-    let rotated_local =
+    let rotated_local x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "rotated_local"
         (Base.Int64.of_string "729597514")
         (Float.typ @-> Transform2D.typ @-> returning Transform2D.typ)
-        Transform2D.s
+        Transform2D.s x0 x1
 
     (** Returns a copy of the transform scaled by the given [param scale] factor.
 This method is an optimized version of multiplying the given transform [code]X[/code] with a corresponding scaling transform [code]S[/code] from the left, i.e., [code]S  *  X[/code].
 This can be seen as transforming with respect to the global/parent frame. *)
-    let scaled =
+    let scaled x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM2D "scaled"
         (Base.Int64.of_string "1446323263")
         (Vector2.typ @-> Transform2D.typ @-> returning Transform2D.typ)
-        Transform2D.s
+        Transform2D.s x0 x1
 
     (** Returns a copy of the transform scaled by the given [param scale] factor.
 This method is an optimized version of multiplying the given transform [code]X[/code] with a corresponding scaling transform [code]S[/code] from the right, i.e., [code]X  *  S[/code].
 This can be seen as transforming with respect to the local frame. *)
-    let scaled_local =
+    let scaled_local x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "scaled_local"
         (Base.Int64.of_string "1446323263")
         (Vector2.typ @-> Transform2D.typ @-> returning Transform2D.typ)
-        Transform2D.s
+        Transform2D.s x0 x1
 
     (** Returns a copy of the transform translated by the given [param offset].
 This method is an optimized version of multiplying the given transform [code]X[/code] with a corresponding translation transform [code]T[/code] from the left, i.e., [code]T  *  X[/code].
 This can be seen as transforming with respect to the global/parent frame. *)
-    let translated =
+    let translated x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "translated"
         (Base.Int64.of_string "1446323263")
         (Vector2.typ @-> Transform2D.typ @-> returning Transform2D.typ)
-        Transform2D.s
+        Transform2D.s x0 x1
 
     (** Returns a copy of the transform translated by the given [param offset].
 This method is an optimized version of multiplying the given transform [code]X[/code] with a corresponding translation transform [code]T[/code] from the right, i.e., [code]X  *  T[/code].
 This can be seen as transforming with respect to the local frame. *)
-    let translated_local =
+    let translated_local x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "translated_local"
         (Base.Int64.of_string "1446323263")
         (Vector2.typ @-> Transform2D.typ @-> returning Transform2D.typ)
-        Transform2D.s
+        Transform2D.s x0 x1
 
     (** Returns the determinant of the basis matrix. If the basis is uniformly scaled, then its determinant equals the square of the scale factor.
 A negative determinant means the basis was flipped, so one part of the scale is negative. A zero determinant means the basis isn't invertible, and is usually considered invalid. *)
-    let determinant =
+    let determinant x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "determinant"
         (Base.Int64.of_string "466405837")
         (Transform2D.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns a vector transformed (multiplied) by the basis matrix.
 This method does not account for translation (the [member origin] vector). *)
-    let basis_xform =
+    let basis_xform x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "basis_xform"
         (Base.Int64.of_string "2026743667")
         (Vector2.typ @-> Transform2D.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1
 
     (** Returns a vector transformed (multiplied) by the inverse basis matrix, under the assumption that the basis is orthonormal (i.e. rotation/reflection is fine, scaling/skew is not).
 This method does not account for translation (the [member origin] vector).
 [code]transform.basis_xform_inv(vector)[/code] is equivalent to [code]transform.inverse().basis_xform(vector)[/code]. See [method inverse].
 For non-orthonormal transforms (e.g. with scaling) [code]transform.affine_inverse().basis_xform(vector)[/code] can be used instead. See [method affine_inverse]. *)
-    let basis_xform_inv =
+    let basis_xform_inv x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "basis_xform_inv"
         (Base.Int64.of_string "2026743667")
         (Vector2.typ @-> Transform2D.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0 x1
 
     (** Returns a transform interpolated between this transform and another by a given [param weight] (on the range of 0.0 to 1.0). *)
-    let interpolate_with =
+    let interpolate_with x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "interpolate_with"
         (Base.Int64.of_string "359399686")
         (Transform2D.typ @-> Float.typ @-> Transform2D.typ
        @-> returning Transform2D.typ)
-        Transform2D.s
+        Transform2D.s x0 x1 x2
 
     (** Returns [code]true[/code] if the transform's basis is conformal, meaning it preserves angles and distance ratios, and may only be composed of rotation and uniform scale. Returns [code]false[/code] if the transform's basis has non-uniform scale or shear/skew. This can be used to validate if the transform is non-distorted, which is important for physics and other use cases. *)
-    let is_conformal =
+    let is_conformal x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "is_conformal"
         (Base.Int64.of_string "3918633141")
         (Transform2D.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this transform and [param xform] are approximately equal, by running [method @GlobalScope.is_equal_approx] on each component. *)
-    let is_equal_approx =
+    let is_equal_approx x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "is_equal_approx"
         (Base.Int64.of_string "3837431929")
         (Transform2D.typ @-> Transform2D.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this transform is finite, by calling [method @GlobalScope.is_finite] on each component. *)
-    let is_finite =
+    let is_finite x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "is_finite"
         (Base.Int64.of_string "3918633141")
         (Transform2D.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns a copy of the transform rotated such that the rotated X-axis points towards the [param target] position.
 Operations take place in global space. *)
-    let looking_at =
+    let looking_at x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM2D
         "looking_at"
         (Base.Int64.of_string "1446323263")
         (Vector2.typ @-> Transform2D.typ @-> returning Transform2D.typ)
-        Transform2D.s
+        Transform2D.s x0 x1
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM2D None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (Transform2D.typ @-> Transform2D.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the transforms are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM2D
         (Some GlobalEnum.VariantType._TYPE_TRANSFORM2D)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (Transform2D.typ @-> Transform2D.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the transforms are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM2D
         (Some GlobalEnum.VariantType._TYPE_TRANSFORM2D)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (Transform2D.typ @-> Transform2D.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Composes these two transformation matrices by multiplying them together. This has the effect of transforming the second transform (the child) by the first transform (the parent). *)
-    let ( * ) =
+    let ( * ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM2D
         (Some GlobalEnum.VariantType._TYPE_TRANSFORM2D)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Transform2D.typ @-> Transform2D.typ @-> Transform2D.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _Transform2D_elem_Dictionary =
+    let _Transform2D_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM2D
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Transform2D.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Transform2D_elem_Array =
+    let _Transform2D_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM2D
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Transform2D.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Vector4 = struct
     include M.Vector4
 
     (** Returns the axis of the vector's lowest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_W]. *)
-    let min_axis_index =
+    let min_axis_index x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4
         "min_axis_index"
         (Base.Int64.of_string "3173160232")
         (Vector4.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the axis of the vector's highest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_X]. *)
-    let max_axis_index =
+    let max_axis_index x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4
         "max_axis_index"
         (Base.Int64.of_string "3173160232")
         (Vector4.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the length (magnitude) of this vector. *)
-    let length =
+    let length x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4 "length"
         (Base.Int64.of_string "466405837")
         (Vector4.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the squared length (squared magnitude) of this vector.
 This method runs faster than [method length], so prefer it if you need to compare vectors or need the squared distance for some formula. *)
-    let length_squared =
+    let length_squared x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4
         "length_squared"
         (Base.Int64.of_string "466405837")
         (Vector4.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns a new vector with all components in absolute values (i.e. positive). *)
-    let abs =
+    let abs x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4 "abs"
         (Base.Int64.of_string "80860099")
         (Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0
 
     (** Returns a new vector with each component set to [code]1.0[/code] if it's positive, [code]-1.0[/code] if it's negative, and [code]0.0[/code] if it's zero. The result is identical to calling [method @GlobalScope.sign] on each component. *)
-    let sign =
+    let sign x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4 "sign"
         (Base.Int64.of_string "80860099")
         (Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0
 
     (** Returns a new vector with all components rounded down (towards negative infinity). *)
-    let floor =
+    let floor x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4 "floor"
         (Base.Int64.of_string "80860099")
         (Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0
 
     (** Returns a new vector with all components rounded up (towards positive infinity). *)
-    let ceil =
+    let ceil x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4 "ceil"
         (Base.Int64.of_string "80860099")
         (Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0
 
     (** Returns a new vector with all components rounded to the nearest integer, with halfway cases rounded away from zero. *)
-    let round =
+    let round x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4 "round"
         (Base.Int64.of_string "80860099")
         (Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0
 
     (** Returns the result of the linear interpolation between this vector and [param to] by amount [param weight]. [param weight] is on the range of [code]0.0[/code] to [code]1.0[/code], representing the amount of interpolation. *)
-    let lerp =
+    let lerp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR4 "lerp"
         (Base.Int64.of_string "2329757942")
         (Vector4.typ @-> Float.typ @-> Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0 x1 x2
 
     (** Performs a cubic interpolation between this vector and [param b] using [param pre_a] and [param post_b] as handles, and returns the result at position [param weight]. [param weight] is on the range of 0.0 to 1.0, representing the amount of interpolation. *)
-    let cubic_interpolate =
+    let cubic_interpolate x0 x1 x2 x3 x4 =
       foreign_builtin_method4 GlobalEnum.VariantType._TYPE_VECTOR4
         "cubic_interpolate"
         (Base.Int64.of_string "726768410")
         (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> Float.typ
        @-> Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0 x1 x2 x3 x4
 
     (** Performs a cubic interpolation between this vector and [param b] using [param pre_a] and [param post_b] as handles, and returns the result at position [param weight]. [param weight] is on the range of 0.0 to 1.0, representing the amount of interpolation.
 It can perform smoother interpolation than [method cubic_interpolate] by the time values. *)
-    let cubic_interpolate_in_time =
+    let cubic_interpolate_in_time x0 x1 x2 x3 x4 x5 x6 x7 =
       foreign_builtin_method7 GlobalEnum.VariantType._TYPE_VECTOR4
         "cubic_interpolate_in_time"
         (Base.Int64.of_string "681631873")
         (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> Float.typ @-> Float.typ
        @-> Float.typ @-> Float.typ @-> Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0 x1 x2 x3 x4 x5 x6 x7
 
     (** Returns a vector composed of the [method @GlobalScope.fposmod] of this vector's components and [param mod]. *)
-    let posmod =
+    let posmod x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR4 "posmod"
         (Base.Int64.of_string "3129671720")
         (Float.typ @-> Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0 x1
 
     (** Returns a vector composed of the [method @GlobalScope.fposmod] of this vector's components and [param modv]'s components. *)
-    let posmodv =
+    let posmodv x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR4 "posmodv"
         (Base.Int64.of_string "2031281584")
         (Vector4.typ @-> Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0 x1
 
     (** Returns a new vector with each component snapped to the nearest multiple of the corresponding component in [param step]. This can also be used to round the components to an arbitrary number of decimals. *)
-    let snapped =
+    let snapped x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR4 "snapped"
         (Base.Int64.of_string "2031281584")
         (Vector4.typ @-> Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0 x1
 
     (** Returns a new vector with all components clamped between the components of [param min] and [param max], by running [method @GlobalScope.clamp] on each component. *)
-    let clamp =
+    let clamp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR4 "clamp"
         (Base.Int64.of_string "823915692")
         (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0 x1 x2
 
     (** Returns the result of scaling the vector to unit length. Equivalent to [code]v / v.length()[/code]. See also [method is_normalized].
 [b]Note:[/b] This function may return incorrect values if the input vector length is near zero. *)
-    let normalized =
+    let normalized x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4 "normalized"
         (Base.Int64.of_string "80860099")
         (Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0
 
     (** Returns [code]true[/code] if the vector is normalized, i.e. its length is approximately equal to 1. *)
-    let is_normalized =
+    let is_normalized x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4
         "is_normalized"
         (Base.Int64.of_string "3918633141")
         (Vector4.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns the normalized vector pointing from this vector to [param to]. This is equivalent to using [code](b - a).normalized()[/code]. *)
-    let direction_to =
+    let direction_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR4
         "direction_to"
         (Base.Int64.of_string "2031281584")
         (Vector4.typ @-> Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0 x1
 
     (** Returns the distance between this vector and [param to]. *)
-    let distance_to =
+    let distance_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR4 "distance_to"
         (Base.Int64.of_string "3770801042")
         (Vector4.typ @-> Vector4.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the squared distance between this vector and [param to].
 This method runs faster than [method distance_to], so prefer it if you need to compare vectors or need the squared distance for some formula. *)
-    let distance_squared_to =
+    let distance_squared_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR4
         "distance_squared_to"
         (Base.Int64.of_string "3770801042")
         (Vector4.typ @-> Vector4.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the dot product of this vector and [param with]. *)
-    let dot =
+    let dot x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR4 "dot"
         (Base.Int64.of_string "3770801042")
         (Vector4.typ @-> Vector4.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the inverse of the vector. This is the same as [code]Vector4(1.0 / v.x, 1.0 / v.y, 1.0 / v.z, 1.0 / v.w)[/code]. *)
-    let inverse =
+    let inverse x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4 "inverse"
         (Base.Int64.of_string "80860099")
         (Vector4.typ @-> returning Vector4.typ)
-        Vector4.s
+        Vector4.s x0
 
     (** Returns [code]true[/code] if this vector and [param to] are approximately equal, by running [method @GlobalScope.is_equal_approx] on each component. *)
-    let is_equal_approx =
+    let is_equal_approx x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR4
         "is_equal_approx"
         (Base.Int64.of_string "88913544")
         (Vector4.typ @-> Vector4.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this vector's values are approximately zero, by running [method @GlobalScope.is_zero_approx] on each component.
 This method is faster than using [method is_equal_approx] with one value as a zero vector. *)
-    let is_zero_approx =
+    let is_zero_approx x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4
         "is_zero_approx"
         (Base.Int64.of_string "3918633141")
         (Vector4.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this vector is finite, by calling [method @GlobalScope.is_finite] on each component. *)
-    let is_finite =
+    let is_finite x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4 "is_finite"
         (Base.Int64.of_string "3918633141")
         (Vector4.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns the negative value of the [Vector4]. This is the same as writing [code]Vector4(-v.x, -v.y, -v.z, -v.w)[/code]. This operation flips the direction of the vector while keeping the same magnitude. With floats, the number zero can be either positive or negative. *)
-    let ( ~- ) =
+    let ( ~- ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4 None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr
            (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) =
+    let ( ~+ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4 None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr
            (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> returning void))
+        x0 x1 x2
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4 None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Vector4.typ @-> Vector4.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the vectors are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Vector4.typ @-> Vector4.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the vectors are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Vector4.typ @-> Vector4.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector4] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( < ) =
+    let ( < ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Vector4.typ @-> Vector4.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector4] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <= ) =
+    let ( <= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Vector4.typ @-> Vector4.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector4] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( > ) =
+    let ( > ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Vector4.typ @-> Vector4.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector4] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( >= ) =
+    let ( >= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Vector4.typ @-> Vector4.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Adds each component of the [Vector4] by the components of the given [Vector4].
 [codeblock]
 print(Vector4(10, 20, 30, 40) + Vector4(3, 4, 5, 6)) # Prints ""(13, 24, 35, 46)""
 [/codeblock] *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> returning void))
+        x0 x1 x2
 
     (** Subtracts each component of the [Vector4] by the components of the given [Vector4].
 [codeblock]
 print(Vector4(10, 20, 30, 40) - Vector4(3, 4, 5, 6)) # Prints ""(7, 16, 25, 34)""
 [/codeblock] *)
-    let ( - ) =
+    let ( - ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr
            (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> returning void))
+        x0 x1 x2
 
     (** Multiplies each component of the [Vector4] by the components of the given [Vector4].
 [codeblock]
 print(Vector4(10, 20, 30, 40)  *  Vector4(3, 4, 5, 6)) # Prints ""(30, 80, 150, 240)""
 [/codeblock] *)
-    let ( * ) =
+    let ( * ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> returning void))
+        x0 x1 x2
 
     (** Divides each component of the [Vector4] by the components of the given [Vector4].
 [codeblock]
 print(Vector4(10, 20, 30, 40) / Vector4(2, 5, 3, 4)) # Prints ""(5, 4, 10, 10)""
 [/codeblock] *)
-    let ( / ) =
+    let ( / ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr
            (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> returning void))
+        x0 x1 x2
 
-    let _Vector4_elem_Dictionary =
+    let _Vector4_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector4.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Vector4_elem_Array =
+    let _Vector4_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Vector4.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     module Axis = struct
       type t = Int.t
@@ -18352,194 +18682,210 @@ print(Vector4(10, 20, 30, 40) / Vector4(2, 5, 3, 4)) # Prints ""(5, 4, 10, 10)""
     include M.Vector4i
 
     (** Returns the axis of the vector's lowest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_W]. *)
-    let min_axis_index =
+    let min_axis_index x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4I
         "min_axis_index"
         (Base.Int64.of_string "3173160232")
         (Vector4i.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the axis of the vector's highest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_X]. *)
-    let max_axis_index =
+    let max_axis_index x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4I
         "max_axis_index"
         (Base.Int64.of_string "3173160232")
         (Vector4i.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the length (magnitude) of this vector. *)
-    let length =
+    let length x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4I "length"
         (Base.Int64.of_string "466405837")
         (Vector4i.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the squared length (squared magnitude) of this vector.
 This method runs faster than [method length], so prefer it if you need to compare vectors or need the squared distance for some formula. *)
-    let length_squared =
+    let length_squared x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4I
         "length_squared"
         (Base.Int64.of_string "3173160232")
         (Vector4i.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns a new vector with each component set to [code]1[/code] if it's positive, [code]-1[/code] if it's negative, and [code]0[/code] if it's zero. The result is identical to calling [method @GlobalScope.sign] on each component. *)
-    let sign =
+    let sign x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4I "sign"
         (Base.Int64.of_string "4134919947")
         (Vector4i.typ @-> returning Vector4i.typ)
-        Vector4i.s
+        Vector4i.s x0
 
     (** Returns a new vector with all components in absolute values (i.e. positive). *)
-    let abs =
+    let abs x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_VECTOR4I "abs"
         (Base.Int64.of_string "4134919947")
         (Vector4i.typ @-> returning Vector4i.typ)
-        Vector4i.s
+        Vector4i.s x0
 
     (** Returns a new vector with all components clamped between the components of [param min] and [param max], by running [method @GlobalScope.clamp] on each component. *)
-    let clamp =
+    let clamp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_VECTOR4I "clamp"
         (Base.Int64.of_string "3046490913")
         (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ
        @-> returning Vector4i.typ)
-        Vector4i.s
+        Vector4i.s x0 x1 x2
 
     (** Returns a new vector with each component snapped to the closest multiple of the corresponding component in [param step]. *)
-    let snapped =
+    let snapped x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_VECTOR4I "snapped"
         (Base.Int64.of_string "1181693102")
         (Vector4i.typ @-> Vector4i.typ @-> returning Vector4i.typ)
-        Vector4i.s
+        Vector4i.s x0 x1
 
     (** Returns the negative value of the [Vector4i]. This is the same as writing [code]Vector4i(-v.x, -v.y, -v.z, -v.w)[/code]. This operation flips the direction of the vector while keeping the same magnitude. *)
-    let ( ~- ) =
+    let ( ~- ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr
            (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) =
+    let ( ~+ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr
            (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ @-> returning void))
+        x0 x1 x2
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Vector4i.typ @-> Vector4i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the vectors are exactly equal. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Vector4i.typ @-> Vector4i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the vectors are not equal. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Vector4i.typ @-> Vector4i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector4i] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors. *)
-    let ( < ) =
+    let ( < ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Vector4i.typ @-> Vector4i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector4i] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors. *)
-    let ( <= ) =
+    let ( <= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Vector4i.typ @-> Vector4i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector4i] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors. *)
-    let ( > ) =
+    let ( > ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Vector4i.typ @-> Vector4i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares two [Vector4i] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors. *)
-    let ( >= ) =
+    let ( >= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Vector4i.typ @-> Vector4i.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Adds each component of the [Vector4i] by the components of the given [Vector4i].
 [codeblock]
 print(Vector4i(10, 20, 30, 40) + Vector4i(3, 4, 5, 6)) # Prints ""(13, 24, 35, 46)""
 [/codeblock] *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ @-> returning void))
+        x0 x1 x2
 
     (** Subtracts each component of the [Vector4i] by the components of the given [Vector4i].
 [codeblock]
 print(Vector4i(10, 20, 30, 40) - Vector4i(3, 4, 5, 6)) # Prints ""(7, 16, 25, 34)""
 [/codeblock] *)
-    let ( - ) =
+    let ( - ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr
            (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ @-> returning void))
+        x0 x1 x2
 
     (** Multiplies each component of the [Vector4i] by the components of the given [Vector4i].
 [codeblock]
 print(Vector4i(10, 20, 30, 40)  *  Vector4i(3, 4, 5, 6)) # Prints ""(30, 80, 150, 240)""
 [/codeblock] *)
-    let ( * ) =
+    let ( * ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ @-> returning void))
+        x0 x1 x2
 
     (** Divides each component of the [Vector4i] by the components of the given [Vector4i].
 [codeblock]
 print(Vector4i(10, 20, 30, 40) / Vector4i(2, 5, 3, 4)) # Prints ""(5, 4, 10, 10)""
 [/codeblock] *)
-    let ( / ) =
+    let ( / ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr
            (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ @-> returning void))
+        x0 x1 x2
 
     (** Gets the remainder of each component of the [Vector4i] with the components of the given [Vector4i]. This operation uses truncated division, which is often not desired as it does not work well with negative numbers. Consider using [method @GlobalScope.posmod] instead if you want to handle negative numbers.
 [codeblock]
 print(Vector4i(10, -20, 30, -40) % Vector4i(7, 8, 9, 10))  # Prints ""(3, -4, 3, 0)""
 [/codeblock] *)
-    let ( % ) =
+    let ( % ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_MODULE
         (funptr
            (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ @-> returning void))
+        x0 x1 x2
 
-    let _Vector4i_elem_Dictionary =
+    let _Vector4i_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector4i.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Vector4i_elem_Array =
+    let _Vector4i_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Vector4i.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     module Axis = struct
       type t = Int.t
@@ -18564,369 +18910,386 @@ print(Vector4i(10, -20, 30, -40) % Vector4i(7, 8, 9, 10))  # Prints ""(3, -4, 3,
     include M.Plane
 
     (** Returns a copy of the plane, with normalized [member normal] (so it's a unit vector). Returns [code]Plane(0, 0, 0, 0)[/code] if [member normal] can't be normalized (it has zero length). *)
-    let normalized =
+    let normalized x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PLANE "normalized"
         (Base.Int64.of_string "1051796340")
         (Plane.typ @-> returning Plane.typ)
-        Plane.s
+        Plane.s x0
 
     (** Returns the center of the plane. *)
-    let get_center =
+    let get_center x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PLANE "get_center"
         (Base.Int64.of_string "1776574132")
         (Plane.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0
 
     (** Returns [code]true[/code] if this plane and [param to_plane] are approximately equal, by running [method @GlobalScope.is_equal_approx] on each component. *)
-    let is_equal_approx =
+    let is_equal_approx x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PLANE
         "is_equal_approx"
         (Base.Int64.of_string "1150170233")
         (Plane.typ @-> Plane.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this plane is finite, by calling [method @GlobalScope.is_finite] on each component. *)
-    let is_finite =
+    let is_finite x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PLANE "is_finite"
         (Base.Int64.of_string "3918633141")
         (Plane.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if [param point] is located above the plane. *)
-    let is_point_over =
+    let is_point_over x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PLANE "is_point_over"
         (Base.Int64.of_string "1749054343")
         (Vector3.typ @-> Plane.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns the shortest distance from the plane to the position [param point]. If the point is above the plane, the distance will be positive. If below, the distance will be negative. *)
-    let distance_to =
+    let distance_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PLANE "distance_to"
         (Base.Int64.of_string "1047977935")
         (Vector3.typ @-> Plane.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns [code]true[/code] if [param point] is inside the plane. Comparison uses a custom minimum [param tolerance] threshold. *)
-    let has_point =
+    let has_point x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PLANE "has_point"
         (Base.Int64.of_string "1258189072")
         (Vector3.typ @-> Float.typ @-> Plane.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1 x2
 
     (** Returns the orthogonal projection of [param point] into a point in the plane. *)
-    let project =
+    let project x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PLANE "project"
         (Base.Int64.of_string "2923479887")
         (Vector3.typ @-> Plane.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Returns the intersection point of the three planes [param b], [param c] and this plane. If no intersection is found, [code]null[/code] is returned. *)
-    let intersect_3 =
+    let intersect_3 x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PLANE "intersect_3"
         (Base.Int64.of_string "2012052692")
         (Plane.typ @-> Plane.typ @-> Plane.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0 x1 x2
 
     (** Returns the intersection point of a ray consisting of the position [param from] and the direction normal [param dir] with this plane. If no intersection is found, [code]null[/code] is returned. *)
-    let intersects_ray =
+    let intersects_ray x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PLANE
         "intersects_ray"
         (Base.Int64.of_string "2048133369")
         (Vector3.typ @-> Vector3.typ @-> Plane.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0 x1 x2
 
     (** Returns the intersection point of a segment from position [param from] to position [param to] with this plane. If no intersection is found, [code]null[/code] is returned. *)
-    let intersects_segment =
+    let intersects_segment x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PLANE
         "intersects_segment"
         (Base.Int64.of_string "2048133369")
         (Vector3.typ @-> Vector3.typ @-> Plane.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0 x1 x2
 
     (** Returns the negative value of the [Plane]. This is the same as writing [code]Plane(-p.normal, -p.d)[/code]. This operation flips the direction of the normal vector and also flips the distance value, resulting in a Plane that is in the same place, but facing the opposite direction. *)
-    let ( ~- ) =
+    let ( ~- ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PLANE None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr (Plane.typ @-> Plane.typ @-> Plane.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) =
+    let ( ~+ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PLANE None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr (Plane.typ @-> Plane.typ @-> Plane.typ @-> returning void))
+        x0 x1 x2
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PLANE None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Plane.typ @-> Plane.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the planes are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PLANE
         (Some GlobalEnum.VariantType._TYPE_PLANE)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Plane.typ @-> Plane.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the planes are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PLANE
         (Some GlobalEnum.VariantType._TYPE_PLANE)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Plane.typ @-> Plane.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Plane_elem_Dictionary =
+    let _Plane_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PLANE
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Plane.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Plane_elem_Array =
+    let _Plane_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PLANE
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Plane.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Quaternion = struct
     include M.Quaternion
 
     (** Returns this quaternion's length, also called magnitude. *)
-    let length =
+    let length x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_QUATERNION "length"
         (Base.Int64.of_string "466405837")
         (Quaternion.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns this quaternion's length, squared.
 [b]Note:[/b] This method is faster than [method length], so prefer it if you only need to compare quaternion lengths. *)
-    let length_squared =
+    let length_squared x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_QUATERNION
         "length_squared"
         (Base.Int64.of_string "466405837")
         (Quaternion.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns a copy of this quaternion, normalized so that its length is [code]1.0[/code]. See also [method is_normalized]. *)
-    let normalized =
+    let normalized x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_QUATERNION
         "normalized"
         (Base.Int64.of_string "4274879941")
         (Quaternion.typ @-> returning Quaternion.typ)
-        Quaternion.s
+        Quaternion.s x0
 
     (** Returns [code]true[/code] if this quaternion is normalized. See also [method normalized]. *)
-    let is_normalized =
+    let is_normalized x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_QUATERNION
         "is_normalized"
         (Base.Int64.of_string "3918633141")
         (Quaternion.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this quaternion and [param to] are approximately equal, by running [method @GlobalScope.is_equal_approx] on each component. *)
-    let is_equal_approx =
+    let is_equal_approx x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_QUATERNION
         "is_equal_approx"
         (Base.Int64.of_string "1682156903")
         (Quaternion.typ @-> Quaternion.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this quaternion is finite, by calling [method @GlobalScope.is_finite] on each component. *)
-    let is_finite =
+    let is_finite x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_QUATERNION
         "is_finite"
         (Base.Int64.of_string "3918633141")
         (Quaternion.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns the inverse version of this quaternion, inverting the sign of every component except [member w]. *)
-    let inverse =
+    let inverse x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_QUATERNION "inverse"
         (Base.Int64.of_string "4274879941")
         (Quaternion.typ @-> returning Quaternion.typ)
-        Quaternion.s
+        Quaternion.s x0
 
     (** Returns the logarithm of this quaternion. Multiplies this quaternion's rotation axis by its rotation angle, and stores the result in the returned quaternion's vector part ([member x], [member y], and [member z]). The returned quaternion's real part ([member w]) is always [code]0.0[/code]. *)
-    let log =
+    let log x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_QUATERNION "log"
         (Base.Int64.of_string "4274879941")
         (Quaternion.typ @-> returning Quaternion.typ)
-        Quaternion.s
+        Quaternion.s x0
 
     (** Returns the exponential of this quaternion. The rotation axis of the result is the normalized rotation axis of this quaternion, the angle of the result is the length of the vector part of this quaternion. *)
-    let exp =
+    let exp x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_QUATERNION "exp"
         (Base.Int64.of_string "4274879941")
         (Quaternion.typ @-> returning Quaternion.typ)
-        Quaternion.s
+        Quaternion.s x0
 
     (** Returns the angle between this quaternion and [param to]. This is the magnitude of the angle you would need to rotate by to get from one to the other.
 [b]Note:[/b] The magnitude of the floating-point error for this method is abnormally high, so methods such as [code]is_zero_approx[/code] will not work reliably. *)
-    let angle_to =
+    let angle_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_QUATERNION "angle_to"
         (Base.Int64.of_string "3244682419")
         (Quaternion.typ @-> Quaternion.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the dot product between this quaternion and [param with].
 This is equivalent to [code](quat.x  *  with.x) + (quat.y  *  with.y) + (quat.z  *  with.z) + (quat.w  *  with.w)[/code]. *)
-    let dot =
+    let dot x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_QUATERNION "dot"
         (Base.Int64.of_string "3244682419")
         (Quaternion.typ @-> Quaternion.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Performs a spherical-linear interpolation with the [param to] quaternion, given a [param weight] and returns the result. Both this quaternion and [param to] must be normalized. *)
-    let slerp =
+    let slerp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_QUATERNION "slerp"
         (Base.Int64.of_string "1773590316")
         (Quaternion.typ @-> Float.typ @-> Quaternion.typ
        @-> returning Quaternion.typ)
-        Quaternion.s
+        Quaternion.s x0 x1 x2
 
     (** Performs a spherical-linear interpolation with the [param to] quaternion, given a [param weight] and returns the result. Unlike [method slerp], this method does not check if the rotation path is smaller than 90 degrees. Both this quaternion and [param to] must be normalized. *)
-    let slerpni =
+    let slerpni x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_QUATERNION "slerpni"
         (Base.Int64.of_string "1773590316")
         (Quaternion.typ @-> Float.typ @-> Quaternion.typ
        @-> returning Quaternion.typ)
-        Quaternion.s
+        Quaternion.s x0 x1 x2
 
     (** Performs a spherical cubic interpolation between quaternions [param pre_a], this vector, [param b], and [param post_b], by the given amount [param weight]. *)
-    let spherical_cubic_interpolate =
+    let spherical_cubic_interpolate x0 x1 x2 x3 x4 =
       foreign_builtin_method4 GlobalEnum.VariantType._TYPE_QUATERNION
         "spherical_cubic_interpolate"
         (Base.Int64.of_string "2150967576")
         (Quaternion.typ @-> Quaternion.typ @-> Quaternion.typ @-> Float.typ
        @-> Quaternion.typ @-> returning Quaternion.typ)
-        Quaternion.s
+        Quaternion.s x0 x1 x2 x3 x4
 
     (** Performs a spherical cubic interpolation between quaternions [param pre_a], this vector, [param b], and [param post_b], by the given amount [param weight].
 It can perform smoother interpolation than [method spherical_cubic_interpolate] by the time values. *)
-    let spherical_cubic_interpolate_in_time =
+    let spherical_cubic_interpolate_in_time x0 x1 x2 x3 x4 x5 x6 x7 =
       foreign_builtin_method7 GlobalEnum.VariantType._TYPE_QUATERNION
         "spherical_cubic_interpolate_in_time"
         (Base.Int64.of_string "1436023539")
         (Quaternion.typ @-> Quaternion.typ @-> Quaternion.typ @-> Float.typ
        @-> Float.typ @-> Float.typ @-> Float.typ @-> Quaternion.typ
        @-> returning Quaternion.typ)
-        Quaternion.s
+        Quaternion.s x0 x1 x2 x3 x4 x5 x6 x7
 
     (** Returns this quaternion's rotation as a [Vector3] of [url=https://en.wikipedia.org/wiki/Euler_angles]Euler angles[/url], in radians.
 The order of each consecutive rotation can be changed with [param order] (see [enum EulerOrder] constants). By default, the YXZ convention is used ([constant EULER_ORDER_YXZ]): Z (roll) is calculated first, then X (pitch), and lastly Y (yaw). When using the opposite method [method from_euler], this order is reversed. *)
-    let get_euler =
+    let get_euler x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_QUATERNION
         "get_euler"
         (Base.Int64.of_string "1394941017")
         (Int.typ @-> Quaternion.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Constructs a new [Quaternion] from the given [Vector3] of [url=https://en.wikipedia.org/wiki/Euler_angles]Euler angles[/url], in radians. This method always uses the YXZ convention ([constant EULER_ORDER_YXZ]). *)
-    let from_euler =
+    let from_euler x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_QUATERNION
         "from_euler"
         (Base.Int64.of_string "4053467903")
         (Vector3.typ @-> returning Quaternion.typ)
-        Quaternion.s
+        Quaternion.s x0
 
     (** Returns the rotation axis of the rotation represented by this quaternion. *)
-    let get_axis =
+    let get_axis x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_QUATERNION "get_axis"
         (Base.Int64.of_string "1776574132")
         (Quaternion.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0
 
     (** Returns the angle of the rotation represented by this quaternion.
 [b]Note:[/b] The quaternion must be normalized. *)
-    let get_angle =
+    let get_angle x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_QUATERNION
         "get_angle"
         (Base.Int64.of_string "466405837")
         (Quaternion.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the negative value of the [Quaternion]. This is the same as multiplying all components by [code]-1[/code]. This operation results in a quaternion that represents the same rotation. *)
-    let ( ~- ) =
+    let ( ~- ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Quaternion.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) =
+    let ( ~+ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Quaternion.typ
           @-> returning void))
+        x0 x1 x2
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the components of both quaternions are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION
         (Some GlobalEnum.VariantType._TYPE_QUATERNION)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the components of both quaternions are not exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION
         (Some GlobalEnum.VariantType._TYPE_QUATERNION)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Adds each component of the left [Quaternion] to the right [Quaternion].
 This operation is not meaningful on its own, but it can be used as a part of a larger expression, such as approximating an intermediate rotation between two nearby rotations. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION
         (Some GlobalEnum.VariantType._TYPE_QUATERNION)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Quaternion.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Subtracts each component of the left [Quaternion] by the right [Quaternion].
 This operation is not meaningful on its own, but it can be used as a part of a larger expression. *)
-    let ( - ) =
+    let ( - ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION
         (Some GlobalEnum.VariantType._TYPE_QUATERNION)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Quaternion.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Composes (multiplies) two quaternions. This rotates the [param right] quaternion (the child) by this quaternion (the parent). *)
-    let ( * ) =
+    let ( * ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION
         (Some GlobalEnum.VariantType._TYPE_QUATERNION)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Quaternion.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _Quaternion_elem_Dictionary =
+    let _Quaternion_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Quaternion.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Quaternion_elem_Array =
+    let _Quaternion_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Quaternion.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module AABB = struct
@@ -18948,69 +19311,69 @@ GD.Print(absolute.Size);     // Prints (20, 10, 5)
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] It's recommended to use this method when [member size] is negative, as most other methods in Godot assume that the [member size]'s components are greater than [code]0[/code]. *)
-    let abs =
+    let abs x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_AABB "abs"
         (Base.Int64.of_string "1576868580")
         (AABB.typ @-> returning AABB.typ)
-        AABB.s
+        AABB.s x0
 
     (** Returns the center point of the bounding box. This is the same as [code]position + (size / 2.0)[/code]. *)
-    let get_center =
+    let get_center x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_AABB "get_center"
         (Base.Int64.of_string "1776574132")
         (AABB.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0
 
     (** Returns the bounding box's volume. This is equivalent to [code]size.x  *  size.y  *  size.z[/code]. See also [method has_volume]. *)
-    let get_volume =
+    let get_volume x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_AABB "get_volume"
         (Base.Int64.of_string "466405837")
         (AABB.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns [code]true[/code] if this bounding box's width, height, and depth are all positive. See also [method get_volume]. *)
-    let has_volume =
+    let has_volume x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_AABB "has_volume"
         (Base.Int64.of_string "3918633141")
         (AABB.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this bounding box has a surface or a length, that is, at least one component of [member size] is greater than [code]0[/code]. Otherwise, returns [code]false[/code]. *)
-    let has_surface =
+    let has_surface x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_AABB "has_surface"
         (Base.Int64.of_string "3918633141")
         (AABB.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if the bounding box contains the given [param point]. By convention, points exactly on the right, top, and front sides are [b]not[/b] included.
 [b]Note:[/b] This method is not reliable for [AABB] with a [i]negative[/i] [member size]. Use [method abs] first to get a valid bounding box. *)
-    let has_point =
+    let has_point x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_AABB "has_point"
         (Base.Int64.of_string "1749054343")
         (Vector3.typ @-> AABB.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this bounding box and [param aabb] are approximately equal, by calling [method Vector2.is_equal_approx] on the [member position] and the [member size]. *)
-    let is_equal_approx =
+    let is_equal_approx x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_AABB
         "is_equal_approx"
         (Base.Int64.of_string "299946684")
         (AABB.typ @-> AABB.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this bounding box's values are finite, by calling [method Vector2.is_finite] on the [member position] and the [member size]. *)
-    let is_finite =
+    let is_finite x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_AABB "is_finite"
         (Base.Int64.of_string "3918633141")
         (AABB.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this bounding box overlaps with the box [param with]. The edges of both boxes are [i]always[/i] excluded. *)
-    let intersects =
+    let intersects x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_AABB "intersects"
         (Base.Int64.of_string "299946684")
         (AABB.typ @-> AABB.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this bounding box [i]completely[/i] encloses the [param with] box. The edges of both boxes are included.
 [codeblocks]
@@ -19033,19 +19396,19 @@ GD.Print(a.Encloses(b)); // Prints True
 GD.Print(a.Encloses(c)); // Prints False
 [/csharp]
 [/codeblocks] *)
-    let encloses =
+    let encloses x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_AABB "encloses"
         (Base.Int64.of_string "299946684")
         (AABB.typ @-> AABB.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this bounding box is on both sides of the given [param plane]. *)
-    let intersects_plane =
+    let intersects_plane x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_AABB
         "intersects_plane"
         (Base.Int64.of_string "1150170233")
         (Plane.typ @-> AABB.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns the intersection between this bounding box and [param with]. If the boxes do not intersect, returns an empty [AABB]. If the boxes intersect at the edge, returns a flat [AABB] with no volume (see [method has_surface] and [method has_volume]).
 [codeblocks]
@@ -19067,18 +19430,18 @@ GD.Print(intersection.Size);     // Prints (3, 2, 4)
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] If you only need to know whether two bounding boxes are intersecting, use [method intersects], instead. *)
-    let intersection =
+    let intersection x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_AABB "intersection"
         (Base.Int64.of_string "1271470306")
         (AABB.typ @-> AABB.typ @-> returning AABB.typ)
-        AABB.s
+        AABB.s x0 x1
 
     (** Returns an [AABB] that encloses both this bounding box and [param with] around the edges. See also [method encloses]. *)
-    let merge =
+    let merge x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_AABB "merge"
         (Base.Int64.of_string "1271470306")
         (AABB.typ @-> AABB.typ @-> returning AABB.typ)
-        AABB.s
+        AABB.s x0 x1
 
     (** Returns a copy of this bounding box expanded to align the edges with the given [param to_point], if necessary.
 [codeblocks]
@@ -19105,11 +19468,11 @@ GD.Print(box.Position); // Prints (-5, 0, 0)
 GD.Print(box.Size);     // Prints (15, 2, 5)
 [/csharp]
 [/codeblocks] *)
-    let expand =
+    let expand x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_AABB "expand"
         (Base.Int64.of_string "2851643018")
         (Vector3.typ @-> AABB.typ @-> returning AABB.typ)
-        AABB.s
+        AABB.s x0 x1
 
     (** Returns a copy of this bounding box extended on all sides by the given amount [param by]. A negative amount shrinks the box instead.
 [codeblocks]
@@ -19132,18 +19495,18 @@ GD.Print(b.Position); // Prints (-2, -2, -2)
 GD.Print(b.Size);     // Prints (12, 8, 6)
 [/csharp]
 [/codeblocks] *)
-    let grow =
+    let grow x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_AABB "grow"
         (Base.Int64.of_string "239217291")
         (Float.typ @-> AABB.typ @-> returning AABB.typ)
-        AABB.s
+        AABB.s x0 x1
 
     (** Returns the vertex's position of this bounding box that's the farthest in the given direction. This point is commonly known as the support point in collision detection algorithms. *)
-    let get_support =
+    let get_support x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_AABB "get_support"
         (Base.Int64.of_string "2923479887")
         (Vector3.typ @-> AABB.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Returns the longest normalized axis of this bounding box's [member size], as a [Vector3] ([constant Vector3.RIGHT], [constant Vector3.UP], or [constant Vector3.BACK]).
 [codeblocks]
@@ -19163,30 +19526,30 @@ GD.Print(box.GetLongestAxisSize());  // Prints 8
 [/csharp]
 [/codeblocks]
 See also [method get_longest_axis_index] and [method get_longest_axis_size]. *)
-    let get_longest_axis =
+    let get_longest_axis x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_AABB
         "get_longest_axis"
         (Base.Int64.of_string "1776574132")
         (AABB.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0
 
     (** Returns the index to the longest axis of this bounding box's [member size] (see [constant Vector3.AXIS_X], [constant Vector3.AXIS_Y], and [constant Vector3.AXIS_Z]).
 For an example, see [method get_longest_axis]. *)
-    let get_longest_axis_index =
+    let get_longest_axis_index x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_AABB
         "get_longest_axis_index"
         (Base.Int64.of_string "3173160232")
         (AABB.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the longest dimension of this bounding box's [member size].
 For an example, see [method get_longest_axis]. *)
-    let get_longest_axis_size =
+    let get_longest_axis_size x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_AABB
         "get_longest_axis_size"
         (Base.Int64.of_string "466405837")
         (AABB.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the shortest normaalized axis of this bounding box's [member size], as a [Vector3] ([constant Vector3.RIGHT], [constant Vector3.UP], or [constant Vector3.BACK]).
 [codeblocks]
@@ -19206,98 +19569,103 @@ GD.Print(box.GetShortestAxisSize());  // Prints 2
 [/csharp]
 [/codeblocks]
 See also [method get_shortest_axis_index] and [method get_shortest_axis_size]. *)
-    let get_shortest_axis =
+    let get_shortest_axis x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_AABB
         "get_shortest_axis"
         (Base.Int64.of_string "1776574132")
         (AABB.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0
 
     (** Returns the index to the shortest axis of this bounding box's [member size] (see [constant Vector3.AXIS_X], [constant Vector3.AXIS_Y], and [constant Vector3.AXIS_Z]).
 For an example, see [method get_shortest_axis]. *)
-    let get_shortest_axis_index =
+    let get_shortest_axis_index x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_AABB
         "get_shortest_axis_index"
         (Base.Int64.of_string "3173160232")
         (AABB.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the shortest dimension of this bounding box's [member size].
 For an example, see [method get_shortest_axis]. *)
-    let get_shortest_axis_size =
+    let get_shortest_axis_size x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_AABB
         "get_shortest_axis_size"
         (Base.Int64.of_string "466405837")
         (AABB.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the position of one of the 8 vertices that compose this bounding box. With a [param idx] of [code]0[/code] this is the same as [member position], and a [param idx] of [code]7[/code] is the same as [member end]. *)
-    let get_endpoint =
+    let get_endpoint x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_AABB "get_endpoint"
         (Base.Int64.of_string "1394941017")
         (Int.typ @-> AABB.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Returns the first point where this bounding box and the given segment intersect, as a [Vector3]. If no intersection occurs, returns [code]null[/code].
 The segment begins at [param from] and ends at [param to]. *)
-    let intersects_segment =
+    let intersects_segment x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_AABB
         "intersects_segment"
         (Base.Int64.of_string "2048133369")
         (Vector3.typ @-> Vector3.typ @-> AABB.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0 x1 x2
 
     (** Returns the first point where this bounding box and the given ray intersect, as a [Vector3]. If no intersection occurs, returns [code]null[/code].
 The ray begin at [param from], faces [param dir] and extends towards infinity. *)
-    let intersects_ray =
+    let intersects_ray x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_AABB "intersects_ray"
         (Base.Int64.of_string "2048133369")
         (Vector3.typ @-> Vector3.typ @-> AABB.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0 x1 x2
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_AABB None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (AABB.typ @-> AABB.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if both [member position] and [member size] of the bounding boxes are exactly equal, respectively.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_AABB
         (Some GlobalEnum.VariantType._TYPE_AABB)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (AABB.typ @-> AABB.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the [member position] or [member size] of both bounding boxes are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_AABB
         (Some GlobalEnum.VariantType._TYPE_AABB)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (AABB.typ @-> AABB.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _AABB_elem_Dictionary =
+    let _AABB_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_AABB
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (AABB.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _AABB_elem_Array =
+    let _AABB_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_AABB
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (AABB.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Basis = struct
     include M.Basis
 
     (** Returns the [url=https://en.wikipedia.org/wiki/Invertible_matrix]inverse of this basis's matrix[/url]. *)
-    let inverse =
+    let inverse x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_BASIS "inverse"
         (Base.Int64.of_string "594669093")
         (Basis.typ @-> returning Basis.typ)
-        Basis.s
+        Basis.s x0
 
     (** Returns the transposed version of this basis. This turns the basis matrix's columns into rows, and its rows into columns.
 [codeblocks]
@@ -19326,11 +19694,11 @@ GD.Print(myBasis.Y); // Prints (2, 5, 8).
 GD.Print(myBasis.Z); // Prints (3, 6, 9).
 [/csharp]
 [/codeblocks] *)
-    let transposed =
+    let transposed x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_BASIS "transposed"
         (Base.Int64.of_string "594669093")
         (Basis.typ @-> returning Basis.typ)
-        Basis.s
+        Basis.s x0
 
     (** Returns the orthonormalized version of this basis. An orthonormal basis is both [i]orthogonal[/i] (the axes are perpendicular to each other) and [i]normalized[/i] (the axes have a length of [code]1[/code]), which also means it can only represent rotation.
 It is often useful to call this method to avoid rounding errors on a rotating basis:
@@ -19353,22 +19721,22 @@ public override void _Process(double delta)
 }
 [/csharp]
 [/codeblocks] *)
-    let orthonormalized =
+    let orthonormalized x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_BASIS
         "orthonormalized"
         (Base.Int64.of_string "594669093")
         (Basis.typ @-> returning Basis.typ)
-        Basis.s
+        Basis.s x0
 
     (** Returns the [url=https://en.wikipedia.org/wiki/Determinant]determinant[/url] of this basis's matrix. For advanced math, this number can be used to determine a few attributes:
 - If the determinant is exactly [code]0[/code], the basis is not invertible (see [method inverse]).
 - If the determinant is a negative number, the basis represents a negative scale.
 [b]Note:[/b] If the basis's scale is the same for every axis, its determinant is always that scale by the power of 2. *)
-    let determinant =
+    let determinant x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_BASIS "determinant"
         (Base.Int64.of_string "466405837")
         (Basis.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns this basis rotated around the given [param axis] by [param angle] (in radians). The [param axis] must be a normalized vector (see [method Vector3.normalized]).
 Positive values rotate this basis clockwise around the axis, while negative values rotate it counterclockwise.
@@ -19390,11 +19758,11 @@ myBasis = myBasis.Rotated(Vector3.Right, angle); // Rotate around the right axis
 myBasis = myBasis.Rotated(Vector3.Back, angle);  // Rotate around the back axis (roll).
 [/csharp]
 [/codeblocks] *)
-    let rotated =
+    let rotated x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_BASIS "rotated"
         (Base.Int64.of_string "1998708965")
         (Vector3.typ @-> Float.typ @-> Basis.typ @-> returning Basis.typ)
-        Basis.s
+        Basis.s x0 x1 x2
 
     (** Returns this basis with each axis's components scaled by the given [param scale]'s components.
 The basis matrix's rows are multiplied by [param scale]'s components. This operation is a global scale (relative to the parent).
@@ -19424,11 +19792,11 @@ GD.Print(myBasis.Y); // Prints (0, 4, -4).
 GD.Print(myBasis.Z); // Prints (0, 6, -6).
 [/csharp]
 [/codeblocks] *)
-    let scaled =
+    let scaled x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_BASIS "scaled"
         (Base.Int64.of_string "3934786792")
         (Vector3.typ @-> Basis.typ @-> returning Basis.typ)
-        Basis.s
+        Basis.s x0 x1
 
     (** Returns the length of each axis of this basis, as a [Vector3]. If the basis is not sheared, this is the scaling factor. It is not affected by rotation.
 [codeblocks]
@@ -19458,11 +19826,11 @@ GD.Print(myBasis.Scale); // Prints (2, 4, 8).
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] If the value returned by [method determinant] is negative, the scale is also negative. *)
-    let get_scale =
+    let get_scale x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_BASIS "get_scale"
         (Base.Int64.of_string "1776574132")
         (Basis.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0
 
     (** Returns this basis's rotation as a [Vector3] of [url=https://en.wikipedia.org/wiki/Euler_angles]Euler angles[/url], in radians.
 - The [member Vector3.x] contains the angle around the [member x] axis (pitch);
@@ -19471,35 +19839,35 @@ GD.Print(myBasis.Scale); // Prints (2, 4, 8).
 The order of each consecutive rotation can be changed with [param order] (see [enum EulerOrder] constants). By default, the YXZ convention is used ([constant EULER_ORDER_YXZ]): Z (roll) is calculated first, then X (pitch), and lastly Y (yaw). When using the opposite method [method from_euler], this order is reversed.
 [b]Note:[/b] Euler angles are much more intuitive but are not suitable for 3D math. Because of this, consider using the [method get_rotation_quaternion] method instead, which returns a [Quaternion].
 [b]Note:[/b] In the Inspector dock, a basis's rotation is often displayed in Euler angles (in degrees), as is the case with the [member Node3D.rotation] property. *)
-    let get_euler =
+    let get_euler x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_BASIS "get_euler"
         (Base.Int64.of_string "1394941017")
         (Int.typ @-> Basis.typ @-> returning Vector3.typ)
-        Vector3.s
+        Vector3.s x0 x1
 
     (** Returns the transposed dot product between [param with] and the [member x] axis (see [method transposed]).
 This is equivalent to [code]basis.x.dot(vector)[/code]. *)
-    let tdotx =
+    let tdotx x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_BASIS "tdotx"
         (Base.Int64.of_string "1047977935")
         (Vector3.typ @-> Basis.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the transposed dot product between [param with] and the [member y] axis (see [method transposed]).
 This is equivalent to [code]basis.y.dot(vector)[/code]. *)
-    let tdoty =
+    let tdoty x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_BASIS "tdoty"
         (Base.Int64.of_string "1047977935")
         (Vector3.typ @-> Basis.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the transposed dot product between [param with] and the [member z] axis (see [method transposed]).
 This is equivalent to [code]basis.z.dot(vector)[/code]. *)
-    let tdotz =
+    let tdotz x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_BASIS "tdotz"
         (Base.Int64.of_string "1047977935")
         (Vector3.typ @-> Basis.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Performs a spherical-linear interpolation with the [param to] basis, given a [param weight]. Both this basis and [param to] should represent a rotation.
 [b]Example:[/b] Smoothly rotate a [Node3D] to the target basis over time, with a [Tween].
@@ -19513,52 +19881,52 @@ func _ready():
 func interpolate(weight):
     basis = start_basis.slerp(target_basis, weight)
 [/codeblock] *)
-    let slerp =
+    let slerp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_BASIS "slerp"
         (Base.Int64.of_string "3118673011")
         (Basis.typ @-> Float.typ @-> Basis.typ @-> returning Basis.typ)
-        Basis.s
+        Basis.s x0 x1 x2
 
     (** Returns [code]true[/code] if this basis is conformal. A conformal basis is both [i]orthogonal[/i] (the axes are perpendicular to each other) and [i]uniform[/i] (the axes share the same length). This method can be especially useful during physics calculations. *)
-    let is_conformal =
+    let is_conformal x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_BASIS "is_conformal"
         (Base.Int64.of_string "3918633141")
         (Basis.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this basis and [param b] are approximately equal, by calling [method @GlobalScope.is_equal_approx] on all vector components. *)
-    let is_equal_approx =
+    let is_equal_approx x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_BASIS
         "is_equal_approx"
         (Base.Int64.of_string "3165333982")
         (Basis.typ @-> Basis.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this basis is finite, by calling [method @GlobalScope.is_finite] on all vector components. *)
-    let is_finite =
+    let is_finite x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_BASIS "is_finite"
         (Base.Int64.of_string "3918633141")
         (Basis.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns this basis's rotation as a [Quaternion].
 [b]Note:[/b] Quatenions are much more suitable for 3D math but are less intuitive. For user interfaces, consider using the [method get_euler] method, which returns Euler angles. *)
-    let get_rotation_quaternion =
+    let get_rotation_quaternion x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_BASIS
         "get_rotation_quaternion"
         (Base.Int64.of_string "4274879941")
         (Basis.typ @-> returning Quaternion.typ)
-        Quaternion.s
+        Quaternion.s x0
 
     (** Creates a new [Basis] with a rotation such that the forward axis (-Z) points towards the [param target] position.
 By default, the -Z axis (camera forward) is treated as forward (implies +X is right). If [param use_model_front] is [code]true[/code], the +Z axis (asset front) is treated as forward (implies +X is left) and points toward the [param target] position.
 The up axis (+Y) points as close to the [param up] vector as possible while staying perpendicular to the forward axis. The returned basis is orthonormalized (see [method orthonormalized]). The [param target] and [param up] vectors cannot be [constant Vector3.ZERO], and cannot be parallel to each other. *)
-    let looking_at =
+    let looking_at x0 x1 x2 =
       foreign_builtin_method3_static GlobalEnum.VariantType._TYPE_BASIS
         "looking_at"
         (Base.Int64.of_string "3728732505")
         (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning Basis.typ)
-        Basis.s
+        Basis.s x0 x1 x2
 
     (** Constructs a new [Basis] that only represents scale, with no rotation or shear, from the given [param scale] vector.
 [codeblocks]
@@ -19578,12 +19946,12 @@ GD.Print(myBasis.Z); // Prints (0, 0, 8).
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] In linear algebra, the matrix of this basis is also known as a [url=https://en.wikipedia.org/wiki/Diagonal_matrix]diagonal matrix[/url]. *)
-    let from_scale =
+    let from_scale x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_BASIS
         "from_scale"
         (Base.Int64.of_string "3703240166")
         (Vector3.typ @-> returning Basis.typ)
-        Basis.s
+        Basis.s x0
 
     (** Constructs a new [Basis] that only represents rotation from the given [Vector3] of [url=https://en.wikipedia.org/wiki/Euler_angles]Euler angles[/url], in radians.
 - The [member Vector3.x] should contain the angle around the [member x] axis (pitch).
@@ -19604,53 +19972,59 @@ GD.Print(myBasis.Z); // Prints (0, -1, 0).
 [/csharp]
 [/codeblocks]
 The order of each consecutive rotation can be changed with [param order] (see [enum EulerOrder] constants). By default, the YXZ convention is used ([constant EULER_ORDER_YXZ]): the basis rotates first around the Y axis (yaw), then X (pitch), and lastly Z (roll). When using the opposite method [method get_euler], this order is reversed. *)
-    let from_euler =
+    let from_euler x0 x1 =
       foreign_builtin_method2_static GlobalEnum.VariantType._TYPE_BASIS
         "from_euler"
         (Base.Int64.of_string "2802321791")
         (Vector3.typ @-> Int.typ @-> returning Basis.typ)
-        Basis.s
+        Basis.s x0 x1
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BASIS None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Basis.typ @-> Basis.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the components of both [Basis] matrices are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BASIS
         (Some GlobalEnum.VariantType._TYPE_BASIS)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Basis.typ @-> Basis.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the components of both [Basis] matrices are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BASIS
         (Some GlobalEnum.VariantType._TYPE_BASIS)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Basis.typ @-> Basis.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Transforms (multiplies) the [param right] basis by this basis.
 This is the operation performed between parent and child [Node3D]s. *)
-    let ( * ) =
+    let ( * ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BASIS
         (Some GlobalEnum.VariantType._TYPE_BASIS)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr (Basis.typ @-> Basis.typ @-> Basis.typ @-> returning void))
+        x0 x1 x2
 
-    let _Basis_elem_Dictionary =
+    let _Basis_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BASIS
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Basis.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Basis_elem_Array =
+    let _Basis_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BASIS
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Basis.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Transform3D = struct
@@ -19658,151 +20032,154 @@ This is the operation performed between parent and child [Node3D]s. *)
 
     (** Returns the inverted version of this transform. See also [method Basis.inverse].
 [b]Note:[/b] For this method to return correctly, the transform's [member basis] needs to be [i]orthonormal[/i] (see [method Basis.orthonormalized]). That means, the basis should only represent a rotation. If it does not, use [method affine_inverse] instead. *)
-    let inverse =
+    let inverse x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_TRANSFORM3D "inverse"
         (Base.Int64.of_string "3816817146")
         (Transform3D.typ @-> returning Transform3D.typ)
-        Transform3D.s
+        Transform3D.s x0
 
     (** Returns the inverted version of this transform. Unlike [method inverse], this method works with almost any [member basis], including non-uniform ones, but is slower. See also [method Basis.inverse].
 [b]Note:[/b] For this method to return correctly, the transform's [member basis] needs to have a determinant that is not exactly [code]0[/code] (see [method Basis.determinant]). *)
-    let affine_inverse =
+    let affine_inverse x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_TRANSFORM3D
         "affine_inverse"
         (Base.Int64.of_string "3816817146")
         (Transform3D.typ @-> returning Transform3D.typ)
-        Transform3D.s
+        Transform3D.s x0
 
     (** Returns a copy of this transform with its [member basis] orthonormalized. An orthonormal basis is both [i]orthogonal[/i] (the axes are perpendicular to each other) and [i]normalized[/i] (the axes have a length of [code]1[/code]), which also means it can only represent rotation. See also [method Basis.orthonormalized]. *)
-    let orthonormalized =
+    let orthonormalized x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_TRANSFORM3D
         "orthonormalized"
         (Base.Int64.of_string "3816817146")
         (Transform3D.typ @-> returning Transform3D.typ)
-        Transform3D.s
+        Transform3D.s x0
 
     (** Returns a copy of this transform rotated around the given [param axis] by the given [param angle] (in radians).
 The [param axis] must be a normalized vector.
 This method is an optimized version of multiplying the given transform [code]X[/code] with a corresponding rotation transform [code]R[/code] from the left, i.e., [code]R  *  X[/code].
 This can be seen as transforming with respect to the global/parent frame. *)
-    let rotated =
+    let rotated x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_TRANSFORM3D "rotated"
         (Base.Int64.of_string "1563203923")
         (Vector3.typ @-> Float.typ @-> Transform3D.typ
        @-> returning Transform3D.typ)
-        Transform3D.s
+        Transform3D.s x0 x1 x2
 
     (** Returns a copy of this transform rotated around the given [param axis] by the given [param angle] (in radians).
 The [param axis] must be a normalized vector.
 This method is an optimized version of multiplying the given transform [code]X[/code] with a corresponding rotation transform [code]R[/code] from the right, i.e., [code]X  *  R[/code].
 This can be seen as transforming with respect to the local frame. *)
-    let rotated_local =
+    let rotated_local x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_TRANSFORM3D
         "rotated_local"
         (Base.Int64.of_string "1563203923")
         (Vector3.typ @-> Float.typ @-> Transform3D.typ
        @-> returning Transform3D.typ)
-        Transform3D.s
+        Transform3D.s x0 x1 x2
 
     (** Returns a copy of this transform scaled by the given [param scale] factor.
 This method is an optimized version of multiplying the given transform [code]X[/code] with a corresponding scaling transform [code]S[/code] from the left, i.e., [code]S  *  X[/code].
 This can be seen as transforming with respect to the global/parent frame. *)
-    let scaled =
+    let scaled x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM3D "scaled"
         (Base.Int64.of_string "1405596198")
         (Vector3.typ @-> Transform3D.typ @-> returning Transform3D.typ)
-        Transform3D.s
+        Transform3D.s x0 x1
 
     (** Returns a copy of this transform scaled by the given [param scale] factor.
 This method is an optimized version of multiplying the given transform [code]X[/code] with a corresponding scaling transform [code]S[/code] from the right, i.e., [code]X  *  S[/code].
 This can be seen as transforming with respect to the local frame. *)
-    let scaled_local =
+    let scaled_local x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM3D
         "scaled_local"
         (Base.Int64.of_string "1405596198")
         (Vector3.typ @-> Transform3D.typ @-> returning Transform3D.typ)
-        Transform3D.s
+        Transform3D.s x0 x1
 
     (** Returns a copy of this transform translated by the given [param offset].
 This method is an optimized version of multiplying the given transform [code]X[/code] with a corresponding translation transform [code]T[/code] from the left, i.e., [code]T  *  X[/code].
 This can be seen as transforming with respect to the global/parent frame. *)
-    let translated =
+    let translated x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM3D
         "translated"
         (Base.Int64.of_string "1405596198")
         (Vector3.typ @-> Transform3D.typ @-> returning Transform3D.typ)
-        Transform3D.s
+        Transform3D.s x0 x1
 
     (** Returns a copy of this transform translated by the given [param offset].
 This method is an optimized version of multiplying the given transform [code]X[/code] with a corresponding translation transform [code]T[/code] from the right, i.e., [code]X  *  T[/code].
 This can be seen as transforming with respect to the local frame. *)
-    let translated_local =
+    let translated_local x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM3D
         "translated_local"
         (Base.Int64.of_string "1405596198")
         (Vector3.typ @-> Transform3D.typ @-> returning Transform3D.typ)
-        Transform3D.s
+        Transform3D.s x0 x1
 
     (** Returns a copy of this transform rotated so that the forward axis (-Z) points towards the [param target] position.
 The up axis (+Y) points as close to the [param up] vector as possible while staying perpendicular to the forward axis. The resulting transform is orthonormalized. The existing rotation, scale, and skew information from the original transform is discarded. The [param target] and [param up] vectors cannot be zero, cannot be parallel to each other, and are defined in global/parent space.
 If [param use_model_front] is [code]true[/code], the +Z axis (asset front) is treated as forward (implies +X is left) and points toward the [param target] position. By default, the -Z axis (camera forward) is treated as forward (implies +X is right). *)
-    let looking_at =
+    let looking_at x0 x1 x2 x3 =
       foreign_builtin_method3 GlobalEnum.VariantType._TYPE_TRANSFORM3D
         "looking_at"
         (Base.Int64.of_string "90889270")
         (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> Transform3D.typ
        @-> returning Transform3D.typ)
-        Transform3D.s
+        Transform3D.s x0 x1 x2 x3
 
     (** Returns the result of the linear interpolation between this transform and [param xform] by the given [param weight].
 The [param weight] should be between [code]0.0[/code] and [code]1.0[/code] (inclusive). Values outside this range are allowed and can be used to perform [i]extrapolation[/i] instead. *)
-    let interpolate_with =
+    let interpolate_with x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_TRANSFORM3D
         "interpolate_with"
         (Base.Int64.of_string "1786453358")
         (Transform3D.typ @-> Float.typ @-> Transform3D.typ
        @-> returning Transform3D.typ)
-        Transform3D.s
+        Transform3D.s x0 x1 x2
 
     (** Returns [code]true[/code] if this transform and [param xform] are approximately equal, by running [method @GlobalScope.is_equal_approx] on each component. *)
-    let is_equal_approx =
+    let is_equal_approx x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_TRANSFORM3D
         "is_equal_approx"
         (Base.Int64.of_string "696001652")
         (Transform3D.typ @-> Transform3D.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this transform is finite, by calling [method @GlobalScope.is_finite] on each component. *)
-    let is_finite =
+    let is_finite x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_TRANSFORM3D
         "is_finite"
         (Base.Int64.of_string "3918633141")
         (Transform3D.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM3D None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (Transform3D.typ @-> Transform3D.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the components of both transforms are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM3D
         (Some GlobalEnum.VariantType._TYPE_TRANSFORM3D)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (Transform3D.typ @-> Transform3D.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the components of both transforms are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM3D
         (Some GlobalEnum.VariantType._TYPE_TRANSFORM3D)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (Transform3D.typ @-> Transform3D.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Transforms (multiplies) this transform by the [param right] transform.
 This is the operation performed between parent and child [Node3D]s.
@@ -19810,298 +20187,307 @@ This is the operation performed between parent and child [Node3D]s.
 - For translation, see [method translated] or [method translated_local].
 - For rotation, see [method rotated] or [method rotated_local].
 - For scale, see [method scaled] or [method scaled_local]. *)
-    let ( * ) =
+    let ( * ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM3D
         (Some GlobalEnum.VariantType._TYPE_TRANSFORM3D)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Transform3D.typ @-> Transform3D.typ @-> Transform3D.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _Transform3D_elem_Dictionary =
+    let _Transform3D_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM3D
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Transform3D.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Transform3D_elem_Array =
+    let _Transform3D_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM3D
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Transform3D.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Projection = struct
     include M.Projection
 
     (** Creates a new [Projection] that projects positions from a depth range of [code]-1[/code] to [code]1[/code] to one that ranges from [code]0[/code] to [code]1[/code], and flips the projected positions vertically, according to [param flip_y]. *)
-    let create_depth_correction =
+    let create_depth_correction x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_PROJECTION
         "create_depth_correction"
         (Base.Int64.of_string "1228516048")
         (Bool.typ @-> returning Projection.typ)
-        Projection.s
+        Projection.s x0
 
     (** Creates a new [Projection] that projects positions into the given [Rect2]. *)
-    let create_light_atlas_rect =
+    let create_light_atlas_rect x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_PROJECTION
         "create_light_atlas_rect"
         (Base.Int64.of_string "2654950662")
         (Rect2.typ @-> returning Projection.typ)
-        Projection.s
+        Projection.s x0
 
     (** Creates a new [Projection] that projects positions using a perspective projection with the given Y-axis field of view (in degrees), X:Y aspect ratio, and clipping planes.
 [param flip_fov] determines whether the projection's field of view is flipped over its diagonal. *)
-    let create_perspective =
+    let create_perspective x0 x1 x2 x3 x4 =
       foreign_builtin_method5_static GlobalEnum.VariantType._TYPE_PROJECTION
         "create_perspective"
         (Base.Int64.of_string "390915442")
         (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ @-> Bool.typ
        @-> returning Projection.typ)
-        Projection.s
+        Projection.s x0 x1 x2 x3 x4
 
     (** Creates a new [Projection] that projects positions using a perspective projection with the given Y-axis field of view (in degrees), X:Y aspect ratio, and clipping distances. The projection is adjusted for a head-mounted display with the given distance between eyes and distance to a point that can be focused on.
 [param eye] creates the projection for the left eye when set to 1, or the right eye when set to 2.
 [param flip_fov] determines whether the projection's field of view is flipped over its diagonal. *)
-    let create_perspective_hmd =
+    let create_perspective_hmd x0 x1 x2 x3 x4 x5 x6 x7 =
       foreign_builtin_method8_static GlobalEnum.VariantType._TYPE_PROJECTION
         "create_perspective_hmd"
         (Base.Int64.of_string "2857674800")
         (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ @-> Bool.typ
        @-> Int.typ @-> Float.typ @-> Float.typ @-> returning Projection.typ)
-        Projection.s
+        Projection.s x0 x1 x2 x3 x4 x5 x6 x7
 
     (** Creates a new [Projection] for projecting positions onto a head-mounted display with the given X:Y aspect ratio, distance between eyes, display width, distance to lens, oversampling factor, and depth clipping planes.
 [param eye] creates the projection for the left eye when set to 1, or the right eye when set to 2. *)
-    let create_for_hmd =
+    let create_for_hmd x0 x1 x2 x3 x4 x5 x6 x7 =
       foreign_builtin_method8_static GlobalEnum.VariantType._TYPE_PROJECTION
         "create_for_hmd"
         (Base.Int64.of_string "4184144994")
         (Int.typ @-> Float.typ @-> Float.typ @-> Float.typ @-> Float.typ
        @-> Float.typ @-> Float.typ @-> Float.typ @-> returning Projection.typ)
-        Projection.s
+        Projection.s x0 x1 x2 x3 x4 x5 x6 x7
 
     (** Creates a new [Projection] that projects positions using an orthogonal projection with the given clipping planes. *)
-    let create_orthogonal =
+    let create_orthogonal x0 x1 x2 x3 x4 x5 =
       foreign_builtin_method6_static GlobalEnum.VariantType._TYPE_PROJECTION
         "create_orthogonal"
         (Base.Int64.of_string "3707929169")
         (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ @-> Float.typ
        @-> Float.typ @-> returning Projection.typ)
-        Projection.s
+        Projection.s x0 x1 x2 x3 x4 x5
 
     (** Creates a new [Projection] that projects positions using an orthogonal projection with the given size, X:Y aspect ratio, and clipping planes.
 [param flip_fov] determines whether the projection's field of view is flipped over its diagonal. *)
-    let create_orthogonal_aspect =
+    let create_orthogonal_aspect x0 x1 x2 x3 x4 =
       foreign_builtin_method5_static GlobalEnum.VariantType._TYPE_PROJECTION
         "create_orthogonal_aspect"
         (Base.Int64.of_string "390915442")
         (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ @-> Bool.typ
        @-> returning Projection.typ)
-        Projection.s
+        Projection.s x0 x1 x2 x3 x4
 
     (** Creates a new [Projection] that projects positions in a frustum with the given clipping planes. *)
-    let create_frustum =
+    let create_frustum x0 x1 x2 x3 x4 x5 =
       foreign_builtin_method6_static GlobalEnum.VariantType._TYPE_PROJECTION
         "create_frustum"
         (Base.Int64.of_string "3707929169")
         (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ @-> Float.typ
        @-> Float.typ @-> returning Projection.typ)
-        Projection.s
+        Projection.s x0 x1 x2 x3 x4 x5
 
     (** Creates a new [Projection] that projects positions in a frustum with the given size, X:Y aspect ratio, offset, and clipping planes.
 [param flip_fov] determines whether the projection's field of view is flipped over its diagonal. *)
-    let create_frustum_aspect =
+    let create_frustum_aspect x0 x1 x2 x3 x4 x5 =
       foreign_builtin_method6_static GlobalEnum.VariantType._TYPE_PROJECTION
         "create_frustum_aspect"
         (Base.Int64.of_string "1535076251")
         (Float.typ @-> Float.typ @-> Vector2.typ @-> Float.typ @-> Float.typ
        @-> Bool.typ @-> returning Projection.typ)
-        Projection.s
+        Projection.s x0 x1 x2 x3 x4 x5
 
     (** Creates a new [Projection] that scales a given projection to fit around a given [AABB] in projection space. *)
-    let create_fit_aabb =
+    let create_fit_aabb x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_PROJECTION
         "create_fit_aabb"
         (Base.Int64.of_string "2264694907")
         (AABB.typ @-> returning Projection.typ)
-        Projection.s
+        Projection.s x0
 
     (** Returns a scalar value that is the signed factor by which areas are scaled by this matrix. If the sign is negative, the matrix flips the orientation of the area.
 The determinant can be used to calculate the invertibility of a matrix or solve linear systems of equations involving the matrix, among other applications. *)
-    let determinant =
+    let determinant x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PROJECTION
         "determinant"
         (Base.Int64.of_string "466405837")
         (Projection.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns a [Projection] with the near clipping distance adjusted to be [param new_znear].
 [b]Note:[/b] The original [Projection] must be a perspective projection. *)
-    let perspective_znear_adjusted =
+    let perspective_znear_adjusted x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PROJECTION
         "perspective_znear_adjusted"
         (Base.Int64.of_string "3584785443")
         (Float.typ @-> Projection.typ @-> returning Projection.typ)
-        Projection.s
+        Projection.s x0 x1
 
     (** Returns the clipping plane of this [Projection] whose index is given by [param plane].
 [param plane] should be equal to one of [constant PLANE_NEAR], [constant PLANE_FAR], [constant PLANE_LEFT], [constant PLANE_TOP], [constant PLANE_RIGHT], or [constant PLANE_BOTTOM]. *)
-    let get_projection_plane =
+    let get_projection_plane x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PROJECTION
         "get_projection_plane"
         (Base.Int64.of_string "1551184160")
         (Int.typ @-> Projection.typ @-> returning Plane.typ)
-        Plane.s
+        Plane.s x0 x1
 
     (** Returns a copy of this [Projection] with the signs of the values of the Y column flipped. *)
-    let flipped_y =
+    let flipped_y x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PROJECTION
         "flipped_y"
         (Base.Int64.of_string "4212530932")
         (Projection.typ @-> returning Projection.typ)
-        Projection.s
+        Projection.s x0
 
     (** Returns a [Projection] with the X and Y values from the given [Vector2] added to the first and second values of the final column respectively. *)
-    let jitter_offseted =
+    let jitter_offseted x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PROJECTION
         "jitter_offseted"
         (Base.Int64.of_string "2448438599")
         (Vector2.typ @-> Projection.typ @-> returning Projection.typ)
-        Projection.s
+        Projection.s x0 x1
 
     (** Returns the vertical field of view of the projection (in degrees) associated with the given horizontal field of view (in degrees) and aspect ratio. *)
-    let get_fovy =
+    let get_fovy x0 x1 =
       foreign_builtin_method2_static GlobalEnum.VariantType._TYPE_PROJECTION
         "get_fovy"
         (Base.Int64.of_string "3514207532")
         (Float.typ @-> Float.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns the distance for this [Projection] beyond which positions are clipped. *)
-    let get_z_far =
+    let get_z_far x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PROJECTION
         "get_z_far"
         (Base.Int64.of_string "466405837")
         (Projection.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the distance for this [Projection] before which positions are clipped. *)
-    let get_z_near =
+    let get_z_near x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PROJECTION
         "get_z_near"
         (Base.Int64.of_string "466405837")
         (Projection.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the X:Y aspect ratio of this [Projection]'s viewport. *)
-    let get_aspect =
+    let get_aspect x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PROJECTION
         "get_aspect"
         (Base.Int64.of_string "466405837")
         (Projection.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the horizontal field of view of the projection (in degrees). *)
-    let get_fov =
+    let get_fov x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PROJECTION "get_fov"
         (Base.Int64.of_string "466405837")
         (Projection.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns [code]true[/code] if this [Projection] performs an orthogonal projection. *)
-    let is_orthogonal =
+    let is_orthogonal x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PROJECTION
         "is_orthogonal"
         (Base.Int64.of_string "3918633141")
         (Projection.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns the dimensions of the viewport plane that this [Projection] projects positions onto, divided by two. *)
-    let get_viewport_half_extents =
+    let get_viewport_half_extents x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PROJECTION
         "get_viewport_half_extents"
         (Base.Int64.of_string "2428350749")
         (Projection.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0
 
     (** Returns the dimensions of the far clipping plane of the projection, divided by two. *)
-    let get_far_plane_half_extents =
+    let get_far_plane_half_extents x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PROJECTION
         "get_far_plane_half_extents"
         (Base.Int64.of_string "2428350749")
         (Projection.typ @-> returning Vector2.typ)
-        Vector2.s
+        Vector2.s x0
 
     (** Returns a [Projection] that performs the inverse of this [Projection]'s projective transformation. *)
-    let inverse =
+    let inverse x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PROJECTION "inverse"
         (Base.Int64.of_string "4212530932")
         (Projection.typ @-> returning Projection.typ)
-        Projection.s
+        Projection.s x0
 
     (** Returns the number of pixels with the given pixel width displayed per meter, after this [Projection] is applied. *)
-    let get_pixels_per_meter =
+    let get_pixels_per_meter x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PROJECTION
         "get_pixels_per_meter"
         (Base.Int64.of_string "4103005248")
         (Int.typ @-> Projection.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Returns the factor by which the visible level of detail is scaled by this [Projection]. *)
-    let get_lod_multiplier =
+    let get_lod_multiplier x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PROJECTION
         "get_lod_multiplier"
         (Base.Int64.of_string "466405837")
         (Projection.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PROJECTION None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (Projection.typ @-> Projection.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the projections are equal.
 [b]Note:[/b] Due to floating-point precision errors, this may return [code]false[/code], even if the projections are virtually equal. An [code]is_equal_approx[/code] method may be added in a future version of Godot. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PROJECTION
         (Some GlobalEnum.VariantType._TYPE_PROJECTION)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (Projection.typ @-> Projection.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the projections are not equal.
 [b]Note:[/b] Due to floating-point precision errors, this may return [code]true[/code], even if the projections are virtually equal. An [code]is_equal_approx[/code] method may be added in a future version of Godot. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PROJECTION
         (Some GlobalEnum.VariantType._TYPE_PROJECTION)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (Projection.typ @-> Projection.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns a [Projection] that applies the combined transformations of this [Projection] and [param right]. *)
-    let ( * ) =
+    let ( * ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PROJECTION
         (Some GlobalEnum.VariantType._TYPE_PROJECTION)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Projection.typ @-> Projection.typ @-> Projection.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _Projection_elem_Dictionary =
+    let _Projection_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PROJECTION
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Projection.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Projection_elem_Array =
+    let _Projection_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PROJECTION
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Projection.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     module Planes = struct
       type t = Int.t
@@ -20142,11 +20528,11 @@ var color = new Color(1.0f, 0.5f, 0.2f);
 GD.Print(color.ToArgb32()); // Prints 4294934323
 [/csharp]
 [/codeblocks] *)
-    let to_argb32 =
+    let to_argb32 x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_COLOR "to_argb32"
         (Base.Int64.of_string "3173160232")
         (Color.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the color converted to a 32-bit integer in ABGR format (each component is 8 bits). ABGR is the reversed version of the default RGBA format.
 [codeblocks]
@@ -20159,11 +20545,11 @@ var color = new Color(1.0f, 0.5f, 0.2f);
 GD.Print(color.ToAbgr32()); // Prints 4281565439
 [/csharp]
 [/codeblocks] *)
-    let to_abgr32 =
+    let to_abgr32 x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_COLOR "to_abgr32"
         (Base.Int64.of_string "3173160232")
         (Color.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the color converted to a 32-bit integer in RGBA format (each component is 8 bits). RGBA is Godot's default format.
 [codeblocks]
@@ -20176,11 +20562,11 @@ var color = new Color(1, 0.5f, 0.2f);
 GD.Print(color.ToRgba32()); // Prints 4286526463
 [/csharp]
 [/codeblocks] *)
-    let to_rgba32 =
+    let to_rgba32 x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_COLOR "to_rgba32"
         (Base.Int64.of_string "3173160232")
         (Color.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the color converted to a 64-bit integer in ARGB format (each component is 16 bits). ARGB is more compatible with DirectX.
 [codeblocks]
@@ -20193,11 +20579,11 @@ var color = new Color(1.0f, 0.5f, 0.2f);
 GD.Print(color.ToArgb64()); // Prints -2147470541
 [/csharp]
 [/codeblocks] *)
-    let to_argb64 =
+    let to_argb64 x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_COLOR "to_argb64"
         (Base.Int64.of_string "3173160232")
         (Color.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the color converted to a 64-bit integer in ABGR format (each component is 16 bits). ABGR is the reversed version of the default RGBA format.
 [codeblocks]
@@ -20210,11 +20596,11 @@ var color = new Color(1.0f, 0.5f, 0.2f);
 GD.Print(color.ToAbgr64()); // Prints -225178692812801
 [/csharp]
 [/codeblocks] *)
-    let to_abgr64 =
+    let to_abgr64 x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_COLOR "to_abgr64"
         (Base.Int64.of_string "3173160232")
         (Color.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the color converted to a 64-bit integer in RGBA format (each component is 16 bits). RGBA is Godot's default format.
 [codeblocks]
@@ -20227,11 +20613,11 @@ var color = new Color(1, 0.5f, 0.2f);
 GD.Print(color.ToRgba64()); // Prints -140736629309441
 [/csharp]
 [/codeblocks] *)
-    let to_rgba64 =
+    let to_rgba64 x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_COLOR "to_rgba64"
         (Base.Int64.of_string "3173160232")
         (Color.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the color converted to an HTML hexadecimal color [String] in RGBA format, without the hash ([code]#[/code]) prefix.
 Setting [param with_alpha] to [code]false[/code], excludes alpha from the hexadecimal string, using RGB format instead of RGBA format.
@@ -20247,18 +20633,18 @@ string withAlpha = white.ToHtml(); // Returns ""ffffff7f""
 string withoutAlpha = white.ToHtml(false); // Returns ""ffffff""
 [/csharp]
 [/codeblocks] *)
-    let to_html =
+    let to_html x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_COLOR "to_html"
         (Base.Int64.of_string "3429816538")
         (Bool.typ @-> Color.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Returns a new color with all components clamped between the components of [param min] and [param max], by running [method @GlobalScope.clamp] on each component. *)
-    let clamp =
+    let clamp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_COLOR "clamp"
         (Base.Int64.of_string "105651410")
         (Color.typ @-> Color.typ @-> Color.typ @-> returning Color.typ)
-        Color.s
+        Color.s x0 x1 x2
 
     (** Returns the color with its [member r], [member g], and [member b] components inverted ([code](1 - r, 1 - g, 1 - b, a)[/code]).
 [codeblocks]
@@ -20273,11 +20659,11 @@ var color = new Color(0.3f, 0.4f, 0.9f);
 Color invertedColor = color.Inverted(); // Equivalent to `new Color(0.7f, 0.6f, 0.1f)`
 [/csharp]
 [/codeblocks] *)
-    let inverted =
+    let inverted x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_COLOR "inverted"
         (Base.Int64.of_string "3334027602")
         (Color.typ @-> returning Color.typ)
-        Color.s
+        Color.s x0
 
     (** Returns the linear interpolation between this color's components and [param to]'s components. The interpolation factor [param weight] should be between 0.0 and 1.0 (inclusive). See also [method @GlobalScope.lerp].
 [codeblocks]
@@ -20298,11 +20684,11 @@ red.Lerp(aqua, 0.5f); // Returns Color(0.5f, 0.5f, 0.4f)
 red.Lerp(aqua, 1.0f); // Returns Color(0.0f, 1.0f, 0.8f)
 [/csharp]
 [/codeblocks] *)
-    let lerp =
+    let lerp x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_COLOR "lerp"
         (Base.Int64.of_string "402949615")
         (Color.typ @-> Float.typ @-> Color.typ @-> returning Color.typ)
-        Color.s
+        Color.s x0 x1 x2
 
     (** Returns a new color resulting from making this color lighter by the specified [param amount], which should be a ratio from 0.0 to 1.0. See also [method darkened].
 [codeblocks]
@@ -20315,11 +20701,11 @@ var green = new Color(0.0f, 1.0f, 0.0f);
 Color lightGreen = green.Lightened(0.2f); // 20% lighter than regular green
 [/csharp]
 [/codeblocks] *)
-    let lightened =
+    let lightened x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_COLOR "lightened"
         (Base.Int64.of_string "1466039168")
         (Float.typ @-> Color.typ @-> returning Color.typ)
-        Color.s
+        Color.s x0 x1
 
     (** Returns a new color resulting from making this color darker by the specified [param amount] (ratio from 0.0 to 1.0). See also [method lightened].
 [codeblocks]
@@ -20332,11 +20718,11 @@ var green = new Color(0.0f, 1.0f, 0.0f);
 Color darkgreen = green.Darkened(0.2f); // 20% darker than regular green
 [/csharp]
 [/codeblocks] *)
-    let darkened =
+    let darkened x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_COLOR "darkened"
         (Base.Int64.of_string "1466039168")
         (Float.typ @-> Color.typ @-> returning Color.typ)
-        Color.s
+        Color.s x0 x1
 
     (** Returns a new color resulting from overlaying this color over the given color. In a painting program, you can imagine it as the [param over] color painted over this color (including alpha).
 [codeblocks]
@@ -20351,43 +20737,43 @@ var fg = new Color(1.0f, 0.0f, 0.0f, 0.5f); // Red with alpha of 50%
 Color blendedColor = bg.Blend(fg); // Brown with alpha of 75%
 [/csharp]
 [/codeblocks] *)
-    let blend =
+    let blend x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_COLOR "blend"
         (Base.Int64.of_string "3803690977")
         (Color.typ @-> Color.typ @-> returning Color.typ)
-        Color.s
+        Color.s x0 x1
 
     (** Returns the light intensity of the color, as a value between 0.0 and 1.0 (inclusive). This is useful when determining light or dark color. Colors with a luminance smaller than 0.5 can be generally considered dark.
 [b]Note:[/b] [method get_luminance] relies on the color being in the linear color space to return an accurate relative luminance value. If the color is in the sRGB color space, use [method srgb_to_linear] to convert it to the linear color space first. *)
-    let get_luminance =
+    let get_luminance x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_COLOR "get_luminance"
         (Base.Int64.of_string "466405837")
         (Color.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Returns the color converted to the linear color space. This method assumes the original color already is in the sRGB color space. See also [method linear_to_srgb] which performs the opposite operation. *)
-    let srgb_to_linear =
+    let srgb_to_linear x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_COLOR
         "srgb_to_linear"
         (Base.Int64.of_string "3334027602")
         (Color.typ @-> returning Color.typ)
-        Color.s
+        Color.s x0
 
     (** Returns the color converted to the [url=https://en.wikipedia.org/wiki/SRGB]sRGB[/url] color space. This method assumes the original color is in the linear color space. See also [method srgb_to_linear] which performs the opposite operation. *)
-    let linear_to_srgb =
+    let linear_to_srgb x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_COLOR
         "linear_to_srgb"
         (Base.Int64.of_string "3334027602")
         (Color.typ @-> returning Color.typ)
-        Color.s
+        Color.s x0
 
     (** Returns [code]true[/code] if this color and [param to] are approximately equal, by running [method @GlobalScope.is_equal_approx] on each component. *)
-    let is_equal_approx =
+    let is_equal_approx x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_COLOR
         "is_equal_approx"
         (Base.Int64.of_string "3167426256")
         (Color.typ @-> Color.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns the [Color] associated with the provided [param hex] integer in 32-bit RGBA format (8 bits per channel).
 In GDScript and C#, the [int] is best visualized with hexadecimal notation ([code]""0x""[/code] prefix, making it [code]""0xRRGGBBAA""[/code]).
@@ -20403,19 +20789,19 @@ var dark_cyan = new Color(0x008b8bff);
 var my_color = new Color(0xbbefd2a4);
 [/csharp]
 [/codeblocks] *)
-    let hex =
+    let hex x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_COLOR "hex"
         (Base.Int64.of_string "351421375")
         (Int.typ @-> returning Color.typ)
-        Color.s
+        Color.s x0
 
     (** Returns the [Color] associated with the provided [param hex] integer in 64-bit RGBA format (16 bits per channel).
 In GDScript and C#, the [int] is best visualized with hexadecimal notation ([code]""0x""[/code] prefix, making it [code]""0xRRRRGGGGBBBBAAAA""[/code]). *)
-    let hex64 =
+    let hex64 x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_COLOR "hex64"
         (Base.Int64.of_string "351421375")
         (Int.typ @-> returning Color.typ)
-        Color.s
+        Color.s x0
 
     (** Returns a new color from [param rgba], an HTML hexadecimal color string. [param rgba] is not case-sensitive, and may be prefixed by a hash sign ([code]#[/code]).
 [param rgba] must be a valid three-digit or six-digit hexadecimal color string, and may contain an alpha channel value. If [param rgba] does not contain an alpha channel value, an alpha channel value of 1.0 is applied. If [param rgba] is invalid, returns an empty color.
@@ -20431,11 +20817,11 @@ var green = Color.FromHtml(""#0F0"");   // green is Color(0.0, 1.0, 0.0, 1.0)
 var col = Color.FromHtml(""663399cc""); // col is Color(0.4, 0.2, 0.6, 0.8)
 [/csharp]
 [/codeblocks] *)
-    let html =
+    let html x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_COLOR "html"
         (Base.Int64.of_string "2500054655")
         (String.typ @-> returning Color.typ)
-        Color.s
+        Color.s x0
 
     (** Returns [code]true[/code] if [param color] is a valid HTML hexadecimal color string. The string must be a hexadecimal value (case-insensitive) of either 3, 4, 6 or 8 digits, and may be prefixed by a hash sign ([code]#[/code]). This method is identical to [method String.is_valid_html_color].
 [codeblocks]
@@ -20458,20 +20844,20 @@ Color.HtmlIsValid(""#AABBC"");    // Returns false
 Color.HtmlIsValid(""#55aaFF5"");  // Returns false
 [/csharp]
 [/codeblocks] *)
-    let html_is_valid =
+    let html_is_valid x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_COLOR
         "html_is_valid"
         (Base.Int64.of_string "2942997125")
         (String.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Creates a [Color] from the given string, which can be either an HTML color code or a named color (case-insensitive). Returns [param default] if the color cannot be inferred from the string. *)
-    let from_string =
+    let from_string x0 x1 =
       foreign_builtin_method2_static GlobalEnum.VariantType._TYPE_COLOR
         "from_string"
         (Base.Int64.of_string "3755044230")
         (String.typ @-> Color.typ @-> returning Color.typ)
-        Color.s
+        Color.s x0 x1
 
     (** Constructs a color from an [url=https://en.wikipedia.org/wiki/HSL_and_HSV]HSV profile[/url]. The hue ([param h]), saturation ([param s]), and value ([param v]) are typically between 0.0 and 1.0.
 [codeblocks]
@@ -20482,13 +20868,13 @@ var color = Color.from_hsv(0.58, 0.5, 0.79, 0.8)
 var color = Color.FromHsv(0.58f, 0.5f, 0.79f, 0.8f);
 [/csharp]
 [/codeblocks] *)
-    let from_hsv =
+    let from_hsv x0 x1 x2 x3 =
       foreign_builtin_method4_static GlobalEnum.VariantType._TYPE_COLOR
         "from_hsv"
         (Base.Int64.of_string "1573799446")
         (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ
        @-> returning Color.typ)
-        Color.s
+        Color.s x0 x1 x2 x3
 
     (** Constructs a color from an [url=https://bottosson.github.io/posts/colorpicker/]OK HSL profile[/url]. The hue ([param h]), saturation ([param s]), and lightness ([param l]) are typically between 0.0 and 1.0.
 [codeblocks]
@@ -20499,101 +20885,113 @@ var color = Color.from_ok_hsl(0.58, 0.5, 0.79, 0.8)
 var color = Color.FromOkHsl(0.58f, 0.5f, 0.79f, 0.8f);
 [/csharp]
 [/codeblocks] *)
-    let from_ok_hsl =
+    let from_ok_hsl x0 x1 x2 x3 =
       foreign_builtin_method4_static GlobalEnum.VariantType._TYPE_COLOR
         "from_ok_hsl"
         (Base.Int64.of_string "1573799446")
         (Float.typ @-> Float.typ @-> Float.typ @-> Float.typ
        @-> returning Color.typ)
-        Color.s
+        Color.s x0 x1 x2 x3
 
     (** Decodes a [Color] from a RGBE9995 format integer. See [constant Image.FORMAT_RGBE9995]. *)
-    let from_rgbe9995 =
+    let from_rgbe9995 x0 =
       foreign_builtin_method1_static GlobalEnum.VariantType._TYPE_COLOR
         "from_rgbe9995"
         (Base.Int64.of_string "351421375")
         (Int.typ @-> returning Color.typ)
-        Color.s
+        Color.s x0
 
     (** Inverts the given color. This is equivalent to [code]Color.WHITE - c[/code] or [code]Color(1 - c.r, 1 - c.g, 1 - c.b, 1 - c.a)[/code]. Unlike with [method inverted], the [member a] component is inverted, too. *)
-    let ( ~- ) =
+    let ( ~- ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr (Color.typ @-> Color.typ @-> Color.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) =
+    let ( ~+ ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr (Color.typ @-> Color.typ @-> Color.typ @-> returning void))
+        x0 x1 x2
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Color.typ @-> Color.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the colors are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_COLOR)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Color.typ @-> Color.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the colors are not exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_COLOR)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Color.typ @-> Color.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Adds each component of the [Color] with the components of the given [Color]. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_COLOR)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr (Color.typ @-> Color.typ @-> Color.typ @-> returning void))
+        x0 x1 x2
 
     (** Subtracts each component of the [Color] by the components of the given [Color]. *)
-    let ( - ) =
+    let ( - ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_COLOR)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr (Color.typ @-> Color.typ @-> Color.typ @-> returning void))
+        x0 x1 x2
 
     (** Multiplies each component of the [Color] by the components of the given [Color]. *)
-    let ( * ) =
+    let ( * ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_COLOR)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr (Color.typ @-> Color.typ @-> Color.typ @-> returning void))
+        x0 x1 x2
 
     (** Divides each component of the [Color] by the components of the given [Color]. *)
-    let ( / ) =
+    let ( / ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_COLOR)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr (Color.typ @-> Color.typ @-> Color.typ @-> returning void))
+        x0 x1 x2
 
-    let _Color_elem_Dictionary =
+    let _Color_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Color.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Color_elem_Array =
+    let _Color_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Color.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Color_elem_PackedColorArray =
+    let _Color_elem_PackedColorArray x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Color.typ @-> PackedColorArray.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module StringName = struct
@@ -20602,58 +21000,58 @@ var color = Color.FromOkHsl(0.58f, 0.5f, 0.79f, 0.8f);
     (** Performs a case-sensitive comparison to another string. Returns [code]-1[/code] if less than, [code]1[/code] if greater than, or [code]0[/code] if equal. ""Less than"" and ""greater than"" are determined by the [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode code points[/url] of each string, which roughly matches the alphabetical order.
 With different string lengths, returns [code]1[/code] if this string is longer than the [param to] string, or [code]-1[/code] if shorter. Note that the length of empty strings is [i]always[/i] [code]0[/code].
 To get a [bool] result from a string comparison, use the [code]==[/code] operator instead. See also [method nocasecmp_to], [method naturalcasecmp_to], and [method naturalnocasecmp_to]. *)
-    let casecmp_to =
+    let casecmp_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "casecmp_to"
         (Base.Int64.of_string "2920860731")
         (String.typ @-> StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Performs a [b]case-insensitive[/b] comparison to another string. Returns [code]-1[/code] if less than, [code]1[/code] if greater than, or [code]0[/code] if equal. ""Less than"" or ""greater than"" are determined by the [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode code points[/url] of each string, which roughly matches the alphabetical order. Internally, lowercase characters are converted to uppercase for the comparison.
 With different string lengths, returns [code]1[/code] if this string is longer than the [param to] string, or [code]-1[/code] if shorter. Note that the length of empty strings is [i]always[/i] [code]0[/code].
 To get a [bool] result from a string comparison, use the [code]==[/code] operator instead. See also [method casecmp_to], [method naturalcasecmp_to], and [method naturalnocasecmp_to]. *)
-    let nocasecmp_to =
+    let nocasecmp_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "nocasecmp_to"
         (Base.Int64.of_string "2920860731")
         (String.typ @-> StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Performs a [b]case-sensitive[/b], [i]natural order[/i] comparison to another string. Returns [code]-1[/code] if less than, [code]1[/code] if greater than, or [code]0[/code] if equal. ""Less than"" or ""greater than"" are determined by the [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode code points[/url] of each string, which roughly matches the alphabetical order.
 When used for sorting, natural order comparison orders sequences of numbers by the combined value of each digit as is often expected, instead of the single digit's value. A sorted sequence of numbered strings will be [code][""1"", ""2"", ""3"", ...][/code], not [code][""1"", ""10"", ""2"", ""3"", ...][/code].
 With different string lengths, returns [code]1[/code] if this string is longer than the [param to] string, or [code]-1[/code] if shorter. Note that the length of empty strings is [i]always[/i] [code]0[/code].
 To get a [bool] result from a string comparison, use the [code]==[/code] operator instead. See also [method naturalnocasecmp_to], [method nocasecmp_to], and [method casecmp_to]. *)
-    let naturalcasecmp_to =
+    let naturalcasecmp_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "naturalcasecmp_to"
         (Base.Int64.of_string "2920860731")
         (String.typ @-> StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Performs a [b]case-insensitive[/b], [i]natural order[/i] comparison to another string. Returns [code]-1[/code] if less than, [code]1[/code] if greater than, or [code]0[/code] if equal. ""Less than"" or ""greater than"" are determined by the [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode code points[/url] of each string, which roughly matches the alphabetical order. Internally, lowercase characters are converted to uppercase for the comparison.
 When used for sorting, natural order comparison orders sequences of numbers by the combined value of each digit as is often expected, instead of the single digit's value. A sorted sequence of numbered strings will be [code][""1"", ""2"", ""3"", ...][/code], not [code][""1"", ""10"", ""2"", ""3"", ...][/code].
 With different string lengths, returns [code]1[/code] if this string is longer than the [param to] string, or [code]-1[/code] if shorter. Note that the length of empty strings is [i]always[/i] [code]0[/code].
 To get a [bool] result from a string comparison, use the [code]==[/code] operator instead. See also [method naturalcasecmp_to], [method nocasecmp_to], and [method casecmp_to]. *)
-    let naturalnocasecmp_to =
+    let naturalnocasecmp_to x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "naturalnocasecmp_to"
         (Base.Int64.of_string "2920860731")
         (String.typ @-> StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Returns the number of characters in the string. Empty strings ([code]""""[/code]) always return [code]0[/code]. See also [method is_empty]. *)
-    let length =
+    let length x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME "length"
         (Base.Int64.of_string "3173160232")
         (StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns part of the string from the position [param from] with length [param len]. If [param len] is [code]-1[/code] (as by default), returns the rest of the string starting from the given position. *)
-    let substr =
+    let substr x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME "substr"
         (Base.Int64.of_string "787537301")
         (Int.typ @-> Int.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Splits the string using a [param delimiter] and returns the substring at index [param slice]. Returns an empty string if the [param slice] does not exist.
 This is faster than [method split], if you only need one substring.
@@ -20661,29 +21059,29 @@ This is faster than [method split], if you only need one substring.
 [codeblock]
 print(""i/am/example/hi"".get_slice(""/"", 2)) # Prints ""example""
 [/codeblock] *)
-    let get_slice =
+    let get_slice x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME
         "get_slice"
         (Base.Int64.of_string "3535100402")
         (String.typ @-> Int.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Splits the string using a Unicode character with code [param delimiter] and returns the substring at index [param slice]. Returns an empty string if the [param slice] does not exist.
 This is faster than [method split], if you only need one substring. *)
-    let get_slicec =
+    let get_slicec x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME
         "get_slicec"
         (Base.Int64.of_string "787537301")
         (Int.typ @-> Int.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Returns the total number of slices when the string is split with the given [param delimiter] (see [method split]). *)
-    let get_slice_count =
+    let get_slice_count x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "get_slice_count"
         (Base.Int64.of_string "2920860731")
         (String.typ @-> StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Returns the index of the [b]first[/b] occurrence of [param what] in this string, or [code]-1[/code] if there are none. The search's start can be specified with [param from], continuing to the end of the string.
 [codeblocks]
@@ -20703,78 +21101,78 @@ GD.Print(""Potato"".Find(""t"", 5)); // Prints -1
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] If you just want to know whether the string contains [param what], use [method contains]. In GDScript, you may also use the [code]in[/code] operator. *)
-    let find =
+    let find x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME "find"
         (Base.Int64.of_string "1760645412")
         (String.typ @-> Int.typ @-> StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the number of occurrences of the substring [param what] between [param from] and [param to] positions. If [param to] is 0, the search continues until the end of the string. *)
-    let count =
+    let count x0 x1 x2 x3 =
       foreign_builtin_method3 GlobalEnum.VariantType._TYPE_STRING_NAME "count"
         (Base.Int64.of_string "2343087891")
         (String.typ @-> Int.typ @-> Int.typ @-> StringName.typ
        @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2 x3
 
     (** Returns the number of occurrences of the substring [param what] between [param from] and [param to] positions, [b]ignoring case[/b]. If [param to] is 0, the search continues until the end of the string. *)
-    let countn =
+    let countn x0 x1 x2 x3 =
       foreign_builtin_method3 GlobalEnum.VariantType._TYPE_STRING_NAME "countn"
         (Base.Int64.of_string "2343087891")
         (String.typ @-> Int.typ @-> Int.typ @-> StringName.typ
        @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2 x3
 
     (** Returns the index of the [b]first[/b] [b]case-insensitive[/b] occurrence of [param what] in this string, or [code]-1[/code] if there are none. The starting search index can be specified with [param from], continuing to the end of the string. *)
-    let findn =
+    let findn x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME "findn"
         (Base.Int64.of_string "1760645412")
         (String.typ @-> Int.typ @-> StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the index of the [b]last[/b] occurrence of [param what] in this string, or [code]-1[/code] if there are none. The search's start can be specified with [param from], continuing to the beginning of the string. This method is the reverse of [method find]. *)
-    let rfind =
+    let rfind x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME "rfind"
         (Base.Int64.of_string "1760645412")
         (String.typ @-> Int.typ @-> StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the index of the [b]last[/b] [b]case-insensitive[/b] occurrence of [param what] in this string, or [code]-1[/code] if there are none. The starting search index can be specified with [param from], continuing to the beginning of the string. This method is the reverse of [method findn]. *)
-    let rfindn =
+    let rfindn x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME "rfindn"
         (Base.Int64.of_string "1760645412")
         (String.typ @-> Int.typ @-> StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Does a simple expression match (also called ""glob"" or ""globbing""), where [code] * [/code] matches zero or more arbitrary characters and [code]?[/code] matches any single character except a period ([code].[/code]). An empty string or empty expression always evaluates to [code]false[/code]. *)
-    let match_ =
+    let match_ x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME "match_"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Does a simple [b]case-insensitive[/b] expression match, where [code] * [/code] matches zero or more arbitrary characters and [code]?[/code] matches any single character except a period ([code].[/code]). An empty string or empty expression always evaluates to [code]false[/code]. *)
-    let matchn =
+    let matchn x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME "matchn"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the string begins with the given [param text]. See also [method ends_with]. *)
-    let begins_with =
+    let begins_with x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "begins_with"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the string ends with the given [param text]. See also [method begins_with]. *)
-    let ends_with =
+    let ends_with x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "ends_with"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if all characters of this string can be found in [param text] in their original order.
 [codeblock]
@@ -20785,30 +21183,30 @@ print(""Word!"".is_subsequence_of(text))    # Prints true
 print(""Window"".is_subsequence_of(text))   # Prints false
 print("""".is_subsequence_of(text))         # Prints true
 [/codeblock] *)
-    let is_subsequence_of =
+    let is_subsequence_of x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "is_subsequence_of"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if all characters of this string can be found in [param text] in their original order, [b]ignoring case[/b]. *)
-    let is_subsequence_ofn =
+    let is_subsequence_ofn x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "is_subsequence_ofn"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns an array containing the bigrams (pairs of consecutive characters) of this string.
 [codeblock]
 print(""Get up!"".bigrams()) # Prints [""Ge"", ""et"", ""t "", "" u"", ""up"", ""p!""]
 [/codeblock] *)
-    let bigrams =
+    let bigrams x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME "bigrams"
         (Base.Int64.of_string "747180633")
         (StringName.typ @-> returning PackedStringArray.typ)
-        PackedStringArray.s
+        PackedStringArray.s x0
 
     (** Returns the similarity index ([url=https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient]Sorensen-Dice coefficient[/url]) of this string compared to another. A result of [code]1.0[/code] means totally similar, while [code]0.0[/code] means totally dissimilar.
 [codeblock]
@@ -20817,12 +21215,12 @@ print(""ABC123"".similarity(""XYZ456"")) # Prints 0.0
 print(""ABC123"".similarity(""123ABC"")) # Prints 0.8
 print(""ABC123"".similarity(""abc123"")) # Prints 0.4
 [/codeblock] *)
-    let similarity =
+    let similarity x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "similarity"
         (Base.Int64.of_string "2697460964")
         (String.typ @-> StringName.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Formats the string by replacing all occurrences of [param placeholder] with the elements of [param values].
 [param values] can be a [Dictionary] or an [Array]. Any underscores in [param placeholder] will be replaced with the corresponding keys in advance. Array elements use their index as keys.
@@ -20842,54 +21240,54 @@ print(""User {id} is {name}."".format([[""id"", 42], [""name"", ""Godot""]]))
 [/codeblock]
 See also the [url=$DOCS_URL/tutorials/scripting/gdscript/gdscript_format_string.html]GDScript format string[/url] tutorial.
 [b]Note:[/b] In C#, it's recommended to [url=https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated]interpolate strings with ""$""[/url], instead. *)
-    let format =
+    let format x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME "format"
         (Base.Int64.of_string "3212199029")
         (Variant.typ @-> String.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Replaces all occurrences of [param what] inside the string with the given [param forwhat]. *)
-    let replace =
+    let replace x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME "replace"
         (Base.Int64.of_string "1340436205")
         (String.typ @-> String.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Replaces all [b]case-insensitive[/b] occurrences of [param what] inside the string with the given [param forwhat]. *)
-    let replacen =
+    let replacen x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME
         "replacen"
         (Base.Int64.of_string "1340436205")
         (String.typ @-> String.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Repeats this string a number of times. [param count] needs to be greater than [code]0[/code]. Otherwise, returns an empty string. *)
-    let repeat =
+    let repeat x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME "repeat"
         (Base.Int64.of_string "2162347432")
         (Int.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Returns the copy of this string in reverse order. *)
-    let reverse =
+    let reverse x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME "reverse"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Inserts [param what] at the given [param position] in the string. *)
-    let insert =
+    let insert x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME "insert"
         (Base.Int64.of_string "248737229")
         (Int.typ @-> String.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Returns a string with [param chars] characters erased starting from [param position]. If [param chars] goes beyond the string's length given the specified [param position], fewer characters will be erased from the returned string. Returns an empty string if either [param position] or [param chars] is negative. Returns the original string unmodified if [param chars] is [code]0[/code]. *)
-    let erase =
+    let erase x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME "erase"
         (Base.Int64.of_string "787537301")
         (Int.typ @-> Int.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Changes the appearance of the string: replaces underscores ([code]_[/code]) with spaces, adds spaces before uppercase letters in the middle of a word, converts all letters to lowercase, then converts the first one and each one following a space to uppercase.
 [codeblocks]
@@ -20904,28 +21302,28 @@ See also the [url=$DOCS_URL/tutorials/scripting/gdscript/gdscript_format_string.
 ""2D, FPS, PNG"".Capitalize();   // Returns ""2d, Fps, Png""
 [/csharp]
 [/codeblocks] *)
-    let capitalize =
+    let capitalize x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "capitalize"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the string converted to [code]camelCase[/code]. *)
-    let to_camel_case =
+    let to_camel_case x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "to_camel_case"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the string converted to [code]PascalCase[/code]. *)
-    let to_pascal_case =
+    let to_pascal_case x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "to_pascal_case"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the string converted to [code]snake_case[/code].
 [b]Note:[/b] Numbers followed by a [i]single[/i] letter are not separated in the conversion to keep some words (such as ""2D"") together.
@@ -20941,12 +21339,12 @@ See also the [url=$DOCS_URL/tutorials/scripting/gdscript/gdscript_format_string.
 ""Texture3DAssetFolder"".ToSnakeCase(); // Returns ""texture_3d_asset_folder""
 [/csharp]
 [/codeblocks] *)
-    let to_snake_case =
+    let to_snake_case x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "to_snake_case"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Splits the string using a [param delimiter] and returns an array of the substrings. If [param delimiter] is an empty string, each substring will be a single character. This method is the opposite of [method join].
 If [param allow_empty] is [code]false[/code], empty strings between adjacent delimiters are excluded from the array.
@@ -20971,12 +21369,12 @@ GD.Print(someArray[2]); // Prints ""Three""
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] If you only need one substring from the array, consider using [method get_slice] which is faster. If you need to split strings with more complex rules, use the [RegEx] class instead. *)
-    let split =
+    let split x0 x1 x2 x3 =
       foreign_builtin_method3 GlobalEnum.VariantType._TYPE_STRING_NAME "split"
         (Base.Int64.of_string "1252735785")
         (String.typ @-> Bool.typ @-> Int.typ @-> StringName.typ
         @-> returning PackedStringArray.typ)
-        PackedStringArray.s
+        PackedStringArray.s x0 x1 x2 x3
 
     (** Splits the string using a [param delimiter] and returns an array of the substrings, starting from the end of the string. The splits in the returned array appear in the same order as the original string. If [param delimiter] is an empty string, each substring will be a single character.
 If [param allow_empty] is [code]false[/code], empty strings between adjacent delimiters are excluded from the array.
@@ -20995,12 +21393,12 @@ print(some_array[1])     # Prints ""Four""
 // In C#, there is no String.RSplit() method.
 [/csharp]
 [/codeblocks] *)
-    let rsplit =
+    let rsplit x0 x1 x2 x3 =
       foreign_builtin_method3 GlobalEnum.VariantType._TYPE_STRING_NAME "rsplit"
         (Base.Int64.of_string "1252735785")
         (String.typ @-> Bool.typ @-> Int.typ @-> StringName.typ
         @-> returning PackedStringArray.typ)
-        PackedStringArray.s
+        PackedStringArray.s x0 x1 x2 x3
 
     (** Splits the string into floats by using a [param delimiter] and returns a [PackedFloat64Array].
 If [param allow_empty] is [code]false[/code], empty or invalid [float] conversions between adjacent delimiters are excluded.
@@ -21009,13 +21407,13 @@ var a = ""1,2,4.5"".split_floats("","")         # a is [1.0, 2.0, 4.5]
 var c = ""1| ||4.5"".split_floats(""|"")        # c is [1.0, 0.0, 0.0, 4.5]
 var b = ""1| ||4.5"".split_floats(""|"", false) # b is [1.0, 4.5]
 [/codeblock] *)
-    let split_floats =
+    let split_floats x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME
         "split_floats"
         (Base.Int64.of_string "2092079095")
         (String.typ @-> Bool.typ @-> StringName.typ
         @-> returning PackedFloat64Array.typ)
-        PackedFloat64Array.s
+        PackedFloat64Array.s x0 x1 x2
 
     (** Returns the concatenation of [param parts]' elements, with each element separated by the string calling this method. This method is the opposite of [method split].
 [b]Example:[/b]
@@ -21034,82 +21432,82 @@ GD.Print(string.Join("", "", fruits));  // Prints ""Apple, Orange, Pear, Kiwi""
 GD.Print(string.Join(""---"", fruits)); // Prints ""Apple---Orange---Pear---Kiwi""
 [/csharp]
 [/codeblocks] *)
-    let join =
+    let join x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME "join"
         (Base.Int64.of_string "3595973238")
         (PackedStringArray.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Returns the string converted to [code]UPPERCASE[/code]. *)
-    let to_upper =
+    let to_upper x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "to_upper"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the string converted to [code]lowercase[/code]. *)
-    let to_lower =
+    let to_lower x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "to_lower"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the first [param length] characters from the beginning of the string. If [param length] is negative, strips the last [param length] characters from the string's end.
 [codeblock]
 print(""Hello World!"".left(3))  # Prints ""Hel""
 print(""Hello World!"".left(-4)) # Prints ""Hello Wo""
 [/codeblock] *)
-    let left =
+    let left x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME "left"
         (Base.Int64.of_string "2162347432")
         (Int.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Returns the last [param length] characters from the end of the string. If [param length] is negative, strips the first [param length] characters from the string's beginning.
 [codeblock]
 print(""Hello World!"".right(3))  # Prints ""ld!""
 print(""Hello World!"".right(-4)) # Prints ""o World!""
 [/codeblock] *)
-    let right =
+    let right x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME "right"
         (Base.Int64.of_string "2162347432")
         (Int.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Strips all non-printable characters from the beginning and the end of the string. These include spaces, tabulations ([code]\t[/code]), and newlines ([code]\n[/code] [code]\r[/code]).
 If [param left] is [code]false[/code], ignores the string's beginning. Likewise, if [param right] is [code]false[/code], ignores the string's end. *)
-    let strip_edges =
+    let strip_edges x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME
         "strip_edges"
         (Base.Int64.of_string "907855311")
         (Bool.typ @-> Bool.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Strips all escape characters from the string. These include all non-printable control characters of the first page of the ASCII table (values from 0 to 31), such as tabulation ([code]\t[/code]) and newline ([code]\n[/code], [code]\r[/code]) characters, but [i]not[/i] spaces. *)
-    let strip_escapes =
+    let strip_escapes x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "strip_escapes"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Removes a set of characters defined in [param chars] from the string's beginning. See also [method rstrip].
 [b]Note:[/b] [param chars] is not a prefix. Use [method trim_prefix] to remove a single prefix, rather than a set of characters. *)
-    let lstrip =
+    let lstrip x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME "lstrip"
         (Base.Int64.of_string "3134094431")
         (String.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Removes a set of characters defined in [param chars] from the string's end. See also [method lstrip].
 [b]Note:[/b] [param chars] is not a suffix. Use [method trim_suffix] to remove a single suffix, rather than a set of characters. *)
-    let rstrip =
+    let rstrip x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME "rstrip"
         (Base.Int64.of_string "3134094431")
         (String.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** If the string is a valid file name or path, returns the file extension without the leading period ([code].[/code]). Otherwise, returns an empty string.
 [codeblock]
@@ -21123,111 +21521,111 @@ var f = ""file.txt.."".get_extension() # f is """"
 var g = ""txt"".get_extension()        # g is """"
 var h = """".get_extension()           # h is """"
 [/codeblock] *)
-    let get_extension =
+    let get_extension x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "get_extension"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** If the string is a valid file path, returns the full file path, without the extension.
 [codeblock]
 var base = ""/path/to/file.txt"".get_basename() # base is ""/path/to/file""
 [/codeblock] *)
-    let get_basename =
+    let get_basename x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "get_basename"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Concatenates [param file] at the end of the string as a subpath, adding [code]/[/code] if necessary.
 [b]Example:[/b] [code]""this/is"".path_join(""path"") == ""this/is/path""[/code]. *)
-    let path_join =
+    let path_join x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "path_join"
         (Base.Int64.of_string "3134094431")
         (String.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Returns the character code at position [param at]. *)
-    let unicode_at =
+    let unicode_at x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "unicode_at"
         (Base.Int64.of_string "4103005248")
         (Int.typ @-> StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Indents every line of the string with the given [param prefix]. Empty lines are not indented. See also [method dedent] to remove indentation.
 For example, the string can be indented with two tabulations using [code]""\t\t""[/code], or four spaces using [code]""    ""[/code]. *)
-    let indent =
+    let indent x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME "indent"
         (Base.Int64.of_string "3134094431")
         (String.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Returns a copy of the string with indentation (leading tabs and spaces) removed. See also [method indent] to add indentation. *)
-    let dedent =
+    let dedent x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME "dedent"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the [url=https://en.wikipedia.org/wiki/MD5]MD5 hash[/url] of the string as another [String]. *)
-    let md5_text =
+    let md5_text x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "md5_text"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the [url=https://en.wikipedia.org/wiki/SHA-1]SHA-1[/url] hash of the string as another [String]. *)
-    let sha1_text =
+    let sha1_text x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "sha1_text"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the [url=https://en.wikipedia.org/wiki/SHA-2]SHA-256[/url] hash of the string as another [String]. *)
-    let sha256_text =
+    let sha256_text x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "sha256_text"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns the [url=https://en.wikipedia.org/wiki/MD5]MD5 hash[/url] of the string as a [PackedByteArray]. *)
-    let md5_buffer =
+    let md5_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "md5_buffer"
         (Base.Int64.of_string "247621236")
         (StringName.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Returns the [url=https://en.wikipedia.org/wiki/SHA-1]SHA-1[/url] hash of the string as a [PackedByteArray]. *)
-    let sha1_buffer =
+    let sha1_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "sha1_buffer"
         (Base.Int64.of_string "247621236")
         (StringName.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Returns the [url=https://en.wikipedia.org/wiki/SHA-2]SHA-256[/url] hash of the string as a [PackedByteArray]. *)
-    let sha256_buffer =
+    let sha256_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "sha256_buffer"
         (Base.Int64.of_string "247621236")
         (StringName.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Returns [code]true[/code] if the string's length is [code]0[/code] ([code]""""[/code]). See also [method length]. *)
-    let is_empty =
+    let is_empty x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "is_empty"
         (Base.Int64.of_string "3918633141")
         (StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if the string contains [param what]. In GDScript, this corresponds to the [code]in[/code] operator.
 [codeblocks]
@@ -21242,79 +21640,79 @@ GD.Print(""team"".Contains(""I""));  // Prints false
 [/csharp]
 [/codeblocks]
 If you need to know where [param what] is within the string, use [method find]. *)
-    let contains =
+    let contains x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "contains"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the string is a path to a file or directory, and its starting point is explicitly defined. This method is the opposite of [method is_relative_path].
 This includes all paths starting with [code]""res://""[/code], [code]""user://""[/code], [code]""C:\""[/code], [code]""/""[/code], etc. *)
-    let is_absolute_path =
+    let is_absolute_path x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "is_absolute_path"
         (Base.Int64.of_string "3918633141")
         (StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if the string is a path, and its starting point is dependent on context. The path could begin from the current directory, or the current [Node] (if the string is derived from a [NodePath]), and may sometimes be prefixed with [code]""./""[/code]. This method is the opposite of [method is_absolute_path]. *)
-    let is_relative_path =
+    let is_relative_path x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "is_relative_path"
         (Base.Int64.of_string "3918633141")
         (StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** If the string is a valid file path, converts the string into a canonical path. This is the shortest possible path, without [code]""./""[/code], and all the unnecessary [code]""..""[/code] and [code]""/""[/code].
 [codeblock]
 var simple_path = ""./path/to///../file"".simplify_path()
 print(simple_path) # Prints ""path/file""
 [/codeblock] *)
-    let simplify_path =
+    let simplify_path x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "simplify_path"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** If the string is a valid file path, returns the base directory name.
 [codeblock]
 var dir_path = ""/path/to/file.txt"".get_base_dir() # dir_path is ""/path/to""
 [/codeblock] *)
-    let get_base_dir =
+    let get_base_dir x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "get_base_dir"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** If the string is a valid file path, returns the file name, including the extension.
 [codeblock]
 var file = ""/path/to/icon.png"".get_file() # file is ""icon.png""
 [/codeblock] *)
-    let get_file =
+    let get_file x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "get_file"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns a copy of the string with special characters escaped using the XML standard. If [param escape_quotes] is [code]true[/code], the single quote ([code]'[/code]) and double quote ([code]""[/code]) characters are also escaped. *)
-    let xml_escape =
+    let xml_escape x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "xml_escape"
         (Base.Int64.of_string "3429816538")
         (Bool.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Returns a copy of the string with escaped characters replaced by their meanings according to the XML standard. *)
-    let xml_unescape =
+    let xml_unescape x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "xml_unescape"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Encodes the string to URL-friendly format. This method is meant to properly encode the parameters in a URL when sending an HTTP request.
 [codeblocks]
@@ -21331,12 +21729,12 @@ var url = prefix + ""Godot Engine:docs"".URIEncode();
 GD.Print(url); // Prints ""$DOCS_URL/?highlight=Godot%20Engine%3%docs""
 [/csharp]
 [/codeblocks] *)
-    let uri_encode =
+    let uri_encode x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "uri_encode"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Decodes the string from its URL-encoded format. This method is meant to properly decode the parameters in a URL when receiving an HTTP request.
 [codeblocks]
@@ -21349,53 +21747,53 @@ var url = ""$DOCS_URL/?highlight=Godot%20Engine%3%docs""
 GD.Print(url.URIDecode()) // Prints ""$DOCS_URL/?highlight=Godot Engine:docs""
 [/csharp]
 [/codeblocks] *)
-    let uri_decode =
+    let uri_decode x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "uri_decode"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns a copy of the string with special characters escaped using the C language standard. *)
-    let c_escape =
+    let c_escape x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "c_escape"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns a copy of the string with escaped characters replaced by their meanings. Supported escape sequences are [code]\'[/code], [code]\""[/code], [code]\\[/code], [code]\a[/code], [code]\b[/code], [code]\f[/code], [code]\n[/code], [code]\r[/code], [code]\t[/code], [code]\v[/code].
 [b]Note:[/b] Unlike the GDScript parser, this method doesn't support the [code]\uXXXX[/code] escape sequence. *)
-    let c_unescape =
+    let c_unescape x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "c_unescape"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns a copy of the string with special characters escaped using the JSON standard. Because it closely matches the C standard, it is possible to use [method c_unescape] to unescape the string, if necessary. *)
-    let json_escape =
+    let json_escape x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "json_escape"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns a copy of the string with all characters that are not allowed in [member Node.name] ([code].[/code] [code]:[/code] [code]@[/code] [code]/[/code] [code]""[/code] [code]%[/code]) replaced with underscores. *)
-    let validate_node_name =
+    let validate_node_name x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "validate_node_name"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns a copy of the string with all characters that are not allowed in [method is_valid_filename] replaced with underscores. *)
-    let validate_filename =
+    let validate_filename x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "validate_filename"
         (Base.Int64.of_string "3942272618")
         (StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns [code]true[/code] if this string is a valid identifier. A valid identifier may contain only letters, digits and underscores ([code]_[/code]), and the first character may not be a digit.
 [codeblock]
@@ -21404,12 +21802,12 @@ print(""TYPE_FLOAT"".is_valid_identifier()) # Prints true
 print(""1st_method"".is_valid_identifier()) # Prints false
 print(""MyMethod#2"".is_valid_identifier()) # Prints false
 [/codeblock] *)
-    let is_valid_identifier =
+    let is_valid_identifier x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "is_valid_identifier"
         (Base.Int64.of_string "3918633141")
         (StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this string represents a valid integer. A valid integer only contains digits, and may be prefixed with a positive ([code]+[/code]) or negative ([code]-[/code]) sign. See also [method to_int].
 [codeblock]
@@ -21419,12 +21817,12 @@ print(""Hi"".is_valid_int())   # Prints false
 print(""+3"".is_valid_int())   # Prints true
 print(""-12"".is_valid_int())  # Prints true
 [/codeblock] *)
-    let is_valid_int =
+    let is_valid_int x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "is_valid_int"
         (Base.Int64.of_string "3918633141")
         (StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this string represents a valid floating-point number. A valid float may contain only digits, one decimal point ([code].[/code]), and the exponent letter ([code]e[/code]). It may also be prefixed with a positive ([code]+[/code]) or negative ([code]-[/code]) sign. Any valid integer is also a valid float (see [method is_valid_int]). See also [method to_float].
 [codeblock]
@@ -21433,12 +21831,12 @@ print(""24"".is_valid_float())    # Prints true
 print(""7e3"".is_valid_float())   # Prints true
 print(""Hello"".is_valid_float()) # Prints false
 [/codeblock] *)
-    let is_valid_float =
+    let is_valid_float x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "is_valid_float"
         (Base.Int64.of_string "3918633141")
         (StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this string is a valid hexadecimal number. A valid hexadecimal number only contains digits or letters [code]A[/code] to [code]F[/code] (either uppercase or lowercase), and may be prefixed with a positive ([code]+[/code]) or negative ([code]-[/code]) sign.
 If [param with_prefix] is [code]true[/code], the hexadecimal number needs to prefixed by [code]""0x""[/code] to be considered valid.
@@ -21449,36 +21847,36 @@ print(""2.5"".is_valid_hex_number())     # Prints false
 
 print(""0xDEADC0DE"".is_valid_hex_number(true)) # Prints true
 [/codeblock] *)
-    let is_valid_hex_number =
+    let is_valid_hex_number x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "is_valid_hex_number"
         (Base.Int64.of_string "593672999")
         (Bool.typ @-> StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if this string is a valid color in hexadecimal HTML notation. The string must be a hexadecimal value (see [method is_valid_hex_number]) of either 3, 4, 6 or 8 digits, and may be prefixed by a hash sign ([code]#[/code]). Other HTML notations for colors, such as names or [code]hsl()[/code], are not considered valid. See also [method Color.html]. *)
-    let is_valid_html_color =
+    let is_valid_html_color x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "is_valid_html_color"
         (Base.Int64.of_string "3918633141")
         (StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this string represents a well-formatted IPv4 or IPv6 address. This method considers [url=https://en.wikipedia.org/wiki/Reserved_IP_addresses]reserved IP addresses[/url] such as [code]""0.0.0.0""[/code] and [code]""ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff""[/code] as valid. *)
-    let is_valid_ip_address =
+    let is_valid_ip_address x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "is_valid_ip_address"
         (Base.Int64.of_string "3918633141")
         (StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this string does not contain characters that are not allowed in file names ([code]:[/code] [code]/[/code] [code]\[/code] [code]?[/code] [code] * [/code] [code]""[/code] [code]|[/code] [code]%[/code] [code]<[/code] [code]>[/code]). *)
-    let is_valid_filename =
+    let is_valid_filename x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "is_valid_filename"
         (Base.Int64.of_string "3918633141")
         (StringName.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Converts the string representing an integer number into an [int]. This method removes any non-number character and stops at the first decimal point ([code].[/code]). See also [method is_valid_int].
 [codeblock]
@@ -21487,11 +21885,11 @@ var b = ""x1y2z3"".to_int() # b is 123
 var c = ""-1.2.3"".to_int() # c is -1
 var d = ""Hello!"".to_int() # d is 0
 [/codeblock] *)
-    let to_int =
+    let to_int x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME "to_int"
         (Base.Int64.of_string "3173160232")
         (StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Converts the string representing a decimal number into a [float]. This method stops on the first non-number character, except the first decimal point ([code].[/code]) and the exponent letter ([code]e[/code]). See also [method is_valid_float].
 [codeblock]
@@ -21501,12 +21899,12 @@ var c = ""12xy3"".to_float() # c is 12.0
 var d = ""1e3"".to_float()   # d is 1000.0
 var e = ""Hello!"".to_int()  # e is 0.0
 [/codeblock] *)
-    let to_float =
+    let to_float x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "to_float"
         (Base.Int64.of_string "466405837")
         (StringName.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0
 
     (** Converts the string representing a hexadecimal number into an [int]. The string may be optionally prefixed with [code]""0x""[/code], and an additional [code]-[/code] prefix for negative numbers.
 [codeblocks]
@@ -21519,12 +21917,12 @@ GD.Print(""0xff"".HexToInt()); // Prints 255
 GD.Print(""ab"".HexToInt());   // Prints 171
 [/csharp]
 [/codeblocks] *)
-    let hex_to_int =
+    let hex_to_int x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "hex_to_int"
         (Base.Int64.of_string "3173160232")
         (StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Converts the string representing a binary number into an [int]. The string may optionally be prefixed with [code]""0b""[/code], and an additional [code]-[/code] prefix for negative numbers.
 [codeblocks]
@@ -21539,90 +21937,90 @@ GD.Print(""0b101"".BinToInt()); // Prints 5
 GD.Print(""-0b10"".BinToInt()); // Prints -2
 [/csharp]
 [/codeblocks] *)
-    let bin_to_int =
+    let bin_to_int x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "bin_to_int"
         (Base.Int64.of_string "3173160232")
         (StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Formats the string to be at least [param min_length] long by adding [param character]s to the left of the string, if necessary. See also [method rpad]. *)
-    let lpad =
+    let lpad x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME "lpad"
         (Base.Int64.of_string "248737229")
         (Int.typ @-> String.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Formats the string to be at least [param min_length] long, by adding [param character]s to the right of the string, if necessary. See also [method lpad]. *)
-    let rpad =
+    let rpad x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_STRING_NAME "rpad"
         (Base.Int64.of_string "248737229")
         (Int.typ @-> String.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1 x2
 
     (** Formats the string representing a number to have an exact number of [param digits] [i]after[/i] the decimal point. *)
-    let pad_decimals =
+    let pad_decimals x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "pad_decimals"
         (Base.Int64.of_string "2162347432")
         (Int.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Formats the string representing a number to have an exact number of [param digits] [i]before[/i] the decimal point. *)
-    let pad_zeros =
+    let pad_zeros x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "pad_zeros"
         (Base.Int64.of_string "2162347432")
         (Int.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Removes the given [param prefix] from the start of the string, or returns the string unchanged. *)
-    let trim_prefix =
+    let trim_prefix x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "trim_prefix"
         (Base.Int64.of_string "3134094431")
         (String.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Removes the given [param suffix] from the end of the string, or returns the string unchanged. *)
-    let trim_suffix =
+    let trim_suffix x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_STRING_NAME
         "trim_suffix"
         (Base.Int64.of_string "3134094431")
         (String.typ @-> StringName.typ @-> returning String.typ)
-        String.s
+        String.s x0 x1
 
     (** Converts the string to an [url=https://en.wikipedia.org/wiki/ASCII]ASCII[/url]/Latin-1 encoded [PackedByteArray]. This method is slightly faster than [method to_utf8_buffer], but replaces all unsupported characters with spaces. *)
-    let to_ascii_buffer =
+    let to_ascii_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "to_ascii_buffer"
         (Base.Int64.of_string "247621236")
         (StringName.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Converts the string to a [url=https://en.wikipedia.org/wiki/UTF-8]UTF-8[/url] encoded [PackedByteArray]. This method is slightly slower than [method to_ascii_buffer], but supports all UTF-8 characters. For most cases, prefer using this method. *)
-    let to_utf8_buffer =
+    let to_utf8_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "to_utf8_buffer"
         (Base.Int64.of_string "247621236")
         (StringName.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Converts the string to a [url=https://en.wikipedia.org/wiki/UTF-16]UTF-16[/url] encoded [PackedByteArray]. *)
-    let to_utf16_buffer =
+    let to_utf16_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "to_utf16_buffer"
         (Base.Int64.of_string "247621236")
         (StringName.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Converts the string to a [url=https://en.wikipedia.org/wiki/UTF-32]UTF-32[/url] encoded [PackedByteArray]. *)
-    let to_utf32_buffer =
+    let to_utf32_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "to_utf32_buffer"
         (Base.Int64.of_string "247621236")
         (StringName.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Decodes a hexadecimal string as a [PackedByteArray].
 [codeblocks]
@@ -21637,158 +22035,173 @@ var encoded = text.ToUtf8Buffer().HexEncode(); // outputs ""68656c6c6f20776f726c
 GD.Print(buf.HexDecode().GetStringFromUtf8());
 [/csharp]
 [/codeblocks] *)
-    let hex_decode =
+    let hex_decode x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "hex_decode"
         (Base.Int64.of_string "247621236")
         (StringName.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Converts the string to a [url=https://en.wikipedia.org/wiki/Wide_character]wide character[/url] ([code]wchar_t[/code], UTF-16 on Windows, UTF-32 on other platforms) encoded [PackedByteArray]. *)
-    let to_wchar_buffer =
+    let to_wchar_buffer x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME
         "to_wchar_buffer"
         (Base.Int64.of_string "247621236")
         (StringName.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Returns the 32-bit hash value representing the string's contents.
 [b]Note:[/b] Strings with equal hash values are [i]not[/i] guaranteed to be the same, as a result of hash collisions. On the contrary, strings with different hash values are guaranteed to be different. *)
-    let hash =
+    let hash x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_STRING_NAME "hash"
         (Base.Int64.of_string "3173160232")
         (StringName.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _StringName_elem_String =
+    let _StringName_elem_String x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (StringName.typ @-> String.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the [StringName] and [param right] refer to the same name. Comparisons between [StringName]s are much faster than regular [String] comparisons. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the [StringName] and [param right] do not refer to the same name. Comparisons between [StringName]s are much faster than regular [String] comparisons. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left [StringName]'s pointer comes before [param right]. Note that this will not match their [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url]. *)
-    let ( < ) =
+    let ( < ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left [StringName]'s pointer comes before [param right] or if they are the same. Note that this will not match their [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url]. *)
-    let ( <= ) =
+    let ( <= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left [StringName]'s pointer comes after [param right]. Note that this will not match their [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url]. *)
-    let ( > ) =
+    let ( > ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the left [StringName]'s pointer comes after [param right] or if they are the same. Note that this will not match their [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url]. *)
-    let ( >= ) =
+    let ( >= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Appends [param right] at the end of this [StringName], returning a [String]. This is also known as a string concatenation. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (StringName.typ @-> StringName.typ @-> String.typ @-> returning void))
+        x0 x1 x2
 
-    let ( % ) =
+    let ( % ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_MODULE
         (funptr
            (StringName.typ @-> StringName.typ @-> String.typ @-> returning void))
+        x0 x1 x2
 
-    let _StringName_elem_StringName =
+    let _StringName_elem_StringName x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _StringName_elem_Object =
+    let _StringName_elem_Object x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_OBJECT)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (StringName.typ @-> Object.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _StringName_elem_Dictionary =
+    let _StringName_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (StringName.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _StringName_elem_Array =
+    let _StringName_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (StringName.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _StringName_elem_PackedStringArray =
+    let _StringName_elem_PackedStringArray x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (StringName.typ @-> PackedStringArray.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
   end
 
   module NodePath = struct
     include M.NodePath
 
     (** Returns [code]true[/code] if the node path is absolute (as opposed to relative), which means that it starts with a slash character ([code]/[/code]). Absolute node paths can be used to access the root node ([code]""/root""[/code]) or autoloads (e.g. [code]""/global""[/code] if a ""global"" autoload was registered). *)
-    let is_absolute =
+    let is_absolute x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_NODE_PATH
         "is_absolute"
         (Base.Int64.of_string "3918633141")
         (NodePath.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Gets the number of node names which make up the path. Subnames (see [method get_subname_count]) are not included.
 For example, [code]""Path2D/PathFollow2D/Sprite2D""[/code] has 3 names. *)
-    let get_name_count =
+    let get_name_count x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_NODE_PATH
         "get_name_count"
         (Base.Int64.of_string "3173160232")
         (NodePath.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Gets the node name indicated by [param idx] (0 to [method get_name_count] - 1).
 [codeblocks]
@@ -21805,27 +22218,27 @@ GD.Print(nodePath.GetName(1)); // PathFollow2D
 GD.Print(nodePath.GetName(2)); // Sprite
 [/csharp]
 [/codeblocks] *)
-    let get_name =
+    let get_name x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_NODE_PATH "get_name"
         (Base.Int64.of_string "2948586938")
         (Int.typ @-> NodePath.typ @-> returning StringName.typ)
-        StringName.s
+        StringName.s x0 x1
 
     (** Gets the number of resource or property names (""subnames"") in the path. Each subname is listed after a colon character ([code]:[/code]) in the node path.
 For example, [code]""Path2D/PathFollow2D/Sprite2D:texture:load_path""[/code] has 2 subnames. *)
-    let get_subname_count =
+    let get_subname_count x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_NODE_PATH
         "get_subname_count"
         (Base.Int64.of_string "3173160232")
         (NodePath.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the 32-bit hash value representing the [NodePath]'s contents. *)
-    let hash =
+    let hash x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_NODE_PATH "hash"
         (Base.Int64.of_string "3173160232")
         (NodePath.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Gets the resource or property name indicated by [param idx] (0 to [method get_subname_count] - 1).
 [codeblocks]
@@ -21840,20 +22253,20 @@ GD.Print(nodePath.GetSubname(0)); // texture
 GD.Print(nodePath.GetSubname(1)); // load_path
 [/csharp]
 [/codeblocks] *)
-    let get_subname =
+    let get_subname x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_NODE_PATH
         "get_subname"
         (Base.Int64.of_string "2948586938")
         (Int.typ @-> NodePath.typ @-> returning StringName.typ)
-        StringName.s
+        StringName.s x0 x1
 
     (** Returns all paths concatenated with a slash character ([code]/[/code]) as separator without subnames. *)
-    let get_concatenated_names =
+    let get_concatenated_names x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_NODE_PATH
         "get_concatenated_names"
         (Base.Int64.of_string "1825232092")
         (NodePath.typ @-> returning StringName.typ)
-        StringName.s
+        StringName.s x0
 
     (** Returns all subnames concatenated with a colon character ([code]:[/code]) as separator, i.e. the right side of the first colon in a node path.
 [codeblocks]
@@ -21866,12 +22279,12 @@ var nodePath = new NodePath(""Path2D/PathFollow2D/Sprite2D:texture:load_path"");
 GD.Print(nodePath.GetConcatenatedSubnames()); // texture:load_path
 [/csharp]
 [/codeblocks] *)
-    let get_concatenated_subnames =
+    let get_concatenated_subnames x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_NODE_PATH
         "get_concatenated_subnames"
         (Base.Int64.of_string "1825232092")
         (NodePath.typ @-> returning StringName.typ)
-        StringName.s
+        StringName.s x0
 
     (** Returns a node path with a colon character ([code]:[/code]) prepended, transforming it to a pure property path with no node name (defaults to resolving from the current node).
 [codeblocks]
@@ -21890,210 +22303,222 @@ NodePath propertyPath = nodePath.GetAsPropertyPath();
 GD.Print(propertyPath); // :position:x
 [/csharp]
 [/codeblocks] *)
-    let get_as_property_path =
+    let get_as_property_path x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_NODE_PATH
         "get_as_property_path"
         (Base.Int64.of_string "1598598043")
         (NodePath.typ @-> returning NodePath.typ)
-        NodePath.s
+        NodePath.s x0
 
     (** Returns [code]true[/code] if the node path is empty. *)
-    let is_empty =
+    let is_empty x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_NODE_PATH "is_empty"
         (Base.Int64.of_string "3918633141")
         (NodePath.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NODE_PATH None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (NodePath.typ @-> NodePath.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if two node paths are equal, i.e. all node names in the path are the same and in the same order. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NODE_PATH
         (Some GlobalEnum.VariantType._TYPE_NODE_PATH)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (NodePath.typ @-> NodePath.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if two node paths are not equal. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NODE_PATH
         (Some GlobalEnum.VariantType._TYPE_NODE_PATH)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (NodePath.typ @-> NodePath.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _NodePath_elem_Dictionary =
+    let _NodePath_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NODE_PATH
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (NodePath.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _NodePath_elem_Array =
+    let _NodePath_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NODE_PATH
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (NodePath.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module RID = struct
     include M.RID
 
     (** Returns [code]true[/code] if the [RID] is not [code]0[/code]. *)
-    let is_valid =
+    let is_valid x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_RID "is_valid"
         (Base.Int64.of_string "3918633141")
         (RID.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns the ID of the referenced low-level resource. *)
-    let get_id =
+    let get_id x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_RID "get_id"
         (Base.Int64.of_string "3173160232")
         (RID.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RID None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (RID.typ @-> RID.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if both [RID]s are equal, which means they both refer to the same low-level resource. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RID
         (Some GlobalEnum.VariantType._TYPE_RID)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (RID.typ @-> RID.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the [RID]s are not equal. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RID
         (Some GlobalEnum.VariantType._TYPE_RID)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (RID.typ @-> RID.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the [RID]'s ID is less than [param right]'s ID. *)
-    let ( < ) =
+    let ( < ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RID
         (Some GlobalEnum.VariantType._TYPE_RID)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (RID.typ @-> RID.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the [RID]'s ID is less than or equal to [param right]'s ID. *)
-    let ( <= ) =
+    let ( <= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RID
         (Some GlobalEnum.VariantType._TYPE_RID)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (RID.typ @-> RID.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the [RID]'s ID is greater than [param right]'s ID. *)
-    let ( > ) =
+    let ( > ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RID
         (Some GlobalEnum.VariantType._TYPE_RID)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (RID.typ @-> RID.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the [RID]'s ID is greater than or equal to [param right]'s ID. *)
-    let ( >= ) =
+    let ( >= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RID
         (Some GlobalEnum.VariantType._TYPE_RID)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (RID.typ @-> RID.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Callable = struct
     include M.Callable
 
     (** Calls the method represented by this [Callable]. Unlike [method call], this method expects all arguments to be contained inside the [param arguments] [Array]. *)
-    let callv =
+    let callv x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_CALLABLE "callv"
         (Base.Int64.of_string "413578926")
         (Array.typ @-> Callable.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0 x1
 
     (** Returns [code]true[/code] if this [Callable] has no target to call the method on. *)
-    let is_null =
+    let is_null x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_CALLABLE "is_null"
         (Base.Int64.of_string "3918633141")
         (Callable.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this [Callable] is a custom callable. Custom callables are created from [method bind] or [method unbind]. In GDScript, lambda functions are also custom callables. *)
-    let is_custom =
+    let is_custom x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_CALLABLE "is_custom"
         (Base.Int64.of_string "3918633141")
         (Callable.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if this [Callable] is a standard callable. This method is the opposite of [method is_custom]. Returns [code]false[/code] if this callable is a lambda function. *)
-    let is_standard =
+    let is_standard x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_CALLABLE
         "is_standard"
         (Base.Int64.of_string "3918633141")
         (Callable.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if the callable's object exists and has a valid method name assigned, or is a custom callable. *)
-    let is_valid =
+    let is_valid x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_CALLABLE "is_valid"
         (Base.Int64.of_string "3918633141")
         (Callable.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns the object on which this [Callable] is called. *)
-    let get_object =
+    let get_object x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_CALLABLE "get_object"
         (Base.Int64.of_string "4008621732")
         (Callable.typ @-> returning Object.typ)
-        Object.s
+        Object.s x0
 
     (** Returns the ID of this [Callable]'s object (see [method Object.get_instance_id]). *)
-    let get_object_id =
+    let get_object_id x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_CALLABLE
         "get_object_id"
         (Base.Int64.of_string "3173160232")
         (Callable.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the name of the method represented by this [Callable]. If the callable is a GDScript lambda function, returns the function's name or [code]""<anonymous lambda>""[/code]. *)
-    let get_method =
+    let get_method x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_CALLABLE "get_method"
         (Base.Int64.of_string "1825232092")
         (Callable.typ @-> returning StringName.typ)
-        StringName.s
+        StringName.s x0
 
     (** Returns the total amount of arguments bound (or unbound) via successive [method bind] or [method unbind] calls. If the amount of arguments unbound is greater than the ones bound, this function returns a value less than zero. *)
-    let get_bound_arguments_count =
+    let get_bound_arguments_count x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_CALLABLE
         "get_bound_arguments_count"
         (Base.Int64.of_string "3173160232")
         (Callable.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Return the bound arguments (as long as [method get_bound_arguments_count] is greater than zero), or empty (if [method get_bound_arguments_count] is less than or equal to zero). *)
-    let get_bound_arguments =
+    let get_bound_arguments x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_CALLABLE
         "get_bound_arguments"
         (Base.Int64.of_string "4144163970")
         (Callable.typ @-> returning Array.typ)
-        Array.s
+        Array.s x0
 
     (** Returns the 32-bit hash value of this [Callable]'s object.
 [b]Note:[/b] [Callable]s with equal content will always produce identical hash values. However, the reverse is not true. Returning identical hash values does [i]not[/i] imply the callables are equal, because different callables can have identical hash values due to hash collisions. The engine uses a 32-bit hash algorithm for [method hash]. *)
-    let hash =
+    let hash x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_CALLABLE "hash"
         (Base.Int64.of_string "3173160232")
         (Callable.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns a copy of this [Callable] with one or more arguments bound, reading them from an array. When called, the bound arguments are passed [i]after[/i] the arguments supplied by [method call]. See also [method unbind].
 [b]Note:[/b] When this method is chained with other similar methods, the order in which the argument list is modified is read from right to left. *)
-    let bindv =
+    let bindv x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_CALLABLE "bindv"
         (Base.Int64.of_string "3564560322")
         (Array.typ @-> Callable.typ @-> returning Callable.typ)
-        Callable.s
+        Callable.s x0 x1
 
     (** Returns a copy of this [Callable] with a number of arguments unbound. In other words, when the new callable is called the last few arguments supplied by the user are ignored, according to [param argcount]. The remaining arguments are passed to the callable. This allows to use the original callable in a context that attempts to pass more arguments than this callable can handle, e.g. a signal with a fixed number of arguments. See also [method bind].
 [b]Note:[/b] When this method is chained with other similar methods, the order in which the argument list is modified is read from right to left.
@@ -22102,18 +22527,18 @@ func _ready():
     foo.unbind(1).call(1, 2) # Calls foo(1).
     foo.bind(3, 4).unbind(1).call(1, 2) # Calls foo(1, 3, 4), note that it does not change the arguments from bind.
 [/codeblock] *)
-    let unbind =
+    let unbind x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_CALLABLE "unbind"
         (Base.Int64.of_string "755001590")
         (Int.typ @-> Callable.typ @-> returning Callable.typ)
-        Callable.s
+        Callable.s x0 x1
 
     (** Calls the method represented by this [Callable]. Arguments can be passed and should match the method's signature. *)
-    let call =
+    let call x0 =
       foreign_builtin_method0v GlobalEnum.VariantType._TYPE_CALLABLE "call"
         (Base.Int64.of_string "3643564216")
         (Variadic.typ @-> Callable.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0
 
     (** Calls the method represented by this [Callable] in deferred mode, i.e. at the end of the current frame. Arguments can be passed and should match the method's signature.
 [codeblock]
@@ -22122,100 +22547,105 @@ func _ready():
 [/codeblock]
 [b]Note:[/b] Deferred calls are processed at idle time. Idle time happens mainly at the end of process and physics frames. In it, deferred calls will be run until there are none left, which means you can defer calls from other deferred calls and they'll still be run in the current idle time cycle. This means you should not call a method deferred from itself (or from a method called by it), as this causes infinite recursion the same way as if you had called the method directly.
 See also [method Object.call_deferred]. *)
-    let call_deferred =
+    let call_deferred x0 =
       foreign_builtin_method0v_void GlobalEnum.VariantType._TYPE_CALLABLE
         "call_deferred"
         (Base.Int64.of_string "3286317445")
         (Variadic.typ @-> Callable.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Perform an RPC (Remote Procedure Call) on all connected peers. This is used for multiplayer and is normally not available, unless the function being called has been marked as [i]RPC[/i] (using [annotation @GDScript.@rpc] or [method Node.rpc_config]). Calling this method on unsupported functions will result in an error. See [method Node.rpc]. *)
-    let rpc =
+    let rpc x0 =
       foreign_builtin_method0v_void GlobalEnum.VariantType._TYPE_CALLABLE "rpc"
         (Base.Int64.of_string "3286317445")
         (Variadic.typ @-> Callable.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Perform an RPC (Remote Procedure Call) on a specific peer ID (see multiplayer documentation for reference). This is used for multiplayer and is normally not available unless the function being called has been marked as [i]RPC[/i] (using [annotation @GDScript.@rpc] or [method Node.rpc_config]). Calling this method on unsupported functions will result in an error. See [method Node.rpc_id]. *)
-    let rpc_id =
+    let rpc_id x0 x1 =
       foreign_builtin_method1v_void GlobalEnum.VariantType._TYPE_CALLABLE
         "rpc_id"
         (Base.Int64.of_string "2270047679")
         (Int.typ @-> Variadic.typ @-> Callable.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Returns a copy of this [Callable] with one or more arguments bound. When called, the bound arguments are passed [i]after[/i] the arguments supplied by [method call]. See also [method unbind].
 [b]Note:[/b] When this method is chained with other similar methods, the order in which the argument list is modified is read from right to left. *)
-    let bind =
+    let bind x0 =
       foreign_builtin_method0v GlobalEnum.VariantType._TYPE_CALLABLE "bind"
         (Base.Int64.of_string "3224143119")
         (Variadic.typ @-> Callable.typ @-> returning Callable.typ)
-        Callable.s
+        Callable.s x0
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_CALLABLE None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Callable.typ @-> Callable.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if both [Callable]s invoke the same custom target. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_CALLABLE
         (Some GlobalEnum.VariantType._TYPE_CALLABLE)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Callable.typ @-> Callable.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if both [Callable]s invoke different targets. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_CALLABLE
         (Some GlobalEnum.VariantType._TYPE_CALLABLE)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Callable.typ @-> Callable.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Callable_elem_Dictionary =
+    let _Callable_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_CALLABLE
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Callable.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Callable_elem_Array =
+    let _Callable_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_CALLABLE
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Callable.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Signal = struct
     include M.Signal
 
     (** Returns [code]true[/code] if the signal's name does not exist in its object, or the object is not valid. *)
-    let is_null =
+    let is_null x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_SIGNAL "is_null"
         (Base.Int64.of_string "3918633141")
         (Signal.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns the object emitting this signal. *)
-    let get_object =
+    let get_object x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_SIGNAL "get_object"
         (Base.Int64.of_string "4008621732")
         (Signal.typ @-> returning Object.typ)
-        Object.s
+        Object.s x0
 
     (** Returns the ID of the object emitting this signal (see [method Object.get_instance_id]). *)
-    let get_object_id =
+    let get_object_id x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_SIGNAL
         "get_object_id"
         (Base.Int64.of_string "3173160232")
         (Signal.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the name of this signal. *)
-    let get_name =
+    let get_name x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_SIGNAL "get_name"
         (Base.Int64.of_string "1825232092")
         (Signal.typ @-> returning StringName.typ)
-        StringName.s
+        StringName.s x0
 
     (** Connects this signal to the specified [param callable]. Optional [param flags] can be also added to configure the connection's behavior (see [enum Object.ConnectFlags] constants). You can provide additional arguments to the connected [param callable] by using [method Callable.bind].
 A signal can only be connected once to the same [Callable]. If the signal is already connected, returns [constant ERR_INVALID_PARAMETER] and pushes an error message, unless the signal is connected with [constant Object.CONNECT_REFERENCE_COUNTED]. To prevent this, use [method is_connected] first to check for existing connections.
@@ -22226,101 +22656,106 @@ for button in $Buttons.get_children():
 func _on_pressed(button):
     print(button.name, "" was pressed"")
 [/codeblock] *)
-    let connect =
+    let connect x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_SIGNAL "connect"
         (Base.Int64.of_string "979702392")
         (Callable.typ @-> Int.typ @-> Signal.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Disconnects this signal from the specified [Callable]. If the connection does not exist, generates an error. Use [method is_connected] to make sure that the connection exists. *)
-    let disconnect =
+    let disconnect x0 x1 =
       foreign_builtin_method1_void GlobalEnum.VariantType._TYPE_SIGNAL
         "disconnect"
         (Base.Int64.of_string "3470848906")
         (Callable.typ @-> Signal.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Returns [code]true[/code] if the specified [Callable] is connected to this signal. *)
-    let is_connected =
+    let is_connected x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_SIGNAL "is_connected"
         (Base.Int64.of_string "4129521963")
         (Callable.typ @-> Signal.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns an [Array] of connections for this signal. Each connection is represented as a [Dictionary] that contains three entries:
 - [code]signal[/code] is a reference to this signal;
 - [code]callable[/code] is a reference to the connected [Callable];
 - [code]flags[/code] is a combination of [enum Object.ConnectFlags]. *)
-    let get_connections =
+    let get_connections x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_SIGNAL
         "get_connections"
         (Base.Int64.of_string "4144163970")
         (Signal.typ @-> returning Array.typ)
-        Array.s
+        Array.s x0
 
     (** Emits this signal. All [Callable]s connected to this signal will be triggered. This method supports a variable number of arguments, so parameters can be passed as a comma separated list. *)
-    let emit =
+    let emit x0 =
       foreign_builtin_method0v_void GlobalEnum.VariantType._TYPE_SIGNAL "emit"
         (Base.Int64.of_string "3286317445")
         (Variadic.typ @-> Signal.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_SIGNAL None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Signal.typ @-> Signal.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if both signals share the same object and name. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_SIGNAL
         (Some GlobalEnum.VariantType._TYPE_SIGNAL)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Signal.typ @-> Signal.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the signals do not share the same object and name. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_SIGNAL
         (Some GlobalEnum.VariantType._TYPE_SIGNAL)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Signal.typ @-> Signal.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Signal_elem_Dictionary =
+    let _Signal_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_SIGNAL
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Signal.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Signal_elem_Array =
+    let _Signal_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_SIGNAL
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Signal.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Dictionary = struct
     include M.Dictionary
 
     (** Returns the number of entries in the dictionary. Empty dictionaries ([code]{ }[/code]) always return [code]0[/code]. See also [method is_empty]. *)
-    let size =
+    let size x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_DICTIONARY "size"
         (Base.Int64.of_string "3173160232")
         (Dictionary.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns [code]true[/code] if the dictionary is empty (its size is [code]0[/code]). See also [method size]. *)
-    let is_empty =
+    let is_empty x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_DICTIONARY "is_empty"
         (Base.Int64.of_string "3918633141")
         (Dictionary.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Clears the dictionary, removing all entries from it. *)
-    let clear =
+    let clear x0 =
       foreign_builtin_method0_void GlobalEnum.VariantType._TYPE_DICTIONARY
         "clear"
         (Base.Int64.of_string "3218959716")
         (Dictionary.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Adds entries from [param dictionary] to this dictionary. By default, duplicate keys are not copied over, unless [param overwrite] is [code]true[/code].
 [codeblocks]
@@ -22359,12 +22794,12 @@ GD.Print(dict); // { ""item"": ""sword"", ""quantity"": 15, ""color"": ""silver"
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] [method merge] is [i]not[/i] recursive. Nested dictionaries are considered as keys that can be overwritten or not depending on the value of [param overwrite], but they will never be merged together. *)
-    let merge =
+    let merge x0 x1 x2 =
       foreign_builtin_method2_void GlobalEnum.VariantType._TYPE_DICTIONARY
         "merge"
         (Base.Int64.of_string "2079548978")
         (Dictionary.typ @-> Bool.typ @-> Dictionary.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Returns [code]true[/code] if the dictionary contains an entry with the given [param key].
 [codeblocks]
@@ -22396,38 +22831,38 @@ if ""Godot"" in {""Godot"": 4}:
     print(""The key is here!"") # Will be printed.
 [/codeblock]
 [b]Note:[/b] This method returns [code]true[/code] as long as the [param key] exists, even if its corresponding value is [code]null[/code]. *)
-    let has =
+    let has x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_DICTIONARY "has"
         (Base.Int64.of_string "3680194679")
         (Variant.typ @-> Dictionary.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the dictionary contains all keys in the given [param keys] array.
 [codeblock]
 var data = {""width"" : 10, ""height"" : 20}
 data.has_all([""height"", ""width""]) # Returns true
 [/codeblock] *)
-    let has_all =
+    let has_all x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_DICTIONARY "has_all"
         (Base.Int64.of_string "2988181878")
         (Array.typ @-> Dictionary.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Finds and returns the first key whose associated value is equal to [param value], or [code]null[/code] if it is not found.
 [b]Note:[/b] [code]null[/code] is also a valid key. If inside the dictionary, [method find_key] may give misleading results. *)
-    let find_key =
+    let find_key x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_DICTIONARY "find_key"
         (Base.Int64.of_string "1988825835")
         (Variant.typ @-> Dictionary.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0 x1
 
     (** Removes the dictionary entry by key, if it exists. Returns [code]true[/code] if the given [param key] existed in the dictionary, otherwise [code]false[/code].
 [b]Note:[/b] Do not erase entries while iterating over the dictionary. You can iterate over the [method keys] array instead. *)
-    let erase =
+    let erase x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_DICTIONARY "erase"
         (Base.Int64.of_string "1776646889")
         (Variant.typ @-> Dictionary.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns a hashed 32-bit integer value representing the dictionary contents.
 [codeblocks]
@@ -22447,157 +22882,162 @@ GD.Print(GD.Hash(dict1) == GD.Hash(dict2)); // Prints true
 [/codeblocks]
 [b]Note:[/b] Dictionaries with the same entries but in a different order will not have the same hash.
 [b]Note:[/b] Dictionaries with equal hash values are [i]not[/i] guaranteed to be the same, because of hash collisions. On the contrary, dictionaries with different hash values are guaranteed to be different. *)
-    let hash =
+    let hash x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_DICTIONARY "hash"
         (Base.Int64.of_string "3173160232")
         (Dictionary.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the list of keys in the dictionary. *)
-    let keys =
+    let keys x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_DICTIONARY "keys"
         (Base.Int64.of_string "4144163970")
         (Dictionary.typ @-> returning Array.typ)
-        Array.s
+        Array.s x0
 
     (** Returns the list of values in this dictionary. *)
-    let values =
+    let values x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_DICTIONARY "values"
         (Base.Int64.of_string "4144163970")
         (Dictionary.typ @-> returning Array.typ)
-        Array.s
+        Array.s x0
 
     (** Creates and returns a new copy of the dictionary. If [param deep] is [code]true[/code], inner [Dictionary] and [Array] keys and values are also copied, recursively. *)
-    let duplicate =
+    let duplicate x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_DICTIONARY
         "duplicate"
         (Base.Int64.of_string "830099069")
         (Bool.typ @-> Dictionary.typ @-> returning Dictionary.typ)
-        Dictionary.s
+        Dictionary.s x0 x1
 
     (** Returns the corresponding value for the given [param key] in the dictionary. If the [param key] does not exist, returns [param default], or [code]null[/code] if the parameter is omitted. *)
-    let get =
+    let get x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_DICTIONARY "get"
         (Base.Int64.of_string "2205440559")
         (Variant.typ @-> Variant.typ @-> Dictionary.typ
        @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0 x1 x2
 
     (** Makes the dictionary read-only, i.e. disables modification of the dictionary's contents. Does not apply to nested content, e.g. content of nested dictionaries. *)
-    let make_read_only =
+    let make_read_only x0 =
       foreign_builtin_method0_void GlobalEnum.VariantType._TYPE_DICTIONARY
         "make_read_only"
         (Base.Int64.of_string "3218959716")
         (Dictionary.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns [code]true[/code] if the dictionary is read-only. See [method make_read_only]. Dictionaries are automatically read-only if declared with [code]const[/code] keyword. *)
-    let is_read_only =
+    let is_read_only x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_DICTIONARY
         "is_read_only"
         (Base.Int64.of_string "3918633141")
         (Dictionary.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_DICTIONARY None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (Dictionary.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the two dictionaries contain the same keys and values. The order of the entries does not matter.
 [b]Note:[/b] In C#, by convention, this operator compares by [b]reference[/b]. If you need to compare by value, iterate over both dictionaries. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_DICTIONARY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (Dictionary.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if the two dictionaries do not contain the same keys and values. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_DICTIONARY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (Dictionary.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Dictionary_elem_Dictionary =
+    let _Dictionary_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_DICTIONARY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Dictionary.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Dictionary_elem_Array =
+    let _Dictionary_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_DICTIONARY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Dictionary.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module Array = struct
     include M.Array
 
     (** Returns the number of elements in the array. *)
-    let size =
+    let size x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY "size"
         (Base.Int64.of_string "3173160232")
         (Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns [code]true[/code] if the array is empty. *)
-    let is_empty =
+    let is_empty x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY "is_empty"
         (Base.Int64.of_string "3918633141")
         (Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Clears the array. This is equivalent to using [method resize] with a size of [code]0[/code]. *)
-    let clear =
+    let clear x0 =
       foreign_builtin_method0_void GlobalEnum.VariantType._TYPE_ARRAY "clear"
         (Base.Int64.of_string "3218959716")
         (Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns a hashed 32-bit integer value representing the array and its contents.
 [b]Note:[/b] [Array]s with equal content will always produce identical hash values. However, the reverse is not true. Returning identical hash values does [i]not[/i] imply the arrays are equal, because different arrays can have identical hash values due to hash collisions. *)
-    let hash =
+    let hash x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY "hash"
         (Base.Int64.of_string "3173160232")
         (Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Assigns elements of another [param array] into the array. Resizes the array to match [param array]. Performs type conversions if the array is typed. *)
-    let assign =
+    let assign x0 x1 =
       foreign_builtin_method1_void GlobalEnum.VariantType._TYPE_ARRAY "assign"
         (Base.Int64.of_string "2307260970")
         (Array.typ @-> Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Appends an element at the end of the array. See also [method push_front]. *)
-    let push_back =
+    let push_back x0 x1 =
       foreign_builtin_method1_void GlobalEnum.VariantType._TYPE_ARRAY
         "push_back"
         (Base.Int64.of_string "3316032543")
         (Variant.typ @-> Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Adds an element at the beginning of the array. See also [method push_back].
 [b]Note:[/b] On large arrays, this method is much slower than [method push_back] as it will reindex all the array's elements every time it's called. The larger the array, the slower [method push_front] will be. *)
-    let push_front =
+    let push_front x0 x1 =
       foreign_builtin_method1_void GlobalEnum.VariantType._TYPE_ARRAY
         "push_front"
         (Base.Int64.of_string "3316032543")
         (Variant.typ @-> Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Appends an element at the end of the array (alias of [method push_back]). *)
-    let append =
+    let append x0 x1 =
       foreign_builtin_method1_void GlobalEnum.VariantType._TYPE_ARRAY "append"
         (Base.Int64.of_string "3316032543")
         (Variant.typ @-> Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Appends another array at the end of this array.
 [codeblock]
@@ -22606,41 +23046,41 @@ var array2 = [4, 5, 6]
 array1.append_array(array2)
 print(array1) # Prints [1, 2, 3, 4, 5, 6].
 [/codeblock] *)
-    let append_array =
+    let append_array x0 x1 =
       foreign_builtin_method1_void GlobalEnum.VariantType._TYPE_ARRAY
         "append_array"
         (Base.Int64.of_string "2307260970")
         (Array.typ @-> Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Resizes the array to contain a different number of elements. If the array size is smaller, elements are cleared, if bigger, new elements are [code]null[/code]. Returns [constant OK] on success, or one of the other [enum Error] values if the operation failed.
 Calling [method resize] once and assigning the new values is faster than adding new elements one by one.
 [b]Note:[/b] This method acts in-place and doesn't return a modified array. *)
-    let resize =
+    let resize x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_ARRAY "resize"
         (Base.Int64.of_string "848867239")
         (Int.typ @-> Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Inserts a new element at a given position in the array. The position must be valid, or at the end of the array ([code]pos == size()[/code]). Returns [constant OK] on success, or one of the other [enum Error] values if the operation failed.
 [b]Note:[/b] This method acts in-place and doesn't return a modified array.
 [b]Note:[/b] On large arrays, this method will be slower if the inserted element is close to the beginning of the array (index 0). This is because all elements placed after the newly inserted element have to be reindexed. *)
-    let insert =
+    let insert x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_ARRAY "insert"
         (Base.Int64.of_string "3176316662")
         (Int.typ @-> Variant.typ @-> Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Removes an element from the array by index. If the index does not exist in the array, nothing happens. To remove an element by searching for its value, use [method erase] instead.
 [b]Note:[/b] This method acts in-place and doesn't return a modified array.
 [b]Note:[/b] On large arrays, this method will be slower if the removed element is close to the beginning of the array (index 0). This is because all elements placed after the removed element have to be reindexed.
 [b]Note:[/b] [param position] cannot be negative. To remove an element relative to the end of the array, use [code]arr.remove_at(arr.size() - (i + 1))[/code]. To remove the last element from the array without returning the value, use [code]arr.resize(arr.size() - 1)[/code]. *)
-    let remove_at =
+    let remove_at x0 x1 =
       foreign_builtin_method1_void GlobalEnum.VariantType._TYPE_ARRAY
         "remove_at"
         (Base.Int64.of_string "2823966027")
         (Int.typ @-> Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Assigns the given value to all elements in the array. This can typically be used together with [method resize] to create an array with a given size and initialized elements:
 [codeblocks]
@@ -22656,37 +23096,37 @@ array.Fill(0); // Initialize the 10 elements to 0.
 [/csharp]
 [/codeblocks]
 [b]Note:[/b] If [param value] is of a reference type ([Object]-derived, [Array], [Dictionary], etc.) then the array is filled with the references to the same object, i.e. no duplicates are created. *)
-    let fill =
+    let fill x0 x1 =
       foreign_builtin_method1_void GlobalEnum.VariantType._TYPE_ARRAY "fill"
         (Base.Int64.of_string "3316032543")
         (Variant.typ @-> Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Removes the first occurrence of a value from the array. If the value does not exist in the array, nothing happens. To remove an element by index, use [method remove_at] instead.
 [b]Note:[/b] This method acts in-place and doesn't return a modified array.
 [b]Note:[/b] On large arrays, this method will be slower if the removed element is close to the beginning of the array (index 0). This is because all elements placed after the removed element have to be reindexed.
 [b]Note:[/b] Do not erase entries while iterating over the array. *)
-    let erase =
+    let erase x0 x1 =
       foreign_builtin_method1_void GlobalEnum.VariantType._TYPE_ARRAY "erase"
         (Base.Int64.of_string "3316032543")
         (Variant.typ @-> Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Returns the first element of the array. Prints an error and returns [code]null[/code] if the array is empty.
 [b]Note:[/b] Calling this function is not the same as writing [code]array[0][/code]. If the array is empty, accessing by index will pause project execution when running from the editor. *)
-    let front =
+    let front x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY "front"
         (Base.Int64.of_string "1460142086")
         (Array.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0
 
     (** Returns the last element of the array. Prints an error and returns [code]null[/code] if the array is empty.
 [b]Note:[/b] Calling this function is not the same as writing [code]array[-1][/code]. If the array is empty, accessing by index will pause project execution when running from the editor. *)
-    let back =
+    let back x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY "back"
         (Base.Int64.of_string "1460142086")
         (Array.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0
 
     (** Returns a random value from the target array. Prints an error and returns [code]null[/code] if the array is empty.
 [codeblocks]
@@ -22699,32 +23139,32 @@ var array = new Godot.Collections.Array { 1, 2, 3, 4 };
 GD.Print(array.PickRandom()); // Prints either of the four numbers.
 [/csharp]
 [/codeblocks] *)
-    let pick_random =
+    let pick_random x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY "pick_random"
         (Base.Int64.of_string "1460142086")
         (Array.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0
 
     (** Searches the array for a value and returns its index or [code]-1[/code] if not found. Optionally, the initial search index can be passed. *)
-    let find =
+    let find x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_ARRAY "find"
         (Base.Int64.of_string "2336346817")
         (Variant.typ @-> Int.typ @-> Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Searches the array in reverse order. Optionally, a start search index can be passed. If negative, the start index is considered relative to the end of the array. *)
-    let rfind =
+    let rfind x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_ARRAY "rfind"
         (Base.Int64.of_string "2336346817")
         (Variant.typ @-> Int.typ @-> Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the number of times an element is in the array. *)
-    let count =
+    let count x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_ARRAY "count"
         (Base.Int64.of_string "1481661226")
         (Variant.typ @-> Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Returns [code]true[/code] if the array contains the given value.
 [codeblocks]
@@ -22759,34 +23199,34 @@ if (array.Contains(2))
 }
 [/csharp]
 [/codeblocks] *)
-    let has =
+    let has x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_ARRAY "has"
         (Base.Int64.of_string "3680194679")
         (Variant.typ @-> Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Removes and returns the last element of the array. Returns [code]null[/code] if the array is empty, without printing an error message. See also [method pop_front]. *)
-    let pop_back =
+    let pop_back x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY "pop_back"
         (Base.Int64.of_string "1321915136")
         (Array.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0
 
     (** Removes and returns the first element of the array. Returns [code]null[/code] if the array is empty, without printing an error message. See also [method pop_back].
 [b]Note:[/b] On large arrays, this method is much slower than [method pop_back] as it will reindex all the array's elements every time it's called. The larger the array, the slower [method pop_front] will be. *)
-    let pop_front =
+    let pop_front x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY "pop_front"
         (Base.Int64.of_string "1321915136")
         (Array.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0
 
     (** Removes and returns the element of the array at index [param position]. If negative, [param position] is considered relative to the end of the array. Leaves the array unchanged and returns [code]null[/code] if the array is empty or if it's accessed out of bounds. An error message is printed when the array is accessed out of bounds, but not when the array is empty.
 [b]Note:[/b] On large arrays, this method can be slower than [method pop_back] as it will reindex the array's elements that are located after the removed element. The larger the array and the lower the index of the removed element, the slower [method pop_at] will be. *)
-    let pop_at =
+    let pop_at x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_ARRAY "pop_at"
         (Base.Int64.of_string "3518259424")
         (Int.typ @-> Array.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0 x1
 
     (** Sorts the array.
 [b]Note:[/b] The sorting algorithm used is not [url=https://en.wikipedia.org/wiki/Sorting_algorithm#Stability]stable[/url]. This means that values considered equal may have their order changed when using [method sort].
@@ -22809,11 +23249,11 @@ var strings = [""string1"", ""string2"", ""string10"", ""string11""]
 strings.sort_custom(func(a, b): return a.naturalnocasecmp_to(b) < 0)
 print(strings) # Prints [string1, string2, string10, string11]
 [/codeblock] *)
-    let sort =
+    let sort x0 =
       foreign_builtin_method0_void GlobalEnum.VariantType._TYPE_ARRAY "sort"
         (Base.Int64.of_string "3218959716")
         (Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Sorts the array using a custom method. The custom method receives two arguments (a pair of elements from the array) and must return either [code]true[/code] or [code]false[/code]. For two elements [code]a[/code] and [code]b[/code], if the given method returns [code]true[/code], element [code]b[/code] will be after element [code]a[/code] in the array.
 [b]Note:[/b] The sorting algorithm used is not [url=https://en.wikipedia.org/wiki/Sorting_algorithm#Stability]stable[/url]. This means that values considered equal may have their order changed when using [method sort_custom].
@@ -22838,19 +23278,19 @@ func _ready():
 // There is no custom sort support for Godot.Collections.Array
 [/csharp]
 [/codeblocks] *)
-    let sort_custom =
+    let sort_custom x0 x1 =
       foreign_builtin_method1_void GlobalEnum.VariantType._TYPE_ARRAY
         "sort_custom"
         (Base.Int64.of_string "3470848906")
         (Callable.typ @-> Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Shuffles the array such that the items will have a random order. This method uses the global random number generator common to methods such as [method @GlobalScope.randi]. Call [method @GlobalScope.randomize] to ensure that a new seed will be used each time if you want non-reproducible shuffling. *)
-    let shuffle =
+    let shuffle x0 =
       foreign_builtin_method0_void GlobalEnum.VariantType._TYPE_ARRAY "shuffle"
         (Base.Int64.of_string "3218959716")
         (Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Finds the index of an existing value (or the insertion index that maintains sorting order, if the value is not yet present in the array) using binary search. Optionally, a [param before] specifier can be passed. If [code]false[/code], the returned index comes after all existing entries of the value in the array.
 [codeblock]
@@ -22859,37 +23299,37 @@ print(array.bsearch(""c"", true))  # Prints 2, at the first matching element.
 print(array.bsearch(""c"", false)) # Prints 4, after the last matching element, pointing to ""d"".
 [/codeblock]
 [b]Note:[/b] Calling [method bsearch] on an unsorted array results in unexpected behavior. *)
-    let bsearch =
+    let bsearch x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_ARRAY "bsearch"
         (Base.Int64.of_string "3372222236")
         (Variant.typ @-> Bool.typ @-> Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Finds the index of an existing value (or the insertion index that maintains sorting order, if the value is not yet present in the array) using binary search and a custom comparison method. Optionally, a [param before] specifier can be passed. If [code]false[/code], the returned index comes after all existing entries of the value in the array. The custom method receives two arguments (an element from the array and the value searched for) and must return [code]true[/code] if the first argument is less than the second, and return [code]false[/code] otherwise.
 [b]Note:[/b] The custom method must accept the two arguments in any order, you cannot rely on that the first argument will always be from the array.
 [b]Note:[/b] Calling [method bsearch_custom] on an unsorted array results in unexpected behavior. *)
-    let bsearch_custom =
+    let bsearch_custom x0 x1 x2 x3 =
       foreign_builtin_method3 GlobalEnum.VariantType._TYPE_ARRAY
         "bsearch_custom"
         (Base.Int64.of_string "161317131")
         (Variant.typ @-> Callable.typ @-> Bool.typ @-> Array.typ
        @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2 x3
 
     (** Reverses the order of the elements in the array. *)
-    let reverse =
+    let reverse x0 =
       foreign_builtin_method0_void GlobalEnum.VariantType._TYPE_ARRAY "reverse"
         (Base.Int64.of_string "3218959716")
         (Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns a copy of the array.
 If [param deep] is [code]true[/code], a deep copy is performed: all nested arrays and dictionaries are duplicated and will not be shared with the original array. If [code]false[/code], a shallow copy is made and references to the original nested arrays and dictionaries are kept, so that modifying a sub-array or dictionary in the copy will also impact those referenced in the source array. Note that any [Object]-derived elements will be shallow copied regardless of the [param deep] setting. *)
-    let duplicate =
+    let duplicate x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_ARRAY "duplicate"
         (Base.Int64.of_string "636440122")
         (Bool.typ @-> Array.typ @-> returning Array.typ)
-        Array.s
+        Array.s x0 x1
 
     (** Returns the slice of the [Array], from [param begin] (inclusive) to [param end] (exclusive), as a new [Array].
 The absolute value of [param begin] and [param end] will be clamped to the array size, so the default value for [param end] makes it slice to the size of the array by default (i.e. [code]arr.slice(1)[/code] is a shorthand for [code]arr.slice(1, arr.size())[/code]).
@@ -22897,12 +23337,12 @@ If either [param begin] or [param end] are negative, they will be relative to th
 If specified, [param step] is the relative index between source elements. It can be negative, then [param begin] must be higher than [param end]. For example, [code][0, 1, 2, 3, 4, 5].slice(5, 1, -2)[/code] returns [code][5, 3][/code].
 If [param deep] is true, each element will be copied by value rather than by reference.
 [b]Note:[/b] To include the first element when [param step] is negative, use [code]arr.slice(begin, -arr.size() - 1, step)[/code] (i.e. [code][0, 1, 2].slice(1, -4, -1)[/code] returns [code][1, 0][/code]). *)
-    let slice =
+    let slice x0 x1 x2 x3 x4 =
       foreign_builtin_method4 GlobalEnum.VariantType._TYPE_ARRAY "slice"
         (Base.Int64.of_string "1393718243")
         (Int.typ @-> Int.typ @-> Int.typ @-> Bool.typ @-> Array.typ
        @-> returning Array.typ)
-        Array.s
+        Array.s x0 x1 x2 x3 x4
 
     (** Calls the provided [Callable] on each element in the array and returns a new array with the elements for which the method returned [code]true[/code].
 The callable's method should take one [Variant] parameter (the current array element) and return a boolean value.
@@ -22915,11 +23355,11 @@ func remove_1(number):
     return number != 1
 [/codeblock]
 See also [method any], [method all], [method map] and [method reduce]. *)
-    let filter =
+    let filter x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_ARRAY "filter"
         (Base.Int64.of_string "4075186556")
         (Callable.typ @-> Array.typ @-> returning Array.typ)
-        Array.s
+        Array.s x0 x1
 
     (** Calls the provided [Callable] for each element in the array and returns a new array filled with values returned by the method.
 The callable's method should take one [Variant] parameter (the current array element) and can return any [Variant].
@@ -22932,11 +23372,11 @@ func negate(number):
     return -number
 [/codeblock]
 See also [method filter], [method reduce], [method any] and [method all]. *)
-    let map =
+    let map x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_ARRAY "map"
         (Base.Int64.of_string "4075186556")
         (Callable.typ @-> Array.typ @-> returning Array.typ)
-        Array.s
+        Array.s x0 x1
 
     (** Calls the provided [Callable] for each element in array and accumulates the result in [param accum].
 The callable's method takes two arguments: the current value of [param accum] and the current array element. If [param accum] is [code]null[/code] (default value), the iteration will start from the second element, with the first one used as initial value of [param accum].
@@ -22949,11 +23389,11 @@ func sum(accum, number):
     return accum + number
 [/codeblock]
 See also [method map], [method filter], [method any] and [method all]. *)
-    let reduce =
+    let reduce x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_ARRAY "reduce"
         (Base.Int64.of_string "4272450342")
         (Callable.typ @-> Variant.typ @-> Array.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0 x1 x2
 
     (** Calls the provided [Callable] on each element in the array and returns [code]true[/code] if the [Callable] returns [code]true[/code] for [i]one or more[/i] elements in the array. If the [Callable] returns [code]false[/code] for all elements in the array, this method returns [code]false[/code].
 The callable's method should take one [Variant] parameter (the current array element) and return a boolean value.
@@ -22972,11 +23412,11 @@ func greater_than_5(number):
 See also [method all], [method filter], [method map] and [method reduce].
 [b]Note:[/b] Unlike relying on the size of an array returned by [method filter], this method will return as early as possible to improve performance (especially with large arrays).
 [b]Note:[/b] For an empty array, this method always returns [code]false[/code]. *)
-    let any =
+    let any x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_ARRAY "any"
         (Base.Int64.of_string "4129521963")
         (Callable.typ @-> Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Calls the provided [Callable] on each element in the array and returns [code]true[/code] if the [Callable] returns [code]true[/code] for [i]all[/i] elements in the array. If the [Callable] returns [code]false[/code] for one array element or more, this method returns [code]false[/code].
 The callable's method should take one [Variant] parameter (the current array element) and return a boolean value.
@@ -22995,11 +23435,11 @@ func greater_than_5(number):
 See also [method any], [method filter], [method map] and [method reduce].
 [b]Note:[/b] Unlike relying on the size of an array returned by [method filter], this method will return as early as possible to improve performance (especially with large arrays).
 [b]Note:[/b] For an empty array, this method [url=https://en.wikipedia.org/wiki/Vacuous_truth]always[/url] returns [code]true[/code]. *)
-    let all =
+    let all x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_ARRAY "all"
         (Base.Int64.of_string "4129521963")
         (Callable.typ @-> Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns the maximum value contained in the array if all elements are of comparable types. If the elements can't be compared, [code]null[/code] is returned.
 To find the maximum value using a custom comparator, you can use [method reduce]. In this example every array element is checked and the first maximum value is returned:
@@ -23012,346 +23452,356 @@ func _ready():
 func is_length_greater(a, b):
     return a.length() > b.length()
 [/codeblock] *)
-    let max =
+    let max x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY "max"
         (Base.Int64.of_string "1460142086")
         (Array.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0
 
     (** Returns the minimum value contained in the array if all elements are of comparable types. If the elements can't be compared, [code]null[/code] is returned.
 See also [method max] for an example of using a custom comparator. *)
-    let min =
+    let min x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY "min"
         (Base.Int64.of_string "1460142086")
         (Array.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0
 
     (** Returns [code]true[/code] if the array is typed. Typed arrays can only store elements of their associated type and provide type safety for the [code][][/code] operator. Methods of typed array still return [Variant]. *)
-    let is_typed =
+    let is_typed x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY "is_typed"
         (Base.Int64.of_string "3918633141")
         (Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Returns [code]true[/code] if the array is typed the same as [param array]. *)
-    let is_same_typed =
+    let is_same_typed x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_ARRAY "is_same_typed"
         (Base.Int64.of_string "2988181878")
         (Array.typ @-> Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Returns the built-in type of the typed array as a [enum Variant.Type] constant. If the array is not typed, returns [constant TYPE_NIL]. *)
-    let get_typed_builtin =
+    let get_typed_builtin x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY
         "get_typed_builtin"
         (Base.Int64.of_string "3173160232")
         (Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns the [b]native[/b] class name of the typed array if the built-in type is [constant TYPE_OBJECT]. Otherwise, this method returns an empty string. *)
-    let get_typed_class_name =
+    let get_typed_class_name x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY
         "get_typed_class_name"
         (Base.Int64.of_string "1825232092")
         (Array.typ @-> returning StringName.typ)
-        StringName.s
+        StringName.s x0
 
     (** Returns the script associated with the typed array. This method returns a [Script] instance or [code]null[/code]. *)
-    let get_typed_script =
+    let get_typed_script x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY
         "get_typed_script"
         (Base.Int64.of_string "1460142086")
         (Array.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0
 
     (** Makes the array read-only, i.e. disabled modifying of the array's elements. Does not apply to nested content, e.g. content of nested arrays. *)
-    let make_read_only =
+    let make_read_only x0 =
       foreign_builtin_method0_void GlobalEnum.VariantType._TYPE_ARRAY
         "make_read_only"
         (Base.Int64.of_string "3218959716")
         (Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns [code]true[/code] if the array is read-only. See [method make_read_only]. Arrays are automatically read-only if declared with [code]const[/code] keyword. *)
-    let is_read_only =
+    let is_read_only x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_ARRAY "is_read_only"
         (Base.Int64.of_string "3918633141")
         (Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
-    let _Array_elem_Dictionary =
+    let _Array_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Array.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares the left operand [Array] against the [param right] [Array]. Returns [code]true[/code] if the sizes and contents of the arrays are equal, [code]false[/code] otherwise. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Compares the left operand [Array] against the [param right] [Array]. Returns [code]true[/code] if the sizes or contents of the arrays are [i]not[/i] equal, [code]false[/code] otherwise. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Performs a comparison for each index between the left operand [Array] and the [param right] [Array], considering the highest common index of both arrays for this comparison: Returns [code]true[/code] on the first occurrence of an element that is less, or [code]false[/code] if the element is greater. Note that depending on the type of data stored, this function may be recursive. If all elements are equal, it compares the length of both arrays and returns [code]false[/code] if the left operand [Array] has fewer elements, otherwise it returns [code]true[/code]. *)
-    let ( < ) =
+    let ( < ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Performs a comparison for each index between the left operand [Array] and the [param right] [Array], considering the highest common index of both arrays for this comparison: Returns [code]true[/code] on the first occurrence of an element that is less, or [code]false[/code] if the element is greater. Note that depending on the type of data stored, this function may be recursive. If all elements are equal, it compares the length of both arrays and returns [code]true[/code] if the left operand [Array] has the same number of elements or fewer, otherwise it returns [code]false[/code]. *)
-    let ( <= ) =
+    let ( <= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Performs a comparison for each index between the left operand [Array] and the [param right] [Array], considering the highest common index of both arrays for this comparison: Returns [code]true[/code] on the first occurrence of an element that is greater, or [code]false[/code] if the element is less. Note that depending on the type of data stored, this function may be recursive. If all elements are equal, it compares the length of both arrays and returns [code]true[/code] if the [param right] [Array] has more elements, otherwise it returns [code]false[/code]. *)
-    let ( > ) =
+    let ( > ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Performs a comparison for each index between the left operand [Array] and the [param right] [Array], considering the highest common index of both arrays for this comparison: Returns [code]true[/code] on the first occurrence of an element that is greater, or [code]false[/code] if the element is less. Note that depending on the type of data stored, this function may be recursive. If all elements are equal, it compares the length of both arrays and returns [code]true[/code] if the [param right] [Array] has more or the same number of elements, otherwise it returns [code]false[/code]. *)
-    let ( >= ) =
+    let ( >= ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Concatenates two [Array]s together, with the [param right] [Array] being added to the end of the [Array] specified in the left operand. For example, [code][1, 2] + [3, 4][/code] results in [code][1, 2, 3, 4][/code]. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr (Array.typ @-> Array.typ @-> Array.typ @-> returning void))
+        x0 x1 x2
 
-    let _Array_elem_Array =
+    let _Array_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
   end
 
   module PackedByteArray = struct
     include M.PackedByteArray
 
     (** Returns the number of elements in the array. *)
-    let size =
+    let size x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "size"
         (Base.Int64.of_string "3173160232")
         (PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns [code]true[/code] if the array is empty. *)
-    let is_empty =
+    let is_empty x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "is_empty"
         (Base.Int64.of_string "3918633141")
         (PackedByteArray.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Changes the byte at the given index. *)
-    let set =
+    let set x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "set"
         (Base.Int64.of_string "3638975848")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Appends an element at the end of the array. *)
-    let push_back =
+    let push_back x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "push_back"
         (Base.Int64.of_string "694024632")
         (Int.typ @-> PackedByteArray.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends an element at the end of the array (alias of [method push_back]). *)
-    let append =
+    let append x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "append"
         (Base.Int64.of_string "694024632")
         (Int.typ @-> PackedByteArray.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends a [PackedByteArray] at the end of this array. *)
-    let append_array =
+    let append_array x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "append_array"
         (Base.Int64.of_string "791097111")
         (PackedByteArray.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Removes an element from the array by index. *)
-    let remove_at =
+    let remove_at x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "remove_at"
         (Base.Int64.of_string "2823966027")
         (Int.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Inserts a new element at a given position in the array. The position must be valid, or at the end of the array ([code]idx == size()[/code]). *)
-    let insert =
+    let insert x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "insert"
         (Base.Int64.of_string "1487112728")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Assigns the given value to all elements in the array. This can typically be used together with [method resize] to create an array with a given size and initialized elements. *)
-    let fill =
+    let fill x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "fill"
         (Base.Int64.of_string "2823966027")
         (Int.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Sets the size of the array. If the array is grown, reserves elements at the end of the array. If the array is shrunk, truncates the array to the new size. Calling [method resize] once and assigning the new values is faster than adding new elements one by one. *)
-    let resize =
+    let resize x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "resize"
         (Base.Int64.of_string "848867239")
         (Int.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Clears the array. This is equivalent to using [method resize] with a size of [code]0[/code]. *)
-    let clear =
+    let clear x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "clear"
         (Base.Int64.of_string "3218959716")
         (PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns [code]true[/code] if the array contains [param value]. *)
-    let has =
+    let has x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "has"
         (Base.Int64.of_string "931488181")
         (Int.typ @-> PackedByteArray.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Reverses the order of the elements in the array. *)
-    let reverse =
+    let reverse x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "reverse"
         (Base.Int64.of_string "3218959716")
         (PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns the slice of the [PackedByteArray], from [param begin] (inclusive) to [param end] (exclusive), as a new [PackedByteArray].
 The absolute value of [param begin] and [param end] will be clamped to the array size, so the default value for [param end] makes it slice to the size of the array by default (i.e. [code]arr.slice(1)[/code] is a shorthand for [code]arr.slice(1, arr.size())[/code]).
 If either [param begin] or [param end] are negative, they will be relative to the end of the array (i.e. [code]arr.slice(0, -2)[/code] is a shorthand for [code]arr.slice(0, arr.size() - 2)[/code]). *)
-    let slice =
+    let slice x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "slice"
         (Base.Int64.of_string "2278869132")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ
         @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0 x1 x2
 
     (** Sorts the elements of the array in ascending order. *)
-    let sort =
+    let sort x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "sort"
         (Base.Int64.of_string "3218959716")
         (PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Finds the index of an existing value (or the insertion index that maintains sorting order, if the value is not yet present in the array) using binary search. Optionally, a [param before] specifier can be passed. If [code]false[/code], the returned index comes after all existing entries of the value in the array.
 [b]Note:[/b] Calling [method bsearch] on an unsorted array results in unexpected behavior. *)
-    let bsearch =
+    let bsearch x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "bsearch"
         (Base.Int64.of_string "3380005890")
         (Int.typ @-> Bool.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Creates a copy of the array, and returns it. *)
-    let duplicate =
+    let duplicate x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "duplicate"
         (Base.Int64.of_string "851781288")
         (PackedByteArray.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Searches the array for a value and returns its index or [code]-1[/code] if not found. Optionally, the initial search index can be passed. *)
-    let find =
+    let find x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "find"
         (Base.Int64.of_string "2984303840")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Searches the array in reverse order. Optionally, a start search index can be passed. If negative, the start index is considered relative to the end of the array. *)
-    let rfind =
+    let rfind x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "rfind"
         (Base.Int64.of_string "2984303840")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the number of times an element is in the array. *)
-    let count =
+    let count x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "count"
         (Base.Int64.of_string "4103005248")
         (Int.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Converts ASCII/Latin-1 encoded array to [String]. Fast alternative to [method get_string_from_utf8] if the content is ASCII/Latin-1 only. Unlike the UTF-8 function this function maps every byte to a character in the array. Multibyte sequences will not be interpreted correctly. For parsing user input always use [method get_string_from_utf8]. This is the inverse of [method String.to_ascii_buffer]. *)
-    let get_string_from_ascii =
+    let get_string_from_ascii x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "get_string_from_ascii"
         (Base.Int64.of_string "3942272618")
         (PackedByteArray.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Converts UTF-8 encoded array to [String]. Slower than [method get_string_from_ascii] but supports UTF-8 encoded data. Use this function if you are unsure about the source of the data. For user input this function should always be preferred. Returns empty string if source array is not valid UTF-8 string. This is the inverse of [method String.to_utf8_buffer]. *)
-    let get_string_from_utf8 =
+    let get_string_from_utf8 x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "get_string_from_utf8"
         (Base.Int64.of_string "3942272618")
         (PackedByteArray.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Converts UTF-16 encoded array to [String]. If the BOM is missing, system endianness is assumed. Returns empty string if source array is not valid UTF-16 string. This is the inverse of [method String.to_utf16_buffer]. *)
-    let get_string_from_utf16 =
+    let get_string_from_utf16 x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "get_string_from_utf16"
         (Base.Int64.of_string "3942272618")
         (PackedByteArray.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Converts UTF-32 encoded array to [String]. System endianness is assumed. Returns empty string if source array is not valid UTF-32 string. This is the inverse of [method String.to_utf32_buffer]. *)
-    let get_string_from_utf32 =
+    let get_string_from_utf32 x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "get_string_from_utf32"
         (Base.Int64.of_string "3942272618")
         (PackedByteArray.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Converts wide character ([code]wchar_t[/code], UTF-16 on Windows, UTF-32 on other platforms) encoded array to [String]. Returns empty string if source array is not valid wide string. This is the inverse of [method String.to_wchar_buffer]. *)
-    let get_string_from_wchar =
+    let get_string_from_wchar x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "get_string_from_wchar"
         (Base.Int64.of_string "3942272618")
         (PackedByteArray.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns a hexadecimal representation of this array as a [String].
 [codeblocks]
@@ -23364,2181 +23814,2235 @@ var array = new byte[] {11, 46, 255};
 GD.Print(array.HexEncode()); // Prints: 0b2eff
 [/csharp]
 [/codeblocks] *)
-    let hex_encode =
+    let hex_encode x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "hex_encode"
         (Base.Int64.of_string "3942272618")
         (PackedByteArray.typ @-> returning String.typ)
-        String.s
+        String.s x0
 
     (** Returns a new [PackedByteArray] with the data compressed. Set the compression mode using one of [enum FileAccess.CompressionMode]'s constants. *)
-    let compress =
+    let compress x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "compress"
         (Base.Int64.of_string "1845905913")
         (Int.typ @-> PackedByteArray.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0 x1
 
     (** Returns a new [PackedByteArray] with the data decompressed. Set [param buffer_size] to the size of the uncompressed data. Set the compression mode using one of [enum FileAccess.CompressionMode]'s constants.
 [b]Note:[/b] Decompression is not guaranteed to work with data not compressed by Godot, for example if data compressed with the deflate compression mode lacks a checksum or header. *)
-    let decompress =
+    let decompress x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decompress"
         (Base.Int64.of_string "2278869132")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ
         @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0 x1 x2
 
     (** Returns a new [PackedByteArray] with the data decompressed. Set the compression mode using one of [enum FileAccess.CompressionMode]'s constants. [b]This method only accepts brotli, gzip, and deflate compression modes.[/b]
 This method is potentially slower than [method decompress], as it may have to re-allocate its output buffer multiple times while decompressing, whereas [method decompress] knows it's output buffer size from the beginning.
 GZIP has a maximal compression ratio of 1032:1, meaning it's very possible for a small compressed payload to decompress to a potentially very large output. To guard against this, you may provide a maximum size this function is allowed to allocate in bytes via [param max_output_size]. Passing -1 will allow for unbounded output. If any positive value is passed, and the decompression exceeds that amount in bytes, then an error will be returned.
 [b]Note:[/b] Decompression is not guaranteed to work with data not compressed by Godot, for example if data compressed with the deflate compression mode lacks a checksum or header. *)
-    let decompress_dynamic =
+    let decompress_dynamic x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decompress_dynamic"
         (Base.Int64.of_string "2278869132")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ
         @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0 x1 x2
 
     (** Decodes a 8-bit unsigned integer number from the bytes starting at [param byte_offset]. Fails if the byte count is insufficient. Returns [code]0[/code] if a valid number can't be decoded. *)
-    let decode_u8 =
+    let decode_u8 x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decode_u8"
         (Base.Int64.of_string "4103005248")
         (Int.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Decodes a 8-bit signed integer number from the bytes starting at [param byte_offset]. Fails if the byte count is insufficient. Returns [code]0[/code] if a valid number can't be decoded. *)
-    let decode_s8 =
+    let decode_s8 x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decode_s8"
         (Base.Int64.of_string "4103005248")
         (Int.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Decodes a 16-bit unsigned integer number from the bytes starting at [param byte_offset]. Fails if the byte count is insufficient. Returns [code]0[/code] if a valid number can't be decoded. *)
-    let decode_u16 =
+    let decode_u16 x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decode_u16"
         (Base.Int64.of_string "4103005248")
         (Int.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Decodes a 16-bit signed integer number from the bytes starting at [param byte_offset]. Fails if the byte count is insufficient. Returns [code]0[/code] if a valid number can't be decoded. *)
-    let decode_s16 =
+    let decode_s16 x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decode_s16"
         (Base.Int64.of_string "4103005248")
         (Int.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Decodes a 32-bit unsigned integer number from the bytes starting at [param byte_offset]. Fails if the byte count is insufficient. Returns [code]0[/code] if a valid number can't be decoded. *)
-    let decode_u32 =
+    let decode_u32 x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decode_u32"
         (Base.Int64.of_string "4103005248")
         (Int.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Decodes a 32-bit signed integer number from the bytes starting at [param byte_offset]. Fails if the byte count is insufficient. Returns [code]0[/code] if a valid number can't be decoded. *)
-    let decode_s32 =
+    let decode_s32 x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decode_s32"
         (Base.Int64.of_string "4103005248")
         (Int.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Decodes a 64-bit unsigned integer number from the bytes starting at [param byte_offset]. Fails if the byte count is insufficient. Returns [code]0[/code] if a valid number can't be decoded. *)
-    let decode_u64 =
+    let decode_u64 x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decode_u64"
         (Base.Int64.of_string "4103005248")
         (Int.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Decodes a 64-bit signed integer number from the bytes starting at [param byte_offset]. Fails if the byte count is insufficient. Returns [code]0[/code] if a valid number can't be decoded. *)
-    let decode_s64 =
+    let decode_s64 x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decode_s64"
         (Base.Int64.of_string "4103005248")
         (Int.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Decodes a 16-bit floating point number from the bytes starting at [param byte_offset]. Fails if the byte count is insufficient. Returns [code]0.0[/code] if a valid number can't be decoded. *)
-    let decode_half =
+    let decode_half x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decode_half"
         (Base.Int64.of_string "1401583798")
         (Int.typ @-> PackedByteArray.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Decodes a 32-bit floating point number from the bytes starting at [param byte_offset]. Fails if the byte count is insufficient. Returns [code]0.0[/code] if a valid number can't be decoded. *)
-    let decode_float =
+    let decode_float x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decode_float"
         (Base.Int64.of_string "1401583798")
         (Int.typ @-> PackedByteArray.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Decodes a 64-bit floating point number from the bytes starting at [param byte_offset]. Fails if the byte count is insufficient. Returns [code]0.0[/code] if a valid number can't be decoded. *)
-    let decode_double =
+    let decode_double x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decode_double"
         (Base.Int64.of_string "1401583798")
         (Int.typ @-> PackedByteArray.typ @-> returning Float.typ)
-        Float.s
+        Float.s x0 x1
 
     (** Returns [code]true[/code] if a valid [Variant] value can be decoded at the [param byte_offset]. Returns [code]false[/code] otherwise or when the value is [Object]-derived and [param allow_objects] is [code]false[/code]. *)
-    let has_encoded_var =
+    let has_encoded_var x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "has_encoded_var"
         (Base.Int64.of_string "2914632957")
         (Int.typ @-> Bool.typ @-> PackedByteArray.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1 x2
 
     (** Decodes a [Variant] from the bytes starting at [param byte_offset]. Returns [code]null[/code] if a valid variant can't be decoded or the value is [Object]-derived and [param allow_objects] is [code]false[/code]. *)
-    let decode_var =
+    let decode_var x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decode_var"
         (Base.Int64.of_string "1740420038")
         (Int.typ @-> Bool.typ @-> PackedByteArray.typ @-> returning Variant.typ)
-        Variant.s
+        Variant.s x0 x1 x2
 
     (** Decodes a size of a [Variant] from the bytes starting at [param byte_offset]. Requires at least 4 bytes of data starting at the offset, otherwise fails. *)
-    let decode_var_size =
+    let decode_var_size x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "decode_var_size"
         (Base.Int64.of_string "954237325")
         (Int.typ @-> Bool.typ @-> PackedByteArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns a copy of the data converted to a [PackedInt32Array], where each block of 4 bytes has been converted to a signed 32-bit integer (C++ [code]int32_t[/code]).
 The size of the input array must be a multiple of 4 (size of 32-bit integer). The size of the new array will be [code]byte_array.size() / 4[/code].
 If the original data can't be converted to signed 32-bit integers, the resulting data is undefined. *)
-    let to_int32_array =
+    let to_int32_array x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "to_int32_array"
         (Base.Int64.of_string "3158844420")
         (PackedByteArray.typ @-> returning PackedInt32Array.typ)
-        PackedInt32Array.s
+        PackedInt32Array.s x0
 
     (** Returns a copy of the data converted to a [PackedInt64Array], where each block of 8 bytes has been converted to a signed 64-bit integer (C++ [code]int64_t[/code], Godot [int]).
 The size of the input array must be a multiple of 8 (size of 64-bit integer). The size of the new array will be [code]byte_array.size() / 8[/code].
 If the original data can't be converted to signed 64-bit integers, the resulting data is undefined. *)
-    let to_int64_array =
+    let to_int64_array x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "to_int64_array"
         (Base.Int64.of_string "1961294120")
         (PackedByteArray.typ @-> returning PackedInt64Array.typ)
-        PackedInt64Array.s
+        PackedInt64Array.s x0
 
     (** Returns a copy of the data converted to a [PackedFloat32Array], where each block of 4 bytes has been converted to a 32-bit float (C++ [code skip-lint]float[/code]).
 The size of the input array must be a multiple of 4 (size of 32-bit float). The size of the new array will be [code]byte_array.size() / 4[/code].
 If the original data can't be converted to 32-bit floats, the resulting data is undefined. *)
-    let to_float32_array =
+    let to_float32_array x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "to_float32_array"
         (Base.Int64.of_string "3575107827")
         (PackedByteArray.typ @-> returning PackedFloat32Array.typ)
-        PackedFloat32Array.s
+        PackedFloat32Array.s x0
 
     (** Returns a copy of the data converted to a [PackedFloat64Array], where each block of 8 bytes has been converted to a 64-bit float (C++ [code]double[/code], Godot [float]).
 The size of the input array must be a multiple of 8 (size of 64-bit double). The size of the new array will be [code]byte_array.size() / 8[/code].
 If the original data can't be converted to 64-bit floats, the resulting data is undefined. *)
-    let to_float64_array =
+    let to_float64_array x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "to_float64_array"
         (Base.Int64.of_string "1627308337")
         (PackedByteArray.typ @-> returning PackedFloat64Array.typ)
-        PackedFloat64Array.s
+        PackedFloat64Array.s x0
 
     (** Encodes a 8-bit unsigned integer number (byte) at the index of [param byte_offset] bytes. The array must have at least 1 byte of space, starting at the offset. *)
-    let encode_u8 =
+    let encode_u8 x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "encode_u8"
         (Base.Int64.of_string "3638975848")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Encodes a 8-bit signed integer number (signed byte) at the index of [param byte_offset] bytes. The array must have at least 1 byte of space, starting at the offset. *)
-    let encode_s8 =
+    let encode_s8 x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "encode_s8"
         (Base.Int64.of_string "3638975848")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Encodes a 16-bit unsigned integer number as bytes at the index of [param byte_offset] bytes. The array must have at least 2 bytes of space, starting at the offset. *)
-    let encode_u16 =
+    let encode_u16 x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "encode_u16"
         (Base.Int64.of_string "3638975848")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Encodes a 16-bit signed integer number as bytes at the index of [param byte_offset] bytes. The array must have at least 2 bytes of space, starting at the offset. *)
-    let encode_s16 =
+    let encode_s16 x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "encode_s16"
         (Base.Int64.of_string "3638975848")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Encodes a 32-bit unsigned integer number as bytes at the index of [param byte_offset] bytes. The array must have at least 4 bytes of space, starting at the offset. *)
-    let encode_u32 =
+    let encode_u32 x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "encode_u32"
         (Base.Int64.of_string "3638975848")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Encodes a 32-bit signed integer number as bytes at the index of [param byte_offset] bytes. The array must have at least 4 bytes of space, starting at the offset. *)
-    let encode_s32 =
+    let encode_s32 x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "encode_s32"
         (Base.Int64.of_string "3638975848")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Encodes a 64-bit unsigned integer number as bytes at the index of [param byte_offset] bytes. The array must have at least 8 bytes of space, starting at the offset. *)
-    let encode_u64 =
+    let encode_u64 x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "encode_u64"
         (Base.Int64.of_string "3638975848")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Encodes a 64-bit signed integer number as bytes at the index of [param byte_offset] bytes. The array must have at least 8 bytes of space, starting at the offset. *)
-    let encode_s64 =
+    let encode_s64 x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "encode_s64"
         (Base.Int64.of_string "3638975848")
         (Int.typ @-> Int.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Encodes a 16-bit floating point number as bytes at the index of [param byte_offset] bytes. The array must have at least 2 bytes of space, starting at the offset. *)
-    let encode_half =
+    let encode_half x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "encode_half"
         (Base.Int64.of_string "1113000516")
         (Int.typ @-> Float.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Encodes a 32-bit floating point number as bytes at the index of [param byte_offset] bytes. The array must have at least 4 bytes of space, starting at the offset. *)
-    let encode_float =
+    let encode_float x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "encode_float"
         (Base.Int64.of_string "1113000516")
         (Int.typ @-> Float.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Encodes a 64-bit floating point number as bytes at the index of [param byte_offset] bytes. The array must have at least 8 bytes of allocated space, starting at the offset. *)
-    let encode_double =
+    let encode_double x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY "encode_double"
         (Base.Int64.of_string "1113000516")
         (Int.typ @-> Float.typ @-> PackedByteArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Encodes a [Variant] at the index of [param byte_offset] bytes. A sufficient space must be allocated, depending on the encoded variant's size. If [param allow_objects] is [code]false[/code], [Object]-derived values are not permitted and will instead be serialized as ID-only. *)
-    let encode_var =
+    let encode_var x0 x1 x2 x3 =
       foreign_builtin_method3 GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         "encode_var"
         (Base.Int64.of_string "2604460497")
         (Int.typ @-> Variant.typ @-> Bool.typ @-> PackedByteArray.typ
        @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2 x3
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedByteArray.typ @-> PackedByteArray.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedByteArray_elem_Dictionary =
+    let _PackedByteArray_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedByteArray.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedByteArray_elem_Array =
+    let _PackedByteArray_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedByteArray.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal bytes at the corresponding indices. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedByteArray.typ @-> PackedByteArray.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedByteArray.typ @-> PackedByteArray.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns a new [PackedByteArray] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedByteArray.typ @-> PackedByteArray.typ @-> PackedByteArray.typ
           @-> returning void))
+        x0 x1 x2
   end
 
   module PackedInt32Array = struct
     include M.PackedInt32Array
 
     (** Returns the number of elements in the array. *)
-    let size =
+    let size x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         "size"
         (Base.Int64.of_string "3173160232")
         (PackedInt32Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns [code]true[/code] if the array is empty. *)
-    let is_empty =
+    let is_empty x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         "is_empty"
         (Base.Int64.of_string "3918633141")
         (PackedInt32Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Changes the integer at the given index. *)
-    let set =
+    let set x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY "set"
         (Base.Int64.of_string "3638975848")
         (Int.typ @-> Int.typ @-> PackedInt32Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Appends a value to the array. *)
-    let push_back =
+    let push_back x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         "push_back"
         (Base.Int64.of_string "694024632")
         (Int.typ @-> PackedInt32Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends an element at the end of the array (alias of [method push_back]). *)
-    let append =
+    let append x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         "append"
         (Base.Int64.of_string "694024632")
         (Int.typ @-> PackedInt32Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends a [PackedInt32Array] at the end of this array. *)
-    let append_array =
+    let append_array x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY "append_array"
         (Base.Int64.of_string "1087733270")
         (PackedInt32Array.typ @-> PackedInt32Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Removes an element from the array by index. *)
-    let remove_at =
+    let remove_at x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY "remove_at"
         (Base.Int64.of_string "2823966027")
         (Int.typ @-> PackedInt32Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Inserts a new integer at a given position in the array. The position must be valid, or at the end of the array ([code]idx == size()[/code]). *)
-    let insert =
+    let insert x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         "insert"
         (Base.Int64.of_string "1487112728")
         (Int.typ @-> Int.typ @-> PackedInt32Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Assigns the given value to all elements in the array. This can typically be used together with [method resize] to create an array with a given size and initialized elements. *)
-    let fill =
+    let fill x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY "fill"
         (Base.Int64.of_string "2823966027")
         (Int.typ @-> PackedInt32Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Sets the size of the array. If the array is grown, reserves elements at the end of the array. If the array is shrunk, truncates the array to the new size. Calling [method resize] once and assigning the new values is faster than adding new elements one by one. *)
-    let resize =
+    let resize x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         "resize"
         (Base.Int64.of_string "848867239")
         (Int.typ @-> PackedInt32Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Clears the array. This is equivalent to using [method resize] with a size of [code]0[/code]. *)
-    let clear =
+    let clear x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY "clear"
         (Base.Int64.of_string "3218959716")
         (PackedInt32Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns [code]true[/code] if the array contains [param value]. *)
-    let has =
+    let has x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         "has"
         (Base.Int64.of_string "931488181")
         (Int.typ @-> PackedInt32Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Reverses the order of the elements in the array. *)
-    let reverse =
+    let reverse x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY "reverse"
         (Base.Int64.of_string "3218959716")
         (PackedInt32Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns the slice of the [PackedInt32Array], from [param begin] (inclusive) to [param end] (exclusive), as a new [PackedInt32Array].
 The absolute value of [param begin] and [param end] will be clamped to the array size, so the default value for [param end] makes it slice to the size of the array by default (i.e. [code]arr.slice(1)[/code] is a shorthand for [code]arr.slice(1, arr.size())[/code]).
 If either [param begin] or [param end] are negative, they will be relative to the end of the array (i.e. [code]arr.slice(0, -2)[/code] is a shorthand for [code]arr.slice(0, arr.size() - 2)[/code]). *)
-    let slice =
+    let slice x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         "slice"
         (Base.Int64.of_string "1216021098")
         (Int.typ @-> Int.typ @-> PackedInt32Array.typ
         @-> returning PackedInt32Array.typ)
-        PackedInt32Array.s
+        PackedInt32Array.s x0 x1 x2
 
     (** Returns a copy of the data converted to a [PackedByteArray], where each element have been encoded as 4 bytes.
 The size of the new array will be [code]int32_array.size()  *  4[/code]. *)
-    let to_byte_array =
+    let to_byte_array x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         "to_byte_array"
         (Base.Int64.of_string "247621236")
         (PackedInt32Array.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Sorts the elements of the array in ascending order. *)
-    let sort =
+    let sort x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY "sort"
         (Base.Int64.of_string "3218959716")
         (PackedInt32Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Finds the index of an existing value (or the insertion index that maintains sorting order, if the value is not yet present in the array) using binary search. Optionally, a [param before] specifier can be passed. If [code]false[/code], the returned index comes after all existing entries of the value in the array.
 [b]Note:[/b] Calling [method bsearch] on an unsorted array results in unexpected behavior. *)
-    let bsearch =
+    let bsearch x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         "bsearch"
         (Base.Int64.of_string "3380005890")
         (Int.typ @-> Bool.typ @-> PackedInt32Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Creates a copy of the array, and returns it. *)
-    let duplicate =
+    let duplicate x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         "duplicate"
         (Base.Int64.of_string "1997843129")
         (PackedInt32Array.typ @-> returning PackedInt32Array.typ)
-        PackedInt32Array.s
+        PackedInt32Array.s x0
 
     (** Searches the array for a value and returns its index or [code]-1[/code] if not found. Optionally, the initial search index can be passed. *)
-    let find =
+    let find x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         "find"
         (Base.Int64.of_string "2984303840")
         (Int.typ @-> Int.typ @-> PackedInt32Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Searches the array in reverse order. Optionally, a start search index can be passed. If negative, the start index is considered relative to the end of the array. *)
-    let rfind =
+    let rfind x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         "rfind"
         (Base.Int64.of_string "2984303840")
         (Int.typ @-> Int.typ @-> PackedInt32Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the number of times an element is in the array. *)
-    let count =
+    let count x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         "count"
         (Base.Int64.of_string "4103005248")
         (Int.typ @-> PackedInt32Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedInt32Array.typ @-> PackedInt32Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedInt32Array_elem_Dictionary =
+    let _PackedInt32Array_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedInt32Array.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedInt32Array_elem_Array =
+    let _PackedInt32Array_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedInt32Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal ints at the corresponding indices. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedInt32Array.typ @-> PackedInt32Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedInt32Array.typ @-> PackedInt32Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns a new [PackedInt32Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedInt32Array.typ @-> PackedInt32Array.typ
           @-> PackedInt32Array.typ @-> returning void))
+        x0 x1 x2
   end
 
   module PackedInt64Array = struct
     include M.PackedInt64Array
 
     (** Returns the number of elements in the array. *)
-    let size =
+    let size x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         "size"
         (Base.Int64.of_string "3173160232")
         (PackedInt64Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns [code]true[/code] if the array is empty. *)
-    let is_empty =
+    let is_empty x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         "is_empty"
         (Base.Int64.of_string "3918633141")
         (PackedInt64Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Changes the integer at the given index. *)
-    let set =
+    let set x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY "set"
         (Base.Int64.of_string "3638975848")
         (Int.typ @-> Int.typ @-> PackedInt64Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Appends a value to the array. *)
-    let push_back =
+    let push_back x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         "push_back"
         (Base.Int64.of_string "694024632")
         (Int.typ @-> PackedInt64Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends an element at the end of the array (alias of [method push_back]). *)
-    let append =
+    let append x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         "append"
         (Base.Int64.of_string "694024632")
         (Int.typ @-> PackedInt64Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends a [PackedInt64Array] at the end of this array. *)
-    let append_array =
+    let append_array x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY "append_array"
         (Base.Int64.of_string "2090311302")
         (PackedInt64Array.typ @-> PackedInt64Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Removes an element from the array by index. *)
-    let remove_at =
+    let remove_at x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY "remove_at"
         (Base.Int64.of_string "2823966027")
         (Int.typ @-> PackedInt64Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Inserts a new integer at a given position in the array. The position must be valid, or at the end of the array ([code]idx == size()[/code]). *)
-    let insert =
+    let insert x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         "insert"
         (Base.Int64.of_string "1487112728")
         (Int.typ @-> Int.typ @-> PackedInt64Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Assigns the given value to all elements in the array. This can typically be used together with [method resize] to create an array with a given size and initialized elements. *)
-    let fill =
+    let fill x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY "fill"
         (Base.Int64.of_string "2823966027")
         (Int.typ @-> PackedInt64Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Sets the size of the array. If the array is grown, reserves elements at the end of the array. If the array is shrunk, truncates the array to the new size. Calling [method resize] once and assigning the new values is faster than adding new elements one by one. *)
-    let resize =
+    let resize x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         "resize"
         (Base.Int64.of_string "848867239")
         (Int.typ @-> PackedInt64Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Clears the array. This is equivalent to using [method resize] with a size of [code]0[/code]. *)
-    let clear =
+    let clear x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY "clear"
         (Base.Int64.of_string "3218959716")
         (PackedInt64Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns [code]true[/code] if the array contains [param value]. *)
-    let has =
+    let has x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         "has"
         (Base.Int64.of_string "931488181")
         (Int.typ @-> PackedInt64Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Reverses the order of the elements in the array. *)
-    let reverse =
+    let reverse x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY "reverse"
         (Base.Int64.of_string "3218959716")
         (PackedInt64Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns the slice of the [PackedInt64Array], from [param begin] (inclusive) to [param end] (exclusive), as a new [PackedInt64Array].
 The absolute value of [param begin] and [param end] will be clamped to the array size, so the default value for [param end] makes it slice to the size of the array by default (i.e. [code]arr.slice(1)[/code] is a shorthand for [code]arr.slice(1, arr.size())[/code]).
 If either [param begin] or [param end] are negative, they will be relative to the end of the array (i.e. [code]arr.slice(0, -2)[/code] is a shorthand for [code]arr.slice(0, arr.size() - 2)[/code]). *)
-    let slice =
+    let slice x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         "slice"
         (Base.Int64.of_string "1726550804")
         (Int.typ @-> Int.typ @-> PackedInt64Array.typ
         @-> returning PackedInt64Array.typ)
-        PackedInt64Array.s
+        PackedInt64Array.s x0 x1 x2
 
     (** Returns a copy of the data converted to a [PackedByteArray], where each element have been encoded as 8 bytes.
 The size of the new array will be [code]int64_array.size()  *  8[/code]. *)
-    let to_byte_array =
+    let to_byte_array x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         "to_byte_array"
         (Base.Int64.of_string "247621236")
         (PackedInt64Array.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Sorts the elements of the array in ascending order. *)
-    let sort =
+    let sort x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY "sort"
         (Base.Int64.of_string "3218959716")
         (PackedInt64Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Finds the index of an existing value (or the insertion index that maintains sorting order, if the value is not yet present in the array) using binary search. Optionally, a [param before] specifier can be passed. If [code]false[/code], the returned index comes after all existing entries of the value in the array.
 [b]Note:[/b] Calling [method bsearch] on an unsorted array results in unexpected behavior. *)
-    let bsearch =
+    let bsearch x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         "bsearch"
         (Base.Int64.of_string "3380005890")
         (Int.typ @-> Bool.typ @-> PackedInt64Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Creates a copy of the array, and returns it. *)
-    let duplicate =
+    let duplicate x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         "duplicate"
         (Base.Int64.of_string "2376370016")
         (PackedInt64Array.typ @-> returning PackedInt64Array.typ)
-        PackedInt64Array.s
+        PackedInt64Array.s x0
 
     (** Searches the array for a value and returns its index or [code]-1[/code] if not found. Optionally, the initial search index can be passed. *)
-    let find =
+    let find x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         "find"
         (Base.Int64.of_string "2984303840")
         (Int.typ @-> Int.typ @-> PackedInt64Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Searches the array in reverse order. Optionally, a start search index can be passed. If negative, the start index is considered relative to the end of the array. *)
-    let rfind =
+    let rfind x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         "rfind"
         (Base.Int64.of_string "2984303840")
         (Int.typ @-> Int.typ @-> PackedInt64Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the number of times an element is in the array. *)
-    let count =
+    let count x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         "count"
         (Base.Int64.of_string "4103005248")
         (Int.typ @-> PackedInt64Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedInt64Array.typ @-> PackedInt64Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedInt64Array_elem_Dictionary =
+    let _PackedInt64Array_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedInt64Array.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedInt64Array_elem_Array =
+    let _PackedInt64Array_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedInt64Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal ints at the corresponding indices. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedInt64Array.typ @-> PackedInt64Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedInt64Array.typ @-> PackedInt64Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns a new [PackedInt64Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedInt64Array.typ @-> PackedInt64Array.typ
           @-> PackedInt64Array.typ @-> returning void))
+        x0 x1 x2
   end
 
   module PackedFloat32Array = struct
     include M.PackedFloat32Array
 
     (** Returns the number of elements in the array. *)
-    let size =
+    let size x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         "size"
         (Base.Int64.of_string "3173160232")
         (PackedFloat32Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns [code]true[/code] if the array is empty. *)
-    let is_empty =
+    let is_empty x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         "is_empty"
         (Base.Int64.of_string "3918633141")
         (PackedFloat32Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Changes the float at the given index. *)
-    let set =
+    let set x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY "set"
         (Base.Int64.of_string "1113000516")
         (Int.typ @-> Float.typ @-> PackedFloat32Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Appends an element at the end of the array. *)
-    let push_back =
+    let push_back x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         "push_back"
         (Base.Int64.of_string "4094791666")
         (Float.typ @-> PackedFloat32Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends an element at the end of the array (alias of [method push_back]). *)
-    let append =
+    let append x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         "append"
         (Base.Int64.of_string "4094791666")
         (Float.typ @-> PackedFloat32Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends a [PackedFloat32Array] at the end of this array. *)
-    let append_array =
+    let append_array x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY "append_array"
         (Base.Int64.of_string "2981316639")
         (PackedFloat32Array.typ @-> PackedFloat32Array.typ
        @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Removes an element from the array by index. *)
-    let remove_at =
+    let remove_at x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY "remove_at"
         (Base.Int64.of_string "2823966027")
         (Int.typ @-> PackedFloat32Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Inserts a new element at a given position in the array. The position must be valid, or at the end of the array ([code]idx == size()[/code]). *)
-    let insert =
+    let insert x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         "insert"
         (Base.Int64.of_string "1379903876")
         (Int.typ @-> Float.typ @-> PackedFloat32Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Assigns the given value to all elements in the array. This can typically be used together with [method resize] to create an array with a given size and initialized elements. *)
-    let fill =
+    let fill x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY "fill"
         (Base.Int64.of_string "833936903")
         (Float.typ @-> PackedFloat32Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Sets the size of the array. If the array is grown, reserves elements at the end of the array. If the array is shrunk, truncates the array to the new size. Calling [method resize] once and assigning the new values is faster than adding new elements one by one. *)
-    let resize =
+    let resize x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         "resize"
         (Base.Int64.of_string "848867239")
         (Int.typ @-> PackedFloat32Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Clears the array. This is equivalent to using [method resize] with a size of [code]0[/code]. *)
-    let clear =
+    let clear x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY "clear"
         (Base.Int64.of_string "3218959716")
         (PackedFloat32Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns [code]true[/code] if the array contains [param value].
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let has =
+    let has x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         "has"
         (Base.Int64.of_string "1296369134")
         (Float.typ @-> PackedFloat32Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Reverses the order of the elements in the array. *)
-    let reverse =
+    let reverse x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY "reverse"
         (Base.Int64.of_string "3218959716")
         (PackedFloat32Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns the slice of the [PackedFloat32Array], from [param begin] (inclusive) to [param end] (exclusive), as a new [PackedFloat32Array].
 The absolute value of [param begin] and [param end] will be clamped to the array size, so the default value for [param end] makes it slice to the size of the array by default (i.e. [code]arr.slice(1)[/code] is a shorthand for [code]arr.slice(1, arr.size())[/code]).
 If either [param begin] or [param end] are negative, they will be relative to the end of the array (i.e. [code]arr.slice(0, -2)[/code] is a shorthand for [code]arr.slice(0, arr.size() - 2)[/code]). *)
-    let slice =
+    let slice x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         "slice"
         (Base.Int64.of_string "1418229160")
         (Int.typ @-> Int.typ @-> PackedFloat32Array.typ
         @-> returning PackedFloat32Array.typ)
-        PackedFloat32Array.s
+        PackedFloat32Array.s x0 x1 x2
 
     (** Returns a copy of the data converted to a [PackedByteArray], where each element have been encoded as 4 bytes.
 The size of the new array will be [code]float32_array.size()  *  4[/code]. *)
-    let to_byte_array =
+    let to_byte_array x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         "to_byte_array"
         (Base.Int64.of_string "247621236")
         (PackedFloat32Array.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Sorts the elements of the array in ascending order.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let sort =
+    let sort x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY "sort"
         (Base.Int64.of_string "3218959716")
         (PackedFloat32Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Finds the index of an existing value (or the insertion index that maintains sorting order, if the value is not yet present in the array) using binary search. Optionally, a [param before] specifier can be passed. If [code]false[/code], the returned index comes after all existing entries of the value in the array.
 [b]Note:[/b] Calling [method bsearch] on an unsorted array results in unexpected behavior.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let bsearch =
+    let bsearch x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         "bsearch"
         (Base.Int64.of_string "1188816338")
         (Float.typ @-> Bool.typ @-> PackedFloat32Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Creates a copy of the array, and returns it. *)
-    let duplicate =
+    let duplicate x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         "duplicate"
         (Base.Int64.of_string "831114784")
         (PackedFloat32Array.typ @-> returning PackedFloat32Array.typ)
-        PackedFloat32Array.s
+        PackedFloat32Array.s x0
 
     (** Searches the array for a value and returns its index or [code]-1[/code] if not found. Optionally, the initial search index can be passed.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let find =
+    let find x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         "find"
         (Base.Int64.of_string "1343150241")
         (Float.typ @-> Int.typ @-> PackedFloat32Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Searches the array in reverse order. Optionally, a start search index can be passed. If negative, the start index is considered relative to the end of the array.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let rfind =
+    let rfind x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         "rfind"
         (Base.Int64.of_string "1343150241")
         (Float.typ @-> Int.typ @-> PackedFloat32Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the number of times an element is in the array.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let count =
+    let count x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         "count"
         (Base.Int64.of_string "2859915090")
         (Float.typ @-> PackedFloat32Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedFloat32Array.typ @-> PackedFloat32Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedFloat32Array_elem_Dictionary =
+    let _PackedFloat32Array_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedFloat32Array.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedFloat32Array_elem_Array =
+    let _PackedFloat32Array_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedFloat32Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal floats at the corresponding indices. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedFloat32Array.typ @-> PackedFloat32Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedFloat32Array.typ @-> PackedFloat32Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns a new [PackedFloat32Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedFloat32Array.typ @-> PackedFloat32Array.typ
           @-> PackedFloat32Array.typ @-> returning void))
+        x0 x1 x2
   end
 
   module PackedFloat64Array = struct
     include M.PackedFloat64Array
 
     (** Returns the number of elements in the array. *)
-    let size =
+    let size x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         "size"
         (Base.Int64.of_string "3173160232")
         (PackedFloat64Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns [code]true[/code] if the array is empty. *)
-    let is_empty =
+    let is_empty x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         "is_empty"
         (Base.Int64.of_string "3918633141")
         (PackedFloat64Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Changes the float at the given index. *)
-    let set =
+    let set x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY "set"
         (Base.Int64.of_string "1113000516")
         (Int.typ @-> Float.typ @-> PackedFloat64Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Appends an element at the end of the array. *)
-    let push_back =
+    let push_back x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         "push_back"
         (Base.Int64.of_string "4094791666")
         (Float.typ @-> PackedFloat64Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends an element at the end of the array (alias of [method push_back]). *)
-    let append =
+    let append x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         "append"
         (Base.Int64.of_string "4094791666")
         (Float.typ @-> PackedFloat64Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends a [PackedFloat64Array] at the end of this array. *)
-    let append_array =
+    let append_array x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY "append_array"
         (Base.Int64.of_string "792078629")
         (PackedFloat64Array.typ @-> PackedFloat64Array.typ
        @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Removes an element from the array by index. *)
-    let remove_at =
+    let remove_at x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY "remove_at"
         (Base.Int64.of_string "2823966027")
         (Int.typ @-> PackedFloat64Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Inserts a new element at a given position in the array. The position must be valid, or at the end of the array ([code]idx == size()[/code]). *)
-    let insert =
+    let insert x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         "insert"
         (Base.Int64.of_string "1379903876")
         (Int.typ @-> Float.typ @-> PackedFloat64Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Assigns the given value to all elements in the array. This can typically be used together with [method resize] to create an array with a given size and initialized elements. *)
-    let fill =
+    let fill x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY "fill"
         (Base.Int64.of_string "833936903")
         (Float.typ @-> PackedFloat64Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Sets the size of the array. If the array is grown, reserves elements at the end of the array. If the array is shrunk, truncates the array to the new size. Calling [method resize] once and assigning the new values is faster than adding new elements one by one. *)
-    let resize =
+    let resize x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         "resize"
         (Base.Int64.of_string "848867239")
         (Int.typ @-> PackedFloat64Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Clears the array. This is equivalent to using [method resize] with a size of [code]0[/code]. *)
-    let clear =
+    let clear x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY "clear"
         (Base.Int64.of_string "3218959716")
         (PackedFloat64Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns [code]true[/code] if the array contains [param value].
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let has =
+    let has x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         "has"
         (Base.Int64.of_string "1296369134")
         (Float.typ @-> PackedFloat64Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Reverses the order of the elements in the array. *)
-    let reverse =
+    let reverse x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY "reverse"
         (Base.Int64.of_string "3218959716")
         (PackedFloat64Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns the slice of the [PackedFloat64Array], from [param begin] (inclusive) to [param end] (exclusive), as a new [PackedFloat64Array].
 The absolute value of [param begin] and [param end] will be clamped to the array size, so the default value for [param end] makes it slice to the size of the array by default (i.e. [code]arr.slice(1)[/code] is a shorthand for [code]arr.slice(1, arr.size())[/code]).
 If either [param begin] or [param end] are negative, they will be relative to the end of the array (i.e. [code]arr.slice(0, -2)[/code] is a shorthand for [code]arr.slice(0, arr.size() - 2)[/code]). *)
-    let slice =
+    let slice x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         "slice"
         (Base.Int64.of_string "2192974324")
         (Int.typ @-> Int.typ @-> PackedFloat64Array.typ
         @-> returning PackedFloat64Array.typ)
-        PackedFloat64Array.s
+        PackedFloat64Array.s x0 x1 x2
 
     (** Returns a copy of the data converted to a [PackedByteArray], where each element have been encoded as 8 bytes.
 The size of the new array will be [code]float64_array.size()  *  8[/code]. *)
-    let to_byte_array =
+    let to_byte_array x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         "to_byte_array"
         (Base.Int64.of_string "247621236")
         (PackedFloat64Array.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Sorts the elements of the array in ascending order.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let sort =
+    let sort x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY "sort"
         (Base.Int64.of_string "3218959716")
         (PackedFloat64Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Finds the index of an existing value (or the insertion index that maintains sorting order, if the value is not yet present in the array) using binary search. Optionally, a [param before] specifier can be passed. If [code]false[/code], the returned index comes after all existing entries of the value in the array.
 [b]Note:[/b] Calling [method bsearch] on an unsorted array results in unexpected behavior.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let bsearch =
+    let bsearch x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         "bsearch"
         (Base.Int64.of_string "1188816338")
         (Float.typ @-> Bool.typ @-> PackedFloat64Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Creates a copy of the array, and returns it. *)
-    let duplicate =
+    let duplicate x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         "duplicate"
         (Base.Int64.of_string "949266573")
         (PackedFloat64Array.typ @-> returning PackedFloat64Array.typ)
-        PackedFloat64Array.s
+        PackedFloat64Array.s x0
 
     (** Searches the array for a value and returns its index or [code]-1[/code] if not found. Optionally, the initial search index can be passed.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let find =
+    let find x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         "find"
         (Base.Int64.of_string "1343150241")
         (Float.typ @-> Int.typ @-> PackedFloat64Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Searches the array in reverse order. Optionally, a start search index can be passed. If negative, the start index is considered relative to the end of the array.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let rfind =
+    let rfind x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         "rfind"
         (Base.Int64.of_string "1343150241")
         (Float.typ @-> Int.typ @-> PackedFloat64Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the number of times an element is in the array.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let count =
+    let count x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         "count"
         (Base.Int64.of_string "2859915090")
         (Float.typ @-> PackedFloat64Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedFloat64Array.typ @-> PackedFloat64Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedFloat64Array_elem_Dictionary =
+    let _PackedFloat64Array_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedFloat64Array.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedFloat64Array_elem_Array =
+    let _PackedFloat64Array_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedFloat64Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal doubles at the corresponding indices. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedFloat64Array.typ @-> PackedFloat64Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedFloat64Array.typ @-> PackedFloat64Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns a new [PackedFloat64Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedFloat64Array.typ @-> PackedFloat64Array.typ
           @-> PackedFloat64Array.typ @-> returning void))
+        x0 x1 x2
   end
 
   module PackedStringArray = struct
     include M.PackedStringArray
 
     (** Returns the number of elements in the array. *)
-    let size =
+    let size x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         "size"
         (Base.Int64.of_string "3173160232")
         (PackedStringArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns [code]true[/code] if the array is empty. *)
-    let is_empty =
+    let is_empty x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         "is_empty"
         (Base.Int64.of_string "3918633141")
         (PackedStringArray.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Changes the [String] at the given index. *)
-    let set =
+    let set x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY "set"
         (Base.Int64.of_string "725585539")
         (Int.typ @-> String.typ @-> PackedStringArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Appends a string element at end of the array. *)
-    let push_back =
+    let push_back x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         "push_back"
         (Base.Int64.of_string "816187996")
         (String.typ @-> PackedStringArray.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends an element at the end of the array (alias of [method push_back]). *)
-    let append =
+    let append x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         "append"
         (Base.Int64.of_string "816187996")
         (String.typ @-> PackedStringArray.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends a [PackedStringArray] at the end of this array. *)
-    let append_array =
+    let append_array x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY "append_array"
         (Base.Int64.of_string "1120103966")
         (PackedStringArray.typ @-> PackedStringArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Removes an element from the array by index. *)
-    let remove_at =
+    let remove_at x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY "remove_at"
         (Base.Int64.of_string "2823966027")
         (Int.typ @-> PackedStringArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Inserts a new element at a given position in the array. The position must be valid, or at the end of the array ([code]idx == size()[/code]). *)
-    let insert =
+    let insert x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         "insert"
         (Base.Int64.of_string "2432393153")
         (Int.typ @-> String.typ @-> PackedStringArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Assigns the given value to all elements in the array. This can typically be used together with [method resize] to create an array with a given size and initialized elements. *)
-    let fill =
+    let fill x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY "fill"
         (Base.Int64.of_string "3174917410")
         (String.typ @-> PackedStringArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Sets the size of the array. If the array is grown, reserves elements at the end of the array. If the array is shrunk, truncates the array to the new size. Calling [method resize] once and assigning the new values is faster than adding new elements one by one. *)
-    let resize =
+    let resize x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         "resize"
         (Base.Int64.of_string "848867239")
         (Int.typ @-> PackedStringArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Clears the array. This is equivalent to using [method resize] with a size of [code]0[/code]. *)
-    let clear =
+    let clear x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY "clear"
         (Base.Int64.of_string "3218959716")
         (PackedStringArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns [code]true[/code] if the array contains [param value]. *)
-    let has =
+    let has x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         "has"
         (Base.Int64.of_string "2566493496")
         (String.typ @-> PackedStringArray.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Reverses the order of the elements in the array. *)
-    let reverse =
+    let reverse x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY "reverse"
         (Base.Int64.of_string "3218959716")
         (PackedStringArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns the slice of the [PackedStringArray], from [param begin] (inclusive) to [param end] (exclusive), as a new [PackedStringArray].
 The absolute value of [param begin] and [param end] will be clamped to the array size, so the default value for [param end] makes it slice to the size of the array by default (i.e. [code]arr.slice(1)[/code] is a shorthand for [code]arr.slice(1, arr.size())[/code]).
 If either [param begin] or [param end] are negative, they will be relative to the end of the array (i.e. [code]arr.slice(0, -2)[/code] is a shorthand for [code]arr.slice(0, arr.size() - 2)[/code]). *)
-    let slice =
+    let slice x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         "slice"
         (Base.Int64.of_string "2094601407")
         (Int.typ @-> Int.typ @-> PackedStringArray.typ
         @-> returning PackedStringArray.typ)
-        PackedStringArray.s
+        PackedStringArray.s x0 x1 x2
 
     (** Returns a [PackedByteArray] with each string encoded as bytes. *)
-    let to_byte_array =
+    let to_byte_array x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         "to_byte_array"
         (Base.Int64.of_string "247621236")
         (PackedStringArray.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Sorts the elements of the array in ascending order. *)
-    let sort =
+    let sort x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY "sort"
         (Base.Int64.of_string "3218959716")
         (PackedStringArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Finds the index of an existing value (or the insertion index that maintains sorting order, if the value is not yet present in the array) using binary search. Optionally, a [param before] specifier can be passed. If [code]false[/code], the returned index comes after all existing entries of the value in the array.
 [b]Note:[/b] Calling [method bsearch] on an unsorted array results in unexpected behavior. *)
-    let bsearch =
+    let bsearch x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         "bsearch"
         (Base.Int64.of_string "328976671")
         (String.typ @-> Bool.typ @-> PackedStringArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Creates a copy of the array, and returns it. *)
-    let duplicate =
+    let duplicate x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         "duplicate"
         (Base.Int64.of_string "2991231410")
         (PackedStringArray.typ @-> returning PackedStringArray.typ)
-        PackedStringArray.s
+        PackedStringArray.s x0
 
     (** Searches the array for a value and returns its index or [code]-1[/code] if not found. Optionally, the initial search index can be passed. *)
-    let find =
+    let find x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         "find"
         (Base.Int64.of_string "1760645412")
         (String.typ @-> Int.typ @-> PackedStringArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Searches the array in reverse order. Optionally, a start search index can be passed. If negative, the start index is considered relative to the end of the array. *)
-    let rfind =
+    let rfind x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         "rfind"
         (Base.Int64.of_string "1760645412")
         (String.typ @-> Int.typ @-> PackedStringArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the number of times an element is in the array. *)
-    let count =
+    let count x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         "count"
         (Base.Int64.of_string "2920860731")
         (String.typ @-> PackedStringArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedStringArray.typ @-> PackedStringArray.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedStringArray_elem_Dictionary =
+    let _PackedStringArray_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedStringArray.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedStringArray_elem_Array =
+    let _PackedStringArray_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedStringArray.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal [String]s at the corresponding indices. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedStringArray.typ @-> PackedStringArray.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedStringArray.typ @-> PackedStringArray.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns a new [PackedStringArray] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedStringArray.typ @-> PackedStringArray.typ
           @-> PackedStringArray.typ @-> returning void))
+        x0 x1 x2
   end
 
   module PackedVector2Array = struct
     include M.PackedVector2Array
 
     (** Returns the number of elements in the array. *)
-    let size =
+    let size x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         "size"
         (Base.Int64.of_string "3173160232")
         (PackedVector2Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns [code]true[/code] if the array is empty. *)
-    let is_empty =
+    let is_empty x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         "is_empty"
         (Base.Int64.of_string "3918633141")
         (PackedVector2Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Changes the [Vector2] at the given index. *)
-    let set =
+    let set x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY "set"
         (Base.Int64.of_string "635767250")
         (Int.typ @-> Vector2.typ @-> PackedVector2Array.typ
        @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Inserts a [Vector2] at the end. *)
-    let push_back =
+    let push_back x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         "push_back"
         (Base.Int64.of_string "4188891560")
         (Vector2.typ @-> PackedVector2Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends an element at the end of the array (alias of [method push_back]). *)
-    let append =
+    let append x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         "append"
         (Base.Int64.of_string "4188891560")
         (Vector2.typ @-> PackedVector2Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends a [PackedVector2Array] at the end of this array. *)
-    let append_array =
+    let append_array x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY "append_array"
         (Base.Int64.of_string "3887534835")
         (PackedVector2Array.typ @-> PackedVector2Array.typ
        @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Removes an element from the array by index. *)
-    let remove_at =
+    let remove_at x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY "remove_at"
         (Base.Int64.of_string "2823966027")
         (Int.typ @-> PackedVector2Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Inserts a new element at a given position in the array. The position must be valid, or at the end of the array ([code]idx == size()[/code]). *)
-    let insert =
+    let insert x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         "insert"
         (Base.Int64.of_string "2225629369")
         (Int.typ @-> Vector2.typ @-> PackedVector2Array.typ
        @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Assigns the given value to all elements in the array. This can typically be used together with [method resize] to create an array with a given size and initialized elements. *)
-    let fill =
+    let fill x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY "fill"
         (Base.Int64.of_string "3790411178")
         (Vector2.typ @-> PackedVector2Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Sets the size of the array. If the array is grown, reserves elements at the end of the array. If the array is shrunk, truncates the array to the new size. Calling [method resize] once and assigning the new values is faster than adding new elements one by one. *)
-    let resize =
+    let resize x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         "resize"
         (Base.Int64.of_string "848867239")
         (Int.typ @-> PackedVector2Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Clears the array. This is equivalent to using [method resize] with a size of [code]0[/code]. *)
-    let clear =
+    let clear x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY "clear"
         (Base.Int64.of_string "3218959716")
         (PackedVector2Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns [code]true[/code] if the array contains [param value].
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let has =
+    let has x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         "has"
         (Base.Int64.of_string "3190634762")
         (Vector2.typ @-> PackedVector2Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Reverses the order of the elements in the array. *)
-    let reverse =
+    let reverse x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY "reverse"
         (Base.Int64.of_string "3218959716")
         (PackedVector2Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns the slice of the [PackedVector2Array], from [param begin] (inclusive) to [param end] (exclusive), as a new [PackedVector2Array].
 The absolute value of [param begin] and [param end] will be clamped to the array size, so the default value for [param end] makes it slice to the size of the array by default (i.e. [code]arr.slice(1)[/code] is a shorthand for [code]arr.slice(1, arr.size())[/code]).
 If either [param begin] or [param end] are negative, they will be relative to the end of the array (i.e. [code]arr.slice(0, -2)[/code] is a shorthand for [code]arr.slice(0, arr.size() - 2)[/code]). *)
-    let slice =
+    let slice x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         "slice"
         (Base.Int64.of_string "3864005350")
         (Int.typ @-> Int.typ @-> PackedVector2Array.typ
         @-> returning PackedVector2Array.typ)
-        PackedVector2Array.s
+        PackedVector2Array.s x0 x1 x2
 
     (** Returns a [PackedByteArray] with each vector encoded as bytes. *)
-    let to_byte_array =
+    let to_byte_array x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         "to_byte_array"
         (Base.Int64.of_string "247621236")
         (PackedVector2Array.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Sorts the elements of the array in ascending order.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let sort =
+    let sort x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY "sort"
         (Base.Int64.of_string "3218959716")
         (PackedVector2Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Finds the index of an existing value (or the insertion index that maintains sorting order, if the value is not yet present in the array) using binary search. Optionally, a [param before] specifier can be passed. If [code]false[/code], the returned index comes after all existing entries of the value in the array.
 [b]Note:[/b] Calling [method bsearch] on an unsorted array results in unexpected behavior.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let bsearch =
+    let bsearch x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         "bsearch"
         (Base.Int64.of_string "3778035805")
         (Vector2.typ @-> Bool.typ @-> PackedVector2Array.typ
        @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Creates a copy of the array, and returns it. *)
-    let duplicate =
+    let duplicate x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         "duplicate"
         (Base.Int64.of_string "3763646812")
         (PackedVector2Array.typ @-> returning PackedVector2Array.typ)
-        PackedVector2Array.s
+        PackedVector2Array.s x0
 
     (** Searches the array for a value and returns its index or [code]-1[/code] if not found. Optionally, the initial search index can be passed.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let find =
+    let find x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         "find"
         (Base.Int64.of_string "1469606149")
         (Vector2.typ @-> Int.typ @-> PackedVector2Array.typ
        @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Searches the array in reverse order. Optionally, a start search index can be passed. If negative, the start index is considered relative to the end of the array.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let rfind =
+    let rfind x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         "rfind"
         (Base.Int64.of_string "1469606149")
         (Vector2.typ @-> Int.typ @-> PackedVector2Array.typ
        @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the number of times an element is in the array.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let count =
+    let count x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         "count"
         (Base.Int64.of_string "2798848307")
         (Vector2.typ @-> PackedVector2Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedVector2Array.typ @-> PackedVector2Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedVector2Array_elem_Dictionary =
+    let _PackedVector2Array_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedVector2Array.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedVector2Array_elem_Array =
+    let _PackedVector2Array_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedVector2Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal [Vector2]s at the corresponding indices. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedVector2Array.typ @-> PackedVector2Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedVector2Array.typ @-> PackedVector2Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns a new [PackedVector2Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedVector2Array.typ @-> PackedVector2Array.typ
           @-> PackedVector2Array.typ @-> returning void))
+        x0 x1 x2
   end
 
   module PackedVector3Array = struct
     include M.PackedVector3Array
 
     (** Returns the number of elements in the array. *)
-    let size =
+    let size x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         "size"
         (Base.Int64.of_string "3173160232")
         (PackedVector3Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns [code]true[/code] if the array is empty. *)
-    let is_empty =
+    let is_empty x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         "is_empty"
         (Base.Int64.of_string "3918633141")
         (PackedVector3Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Changes the [Vector3] at the given index. *)
-    let set =
+    let set x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY "set"
         (Base.Int64.of_string "3975343409")
         (Int.typ @-> Vector3.typ @-> PackedVector3Array.typ
        @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Inserts a [Vector3] at the end. *)
-    let push_back =
+    let push_back x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         "push_back"
         (Base.Int64.of_string "3295363524")
         (Vector3.typ @-> PackedVector3Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends an element at the end of the array (alias of [method push_back]). *)
-    let append =
+    let append x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         "append"
         (Base.Int64.of_string "3295363524")
         (Vector3.typ @-> PackedVector3Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends a [PackedVector3Array] at the end of this array. *)
-    let append_array =
+    let append_array x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY "append_array"
         (Base.Int64.of_string "203538016")
         (PackedVector3Array.typ @-> PackedVector3Array.typ
        @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Removes an element from the array by index. *)
-    let remove_at =
+    let remove_at x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY "remove_at"
         (Base.Int64.of_string "2823966027")
         (Int.typ @-> PackedVector3Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Inserts a new element at a given position in the array. The position must be valid, or at the end of the array ([code]idx == size()[/code]). *)
-    let insert =
+    let insert x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         "insert"
         (Base.Int64.of_string "3892262309")
         (Int.typ @-> Vector3.typ @-> PackedVector3Array.typ
        @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Assigns the given value to all elements in the array. This can typically be used together with [method resize] to create an array with a given size and initialized elements. *)
-    let fill =
+    let fill x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY "fill"
         (Base.Int64.of_string "3726392409")
         (Vector3.typ @-> PackedVector3Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Sets the size of the array. If the array is grown, reserves elements at the end of the array. If the array is shrunk, truncates the array to the new size. Calling [method resize] once and assigning the new values is faster than adding new elements one by one. *)
-    let resize =
+    let resize x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         "resize"
         (Base.Int64.of_string "848867239")
         (Int.typ @-> PackedVector3Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Clears the array. This is equivalent to using [method resize] with a size of [code]0[/code]. *)
-    let clear =
+    let clear x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY "clear"
         (Base.Int64.of_string "3218959716")
         (PackedVector3Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns [code]true[/code] if the array contains [param value].
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let has =
+    let has x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         "has"
         (Base.Int64.of_string "1749054343")
         (Vector3.typ @-> PackedVector3Array.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Reverses the order of the elements in the array. *)
-    let reverse =
+    let reverse x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY "reverse"
         (Base.Int64.of_string "3218959716")
         (PackedVector3Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns the slice of the [PackedVector3Array], from [param begin] (inclusive) to [param end] (exclusive), as a new [PackedVector3Array].
 The absolute value of [param begin] and [param end] will be clamped to the array size, so the default value for [param end] makes it slice to the size of the array by default (i.e. [code]arr.slice(1)[/code] is a shorthand for [code]arr.slice(1, arr.size())[/code]).
 If either [param begin] or [param end] are negative, they will be relative to the end of the array (i.e. [code]arr.slice(0, -2)[/code] is a shorthand for [code]arr.slice(0, arr.size() - 2)[/code]). *)
-    let slice =
+    let slice x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         "slice"
         (Base.Int64.of_string "2086131305")
         (Int.typ @-> Int.typ @-> PackedVector3Array.typ
         @-> returning PackedVector3Array.typ)
-        PackedVector3Array.s
+        PackedVector3Array.s x0 x1 x2
 
     (** Returns a [PackedByteArray] with each vector encoded as bytes. *)
-    let to_byte_array =
+    let to_byte_array x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         "to_byte_array"
         (Base.Int64.of_string "247621236")
         (PackedVector3Array.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Sorts the elements of the array in ascending order.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let sort =
+    let sort x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY "sort"
         (Base.Int64.of_string "3218959716")
         (PackedVector3Array.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Finds the index of an existing value (or the insertion index that maintains sorting order, if the value is not yet present in the array) using binary search. Optionally, a [param before] specifier can be passed. If [code]false[/code], the returned index comes after all existing entries of the value in the array.
 [b]Note:[/b] Calling [method bsearch] on an unsorted array results in unexpected behavior.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let bsearch =
+    let bsearch x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         "bsearch"
         (Base.Int64.of_string "219263630")
         (Vector3.typ @-> Bool.typ @-> PackedVector3Array.typ
        @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Creates a copy of the array, and returns it. *)
-    let duplicate =
+    let duplicate x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         "duplicate"
         (Base.Int64.of_string "2754175465")
         (PackedVector3Array.typ @-> returning PackedVector3Array.typ)
-        PackedVector3Array.s
+        PackedVector3Array.s x0
 
     (** Searches the array for a value and returns its index or [code]-1[/code] if not found. Optionally, the initial search index can be passed.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let find =
+    let find x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         "find"
         (Base.Int64.of_string "3718155780")
         (Vector3.typ @-> Int.typ @-> PackedVector3Array.typ
        @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Searches the array in reverse order. Optionally, a start search index can be passed. If negative, the start index is considered relative to the end of the array.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let rfind =
+    let rfind x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         "rfind"
         (Base.Int64.of_string "3718155780")
         (Vector3.typ @-> Int.typ @-> PackedVector3Array.typ
        @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the number of times an element is in the array.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this method may not be accurate if NaNs are included. *)
-    let count =
+    let count x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         "count"
         (Base.Int64.of_string "194580386")
         (Vector3.typ @-> PackedVector3Array.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedVector3Array.typ @-> PackedVector3Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedVector3Array_elem_Dictionary =
+    let _PackedVector3Array_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedVector3Array.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedVector3Array_elem_Array =
+    let _PackedVector3Array_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedVector3Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal [Vector3]s at the corresponding indices. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedVector3Array.typ @-> PackedVector3Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedVector3Array.typ @-> PackedVector3Array.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns a new [PackedVector3Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedVector3Array.typ @-> PackedVector3Array.typ
           @-> PackedVector3Array.typ @-> returning void))
+        x0 x1 x2
   end
 
   module PackedColorArray = struct
     include M.PackedColorArray
 
     (** Returns the number of elements in the array. *)
-    let size =
+    let size x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         "size"
         (Base.Int64.of_string "3173160232")
         (PackedColorArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0
 
     (** Returns [code]true[/code] if the array is empty. *)
-    let is_empty =
+    let is_empty x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         "is_empty"
         (Base.Int64.of_string "3918633141")
         (PackedColorArray.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0
 
     (** Changes the [Color] at the given index. *)
-    let set =
+    let set x0 x1 x2 =
       foreign_builtin_method2_void
         GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY "set"
         (Base.Int64.of_string "1444096570")
         (Int.typ @-> Color.typ @-> PackedColorArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1 x2
 
     (** Appends a value to the array. *)
-    let push_back =
+    let push_back x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         "push_back"
         (Base.Int64.of_string "1007858200")
         (Color.typ @-> PackedColorArray.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends an element at the end of the array (alias of [method push_back]). *)
-    let append =
+    let append x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         "append"
         (Base.Int64.of_string "1007858200")
         (Color.typ @-> PackedColorArray.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Appends a [PackedColorArray] at the end of this array. *)
-    let append_array =
+    let append_array x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY "append_array"
         (Base.Int64.of_string "798822497")
         (PackedColorArray.typ @-> PackedColorArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Removes an element from the array by index. *)
-    let remove_at =
+    let remove_at x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY "remove_at"
         (Base.Int64.of_string "2823966027")
         (Int.typ @-> PackedColorArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Inserts a new element at a given position in the array. The position must be valid, or at the end of the array ([code]idx == size()[/code]). *)
-    let insert =
+    let insert x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         "insert"
         (Base.Int64.of_string "785289703")
         (Int.typ @-> Color.typ @-> PackedColorArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Assigns the given value to all elements in the array. This can typically be used together with [method resize] to create an array with a given size and initialized elements. *)
-    let fill =
+    let fill x0 x1 =
       foreign_builtin_method1_void
         GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY "fill"
         (Base.Int64.of_string "3730314301")
         (Color.typ @-> PackedColorArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0 x1
 
     (** Sets the size of the array. If the array is grown, reserves elements at the end of the array. If the array is shrunk, truncates the array to the new size. Calling [method resize] once and assigning the new values is faster than adding new elements one by one. *)
-    let resize =
+    let resize x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         "resize"
         (Base.Int64.of_string "848867239")
         (Int.typ @-> PackedColorArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
     (** Clears the array. This is equivalent to using [method resize] with a size of [code]0[/code]. *)
-    let clear =
+    let clear x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY "clear"
         (Base.Int64.of_string "3218959716")
         (PackedColorArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns [code]true[/code] if the array contains [param value]. *)
-    let has =
+    let has x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         "has"
         (Base.Int64.of_string "3167426256")
         (Color.typ @-> PackedColorArray.typ @-> returning Bool.typ)
-        Bool.s
+        Bool.s x0 x1
 
     (** Reverses the order of the elements in the array. *)
-    let reverse =
+    let reverse x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY "reverse"
         (Base.Int64.of_string "3218959716")
         (PackedColorArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Returns the slice of the [PackedColorArray], from [param begin] (inclusive) to [param end] (exclusive), as a new [PackedColorArray].
 The absolute value of [param begin] and [param end] will be clamped to the array size, so the default value for [param end] makes it slice to the size of the array by default (i.e. [code]arr.slice(1)[/code] is a shorthand for [code]arr.slice(1, arr.size())[/code]).
 If either [param begin] or [param end] are negative, they will be relative to the end of the array (i.e. [code]arr.slice(0, -2)[/code] is a shorthand for [code]arr.slice(0, arr.size() - 2)[/code]). *)
-    let slice =
+    let slice x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         "slice"
         (Base.Int64.of_string "2451797139")
         (Int.typ @-> Int.typ @-> PackedColorArray.typ
         @-> returning PackedColorArray.typ)
-        PackedColorArray.s
+        PackedColorArray.s x0 x1 x2
 
     (** Returns a [PackedByteArray] with each color encoded as bytes. *)
-    let to_byte_array =
+    let to_byte_array x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         "to_byte_array"
         (Base.Int64.of_string "247621236")
         (PackedColorArray.typ @-> returning PackedByteArray.typ)
-        PackedByteArray.s
+        PackedByteArray.s x0
 
     (** Sorts the elements of the array in ascending order. *)
-    let sort =
+    let sort x0 =
       foreign_builtin_method0_void
         GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY "sort"
         (Base.Int64.of_string "3218959716")
         (PackedColorArray.typ @-> returning Void.typ)
-        Void.s
+        Void.s x0
 
     (** Finds the index of an existing value (or the insertion index that maintains sorting order, if the value is not yet present in the array) using binary search. Optionally, a [param before] specifier can be passed. If [code]false[/code], the returned index comes after all existing entries of the value in the array.
 [b]Note:[/b] Calling [method bsearch] on an unsorted array results in unexpected behavior. *)
-    let bsearch =
+    let bsearch x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         "bsearch"
         (Base.Int64.of_string "314143821")
         (Color.typ @-> Bool.typ @-> PackedColorArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Creates a copy of the array, and returns it. *)
-    let duplicate =
+    let duplicate x0 =
       foreign_builtin_method0 GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         "duplicate"
         (Base.Int64.of_string "1011903421")
         (PackedColorArray.typ @-> returning PackedColorArray.typ)
-        PackedColorArray.s
+        PackedColorArray.s x0
 
     (** Searches the array for a value and returns its index or [code]-1[/code] if not found. Optionally, the initial search index can be passed. *)
-    let find =
+    let find x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         "find"
         (Base.Int64.of_string "3156095363")
         (Color.typ @-> Int.typ @-> PackedColorArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Searches the array in reverse order. Optionally, a start search index can be passed. If negative, the start index is considered relative to the end of the array. *)
-    let rfind =
+    let rfind x0 x1 x2 =
       foreign_builtin_method2 GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         "rfind"
         (Base.Int64.of_string "3156095363")
         (Color.typ @-> Int.typ @-> PackedColorArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1 x2
 
     (** Returns the number of times an element is in the array. *)
-    let count =
+    let count x0 x1 =
       foreign_builtin_method1 GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         "count"
         (Base.Int64.of_string "1682108616")
         (Color.typ @-> PackedColorArray.typ @-> returning Int.typ)
-        Int.s
+        Int.s x0 x1
 
-    let not =
+    let not x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedColorArray.typ @-> PackedColorArray.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedColorArray_elem_Dictionary =
+    let _PackedColorArray_elem_Dictionary x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedColorArray.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
-    let _PackedColorArray_elem_Array =
+    let _PackedColorArray_elem_Array x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedColorArray.typ @-> Array.typ @-> Bool.typ @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal [Color]s at the corresponding indices. *)
-    let ( = ) =
+    let ( = ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedColorArray.typ @-> PackedColorArray.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) =
+    let ( <> ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedColorArray.typ @-> PackedColorArray.typ @-> Bool.typ
           @-> returning void))
+        x0 x1 x2
 
     (** Returns a new [PackedColorArray] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) =
+    let ( + ) x0 x1 x2 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedColorArray.typ @-> PackedColorArray.typ
           @-> PackedColorArray.typ @-> returning void))
+        x0 x1 x2
   end
 end
