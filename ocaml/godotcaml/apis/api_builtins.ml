@@ -2932,8 +2932,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module Corner = struct
@@ -2943,8 +2946,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module Orientation = struct
@@ -2954,8 +2960,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module ClockDirection = struct
@@ -2965,8 +2974,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module HorizontalAlignment = struct
@@ -2976,8 +2988,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module VerticalAlignment = struct
@@ -2987,8 +3002,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module InlineAlignment = struct
@@ -2998,8 +3016,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module EulerOrder = struct
@@ -3009,8 +3030,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module Key = struct
@@ -3020,8 +3044,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module KeyModifierMask = struct
@@ -3031,8 +3058,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module MouseButton = struct
@@ -3042,8 +3072,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module MouseButtonMask = struct
@@ -3053,8 +3086,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module JoyButton = struct
@@ -3064,8 +3100,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module JoyAxis = struct
@@ -3075,8 +3114,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module MIDIMessage = struct
@@ -3086,8 +3128,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module Error = struct
@@ -3097,8 +3142,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module PropertyHint = struct
@@ -3108,8 +3156,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module PropertyUsageFlags = struct
@@ -3119,8 +3170,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module MethodFlags = struct
@@ -3130,8 +3184,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module VariantType = struct
@@ -3141,8 +3198,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 
   module VariantOperator = struct
@@ -3152,8 +3212,11 @@ module GlobalEnum = struct
     let of_ocaml = Conv.Int.of_ocaml
     let to_variant = ApiTypes.Int.to_variant
     let of_variant = ApiTypes.Int.of_variant
-    let s = Int.s
-    let typ = Int.typ
+
+    type t = ApiTypes.Int.t structure ptr
+
+    let s = ApiTypes.Int.s
+    let typ = ApiTypes.Int.typ
   end
 end
 

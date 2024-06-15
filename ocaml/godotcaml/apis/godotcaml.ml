@@ -19,7 +19,7 @@ module type SUITE = sig
   val typedef_name : ?prefix:string -> ?postfix:string -> string -> string
 end
 
-module TypedSuite : SUITE = struct
+module TypedSuite = struct
   open Ctypes
 
   type 'a plain = 'a

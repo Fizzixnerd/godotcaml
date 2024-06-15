@@ -13,7 +13,7 @@
  (flags (:standard -g -w -32)))
 
 (executable
- (modules Api_classes Api_builtins Foreign_api Api_types Toy_api Conv)
+ (modules Api_classes Api_classes_intf Api_builtins Foreign_api Api_types Toy_api Conv)
  (modes (native (shared_object)))
  (name api_classes)
  (foreign_stubs (language c) (names hello-gdextension))

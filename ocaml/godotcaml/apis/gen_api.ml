@@ -1186,11 +1186,11 @@ module Gen = struct
       dc ^/^ let_ (var_str property_name) (rhs property_name property_type)
 
     let t_to_ocaml : int -> t -> ocaml =
-     fun n c ->
+     fun _n c ->
       let defs =
         List.concat
           [
-            [ string "open ApiTypes"; string "include ApiTypes.Object" ];
+            [ string "open! ApiTypes"; string "include ApiTypes.Object" ];
             c.inherits |> Option.to_list
             |> List.map ~f:(fun x ->
                    string (sprintf "include %s" (mod_var_str x)));
@@ -1203,19 +1203,19 @@ module Gen = struct
                (c.signals |> Option.value ~default:[]); *)
           ]
       in
-      if n = 0 then module_rec c.name defs else module_and c.name defs
+      module_ c.name defs
 
     let t_to_mli : int -> t -> ocaml =
      fun _n c ->
       let decls =
         List.concat
           [
-            [ string "open ApiTypes"; string "include ApiTypes.OBJECT" ];
+            [ string "open! ApiTypes"; string "include ApiTypes.OBJECT" ];
             c.inherits |> Option.to_list
             |> List.map ~f:(fun x ->
                    string
                      (sprintf "include %s" (String.uppercase @@ mod_var_str x)));
-            List.map ~f:enum_to_mli (c.enums |> Option.value ~default:[]);
+            (* List.map ~f:enum_to_mli (c.enums |> Option.value ~default:[]); *)
             List.map ~f:constant_to_mli (c.constants |> Option.value ~default:[]);
             List.map ~f:(method_to_mli c.name)
               (c.methods |> Option.value ~default:[]);
@@ -1225,7 +1225,7 @@ module Gen = struct
       in
       module_type (String.uppercase c.name) decls
 
-    let t_list_to_ocaml : t list -> ocaml =
+    let t_list_to_ocaml : t list -> ocaml list * ocaml list =
      fun cs ->
       let blacklist_regex =
         [ "OpenXR"; "Audio"; "Movie"; "TextServer" ]
@@ -1241,7 +1241,7 @@ module Gen = struct
       in
       let ml = cs |> List.mapi ~f:t_to_ocaml in
       let mli = cs |> List.mapi ~f:t_to_mli in
-      mli @ ml |> module_ "Class"
+      (mli, ml)
   end
 
   let gen_api_type type_name =
@@ -1353,8 +1353,9 @@ module Gen = struct
         let to_variant = ApiTypes.Int.to_variant
         let of_variant = ApiTypes.Int.of_variant
 
-        let s = Int.s
-        let typ = Int.typ
+        type t = ApiTypes.Int.t structure ptr
+        let s = ApiTypes.Int.s
+        let typ = ApiTypes.Int.typ
       end
       |}
            (mod_var_str (remove_dots name))
@@ -1568,17 +1569,29 @@ let () =
   |> PPrint.concat
   |> Gen.gen_file "api_builtins.ml";
 
+  let mli, ml = Gen.Class.t_list_to_ocaml classes_topsorted in
   [
     string "open! Base" ^^ hardline;
-    string "open Foreign_api" ^^ hardline;
-    string "open Foreign_api.Godotcaml" ^^ hardline;
     string "open Ctypes" ^^ hardline;
     string "module M = Foreign_api.Make(Api_types.ClassSizes)" ^^ hardline;
     string "open M" ^^ hardline ^^ hardline;
     string "let funptr = Foreign.funptr" ^^ hardline;
     string "open Api_builtins" ^^ hardline;
     Gen.gen_pre_class_type_defs classes_topsorted ^^ hardline ^^ hardline;
-    Gen.Class.t_list_to_ocaml classes_topsorted ^^ hardline ^^ hardline;
+    mli |> Gen.module_ "Class";
+  ]
+  |> PPrint.concat
+  |> Gen.gen_file "api_classes_intf.ml";
+
+  [
+    string "open! Base" ^^ hardline;
+    string "open Ctypes" ^^ hardline;
+    string "module M = Foreign_api.Make(Api_types.ClassSizes)" ^^ hardline;
+    string "open M" ^^ hardline ^^ hardline;
+    string "let funptr = Foreign.funptr" ^^ hardline;
+    string "open Api_builtins" ^^ hardline;
+    string "open Api_classes_intf" ^^ hardline;
+    ml |> Gen.module_ "Class";
   ]
   |> PPrint.concat
   |> Gen.gen_file "api_classes.ml";
