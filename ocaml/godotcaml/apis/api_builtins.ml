@@ -4327,7 +4327,11 @@ pingpong(6.0, 3.0)  # Returns 0.0
 
   (** Randomizes the seed (or the internal state) of the random number generator. The current implementation uses a number based on the device's time.
 [b]Note:[/b] This function is called automatically when the project is run. If you need to fix the seed to have consistent, reproducible results, use [method seed] to initialize the random number generator. *)
-  let randomize x0 = foreign_utility_function0 x0
+  let randomize x0 =
+    foreign_utility_function0_void "randomize"
+      (Base.Int64.of_string "1691721052")
+      (void @-> returning Void.typ)
+      Void.s x0
 
   (** Returns a random unsigned 32-bit integer. Use remainder to obtain a random value in the interval [code][0, N - 1][/code] (where N is smaller than 2^32).
 [codeblocks]
@@ -4344,7 +4348,11 @@ GD.Randi() % 100;     // Returns random integer between 0 and 99
 GD.Randi() % 100 + 1; // Returns random integer between 1 and 100
 [/csharp]
 [/codeblocks] *)
-  let randi x0 = foreign_utility_function0 x0
+  let randi x0 =
+    foreign_utility_function0 "randi"
+      (Base.Int64.of_string "701202648")
+      (void @-> returning Int.typ)
+      Int.s x0
 
   (** Returns a random floating point value between [code]0.0[/code] and [code]1.0[/code] (inclusive).
 [codeblocks]
@@ -4355,7 +4363,11 @@ randf() # Returns e.g. 0.375671
 GD.Randf(); // Returns e.g. 0.375671
 [/csharp]
 [/codeblocks] *)
-  let randf x0 = foreign_utility_function0 x0
+  let randf x0 =
+    foreign_utility_function0 "randf"
+      (Base.Int64.of_string "2086227845")
+      (void @-> returning Float.typ)
+      Float.s x0
 
   (** Returns a random signed 32-bit integer between [param from] and [param to] (inclusive). If [param to] is lesser than [param from], they are swapped.
 [codeblocks]
@@ -4797,7 +4809,11 @@ public partial class MyNode : Node
       Bool.s x0
 
   (** Allocates a unique ID which can be used by the implementation to construct a RID. This is used mainly from native extensions to implement servers. *)
-  let rid_allocate_id x0 = foreign_utility_function0 x0
+  let rid_allocate_id x0 =
+    foreign_utility_function0 "rid_allocate_id"
+      (Base.Int64.of_string "701202648")
+      (void @-> returning Int.typ)
+      Int.s x0
 
   (** Creates a RID from a [param base]. This is used mainly from native extensions to build servers. *)
   let rid_from_int64 x0 =
@@ -5023,20 +5039,13 @@ module BuiltinClass = struct
 
     include Api_types.API_TYPE with type t := t
 
-    val not :
-      Nil.t structure ptr -> Nil.t structure ptr -> Bool.t structure ptr -> unit
+    val not : Nil.t structure ptr -> Nil.t structure ptr -> Bool.t structure ptr
 
-    val _Nil_elem_Dictionary :
-      Nil.t structure ptr ->
-      Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Dictionary :
+      Nil.t structure ptr -> Dictionary.t structure ptr -> Bool.t structure ptr
 
-    val _Nil_elem_Array :
-      Nil.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Nil.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
   end
 
   module type BOOL = sig
@@ -5045,68 +5054,38 @@ module BuiltinClass = struct
     include Api_types.API_TYPE with type t := t
 
     val not :
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr -> Bool.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr -> Bool.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the two booleans are equal. That is, both are [code]true[/code] or both are [code]false[/code]. This operation can be seen as a logical EQ or XNOR. *)
 
     val ( <> ) :
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr -> Bool.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the two booleans are not equal. That is, one is [code]true[/code] and the other is [code]false[/code]. This operation can be seen as a logical XOR. *)
 
     val ( < ) :
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr -> Bool.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the left operand is [code]false[/code] and the right operand is [code]true[/code]. *)
 
     val ( > ) :
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr -> Bool.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the left operand is [code]true[/code] and the right operand is [code]false[/code]. *)
 
     val ( && ) :
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr -> Bool.t structure ptr -> Bool.t structure ptr
 
     val ( || ) :
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr -> Bool.t structure ptr -> Bool.t structure ptr
 
     val ( ~^^ ) :
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr -> Bool.t structure ptr -> Bool.t structure ptr
 
-    val bool_elem_Dictionary :
-      Bool.t structure ptr ->
-      Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Dictionary :
+      Bool.t structure ptr -> Dictionary.t structure ptr -> Bool.t structure ptr
 
-    val bool_elem_Array :
-      Bool.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Bool.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
   end
 
   module type INT = sig
@@ -5115,62 +5094,61 @@ module BuiltinClass = struct
     include Api_types.API_TYPE with type t := t
 
     val ( ~- ) :
-      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr
     (** Returns the negated value of the [int]. If positive, turns the number negative. If negative, turns the number positive. If zero, does nothing. *)
 
     val ( ~+ ) :
-      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
 
     val ( ~~~ ) :
-      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr
     (** Performs the bitwise [code]NOT[/code] operation on the [int]. Due to [url=https://en.wikipedia.org/wiki/Two%27s_complement]2's complement[/url], it's effectively equal to [code]-(int + 1)[/code].
 [codeblock]
 print(~4) # Prints -5
 print(~(-7)) # Prints 6
 [/codeblock] *)
 
-    val not :
-      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr -> unit
+    val not : Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the two [int]s are equal. *)
 
     val ( <> ) :
-      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the [int]s are not equal. *)
 
     val ( < ) :
-      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the left [int] is less than the right [int]. *)
 
     val ( <= ) :
-      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the left [int] is less than or equal to the right [int]. *)
 
     val ( > ) :
-      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the left [int] is greater than the right [int]. *)
 
     val ( >= ) :
-      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the left [int] is greater than or equal to the right [int]. *)
 
     val ( + ) :
-      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr
     (** Adds the two [int]s. *)
 
     val ( - ) :
-      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr
     (** Subtracts the two [int]s. *)
 
     val ( * ) :
-      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr
     (** Multiplies the two [int]s. *)
 
     val ( / ) :
-      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr
     (** Divides the two [int]s. The result is an [int]. This will truncate the [float], discarding anything after the floating point.
 [codeblock]
 print(6 / 2) # Prints 3
@@ -5178,7 +5156,7 @@ print(5 / 3) # Prints 1
 [/codeblock] *)
 
     val ( % ) :
-      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr
     (** Returns the remainder after dividing two [int]s. Uses truncated division, which returns a negative number if the dividend is negative. If this is not desired, consider using [method @GlobalScope.posmod].
 [codeblock]
 print(6 % 2) # Prints 0
@@ -5187,14 +5165,14 @@ print(-5 % 3) # Prints -2
 [/codeblock] *)
 
     val ( ** ) :
-      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr
     (** Raises the left [int] to a power of the right [int].
 [codeblock]
 print(3  *  *  4) # Prints 81
 [/codeblock] *)
 
     val ( <<< ) :
-      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr
     (** Performs the bitwise shift left operation. Effectively the same as multiplying by a power of 2.
 [codeblock]
 print(0b1010 << 1) # Prints 20 (binary 10100)
@@ -5202,7 +5180,7 @@ print(0b1010 << 3) # Prints 80 (binary 1010000)
 [/codeblock] *)
 
     val ( >>> ) :
-      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr
     (** Performs the bitwise shift right operation. Effectively the same as dividing by a power of 2.
 [codeblock]
 print(0b1010 >> 1) # Prints 5 (binary 101)
@@ -5210,7 +5188,7 @@ print(0b1010 >> 2) # Prints 2 (binary 10)
 [/codeblock] *)
 
     val ( &&& ) :
-      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr
     (** Performs the bitwise [code]AND[/code] operation.
 [codeblock]
 print(0b1100 & 0b1010) # Prints 8 (binary 1000)
@@ -5224,7 +5202,7 @@ if flags & 0b011:
 [/codeblock] *)
 
     val ( ||| ) :
-      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr
     (** Performs the bitwise [code]OR[/code] operation.
 [codeblock]
 print(0b1100 | 0b1010) # Prints 14 (binary 1110)
@@ -5236,62 +5214,51 @@ flags |= 0b101 # Turn the first and third bits on.
 [/codeblock] *)
 
     val ( ^^^ ) :
-      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Int.t structure ptr
     (** Performs the bitwise [code]XOR[/code] operation.
 [codeblock]
 print(0b1100 ^ 0b1010) # Prints 6 (binary 110)
 [/codeblock] *)
 
     val ( && ) :
-      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr
 
     val ( || ) :
-      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr
 
     val ( ~^^ ) :
-      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr -> unit
+      Int.t structure ptr -> Int.t structure ptr -> Bool.t structure ptr
 
-    val int_elem_Dictionary :
-      Int.t structure ptr ->
-      Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Dictionary :
+      Int.t structure ptr -> Dictionary.t structure ptr -> Bool.t structure ptr
 
-    val int_elem_Array :
-      Int.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Int.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
 
-    val int_elem_PackedByteArray :
+    val mem_PackedByteArray :
       Int.t structure ptr ->
       PackedByteArray.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val int_elem_PackedInt32Array :
+    val mem_PackedInt32Array :
       Int.t structure ptr ->
       PackedInt32Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val int_elem_PackedInt64Array :
+    val mem_PackedInt64Array :
       Int.t structure ptr ->
       PackedInt64Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val int_elem_PackedFloat32Array :
+    val mem_PackedFloat32Array :
       Int.t structure ptr ->
       PackedFloat32Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val int_elem_PackedFloat64Array :
+    val mem_PackedFloat64Array :
       Int.t structure ptr ->
       PackedFloat64Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
   end
 
   module type FLOAT = sig
@@ -5300,171 +5267,111 @@ print(0b1100 ^ 0b1010) # Prints 6 (binary 110)
     include Api_types.API_TYPE with type t := t
 
     val ( ~- ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Float.t structure ptr
     (** Returns the negative value of the [float]. If positive, turns the number negative. If negative, turns the number positive. With floats, the number zero can be either positive or negative. *)
 
     val ( ~+ ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Float.t structure ptr
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
 
     val not :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if both floats are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method @GlobalScope.is_equal_approx] or [method @GlobalScope.is_zero_approx] instead, which are more reliable.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( <> ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if two floats are different from each other.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( < ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the left float is less than the right one.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( <= ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the left float is less than or equal to the right one.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( > ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the left float is greater than the right one.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( >= ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the left float is greater than or equal to the right one.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( + ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Float.t structure ptr
     (** Adds two floats. *)
 
     val ( - ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Float.t structure ptr
     (** Subtracts a float from a float. *)
 
     val ( * ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Float.t structure ptr
     (** Multiplies two [float]s. *)
 
     val ( / ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Float.t structure ptr
     (** Divides two floats. *)
 
     val ( ** ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Float.t structure ptr
     (** Raises a [float] to a power of a [float].
 [codeblock]
 print(39.0625 *  * 0.25) # 2.5
 [/codeblock] *)
 
     val ( && ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Bool.t structure ptr
 
     val ( || ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Bool.t structure ptr
 
     val ( ~^^ ) :
-      Float.t structure ptr ->
-      Float.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Float.t structure ptr -> Float.t structure ptr -> Bool.t structure ptr
 
-    val float_elem_Dictionary :
+    val mem_Dictionary :
       Float.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val float_elem_Array :
-      Float.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Float.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
 
-    val float_elem_PackedByteArray :
+    val mem_PackedByteArray :
       Float.t structure ptr ->
       PackedByteArray.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val float_elem_PackedInt32Array :
+    val mem_PackedInt32Array :
       Float.t structure ptr ->
       PackedInt32Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val float_elem_PackedInt64Array :
+    val mem_PackedInt64Array :
       Float.t structure ptr ->
       PackedInt64Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val float_elem_PackedFloat32Array :
+    val mem_PackedFloat32Array :
       Float.t structure ptr ->
       PackedFloat32Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val float_elem_PackedFloat64Array :
+    val mem_PackedFloat64Array :
       Float.t structure ptr ->
       PackedFloat64Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
   end
 
   module type STRING = sig
@@ -6403,101 +6310,62 @@ print(String.chr(129302)) # Prints ""🤖"" (robot face emoji)
 The result is in [url=https://en.wikipedia.org/wiki/Binary_prefix#IEC_prefixes]IEC prefix format[/url], which may end in either [code]""B""[/code], [code]""KiB""[/code], [code]""MiB""[/code], [code]""GiB""[/code], [code]""TiB""[/code], [code]""PiB""[/code], or [code]""EiB""[/code]. *)
 
     val not :
-      String.t structure ptr ->
-      String.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      String.t structure ptr -> String.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      String.t structure ptr ->
-      String.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      String.t structure ptr -> String.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if both strings contain the same sequence of characters. *)
 
     val ( <> ) :
-      String.t structure ptr ->
-      String.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      String.t structure ptr -> String.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if both strings do not contain the same sequence of characters. *)
 
     val ( < ) :
-      String.t structure ptr ->
-      String.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      String.t structure ptr -> String.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the left [String] comes before [param right] in [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url], which roughly matches the alphabetical order. Useful for sorting. *)
 
     val ( <= ) :
-      String.t structure ptr ->
-      String.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      String.t structure ptr -> String.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the left [String] comes before [param right] in [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url], which roughly matches the alphabetical order, or if both are equal. *)
 
     val ( > ) :
-      String.t structure ptr ->
-      String.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      String.t structure ptr -> String.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the left [String] comes after [param right] in [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url], which roughly matches the alphabetical order. Useful for sorting. *)
 
     val ( >= ) :
-      String.t structure ptr ->
-      String.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      String.t structure ptr -> String.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the left [String] comes after [param right] in [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url], which roughly matches the alphabetical order, or if both are equal. *)
 
     val ( + ) :
-      String.t structure ptr ->
-      String.t structure ptr ->
-      String.t structure ptr ->
-      unit
+      String.t structure ptr -> String.t structure ptr -> String.t structure ptr
     (** Appends [param right] at the end of this [String], also known as a string concatenation. *)
 
     val ( % ) :
-      String.t structure ptr ->
-      String.t structure ptr ->
-      String.t structure ptr ->
-      unit
+      String.t structure ptr -> String.t structure ptr -> String.t structure ptr
 
-    val _String_elem_String :
-      String.t structure ptr ->
-      String.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_String :
+      String.t structure ptr -> String.t structure ptr -> Bool.t structure ptr
 
-    val _String_elem_StringName :
+    val mem_StringName :
       String.t structure ptr ->
       StringName.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _String_elem_Object :
-      String.t structure ptr ->
-      Object.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Object :
+      String.t structure ptr -> Object.t structure ptr -> Bool.t structure ptr
 
-    val _String_elem_Dictionary :
+    val mem_Dictionary :
       String.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _String_elem_Array :
-      String.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      String.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
 
-    val _String_elem_PackedStringArray :
+    val mem_PackedStringArray :
       String.t structure ptr ->
       PackedStringArray.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
   end
 
   module type VECTOR2 = sig
@@ -6782,78 +6650,54 @@ print(Vector2.from_angle(PI / 2)) # Prints (0, 1).
     val ( ~- ) :
       Vector2.t structure ptr ->
       Vector2.t structure ptr ->
-      Vector2.t structure ptr ->
-      unit
+      Vector2.t structure ptr
     (** Returns the negative value of the [Vector2]. This is the same as writing [code]Vector2(-v.x, -v.y)[/code]. This operation flips the direction of the vector while keeping the same magnitude. With floats, the number zero can be either positive or negative. *)
 
     val ( ~+ ) :
       Vector2.t structure ptr ->
       Vector2.t structure ptr ->
-      Vector2.t structure ptr ->
-      unit
+      Vector2.t structure ptr
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
 
     val not :
-      Vector2.t structure ptr ->
-      Vector2.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector2.t structure ptr -> Vector2.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      Vector2.t structure ptr ->
-      Vector2.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector2.t structure ptr -> Vector2.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the vectors are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( <> ) :
-      Vector2.t structure ptr ->
-      Vector2.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector2.t structure ptr -> Vector2.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the vectors are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( < ) :
-      Vector2.t structure ptr ->
-      Vector2.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector2.t structure ptr -> Vector2.t structure ptr -> Bool.t structure ptr
     (** Compares two [Vector2] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( <= ) :
-      Vector2.t structure ptr ->
-      Vector2.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector2.t structure ptr -> Vector2.t structure ptr -> Bool.t structure ptr
     (** Compares two [Vector2] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( > ) :
-      Vector2.t structure ptr ->
-      Vector2.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector2.t structure ptr -> Vector2.t structure ptr -> Bool.t structure ptr
     (** Compares two [Vector2] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( >= ) :
-      Vector2.t structure ptr ->
-      Vector2.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector2.t structure ptr -> Vector2.t structure ptr -> Bool.t structure ptr
     (** Compares two [Vector2] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( + ) :
       Vector2.t structure ptr ->
       Vector2.t structure ptr ->
-      Vector2.t structure ptr ->
-      unit
+      Vector2.t structure ptr
     (** Adds each component of the [Vector2] by the components of the given [Vector2].
 [codeblock]
 print(Vector2(10, 20) + Vector2(3, 4)) # Prints ""(13, 24)""
@@ -6862,8 +6706,7 @@ print(Vector2(10, 20) + Vector2(3, 4)) # Prints ""(13, 24)""
     val ( - ) :
       Vector2.t structure ptr ->
       Vector2.t structure ptr ->
-      Vector2.t structure ptr ->
-      unit
+      Vector2.t structure ptr
     (** Subtracts each component of the [Vector2] by the components of the given [Vector2].
 [codeblock]
 print(Vector2(10, 20) - Vector2(3, 4)) # Prints ""(7, 16)""
@@ -6872,8 +6715,7 @@ print(Vector2(10, 20) - Vector2(3, 4)) # Prints ""(7, 16)""
     val ( * ) :
       Vector2.t structure ptr ->
       Vector2.t structure ptr ->
-      Vector2.t structure ptr ->
-      unit
+      Vector2.t structure ptr
     (** Multiplies each component of the [Vector2] by the components of the given [Vector2].
 [codeblock]
 print(Vector2(10, 20)  *  Vector2(3, 4)) # Prints ""(30, 80)""
@@ -6882,30 +6724,24 @@ print(Vector2(10, 20)  *  Vector2(3, 4)) # Prints ""(30, 80)""
     val ( / ) :
       Vector2.t structure ptr ->
       Vector2.t structure ptr ->
-      Vector2.t structure ptr ->
-      unit
+      Vector2.t structure ptr
     (** Divides each component of the [Vector2] by the components of the given [Vector2].
 [codeblock]
 print(Vector2(10, 20) / Vector2(2, 5)) # Prints ""(5, 4)""
 [/codeblock] *)
 
-    val _Vector2_elem_Dictionary :
+    val mem_Dictionary :
       Vector2.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Vector2_elem_Array :
-      Vector2.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Vector2.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
 
-    val _Vector2_elem_PackedVector2Array :
+    val mem_PackedVector2Array :
       Vector2.t structure ptr ->
       PackedVector2Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     module AXIS : sig
       type t
@@ -6977,70 +6813,60 @@ This method runs faster than [method length], so prefer it if you need to compar
     val ( ~- ) :
       Vector2i.t structure ptr ->
       Vector2i.t structure ptr ->
-      Vector2i.t structure ptr ->
-      unit
+      Vector2i.t structure ptr
     (** Returns the negative value of the [Vector2i]. This is the same as writing [code]Vector2i(-v.x, -v.y)[/code]. This operation flips the direction of the vector while keeping the same magnitude. *)
 
     val ( ~+ ) :
       Vector2i.t structure ptr ->
       Vector2i.t structure ptr ->
-      Vector2i.t structure ptr ->
-      unit
+      Vector2i.t structure ptr
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
 
     val not :
       Vector2i.t structure ptr ->
       Vector2i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       Vector2i.t structure ptr ->
       Vector2i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the vectors are equal. *)
 
     val ( <> ) :
       Vector2i.t structure ptr ->
       Vector2i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the vectors are not equal. *)
 
     val ( < ) :
       Vector2i.t structure ptr ->
       Vector2i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Compares two [Vector2i] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors. *)
 
     val ( <= ) :
       Vector2i.t structure ptr ->
       Vector2i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Compares two [Vector2i] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors. *)
 
     val ( > ) :
       Vector2i.t structure ptr ->
       Vector2i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Compares two [Vector2i] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors. *)
 
     val ( >= ) :
       Vector2i.t structure ptr ->
       Vector2i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Compares two [Vector2i] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors. *)
 
     val ( + ) :
       Vector2i.t structure ptr ->
       Vector2i.t structure ptr ->
-      Vector2i.t structure ptr ->
-      unit
+      Vector2i.t structure ptr
     (** Adds each component of the [Vector2i] by the components of the given [Vector2i].
 [codeblock]
 print(Vector2i(10, 20) + Vector2i(3, 4)) # Prints ""(13, 24)""
@@ -7049,8 +6875,7 @@ print(Vector2i(10, 20) + Vector2i(3, 4)) # Prints ""(13, 24)""
     val ( - ) :
       Vector2i.t structure ptr ->
       Vector2i.t structure ptr ->
-      Vector2i.t structure ptr ->
-      unit
+      Vector2i.t structure ptr
     (** Subtracts each component of the [Vector2i] by the components of the given [Vector2i].
 [codeblock]
 print(Vector2i(10, 20) - Vector2i(3, 4)) # Prints ""(7, 16)""
@@ -7059,8 +6884,7 @@ print(Vector2i(10, 20) - Vector2i(3, 4)) # Prints ""(7, 16)""
     val ( * ) :
       Vector2i.t structure ptr ->
       Vector2i.t structure ptr ->
-      Vector2i.t structure ptr ->
-      unit
+      Vector2i.t structure ptr
     (** Multiplies each component of the [Vector2i] by the components of the given [Vector2i].
 [codeblock]
 print(Vector2i(10, 20)  *  Vector2i(3, 4)) # Prints ""(30, 80)""
@@ -7069,8 +6893,7 @@ print(Vector2i(10, 20)  *  Vector2i(3, 4)) # Prints ""(30, 80)""
     val ( / ) :
       Vector2i.t structure ptr ->
       Vector2i.t structure ptr ->
-      Vector2i.t structure ptr ->
-      unit
+      Vector2i.t structure ptr
     (** Divides each component of the [Vector2i] by the components of the given [Vector2i].
 [codeblock]
 print(Vector2i(10, 20) / Vector2i(2, 5)) # Prints ""(5, 4)""
@@ -7079,24 +6902,19 @@ print(Vector2i(10, 20) / Vector2i(2, 5)) # Prints ""(5, 4)""
     val ( % ) :
       Vector2i.t structure ptr ->
       Vector2i.t structure ptr ->
-      Vector2i.t structure ptr ->
-      unit
+      Vector2i.t structure ptr
     (** Gets the remainder of each component of the [Vector2i] with the components of the given [Vector2i]. This operation uses truncated division, which is often not desired as it does not work well with negative numbers. Consider using [method @GlobalScope.posmod] instead if you want to handle negative numbers.
 [codeblock]
 print(Vector2i(10, -20) % Vector2i(7, 8)) # Prints ""(3, -4)""
 [/codeblock] *)
 
-    val _Vector2i_elem_Dictionary :
+    val mem_Dictionary :
       Vector2i.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Vector2i_elem_Array :
-      Vector2i.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Vector2i.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
 
     module AXIS : sig
       type t
@@ -7254,38 +7072,25 @@ var absolute = rect.Abs(); // absolute is Rect2(-75, -25, 100, 50)
 [b]Note:[/b] It's recommended to use this method when [member size] is negative, as most other methods in Godot assume that the [member position] is the top-left corner, and the [member end] is the bottom-right corner. *)
 
     val not :
-      Rect2.t structure ptr ->
-      Rect2.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Rect2.t structure ptr -> Rect2.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      Rect2.t structure ptr ->
-      Rect2.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Rect2.t structure ptr -> Rect2.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if both [member position] and [member size] of the rectangles are exactly equal, respectively.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
     val ( <> ) :
-      Rect2.t structure ptr ->
-      Rect2.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Rect2.t structure ptr -> Rect2.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the [member position] or [member size] of both rectangles are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
-    val _Rect2_elem_Dictionary :
+    val mem_Dictionary :
       Rect2.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Rect2_elem_Array :
-      Rect2.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Rect2.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
   end
 
   module type RECT2I = sig
@@ -7422,36 +7227,23 @@ var absolute = rect.Abs(); // absolute is Rect2I(-75, -25, 100, 50)
 [b]Note:[/b] It's recommended to use this method when [member size] is negative, as most other methods in Godot assume that the [member position] is the top-left corner, and the [member end] is the bottom-right corner. *)
 
     val not :
-      Rect2i.t structure ptr ->
-      Rect2i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Rect2i.t structure ptr -> Rect2i.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      Rect2i.t structure ptr ->
-      Rect2i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Rect2i.t structure ptr -> Rect2i.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if both [member position] and [member size] of the rectangles are equal, respectively. *)
 
     val ( <> ) :
-      Rect2i.t structure ptr ->
-      Rect2i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Rect2i.t structure ptr -> Rect2i.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the [member position] or [member size] of both rectangles are not equal. *)
 
-    val _Rect2i_elem_Dictionary :
+    val mem_Dictionary :
       Rect2i.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Rect2i_elem_Array :
-      Rect2i.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Rect2i.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
   end
 
   module type VECTOR3 = sig
@@ -7729,78 +7521,54 @@ This returns a vector perpendicular to both this and [param with], which would b
     val ( ~- ) :
       Vector3.t structure ptr ->
       Vector3.t structure ptr ->
-      Vector3.t structure ptr ->
-      unit
+      Vector3.t structure ptr
     (** Returns the negative value of the [Vector3]. This is the same as writing [code]Vector3(-v.x, -v.y, -v.z)[/code]. This operation flips the direction of the vector while keeping the same magnitude. With floats, the number zero can be either positive or negative. *)
 
     val ( ~+ ) :
       Vector3.t structure ptr ->
       Vector3.t structure ptr ->
-      Vector3.t structure ptr ->
-      unit
+      Vector3.t structure ptr
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
 
     val not :
-      Vector3.t structure ptr ->
-      Vector3.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector3.t structure ptr -> Vector3.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      Vector3.t structure ptr ->
-      Vector3.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector3.t structure ptr -> Vector3.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the vectors are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( <> ) :
-      Vector3.t structure ptr ->
-      Vector3.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector3.t structure ptr -> Vector3.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the vectors are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( < ) :
-      Vector3.t structure ptr ->
-      Vector3.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector3.t structure ptr -> Vector3.t structure ptr -> Bool.t structure ptr
     (** Compares two [Vector3] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( <= ) :
-      Vector3.t structure ptr ->
-      Vector3.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector3.t structure ptr -> Vector3.t structure ptr -> Bool.t structure ptr
     (** Compares two [Vector3] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( > ) :
-      Vector3.t structure ptr ->
-      Vector3.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector3.t structure ptr -> Vector3.t structure ptr -> Bool.t structure ptr
     (** Compares two [Vector3] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( >= ) :
-      Vector3.t structure ptr ->
-      Vector3.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector3.t structure ptr -> Vector3.t structure ptr -> Bool.t structure ptr
     (** Compares two [Vector3] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( + ) :
       Vector3.t structure ptr ->
       Vector3.t structure ptr ->
-      Vector3.t structure ptr ->
-      unit
+      Vector3.t structure ptr
     (** Adds each component of the [Vector3] by the components of the given [Vector3].
 [codeblock]
 print(Vector3(10, 20, 30) + Vector3(3, 4, 5)) # Prints ""(13, 24, 35)""
@@ -7809,8 +7577,7 @@ print(Vector3(10, 20, 30) + Vector3(3, 4, 5)) # Prints ""(13, 24, 35)""
     val ( - ) :
       Vector3.t structure ptr ->
       Vector3.t structure ptr ->
-      Vector3.t structure ptr ->
-      unit
+      Vector3.t structure ptr
     (** Subtracts each component of the [Vector3] by the components of the given [Vector3].
 [codeblock]
 print(Vector3(10, 20, 30) - Vector3(3, 4, 5)) # Prints ""(7, 16, 25)""
@@ -7819,8 +7586,7 @@ print(Vector3(10, 20, 30) - Vector3(3, 4, 5)) # Prints ""(7, 16, 25)""
     val ( * ) :
       Vector3.t structure ptr ->
       Vector3.t structure ptr ->
-      Vector3.t structure ptr ->
-      unit
+      Vector3.t structure ptr
     (** Multiplies each component of the [Vector3] by the components of the given [Vector3].
 [codeblock]
 print(Vector3(10, 20, 30)  *  Vector3(3, 4, 5)) # Prints ""(30, 80, 150)""
@@ -7829,30 +7595,24 @@ print(Vector3(10, 20, 30)  *  Vector3(3, 4, 5)) # Prints ""(30, 80, 150)""
     val ( / ) :
       Vector3.t structure ptr ->
       Vector3.t structure ptr ->
-      Vector3.t structure ptr ->
-      unit
+      Vector3.t structure ptr
     (** Divides each component of the [Vector3] by the components of the given [Vector3].
 [codeblock]
 print(Vector3(10, 20, 30) / Vector3(2, 5, 3)) # Prints ""(5, 4, 10)""
 [/codeblock] *)
 
-    val _Vector3_elem_Dictionary :
+    val mem_Dictionary :
       Vector3.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Vector3_elem_Array :
-      Vector3.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Vector3.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
 
-    val _Vector3_elem_PackedVector3Array :
+    val mem_PackedVector3Array :
       Vector3.t structure ptr ->
       PackedVector3Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     module AXIS : sig
       type t
@@ -7922,70 +7682,60 @@ This method runs faster than [method length], so prefer it if you need to compar
     val ( ~- ) :
       Vector3i.t structure ptr ->
       Vector3i.t structure ptr ->
-      Vector3i.t structure ptr ->
-      unit
+      Vector3i.t structure ptr
     (** Returns the negative value of the [Vector3i]. This is the same as writing [code]Vector3i(-v.x, -v.y, -v.z)[/code]. This operation flips the direction of the vector while keeping the same magnitude. *)
 
     val ( ~+ ) :
       Vector3i.t structure ptr ->
       Vector3i.t structure ptr ->
-      Vector3i.t structure ptr ->
-      unit
+      Vector3i.t structure ptr
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
 
     val not :
       Vector3i.t structure ptr ->
       Vector3i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       Vector3i.t structure ptr ->
       Vector3i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the vectors are equal. *)
 
     val ( <> ) :
       Vector3i.t structure ptr ->
       Vector3i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the vectors are not equal. *)
 
     val ( < ) :
       Vector3i.t structure ptr ->
       Vector3i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Compares two [Vector3i] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors. *)
 
     val ( <= ) :
       Vector3i.t structure ptr ->
       Vector3i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Compares two [Vector3i] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors. *)
 
     val ( > ) :
       Vector3i.t structure ptr ->
       Vector3i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Compares two [Vector3i] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors. *)
 
     val ( >= ) :
       Vector3i.t structure ptr ->
       Vector3i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Compares two [Vector3i] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors. *)
 
     val ( + ) :
       Vector3i.t structure ptr ->
       Vector3i.t structure ptr ->
-      Vector3i.t structure ptr ->
-      unit
+      Vector3i.t structure ptr
     (** Adds each component of the [Vector3i] by the components of the given [Vector3i].
 [codeblock]
 print(Vector3i(10, 20, 30) + Vector3i(3, 4, 5)) # Prints ""(13, 24, 35)""
@@ -7994,8 +7744,7 @@ print(Vector3i(10, 20, 30) + Vector3i(3, 4, 5)) # Prints ""(13, 24, 35)""
     val ( - ) :
       Vector3i.t structure ptr ->
       Vector3i.t structure ptr ->
-      Vector3i.t structure ptr ->
-      unit
+      Vector3i.t structure ptr
     (** Subtracts each component of the [Vector3i] by the components of the given [Vector3i].
 [codeblock]
 print(Vector3i(10, 20, 30) - Vector3i(3, 4, 5)) # Prints ""(7, 16, 25)""
@@ -8004,8 +7753,7 @@ print(Vector3i(10, 20, 30) - Vector3i(3, 4, 5)) # Prints ""(7, 16, 25)""
     val ( * ) :
       Vector3i.t structure ptr ->
       Vector3i.t structure ptr ->
-      Vector3i.t structure ptr ->
-      unit
+      Vector3i.t structure ptr
     (** Multiplies each component of the [Vector3i] by the components of the given [Vector3i].
 [codeblock]
 print(Vector3i(10, 20, 30)  *  Vector3i(3, 4, 5)) # Prints ""(30, 80, 150)""
@@ -8014,8 +7762,7 @@ print(Vector3i(10, 20, 30)  *  Vector3i(3, 4, 5)) # Prints ""(30, 80, 150)""
     val ( / ) :
       Vector3i.t structure ptr ->
       Vector3i.t structure ptr ->
-      Vector3i.t structure ptr ->
-      unit
+      Vector3i.t structure ptr
     (** Divides each component of the [Vector3i] by the components of the given [Vector3i].
 [codeblock]
 print(Vector3i(10, 20, 30) / Vector3i(2, 5, 3)) # Prints ""(5, 4, 10)""
@@ -8024,24 +7771,19 @@ print(Vector3i(10, 20, 30) / Vector3i(2, 5, 3)) # Prints ""(5, 4, 10)""
     val ( % ) :
       Vector3i.t structure ptr ->
       Vector3i.t structure ptr ->
-      Vector3i.t structure ptr ->
-      unit
+      Vector3i.t structure ptr
     (** Gets the remainder of each component of the [Vector3i] with the components of the given [Vector3i]. This operation uses truncated division, which is often not desired as it does not work well with negative numbers. Consider using [method @GlobalScope.posmod] instead if you want to handle negative numbers.
 [codeblock]
 print(Vector3i(10, -20, 30) % Vector3i(7, 8, 9)) # Prints ""(3, -4, 3)""
 [/codeblock] *)
 
-    val _Vector3i_elem_Dictionary :
+    val mem_Dictionary :
       Vector3i.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Vector3i_elem_Array :
-      Vector3i.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Vector3i.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
 
     module AXIS : sig
       type t
@@ -8202,43 +7944,37 @@ Operations take place in global space. *)
     val not :
       Transform2D.t structure ptr ->
       Transform2D.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       Transform2D.t structure ptr ->
       Transform2D.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the transforms are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
     val ( <> ) :
       Transform2D.t structure ptr ->
       Transform2D.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the transforms are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
     val ( * ) :
       Transform2D.t structure ptr ->
       Transform2D.t structure ptr ->
-      Transform2D.t structure ptr ->
-      unit
+      Transform2D.t structure ptr
     (** Composes these two transformation matrices by multiplying them together. This has the effect of transforming the second transform (the child) by the first transform (the parent). *)
 
-    val _Transform2D_elem_Dictionary :
+    val mem_Dictionary :
       Transform2D.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Transform2D_elem_Array :
+    val mem_Array :
       Transform2D.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
   end
 
   module type VECTOR4 = sig
@@ -8405,78 +8141,54 @@ This method is faster than using [method is_equal_approx] with one value as a ze
     val ( ~- ) :
       Vector4.t structure ptr ->
       Vector4.t structure ptr ->
-      Vector4.t structure ptr ->
-      unit
+      Vector4.t structure ptr
     (** Returns the negative value of the [Vector4]. This is the same as writing [code]Vector4(-v.x, -v.y, -v.z, -v.w)[/code]. This operation flips the direction of the vector while keeping the same magnitude. With floats, the number zero can be either positive or negative. *)
 
     val ( ~+ ) :
       Vector4.t structure ptr ->
       Vector4.t structure ptr ->
-      Vector4.t structure ptr ->
-      unit
+      Vector4.t structure ptr
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
 
     val not :
-      Vector4.t structure ptr ->
-      Vector4.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector4.t structure ptr -> Vector4.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      Vector4.t structure ptr ->
-      Vector4.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector4.t structure ptr -> Vector4.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the vectors are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( <> ) :
-      Vector4.t structure ptr ->
-      Vector4.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector4.t structure ptr -> Vector4.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the vectors are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( < ) :
-      Vector4.t structure ptr ->
-      Vector4.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector4.t structure ptr -> Vector4.t structure ptr -> Bool.t structure ptr
     (** Compares two [Vector4] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( <= ) :
-      Vector4.t structure ptr ->
-      Vector4.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector4.t structure ptr -> Vector4.t structure ptr -> Bool.t structure ptr
     (** Compares two [Vector4] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( > ) :
-      Vector4.t structure ptr ->
-      Vector4.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector4.t structure ptr -> Vector4.t structure ptr -> Bool.t structure ptr
     (** Compares two [Vector4] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( >= ) :
-      Vector4.t structure ptr ->
-      Vector4.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Vector4.t structure ptr -> Vector4.t structure ptr -> Bool.t structure ptr
     (** Compares two [Vector4] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
 
     val ( + ) :
       Vector4.t structure ptr ->
       Vector4.t structure ptr ->
-      Vector4.t structure ptr ->
-      unit
+      Vector4.t structure ptr
     (** Adds each component of the [Vector4] by the components of the given [Vector4].
 [codeblock]
 print(Vector4(10, 20, 30, 40) + Vector4(3, 4, 5, 6)) # Prints ""(13, 24, 35, 46)""
@@ -8485,8 +8197,7 @@ print(Vector4(10, 20, 30, 40) + Vector4(3, 4, 5, 6)) # Prints ""(13, 24, 35, 46)
     val ( - ) :
       Vector4.t structure ptr ->
       Vector4.t structure ptr ->
-      Vector4.t structure ptr ->
-      unit
+      Vector4.t structure ptr
     (** Subtracts each component of the [Vector4] by the components of the given [Vector4].
 [codeblock]
 print(Vector4(10, 20, 30, 40) - Vector4(3, 4, 5, 6)) # Prints ""(7, 16, 25, 34)""
@@ -8495,8 +8206,7 @@ print(Vector4(10, 20, 30, 40) - Vector4(3, 4, 5, 6)) # Prints ""(7, 16, 25, 34)"
     val ( * ) :
       Vector4.t structure ptr ->
       Vector4.t structure ptr ->
-      Vector4.t structure ptr ->
-      unit
+      Vector4.t structure ptr
     (** Multiplies each component of the [Vector4] by the components of the given [Vector4].
 [codeblock]
 print(Vector4(10, 20, 30, 40)  *  Vector4(3, 4, 5, 6)) # Prints ""(30, 80, 150, 240)""
@@ -8505,24 +8215,19 @@ print(Vector4(10, 20, 30, 40)  *  Vector4(3, 4, 5, 6)) # Prints ""(30, 80, 150, 
     val ( / ) :
       Vector4.t structure ptr ->
       Vector4.t structure ptr ->
-      Vector4.t structure ptr ->
-      unit
+      Vector4.t structure ptr
     (** Divides each component of the [Vector4] by the components of the given [Vector4].
 [codeblock]
 print(Vector4(10, 20, 30, 40) / Vector4(2, 5, 3, 4)) # Prints ""(5, 4, 10, 10)""
 [/codeblock] *)
 
-    val _Vector4_elem_Dictionary :
+    val mem_Dictionary :
       Vector4.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Vector4_elem_Array :
-      Vector4.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Vector4.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
 
     module AXIS : sig
       type t
@@ -8595,70 +8300,60 @@ This method runs faster than [method length], so prefer it if you need to compar
     val ( ~- ) :
       Vector4i.t structure ptr ->
       Vector4i.t structure ptr ->
-      Vector4i.t structure ptr ->
-      unit
+      Vector4i.t structure ptr
     (** Returns the negative value of the [Vector4i]. This is the same as writing [code]Vector4i(-v.x, -v.y, -v.z, -v.w)[/code]. This operation flips the direction of the vector while keeping the same magnitude. *)
 
     val ( ~+ ) :
       Vector4i.t structure ptr ->
       Vector4i.t structure ptr ->
-      Vector4i.t structure ptr ->
-      unit
+      Vector4i.t structure ptr
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
 
     val not :
       Vector4i.t structure ptr ->
       Vector4i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       Vector4i.t structure ptr ->
       Vector4i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the vectors are exactly equal. *)
 
     val ( <> ) :
       Vector4i.t structure ptr ->
       Vector4i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the vectors are not equal. *)
 
     val ( < ) :
       Vector4i.t structure ptr ->
       Vector4i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Compares two [Vector4i] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors. *)
 
     val ( <= ) :
       Vector4i.t structure ptr ->
       Vector4i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Compares two [Vector4i] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors. *)
 
     val ( > ) :
       Vector4i.t structure ptr ->
       Vector4i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Compares two [Vector4i] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors. *)
 
     val ( >= ) :
       Vector4i.t structure ptr ->
       Vector4i.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Compares two [Vector4i] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors. *)
 
     val ( + ) :
       Vector4i.t structure ptr ->
       Vector4i.t structure ptr ->
-      Vector4i.t structure ptr ->
-      unit
+      Vector4i.t structure ptr
     (** Adds each component of the [Vector4i] by the components of the given [Vector4i].
 [codeblock]
 print(Vector4i(10, 20, 30, 40) + Vector4i(3, 4, 5, 6)) # Prints ""(13, 24, 35, 46)""
@@ -8667,8 +8362,7 @@ print(Vector4i(10, 20, 30, 40) + Vector4i(3, 4, 5, 6)) # Prints ""(13, 24, 35, 4
     val ( - ) :
       Vector4i.t structure ptr ->
       Vector4i.t structure ptr ->
-      Vector4i.t structure ptr ->
-      unit
+      Vector4i.t structure ptr
     (** Subtracts each component of the [Vector4i] by the components of the given [Vector4i].
 [codeblock]
 print(Vector4i(10, 20, 30, 40) - Vector4i(3, 4, 5, 6)) # Prints ""(7, 16, 25, 34)""
@@ -8677,8 +8371,7 @@ print(Vector4i(10, 20, 30, 40) - Vector4i(3, 4, 5, 6)) # Prints ""(7, 16, 25, 34
     val ( * ) :
       Vector4i.t structure ptr ->
       Vector4i.t structure ptr ->
-      Vector4i.t structure ptr ->
-      unit
+      Vector4i.t structure ptr
     (** Multiplies each component of the [Vector4i] by the components of the given [Vector4i].
 [codeblock]
 print(Vector4i(10, 20, 30, 40)  *  Vector4i(3, 4, 5, 6)) # Prints ""(30, 80, 150, 240)""
@@ -8687,8 +8380,7 @@ print(Vector4i(10, 20, 30, 40)  *  Vector4i(3, 4, 5, 6)) # Prints ""(30, 80, 150
     val ( / ) :
       Vector4i.t structure ptr ->
       Vector4i.t structure ptr ->
-      Vector4i.t structure ptr ->
-      unit
+      Vector4i.t structure ptr
     (** Divides each component of the [Vector4i] by the components of the given [Vector4i].
 [codeblock]
 print(Vector4i(10, 20, 30, 40) / Vector4i(2, 5, 3, 4)) # Prints ""(5, 4, 10, 10)""
@@ -8697,24 +8389,19 @@ print(Vector4i(10, 20, 30, 40) / Vector4i(2, 5, 3, 4)) # Prints ""(5, 4, 10, 10)
     val ( % ) :
       Vector4i.t structure ptr ->
       Vector4i.t structure ptr ->
-      Vector4i.t structure ptr ->
-      unit
+      Vector4i.t structure ptr
     (** Gets the remainder of each component of the [Vector4i] with the components of the given [Vector4i]. This operation uses truncated division, which is often not desired as it does not work well with negative numbers. Consider using [method @GlobalScope.posmod] instead if you want to handle negative numbers.
 [codeblock]
 print(Vector4i(10, -20, 30, -40) % Vector4i(7, 8, 9, 10))  # Prints ""(3, -4, 3, 0)""
 [/codeblock] *)
 
-    val _Vector4i_elem_Dictionary :
+    val mem_Dictionary :
       Vector4i.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Vector4i_elem_Array :
-      Vector4i.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Vector4i.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
 
     module AXIS : sig
       type t
@@ -8806,52 +8493,33 @@ print(Vector4i(10, -20, 30, -40) % Vector4i(7, 8, 9, 10))  # Prints ""(3, -4, 3,
     (** Returns the intersection point of a segment from position [param from] to position [param to] with this plane. If no intersection is found, [code]null[/code] is returned. *)
 
     val ( ~- ) :
-      Plane.t structure ptr ->
-      Plane.t structure ptr ->
-      Plane.t structure ptr ->
-      unit
+      Plane.t structure ptr -> Plane.t structure ptr -> Plane.t structure ptr
     (** Returns the negative value of the [Plane]. This is the same as writing [code]Plane(-p.normal, -p.d)[/code]. This operation flips the direction of the normal vector and also flips the distance value, resulting in a Plane that is in the same place, but facing the opposite direction. *)
 
     val ( ~+ ) :
-      Plane.t structure ptr ->
-      Plane.t structure ptr ->
-      Plane.t structure ptr ->
-      unit
+      Plane.t structure ptr -> Plane.t structure ptr -> Plane.t structure ptr
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
 
     val not :
-      Plane.t structure ptr ->
-      Plane.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Plane.t structure ptr -> Plane.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      Plane.t structure ptr ->
-      Plane.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Plane.t structure ptr -> Plane.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the planes are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
     val ( <> ) :
-      Plane.t structure ptr ->
-      Plane.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Plane.t structure ptr -> Plane.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the planes are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
-    val _Plane_elem_Dictionary :
+    val mem_Dictionary :
       Plane.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Plane_elem_Array :
-      Plane.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Plane.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
   end
 
   module type QUATERNION = sig
@@ -8982,73 +8650,63 @@ The order of each consecutive rotation can be changed with [param order] (see [e
     val ( ~- ) :
       Quaternion.t structure ptr ->
       Quaternion.t structure ptr ->
-      Quaternion.t structure ptr ->
-      unit
+      Quaternion.t structure ptr
     (** Returns the negative value of the [Quaternion]. This is the same as multiplying all components by [code]-1[/code]. This operation results in a quaternion that represents the same rotation. *)
 
     val ( ~+ ) :
       Quaternion.t structure ptr ->
       Quaternion.t structure ptr ->
-      Quaternion.t structure ptr ->
-      unit
+      Quaternion.t structure ptr
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
 
     val not :
       Quaternion.t structure ptr ->
       Quaternion.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       Quaternion.t structure ptr ->
       Quaternion.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the components of both quaternions are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
     val ( <> ) :
       Quaternion.t structure ptr ->
       Quaternion.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the components of both quaternions are not exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
     val ( + ) :
       Quaternion.t structure ptr ->
       Quaternion.t structure ptr ->
-      Quaternion.t structure ptr ->
-      unit
+      Quaternion.t structure ptr
     (** Adds each component of the left [Quaternion] to the right [Quaternion].
 This operation is not meaningful on its own, but it can be used as a part of a larger expression, such as approximating an intermediate rotation between two nearby rotations. *)
 
     val ( - ) :
       Quaternion.t structure ptr ->
       Quaternion.t structure ptr ->
-      Quaternion.t structure ptr ->
-      unit
+      Quaternion.t structure ptr
     (** Subtracts each component of the left [Quaternion] by the right [Quaternion].
 This operation is not meaningful on its own, but it can be used as a part of a larger expression. *)
 
     val ( * ) :
       Quaternion.t structure ptr ->
       Quaternion.t structure ptr ->
-      Quaternion.t structure ptr ->
-      unit
+      Quaternion.t structure ptr
     (** Composes (multiplies) two quaternions. This rotates the [param right] quaternion (the child) by this quaternion (the parent). *)
 
-    val _Quaternion_elem_Dictionary :
+    val mem_Dictionary :
       Quaternion.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Quaternion_elem_Array :
+    val mem_Array :
       Quaternion.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
   end
 
   module type AABB = sig
@@ -9327,38 +8985,23 @@ The segment begins at [param from] and ends at [param to]. *)
 The ray begin at [param from], faces [param dir] and extends towards infinity. *)
 
     val not :
-      AABB.t structure ptr ->
-      AABB.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      AABB.t structure ptr -> AABB.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      AABB.t structure ptr ->
-      AABB.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      AABB.t structure ptr -> AABB.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if both [member position] and [member size] of the bounding boxes are exactly equal, respectively.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
     val ( <> ) :
-      AABB.t structure ptr ->
-      AABB.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      AABB.t structure ptr -> AABB.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the [member position] or [member size] of both bounding boxes are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
-    val _AABB_elem_Dictionary :
-      AABB.t structure ptr ->
-      Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Dictionary :
+      AABB.t structure ptr -> Dictionary.t structure ptr -> Bool.t structure ptr
 
-    val _AABB_elem_Array :
-      AABB.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      AABB.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
   end
 
   module type BASIS = sig
@@ -9649,46 +9292,30 @@ GD.Print(myBasis.Z); // Prints (0, -1, 0).
 The order of each consecutive rotation can be changed with [param order] (see [enum EulerOrder] constants). By default, the YXZ convention is used ([constant EULER_ORDER_YXZ]): the basis rotates first around the Y axis (yaw), then X (pitch), and lastly Z (roll). When using the opposite method [method get_euler], this order is reversed. *)
 
     val not :
-      Basis.t structure ptr ->
-      Basis.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Basis.t structure ptr -> Basis.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      Basis.t structure ptr ->
-      Basis.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Basis.t structure ptr -> Basis.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the components of both [Basis] matrices are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
     val ( <> ) :
-      Basis.t structure ptr ->
-      Basis.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Basis.t structure ptr -> Basis.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the components of both [Basis] matrices are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
     val ( * ) :
-      Basis.t structure ptr ->
-      Basis.t structure ptr ->
-      Basis.t structure ptr ->
-      unit
+      Basis.t structure ptr -> Basis.t structure ptr -> Basis.t structure ptr
     (** Transforms (multiplies) the [param right] basis by this basis.
 This is the operation performed between parent and child [Node3D]s. *)
 
-    val _Basis_elem_Dictionary :
+    val mem_Dictionary :
       Basis.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Basis_elem_Array :
-      Basis.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Basis.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
   end
 
   module type TRANSFORM3D = sig
@@ -9797,30 +9424,26 @@ The [param weight] should be between [code]0.0[/code] and [code]1.0[/code] (incl
     val not :
       Transform3D.t structure ptr ->
       Transform3D.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       Transform3D.t structure ptr ->
       Transform3D.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the components of both transforms are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
     val ( <> ) :
       Transform3D.t structure ptr ->
       Transform3D.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the components of both transforms are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
     val ( * ) :
       Transform3D.t structure ptr ->
       Transform3D.t structure ptr ->
-      Transform3D.t structure ptr ->
-      unit
+      Transform3D.t structure ptr
     (** Transforms (multiplies) this transform by the [param right] transform.
 This is the operation performed between parent and child [Node3D]s.
 [b]Note:[/b] If you need to only modify one attribute of this transform, consider using one of the following methods, instead:
@@ -9828,17 +9451,15 @@ This is the operation performed between parent and child [Node3D]s.
 - For rotation, see [method rotated] or [method rotated_local].
 - For scale, see [method scaled] or [method scaled_local]. *)
 
-    val _Transform3D_elem_Dictionary :
+    val mem_Dictionary :
       Transform3D.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Transform3D_elem_Array :
+    val mem_Array :
       Transform3D.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
   end
 
   module type PROJECTION = sig
@@ -10030,43 +9651,37 @@ The determinant can be used to calculate the invertibility of a matrix or solve 
     val not :
       Projection.t structure ptr ->
       Projection.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       Projection.t structure ptr ->
       Projection.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the projections are equal.
 [b]Note:[/b] Due to floating-point precision errors, this may return [code]false[/code], even if the projections are virtually equal. An [code]is_equal_approx[/code] method may be added in a future version of Godot. *)
 
     val ( <> ) :
       Projection.t structure ptr ->
       Projection.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the projections are not equal.
 [b]Note:[/b] Due to floating-point precision errors, this may return [code]true[/code], even if the projections are virtually equal. An [code]is_equal_approx[/code] method may be added in a future version of Godot. *)
 
     val ( * ) :
       Projection.t structure ptr ->
       Projection.t structure ptr ->
-      Projection.t structure ptr ->
-      unit
+      Projection.t structure ptr
     (** Returns a [Projection] that applies the combined transformations of this [Projection] and [param right]. *)
 
-    val _Projection_elem_Dictionary :
+    val mem_Dictionary :
       Projection.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Projection_elem_Array :
+    val mem_Array :
       Projection.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     module PLANES : sig
       type t
@@ -10425,86 +10040,54 @@ var color = Color.FromOkHsl(0.58f, 0.5f, 0.79f, 0.8f);
     (** Decodes a [Color] from a RGBE9995 format integer. See [constant Image.FORMAT_RGBE9995]. *)
 
     val ( ~- ) :
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      unit
+      Color.t structure ptr -> Color.t structure ptr -> Color.t structure ptr
     (** Inverts the given color. This is equivalent to [code]Color.WHITE - c[/code] or [code]Color(1 - c.r, 1 - c.g, 1 - c.b, 1 - c.a)[/code]. Unlike with [method inverted], the [member a] component is inverted, too. *)
 
     val ( ~+ ) :
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      unit
+      Color.t structure ptr -> Color.t structure ptr -> Color.t structure ptr
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
 
     val not :
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Color.t structure ptr -> Color.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Color.t structure ptr -> Color.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the colors are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
     val ( <> ) :
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Color.t structure ptr -> Color.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the colors are not exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
 
     val ( + ) :
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      unit
+      Color.t structure ptr -> Color.t structure ptr -> Color.t structure ptr
     (** Adds each component of the [Color] with the components of the given [Color]. *)
 
     val ( - ) :
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      unit
+      Color.t structure ptr -> Color.t structure ptr -> Color.t structure ptr
     (** Subtracts each component of the [Color] by the components of the given [Color]. *)
 
     val ( * ) :
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      unit
+      Color.t structure ptr -> Color.t structure ptr -> Color.t structure ptr
     (** Multiplies each component of the [Color] by the components of the given [Color]. *)
 
     val ( / ) :
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      Color.t structure ptr ->
-      unit
+      Color.t structure ptr -> Color.t structure ptr -> Color.t structure ptr
     (** Divides each component of the [Color] by the components of the given [Color]. *)
 
-    val _Color_elem_Dictionary :
+    val mem_Dictionary :
       Color.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Color_elem_Array :
-      Color.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Color.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
 
-    val _Color_elem_PackedColorArray :
+    val mem_PackedColorArray :
       Color.t structure ptr ->
       PackedColorArray.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
   end
 
   module type STRINGNAME = sig
@@ -11379,99 +10962,84 @@ GD.Print(buf.HexDecode().GetStringFromUtf8());
     val not :
       StringName.t structure ptr ->
       StringName.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _StringName_elem_String :
+    val mem_String :
       StringName.t structure ptr ->
       String.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       StringName.t structure ptr ->
       StringName.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the [StringName] and [param right] refer to the same name. Comparisons between [StringName]s are much faster than regular [String] comparisons. *)
 
     val ( <> ) :
       StringName.t structure ptr ->
       StringName.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the [StringName] and [param right] do not refer to the same name. Comparisons between [StringName]s are much faster than regular [String] comparisons. *)
 
     val ( < ) :
       StringName.t structure ptr ->
       StringName.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the left [StringName]'s pointer comes before [param right]. Note that this will not match their [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url]. *)
 
     val ( <= ) :
       StringName.t structure ptr ->
       StringName.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the left [StringName]'s pointer comes before [param right] or if they are the same. Note that this will not match their [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url]. *)
 
     val ( > ) :
       StringName.t structure ptr ->
       StringName.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the left [StringName]'s pointer comes after [param right]. Note that this will not match their [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url]. *)
 
     val ( >= ) :
       StringName.t structure ptr ->
       StringName.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the left [StringName]'s pointer comes after [param right] or if they are the same. Note that this will not match their [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url]. *)
 
     val ( + ) :
       StringName.t structure ptr ->
       StringName.t structure ptr ->
-      String.t structure ptr ->
-      unit
+      String.t structure ptr
     (** Appends [param right] at the end of this [StringName], returning a [String]. This is also known as a string concatenation. *)
 
     val ( % ) :
       StringName.t structure ptr ->
       StringName.t structure ptr ->
-      String.t structure ptr ->
-      unit
+      String.t structure ptr
 
-    val _StringName_elem_StringName :
+    val mem_StringName :
       StringName.t structure ptr ->
       StringName.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _StringName_elem_Object :
+    val mem_Object :
       StringName.t structure ptr ->
       Object.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _StringName_elem_Dictionary :
+    val mem_Dictionary :
       StringName.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _StringName_elem_Array :
+    val mem_Array :
       StringName.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _StringName_elem_PackedStringArray :
+    val mem_PackedStringArray :
       StringName.t structure ptr ->
       PackedStringArray.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
   end
 
   module type NODEPATH = sig
@@ -11588,34 +11156,27 @@ GD.Print(propertyPath); // :position:x
     val not :
       NodePath.t structure ptr ->
       NodePath.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       NodePath.t structure ptr ->
       NodePath.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if two node paths are equal, i.e. all node names in the path are the same and in the same order. *)
 
     val ( <> ) :
       NodePath.t structure ptr ->
       NodePath.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if two node paths are not equal. *)
 
-    val _NodePath_elem_Dictionary :
+    val mem_Dictionary :
       NodePath.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _NodePath_elem_Array :
-      NodePath.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      NodePath.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
   end
 
   module type RID = sig
@@ -11631,31 +11192,30 @@ GD.Print(propertyPath); // :position:x
       BuiltinClass0.RID.t structure ptr -> BuiltinClass0.Int.t structure ptr
     (** Returns the ID of the referenced low-level resource. *)
 
-    val not :
-      RID.t structure ptr -> RID.t structure ptr -> Bool.t structure ptr -> unit
+    val not : RID.t structure ptr -> RID.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      RID.t structure ptr -> RID.t structure ptr -> Bool.t structure ptr -> unit
+      RID.t structure ptr -> RID.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if both [RID]s are equal, which means they both refer to the same low-level resource. *)
 
     val ( <> ) :
-      RID.t structure ptr -> RID.t structure ptr -> Bool.t structure ptr -> unit
+      RID.t structure ptr -> RID.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the [RID]s are not equal. *)
 
     val ( < ) :
-      RID.t structure ptr -> RID.t structure ptr -> Bool.t structure ptr -> unit
+      RID.t structure ptr -> RID.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the [RID]'s ID is less than [param right]'s ID. *)
 
     val ( <= ) :
-      RID.t structure ptr -> RID.t structure ptr -> Bool.t structure ptr -> unit
+      RID.t structure ptr -> RID.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the [RID]'s ID is less than or equal to [param right]'s ID. *)
 
     val ( > ) :
-      RID.t structure ptr -> RID.t structure ptr -> Bool.t structure ptr -> unit
+      RID.t structure ptr -> RID.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the [RID]'s ID is greater than [param right]'s ID. *)
 
     val ( >= ) :
-      RID.t structure ptr -> RID.t structure ptr -> Bool.t structure ptr -> unit
+      RID.t structure ptr -> RID.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the [RID]'s ID is greater than or equal to [param right]'s ID. *)
   end
 
@@ -11777,34 +11337,27 @@ See also [method Object.call_deferred]. *)
     val not :
       Callable.t structure ptr ->
       Callable.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       Callable.t structure ptr ->
       Callable.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if both [Callable]s invoke the same custom target. *)
 
     val ( <> ) :
       Callable.t structure ptr ->
       Callable.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if both [Callable]s invoke different targets. *)
 
-    val _Callable_elem_Dictionary :
+    val mem_Dictionary :
       Callable.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Callable_elem_Array :
-      Callable.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Callable.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
   end
 
   module type SIGNAL = sig
@@ -11870,36 +11423,23 @@ func _on_pressed(button):
     (** Emits this signal. All [Callable]s connected to this signal will be triggered. This method supports a variable number of arguments, so parameters can be passed as a comma separated list. *)
 
     val not :
-      Signal.t structure ptr ->
-      Signal.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Signal.t structure ptr -> Signal.t structure ptr -> Bool.t structure ptr
 
     val ( = ) :
-      Signal.t structure ptr ->
-      Signal.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Signal.t structure ptr -> Signal.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if both signals share the same object and name. *)
 
     val ( <> ) :
-      Signal.t structure ptr ->
-      Signal.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Signal.t structure ptr -> Signal.t structure ptr -> Bool.t structure ptr
     (** Returns [code]true[/code] if the signals do not share the same object and name. *)
 
-    val _Signal_elem_Dictionary :
+    val mem_Dictionary :
       Signal.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Signal_elem_Array :
-      Signal.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Signal.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
   end
 
   module type DICTIONARY = sig
@@ -12078,35 +11618,30 @@ GD.Print(GD.Hash(dict1) == GD.Hash(dict2)); // Prints true
     val not :
       Dictionary.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       Dictionary.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the two dictionaries contain the same keys and values. The order of the entries does not matter.
 [b]Note:[/b] In C#, by convention, this operator compares by [b]reference[/b]. If you need to compare by value, iterate over both dictionaries. *)
 
     val ( <> ) :
       Dictionary.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if the two dictionaries do not contain the same keys and values. *)
 
-    val _Dictionary_elem_Dictionary :
+    val mem_Dictionary :
       Dictionary.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _Dictionary_elem_Array :
+    val mem_Array :
       Dictionary.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
   end
 
   module type ARRAY = sig
@@ -12571,71 +12106,43 @@ See also [method max] for an example of using a custom comparator. *)
     (** Returns [code]true[/code] if the array is read-only. See [method make_read_only]. Arrays are automatically read-only if declared with [code]const[/code] keyword. *)
 
     val not :
-      Array.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Array.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
 
-    val _Array_elem_Dictionary :
+    val mem_Dictionary :
       Array.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
-      Array.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Array.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
     (** Compares the left operand [Array] against the [param right] [Array]. Returns [code]true[/code] if the sizes and contents of the arrays are equal, [code]false[/code] otherwise. *)
 
     val ( <> ) :
-      Array.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Array.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
     (** Compares the left operand [Array] against the [param right] [Array]. Returns [code]true[/code] if the sizes or contents of the arrays are [i]not[/i] equal, [code]false[/code] otherwise. *)
 
     val ( < ) :
-      Array.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Array.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
     (** Performs a comparison for each index between the left operand [Array] and the [param right] [Array], considering the highest common index of both arrays for this comparison: Returns [code]true[/code] on the first occurrence of an element that is less, or [code]false[/code] if the element is greater. Note that depending on the type of data stored, this function may be recursive. If all elements are equal, it compares the length of both arrays and returns [code]false[/code] if the left operand [Array] has fewer elements, otherwise it returns [code]true[/code]. *)
 
     val ( <= ) :
-      Array.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Array.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
     (** Performs a comparison for each index between the left operand [Array] and the [param right] [Array], considering the highest common index of both arrays for this comparison: Returns [code]true[/code] on the first occurrence of an element that is less, or [code]false[/code] if the element is greater. Note that depending on the type of data stored, this function may be recursive. If all elements are equal, it compares the length of both arrays and returns [code]true[/code] if the left operand [Array] has the same number of elements or fewer, otherwise it returns [code]false[/code]. *)
 
     val ( > ) :
-      Array.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Array.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
     (** Performs a comparison for each index between the left operand [Array] and the [param right] [Array], considering the highest common index of both arrays for this comparison: Returns [code]true[/code] on the first occurrence of an element that is greater, or [code]false[/code] if the element is less. Note that depending on the type of data stored, this function may be recursive. If all elements are equal, it compares the length of both arrays and returns [code]true[/code] if the [param right] [Array] has more elements, otherwise it returns [code]false[/code]. *)
 
     val ( >= ) :
-      Array.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Array.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
     (** Performs a comparison for each index between the left operand [Array] and the [param right] [Array], considering the highest common index of both arrays for this comparison: Returns [code]true[/code] on the first occurrence of an element that is greater, or [code]false[/code] if the element is less. Note that depending on the type of data stored, this function may be recursive. If all elements are equal, it compares the length of both arrays and returns [code]true[/code] if the [param right] [Array] has more or the same number of elements, otherwise it returns [code]false[/code]. *)
 
     val ( + ) :
-      Array.t structure ptr ->
-      Array.t structure ptr ->
-      Array.t structure ptr ->
-      unit
+      Array.t structure ptr -> Array.t structure ptr -> Array.t structure ptr
     (** Concatenates two [Array]s together, with the [param right] [Array] being added to the end of the [Array] specified in the left operand. For example, [code][1, 2] + [3, 4][/code] results in [code][1, 2, 3, 4][/code]. *)
 
-    val _Array_elem_Array :
-      Array.t structure ptr ->
-      Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+    val mem_Array :
+      Array.t structure ptr -> Array.t structure ptr -> Bool.t structure ptr
   end
 
   module type PACKEDBYTEARRAY = sig
@@ -13027,40 +12534,34 @@ If the original data can't be converted to 64-bit floats, the resulting data is 
     val not :
       PackedByteArray.t structure ptr ->
       PackedByteArray.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedByteArray_elem_Dictionary :
+    val mem_Dictionary :
       PackedByteArray.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedByteArray_elem_Array :
+    val mem_Array :
       PackedByteArray.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       PackedByteArray.t structure ptr ->
       PackedByteArray.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal bytes at the corresponding indices. *)
 
     val ( <> ) :
       PackedByteArray.t structure ptr ->
       PackedByteArray.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of the arrays differ. *)
 
     val ( + ) :
       PackedByteArray.t structure ptr ->
       PackedByteArray.t structure ptr ->
-      PackedByteArray.t structure ptr ->
-      unit
+      PackedByteArray.t structure ptr
     (** Returns a new [PackedByteArray] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
   end
 
@@ -13195,40 +12696,34 @@ The size of the new array will be [code]int32_array.size()  *  4[/code]. *)
     val not :
       PackedInt32Array.t structure ptr ->
       PackedInt32Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedInt32Array_elem_Dictionary :
+    val mem_Dictionary :
       PackedInt32Array.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedInt32Array_elem_Array :
+    val mem_Array :
       PackedInt32Array.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       PackedInt32Array.t structure ptr ->
       PackedInt32Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal ints at the corresponding indices. *)
 
     val ( <> ) :
       PackedInt32Array.t structure ptr ->
       PackedInt32Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of the arrays differ. *)
 
     val ( + ) :
       PackedInt32Array.t structure ptr ->
       PackedInt32Array.t structure ptr ->
-      PackedInt32Array.t structure ptr ->
-      unit
+      PackedInt32Array.t structure ptr
     (** Returns a new [PackedInt32Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
   end
 
@@ -13363,40 +12858,34 @@ The size of the new array will be [code]int64_array.size()  *  8[/code]. *)
     val not :
       PackedInt64Array.t structure ptr ->
       PackedInt64Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedInt64Array_elem_Dictionary :
+    val mem_Dictionary :
       PackedInt64Array.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedInt64Array_elem_Array :
+    val mem_Array :
       PackedInt64Array.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       PackedInt64Array.t structure ptr ->
       PackedInt64Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal ints at the corresponding indices. *)
 
     val ( <> ) :
       PackedInt64Array.t structure ptr ->
       PackedInt64Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of the arrays differ. *)
 
     val ( + ) :
       PackedInt64Array.t structure ptr ->
       PackedInt64Array.t structure ptr ->
-      PackedInt64Array.t structure ptr ->
-      unit
+      PackedInt64Array.t structure ptr
     (** Returns a new [PackedInt64Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
   end
 
@@ -13537,40 +13026,34 @@ The size of the new array will be [code]float32_array.size()  *  4[/code]. *)
     val not :
       PackedFloat32Array.t structure ptr ->
       PackedFloat32Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedFloat32Array_elem_Dictionary :
+    val mem_Dictionary :
       PackedFloat32Array.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedFloat32Array_elem_Array :
+    val mem_Array :
       PackedFloat32Array.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       PackedFloat32Array.t structure ptr ->
       PackedFloat32Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal floats at the corresponding indices. *)
 
     val ( <> ) :
       PackedFloat32Array.t structure ptr ->
       PackedFloat32Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of the arrays differ. *)
 
     val ( + ) :
       PackedFloat32Array.t structure ptr ->
       PackedFloat32Array.t structure ptr ->
-      PackedFloat32Array.t structure ptr ->
-      unit
+      PackedFloat32Array.t structure ptr
     (** Returns a new [PackedFloat32Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
   end
 
@@ -13711,40 +13194,34 @@ The size of the new array will be [code]float64_array.size()  *  8[/code]. *)
     val not :
       PackedFloat64Array.t structure ptr ->
       PackedFloat64Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedFloat64Array_elem_Dictionary :
+    val mem_Dictionary :
       PackedFloat64Array.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedFloat64Array_elem_Array :
+    val mem_Array :
       PackedFloat64Array.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       PackedFloat64Array.t structure ptr ->
       PackedFloat64Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal doubles at the corresponding indices. *)
 
     val ( <> ) :
       PackedFloat64Array.t structure ptr ->
       PackedFloat64Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of the arrays differ. *)
 
     val ( + ) :
       PackedFloat64Array.t structure ptr ->
       PackedFloat64Array.t structure ptr ->
-      PackedFloat64Array.t structure ptr ->
-      unit
+      PackedFloat64Array.t structure ptr
     (** Returns a new [PackedFloat64Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
   end
 
@@ -13878,40 +13355,34 @@ If either [param begin] or [param end] are negative, they will be relative to th
     val not :
       PackedStringArray.t structure ptr ->
       PackedStringArray.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedStringArray_elem_Dictionary :
+    val mem_Dictionary :
       PackedStringArray.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedStringArray_elem_Array :
+    val mem_Array :
       PackedStringArray.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       PackedStringArray.t structure ptr ->
       PackedStringArray.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal [String]s at the corresponding indices. *)
 
     val ( <> ) :
       PackedStringArray.t structure ptr ->
       PackedStringArray.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of the arrays differ. *)
 
     val ( + ) :
       PackedStringArray.t structure ptr ->
       PackedStringArray.t structure ptr ->
-      PackedStringArray.t structure ptr ->
-      unit
+      PackedStringArray.t structure ptr
     (** Returns a new [PackedStringArray] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
   end
 
@@ -14051,40 +13522,34 @@ If either [param begin] or [param end] are negative, they will be relative to th
     val not :
       PackedVector2Array.t structure ptr ->
       PackedVector2Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedVector2Array_elem_Dictionary :
+    val mem_Dictionary :
       PackedVector2Array.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedVector2Array_elem_Array :
+    val mem_Array :
       PackedVector2Array.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       PackedVector2Array.t structure ptr ->
       PackedVector2Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal [Vector2]s at the corresponding indices. *)
 
     val ( <> ) :
       PackedVector2Array.t structure ptr ->
       PackedVector2Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of the arrays differ. *)
 
     val ( + ) :
       PackedVector2Array.t structure ptr ->
       PackedVector2Array.t structure ptr ->
-      PackedVector2Array.t structure ptr ->
-      unit
+      PackedVector2Array.t structure ptr
     (** Returns a new [PackedVector2Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
   end
 
@@ -14224,40 +13689,34 @@ If either [param begin] or [param end] are negative, they will be relative to th
     val not :
       PackedVector3Array.t structure ptr ->
       PackedVector3Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedVector3Array_elem_Dictionary :
+    val mem_Dictionary :
       PackedVector3Array.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedVector3Array_elem_Array :
+    val mem_Array :
       PackedVector3Array.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       PackedVector3Array.t structure ptr ->
       PackedVector3Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal [Vector3]s at the corresponding indices. *)
 
     val ( <> ) :
       PackedVector3Array.t structure ptr ->
       PackedVector3Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of the arrays differ. *)
 
     val ( + ) :
       PackedVector3Array.t structure ptr ->
       PackedVector3Array.t structure ptr ->
-      PackedVector3Array.t structure ptr ->
-      unit
+      PackedVector3Array.t structure ptr
     (** Returns a new [PackedVector3Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
   end
 
@@ -14391,261 +13850,255 @@ If either [param begin] or [param end] are negative, they will be relative to th
     val not :
       PackedColorArray.t structure ptr ->
       PackedColorArray.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedColorArray_elem_Dictionary :
+    val mem_Dictionary :
       PackedColorArray.t structure ptr ->
       Dictionary.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
-    val _PackedColorArray_elem_Array :
+    val mem_Array :
       PackedColorArray.t structure ptr ->
       Array.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
 
     val ( = ) :
       PackedColorArray.t structure ptr ->
       PackedColorArray.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal [Color]s at the corresponding indices. *)
 
     val ( <> ) :
       PackedColorArray.t structure ptr ->
       PackedColorArray.t structure ptr ->
-      Bool.t structure ptr ->
-      unit
+      Bool.t structure ptr
     (** Returns [code]true[/code] if contents of the arrays differ. *)
 
     val ( + ) :
       PackedColorArray.t structure ptr ->
       PackedColorArray.t structure ptr ->
-      PackedColorArray.t structure ptr ->
-      unit
+      PackedColorArray.t structure ptr
     (** Returns a new [PackedColorArray] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
   end
 
   module Nil = struct
     include M.Nil
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NIL None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Nil.typ @-> Nil.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Nil_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NIL
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Nil.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Nil_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NIL
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Nil.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Bool = struct
     include M.Bool
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the two booleans are equal. That is, both are [code]true[/code] or both are [code]false[/code]. This operation can be seen as a logical EQ or XNOR. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_BOOL)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the two booleans are not equal. That is, one is [code]true[/code] and the other is [code]false[/code]. This operation can be seen as a logical XOR. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_BOOL)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left operand is [code]false[/code] and the right operand is [code]true[/code]. *)
-    let ( < ) x0 x1 x2 =
+    let ( < ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_BOOL)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left operand is [code]true[/code] and the right operand is [code]false[/code]. *)
-    let ( > ) x0 x1 x2 =
+    let ( > ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_BOOL)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let ( && ) x0 x1 x2 =
+    let ( && ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_BOOL)
         GlobalEnum.VariantOperator._OP_AND
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let ( || ) x0 x1 x2 =
+    let ( || ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_BOOL)
         GlobalEnum.VariantOperator._OP_OR
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let ( ~^^ ) x0 x1 x2 =
+    let ( ~^^ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_BOOL)
         GlobalEnum.VariantOperator._OP_XOR
         (funptr (Bool.typ @-> Bool.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let bool_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Bool.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let bool_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BOOL
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Bool.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Int = struct
     include M.Int
 
     (** Returns the negated value of the [int]. If positive, turns the number negative. If negative, turns the number positive. If zero, does nothing. *)
-    let ( ~- ) x0 x1 x2 =
+    let ( ~- ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
-        x0 x1 x2
+        Int.s x0 x1
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) x0 x1 x2 =
+    let ( ~+ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
-        x0 x1 x2
+        Int.s x0 x1
 
     (** Performs the bitwise [code]NOT[/code] operation on the [int]. Due to [url=https://en.wikipedia.org/wiki/Two%27s_complement]2's complement[/url], it's effectively equal to [code]-(int + 1)[/code].
 [codeblock]
 print(~4) # Prints -5
 print(~(-7)) # Prints 6
 [/codeblock] *)
-    let ( ~~~ ) x0 x1 x2 =
+    let ( ~~~ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT None
         GlobalEnum.VariantOperator._OP_BIT_NEGATE
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
-        x0 x1 x2
+        Int.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the two [int]s are equal. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the [int]s are not equal. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left [int] is less than the right [int]. *)
-    let ( < ) x0 x1 x2 =
+    let ( < ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left [int] is less than or equal to the right [int]. *)
-    let ( <= ) x0 x1 x2 =
+    let ( <= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left [int] is greater than the right [int]. *)
-    let ( > ) x0 x1 x2 =
+    let ( > ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left [int] is greater than or equal to the right [int]. *)
-    let ( >= ) x0 x1 x2 =
+    let ( >= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Adds the two [int]s. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
-        x0 x1 x2
+        Int.s x0 x1
 
     (** Subtracts the two [int]s. *)
-    let ( - ) x0 x1 x2 =
+    let ( - ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
-        x0 x1 x2
+        Int.s x0 x1
 
     (** Multiplies the two [int]s. *)
-    let ( * ) x0 x1 x2 =
+    let ( * ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
-        x0 x1 x2
+        Int.s x0 x1
 
     (** Divides the two [int]s. The result is an [int]. This will truncate the [float], discarding anything after the floating point.
 [codeblock]
 print(6 / 2) # Prints 3
 print(5 / 3) # Prints 1
 [/codeblock] *)
-    let ( / ) x0 x1 x2 =
+    let ( / ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
-        x0 x1 x2
+        Int.s x0 x1
 
     (** Returns the remainder after dividing two [int]s. Uses truncated division, which returns a negative number if the dividend is negative. If this is not desired, consider using [method @GlobalScope.posmod].
 [codeblock]
@@ -14653,47 +14106,47 @@ print(6 % 2) # Prints 0
 print(11 % 4) # Prints 3
 print(-5 % 3) # Prints -2
 [/codeblock] *)
-    let ( % ) x0 x1 x2 =
+    let ( % ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_MODULE
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
-        x0 x1 x2
+        Int.s x0 x1
 
     (** Raises the left [int] to a power of the right [int].
 [codeblock]
 print(3  *  *  4) # Prints 81
 [/codeblock] *)
-    let ( ** ) x0 x1 x2 =
+    let ( ** ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_POWER
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
-        x0 x1 x2
+        Int.s x0 x1
 
     (** Performs the bitwise shift left operation. Effectively the same as multiplying by a power of 2.
 [codeblock]
 print(0b1010 << 1) # Prints 20 (binary 10100)
 print(0b1010 << 3) # Prints 80 (binary 1010000)
 [/codeblock] *)
-    let ( <<< ) x0 x1 x2 =
+    let ( <<< ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_SHIFT_LEFT
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
-        x0 x1 x2
+        Int.s x0 x1
 
     (** Performs the bitwise shift right operation. Effectively the same as dividing by a power of 2.
 [codeblock]
 print(0b1010 >> 1) # Prints 5 (binary 101)
 print(0b1010 >> 2) # Prints 2 (binary 10)
 [/codeblock] *)
-    let ( >>> ) x0 x1 x2 =
+    let ( >>> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_SHIFT_RIGHT
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
-        x0 x1 x2
+        Int.s x0 x1
 
     (** Performs the bitwise [code]AND[/code] operation.
 [codeblock]
@@ -14706,12 +14159,12 @@ var flags = 0b101
 if flags & 0b011:
     do_stuff() # This line will run.
 [/codeblock] *)
-    let ( &&& ) x0 x1 x2 =
+    let ( &&& ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_BIT_AND
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
-        x0 x1 x2
+        Int.s x0 x1
 
     (** Performs the bitwise [code]OR[/code] operation.
 [codeblock]
@@ -14722,295 +14175,295 @@ This is useful for storing binary flags in a variable.
 var flags = 0
 flags |= 0b101 # Turn the first and third bits on.
 [/codeblock] *)
-    let ( ||| ) x0 x1 x2 =
+    let ( ||| ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_BIT_OR
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
-        x0 x1 x2
+        Int.s x0 x1
 
     (** Performs the bitwise [code]XOR[/code] operation.
 [codeblock]
 print(0b1100 ^ 0b1010) # Prints 6 (binary 110)
 [/codeblock] *)
-    let ( ^^^ ) x0 x1 x2 =
+    let ( ^^^ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_BIT_XOR
         (funptr (Int.typ @-> Int.typ @-> Int.typ @-> returning void))
-        x0 x1 x2
+        Int.s x0 x1
 
-    let ( && ) x0 x1 x2 =
+    let ( && ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_AND
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let ( || ) x0 x1 x2 =
+    let ( || ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_OR
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let ( ~^^ ) x0 x1 x2 =
+    let ( ~^^ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_INT)
         GlobalEnum.VariantOperator._OP_XOR
         (funptr (Int.typ @-> Int.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let int_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Int.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let int_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Int.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let int_elem_PackedByteArray x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Int.typ @-> PackedByteArray.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let int_elem_PackedInt32Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Int.typ @-> PackedInt32Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let int_elem_PackedInt64Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Int.typ @-> PackedInt64Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let int_elem_PackedFloat32Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Int.typ @-> PackedFloat32Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let int_elem_PackedFloat64Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_INT
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Int.typ @-> PackedFloat64Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Float = struct
     include M.Float
 
     (** Returns the negative value of the [float]. If positive, turns the number negative. If negative, turns the number positive. With floats, the number zero can be either positive or negative. *)
-    let ( ~- ) x0 x1 x2 =
+    let ( ~- ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr (Float.typ @-> Float.typ @-> Float.typ @-> returning void))
-        x0 x1 x2
+        Float.s x0 x1
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) x0 x1 x2 =
+    let ( ~+ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr (Float.typ @-> Float.typ @-> Float.typ @-> returning void))
-        x0 x1 x2
+        Float.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if both floats are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method @GlobalScope.is_equal_approx] or [method @GlobalScope.is_zero_approx] instead, which are more reliable.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if two floats are different from each other.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left float is less than the right one.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( < ) x0 x1 x2 =
+    let ( < ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left float is less than or equal to the right one.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <= ) x0 x1 x2 =
+    let ( <= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left float is greater than the right one.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( > ) x0 x1 x2 =
+    let ( > ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left float is greater than or equal to the right one.
 [b]Note:[/b] [constant @GDScript.NAN] doesn't behave the same as other numbers. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( >= ) x0 x1 x2 =
+    let ( >= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Adds two floats. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr (Float.typ @-> Float.typ @-> Float.typ @-> returning void))
-        x0 x1 x2
+        Float.s x0 x1
 
     (** Subtracts a float from a float. *)
-    let ( - ) x0 x1 x2 =
+    let ( - ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr (Float.typ @-> Float.typ @-> Float.typ @-> returning void))
-        x0 x1 x2
+        Float.s x0 x1
 
     (** Multiplies two [float]s. *)
-    let ( * ) x0 x1 x2 =
+    let ( * ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr (Float.typ @-> Float.typ @-> Float.typ @-> returning void))
-        x0 x1 x2
+        Float.s x0 x1
 
     (** Divides two floats. *)
-    let ( / ) x0 x1 x2 =
+    let ( / ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr (Float.typ @-> Float.typ @-> Float.typ @-> returning void))
-        x0 x1 x2
+        Float.s x0 x1
 
     (** Raises a [float] to a power of a [float].
 [codeblock]
 print(39.0625 *  * 0.25) # 2.5
 [/codeblock] *)
-    let ( ** ) x0 x1 x2 =
+    let ( ** ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_POWER
         (funptr (Float.typ @-> Float.typ @-> Float.typ @-> returning void))
-        x0 x1 x2
+        Float.s x0 x1
 
-    let ( && ) x0 x1 x2 =
+    let ( && ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_AND
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let ( || ) x0 x1 x2 =
+    let ( || ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_OR
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let ( ~^^ ) x0 x1 x2 =
+    let ( ~^^ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_FLOAT)
         GlobalEnum.VariantOperator._OP_XOR
         (funptr (Float.typ @-> Float.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let float_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Float.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let float_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Float.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let float_elem_PackedByteArray x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Float.typ @-> PackedByteArray.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let float_elem_PackedInt32Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Float.typ @-> PackedInt32Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let float_elem_PackedInt64Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Float.typ @-> PackedInt64Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let float_elem_PackedFloat32Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Float.typ @-> PackedFloat32Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let float_elem_PackedFloat64Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_FLOAT
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Float.typ @-> PackedFloat64Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module String = struct
@@ -16127,117 +15580,117 @@ The result is in [url=https://en.wikipedia.org/wiki/Binary_prefix#IEC_prefixes]I
         (Int.typ @-> returning String.typ)
         String.s x0
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if both strings contain the same sequence of characters. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if both strings do not contain the same sequence of characters. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left [String] comes before [param right] in [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url], which roughly matches the alphabetical order. Useful for sorting. *)
-    let ( < ) x0 x1 x2 =
+    let ( < ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left [String] comes before [param right] in [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url], which roughly matches the alphabetical order, or if both are equal. *)
-    let ( <= ) x0 x1 x2 =
+    let ( <= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left [String] comes after [param right] in [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url], which roughly matches the alphabetical order. Useful for sorting. *)
-    let ( > ) x0 x1 x2 =
+    let ( > ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left [String] comes after [param right] in [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url], which roughly matches the alphabetical order, or if both are equal. *)
-    let ( >= ) x0 x1 x2 =
+    let ( >= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Appends [param right] at the end of this [String], also known as a string concatenation. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr (String.typ @-> String.typ @-> String.typ @-> returning void))
-        x0 x1 x2
+        String.s x0 x1
 
-    let ( % ) x0 x1 x2 =
+    let ( % ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_MODULE
         (funptr (String.typ @-> String.typ @-> String.typ @-> returning void))
-        x0 x1 x2
+        String.s x0 x1
 
-    let _String_elem_String x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (String.typ @-> String.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _String_elem_StringName x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (String.typ @-> StringName.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _String_elem_Object x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_OBJECT)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (String.typ @-> Object.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _String_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (String.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _String_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (String.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _String_elem_PackedStringArray x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING
         (Some GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (String.typ @-> PackedStringArray.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Vector2 = struct
@@ -16579,154 +16032,154 @@ print(Vector2.from_angle(PI / 2)) # Prints (0, 1).
         Vector2.s x0
 
     (** Returns the negative value of the [Vector2]. This is the same as writing [code]Vector2(-v.x, -v.y)[/code]. This operation flips the direction of the vector while keeping the same magnitude. With floats, the number zero can be either positive or negative. *)
-    let ( ~- ) x0 x1 x2 =
+    let ( ~- ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2 None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr
            (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> returning void))
-        x0 x1 x2
+        Vector2.s x0 x1
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) x0 x1 x2 =
+    let ( ~+ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2 None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr
            (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> returning void))
-        x0 x1 x2
+        Vector2.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2 None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Vector2.typ @-> Vector2.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the vectors are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Vector2.typ @-> Vector2.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the vectors are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Vector2.typ @-> Vector2.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector2] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( < ) x0 x1 x2 =
+    let ( < ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Vector2.typ @-> Vector2.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector2] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <= ) x0 x1 x2 =
+    let ( <= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Vector2.typ @-> Vector2.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector2] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( > ) x0 x1 x2 =
+    let ( > ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Vector2.typ @-> Vector2.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector2] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( >= ) x0 x1 x2 =
+    let ( >= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Vector2.typ @-> Vector2.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Adds each component of the [Vector2] by the components of the given [Vector2].
 [codeblock]
 print(Vector2(10, 20) + Vector2(3, 4)) # Prints ""(13, 24)""
 [/codeblock] *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> returning void))
-        x0 x1 x2
+        Vector2.s x0 x1
 
     (** Subtracts each component of the [Vector2] by the components of the given [Vector2].
 [codeblock]
 print(Vector2(10, 20) - Vector2(3, 4)) # Prints ""(7, 16)""
 [/codeblock] *)
-    let ( - ) x0 x1 x2 =
+    let ( - ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr
            (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> returning void))
-        x0 x1 x2
+        Vector2.s x0 x1
 
     (** Multiplies each component of the [Vector2] by the components of the given [Vector2].
 [codeblock]
 print(Vector2(10, 20)  *  Vector2(3, 4)) # Prints ""(30, 80)""
 [/codeblock] *)
-    let ( * ) x0 x1 x2 =
+    let ( * ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> returning void))
-        x0 x1 x2
+        Vector2.s x0 x1
 
     (** Divides each component of the [Vector2] by the components of the given [Vector2].
 [codeblock]
 print(Vector2(10, 20) / Vector2(2, 5)) # Prints ""(5, 4)""
 [/codeblock] *)
-    let ( / ) x0 x1 x2 =
+    let ( / ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_VECTOR2)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr
            (Vector2.typ @-> Vector2.typ @-> Vector2.typ @-> returning void))
-        x0 x1 x2
+        Vector2.s x0 x1
 
-    let _Vector2_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector2.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Vector2_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Vector2.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Vector2_elem_PackedVector2Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector2.typ @-> PackedVector2Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     module Axis = struct
       type t = Int.t
@@ -16813,149 +16266,149 @@ This method runs faster than [method length], so prefer it if you need to compar
         Vector2i.s x0 x1
 
     (** Returns the negative value of the [Vector2i]. This is the same as writing [code]Vector2i(-v.x, -v.y)[/code]. This operation flips the direction of the vector while keeping the same magnitude. *)
-    let ( ~- ) x0 x1 x2 =
+    let ( ~- ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr
            (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ @-> returning void))
-        x0 x1 x2
+        Vector2i.s x0 x1
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) x0 x1 x2 =
+    let ( ~+ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr
            (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ @-> returning void))
-        x0 x1 x2
+        Vector2i.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Vector2i.typ @-> Vector2i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the vectors are equal. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Vector2i.typ @-> Vector2i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the vectors are not equal. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Vector2i.typ @-> Vector2i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector2i] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors. *)
-    let ( < ) x0 x1 x2 =
+    let ( < ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Vector2i.typ @-> Vector2i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector2i] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors. *)
-    let ( <= ) x0 x1 x2 =
+    let ( <= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Vector2i.typ @-> Vector2i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector2i] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors. *)
-    let ( > ) x0 x1 x2 =
+    let ( > ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Vector2i.typ @-> Vector2i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector2i] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors. *)
-    let ( >= ) x0 x1 x2 =
+    let ( >= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Vector2i.typ @-> Vector2i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Adds each component of the [Vector2i] by the components of the given [Vector2i].
 [codeblock]
 print(Vector2i(10, 20) + Vector2i(3, 4)) # Prints ""(13, 24)""
 [/codeblock] *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ @-> returning void))
-        x0 x1 x2
+        Vector2i.s x0 x1
 
     (** Subtracts each component of the [Vector2i] by the components of the given [Vector2i].
 [codeblock]
 print(Vector2i(10, 20) - Vector2i(3, 4)) # Prints ""(7, 16)""
 [/codeblock] *)
-    let ( - ) x0 x1 x2 =
+    let ( - ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr
            (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ @-> returning void))
-        x0 x1 x2
+        Vector2i.s x0 x1
 
     (** Multiplies each component of the [Vector2i] by the components of the given [Vector2i].
 [codeblock]
 print(Vector2i(10, 20)  *  Vector2i(3, 4)) # Prints ""(30, 80)""
 [/codeblock] *)
-    let ( * ) x0 x1 x2 =
+    let ( * ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ @-> returning void))
-        x0 x1 x2
+        Vector2i.s x0 x1
 
     (** Divides each component of the [Vector2i] by the components of the given [Vector2i].
 [codeblock]
 print(Vector2i(10, 20) / Vector2i(2, 5)) # Prints ""(5, 4)""
 [/codeblock] *)
-    let ( / ) x0 x1 x2 =
+    let ( / ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr
            (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ @-> returning void))
-        x0 x1 x2
+        Vector2i.s x0 x1
 
     (** Gets the remainder of each component of the [Vector2i] with the components of the given [Vector2i]. This operation uses truncated division, which is often not desired as it does not work well with negative numbers. Consider using [method @GlobalScope.posmod] instead if you want to handle negative numbers.
 [codeblock]
 print(Vector2i(10, -20) % Vector2i(7, 8)) # Prints ""(3, -4)""
 [/codeblock] *)
-    let ( % ) x0 x1 x2 =
+    let ( % ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_VECTOR2I)
         GlobalEnum.VariantOperator._OP_MODULE
         (funptr
            (Vector2i.typ @-> Vector2i.typ @-> Vector2i.typ @-> returning void))
-        x0 x1 x2
+        Vector2i.s x0 x1
 
-    let _Vector2i_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector2i.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Vector2i_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR2I
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Vector2i.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     module Axis = struct
       type t = Int.t
@@ -17132,43 +16585,43 @@ var absolute = rect.Abs(); // absolute is Rect2(-75, -25, 100, 50)
         (Rect2.typ @-> returning Rect2.typ)
         Rect2.s x0
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2 None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Rect2.typ @-> Rect2.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if both [member position] and [member size] of the rectangles are exactly equal, respectively.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2
         (Some GlobalEnum.VariantType._TYPE_RECT2)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Rect2.typ @-> Rect2.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the [member position] or [member size] of both rectangles are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2
         (Some GlobalEnum.VariantType._TYPE_RECT2)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Rect2.typ @-> Rect2.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Rect2_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Rect2.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Rect2_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Rect2.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Rect2i = struct
@@ -17319,41 +16772,41 @@ var absolute = rect.Abs(); // absolute is Rect2I(-75, -25, 100, 50)
         (Rect2i.typ @-> returning Rect2i.typ)
         Rect2i.s x0
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2I None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Rect2i.typ @-> Rect2i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if both [member position] and [member size] of the rectangles are equal, respectively. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2I
         (Some GlobalEnum.VariantType._TYPE_RECT2I)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Rect2i.typ @-> Rect2i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the [member position] or [member size] of both rectangles are not equal. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2I
         (Some GlobalEnum.VariantType._TYPE_RECT2I)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Rect2i.typ @-> Rect2i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Rect2i_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2I
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Rect2i.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Rect2i_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RECT2I
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Rect2i.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Vector3 = struct
@@ -17686,154 +17139,154 @@ This returns a vector perpendicular to both this and [param with], which would b
         Vector3.s x0
 
     (** Returns the negative value of the [Vector3]. This is the same as writing [code]Vector3(-v.x, -v.y, -v.z)[/code]. This operation flips the direction of the vector while keeping the same magnitude. With floats, the number zero can be either positive or negative. *)
-    let ( ~- ) x0 x1 x2 =
+    let ( ~- ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3 None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr
            (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> returning void))
-        x0 x1 x2
+        Vector3.s x0 x1
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) x0 x1 x2 =
+    let ( ~+ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3 None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr
            (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> returning void))
-        x0 x1 x2
+        Vector3.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3 None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the vectors are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the vectors are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector3] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( < ) x0 x1 x2 =
+    let ( < ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector3] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <= ) x0 x1 x2 =
+    let ( <= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector3] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( > ) x0 x1 x2 =
+    let ( > ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector3] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( >= ) x0 x1 x2 =
+    let ( >= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Vector3.typ @-> Vector3.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Adds each component of the [Vector3] by the components of the given [Vector3].
 [codeblock]
 print(Vector3(10, 20, 30) + Vector3(3, 4, 5)) # Prints ""(13, 24, 35)""
 [/codeblock] *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> returning void))
-        x0 x1 x2
+        Vector3.s x0 x1
 
     (** Subtracts each component of the [Vector3] by the components of the given [Vector3].
 [codeblock]
 print(Vector3(10, 20, 30) - Vector3(3, 4, 5)) # Prints ""(7, 16, 25)""
 [/codeblock] *)
-    let ( - ) x0 x1 x2 =
+    let ( - ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr
            (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> returning void))
-        x0 x1 x2
+        Vector3.s x0 x1
 
     (** Multiplies each component of the [Vector3] by the components of the given [Vector3].
 [codeblock]
 print(Vector3(10, 20, 30)  *  Vector3(3, 4, 5)) # Prints ""(30, 80, 150)""
 [/codeblock] *)
-    let ( * ) x0 x1 x2 =
+    let ( * ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> returning void))
-        x0 x1 x2
+        Vector3.s x0 x1
 
     (** Divides each component of the [Vector3] by the components of the given [Vector3].
 [codeblock]
 print(Vector3(10, 20, 30) / Vector3(2, 5, 3)) # Prints ""(5, 4, 10)""
 [/codeblock] *)
-    let ( / ) x0 x1 x2 =
+    let ( / ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_VECTOR3)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr
            (Vector3.typ @-> Vector3.typ @-> Vector3.typ @-> returning void))
-        x0 x1 x2
+        Vector3.s x0 x1
 
-    let _Vector3_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector3.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Vector3_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Vector3.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Vector3_elem_PackedVector3Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector3.typ @-> PackedVector3Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     module Axis = struct
       type t = Int.t
@@ -17916,149 +17369,149 @@ This method runs faster than [method length], so prefer it if you need to compar
         Vector3i.s x0 x1
 
     (** Returns the negative value of the [Vector3i]. This is the same as writing [code]Vector3i(-v.x, -v.y, -v.z)[/code]. This operation flips the direction of the vector while keeping the same magnitude. *)
-    let ( ~- ) x0 x1 x2 =
+    let ( ~- ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr
            (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ @-> returning void))
-        x0 x1 x2
+        Vector3i.s x0 x1
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) x0 x1 x2 =
+    let ( ~+ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr
            (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ @-> returning void))
-        x0 x1 x2
+        Vector3i.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Vector3i.typ @-> Vector3i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the vectors are equal. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Vector3i.typ @-> Vector3i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the vectors are not equal. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Vector3i.typ @-> Vector3i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector3i] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors. *)
-    let ( < ) x0 x1 x2 =
+    let ( < ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Vector3i.typ @-> Vector3i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector3i] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors. *)
-    let ( <= ) x0 x1 x2 =
+    let ( <= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Vector3i.typ @-> Vector3i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector3i] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors. *)
-    let ( > ) x0 x1 x2 =
+    let ( > ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Vector3i.typ @-> Vector3i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector3i] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors. *)
-    let ( >= ) x0 x1 x2 =
+    let ( >= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Vector3i.typ @-> Vector3i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Adds each component of the [Vector3i] by the components of the given [Vector3i].
 [codeblock]
 print(Vector3i(10, 20, 30) + Vector3i(3, 4, 5)) # Prints ""(13, 24, 35)""
 [/codeblock] *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ @-> returning void))
-        x0 x1 x2
+        Vector3i.s x0 x1
 
     (** Subtracts each component of the [Vector3i] by the components of the given [Vector3i].
 [codeblock]
 print(Vector3i(10, 20, 30) - Vector3i(3, 4, 5)) # Prints ""(7, 16, 25)""
 [/codeblock] *)
-    let ( - ) x0 x1 x2 =
+    let ( - ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr
            (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ @-> returning void))
-        x0 x1 x2
+        Vector3i.s x0 x1
 
     (** Multiplies each component of the [Vector3i] by the components of the given [Vector3i].
 [codeblock]
 print(Vector3i(10, 20, 30)  *  Vector3i(3, 4, 5)) # Prints ""(30, 80, 150)""
 [/codeblock] *)
-    let ( * ) x0 x1 x2 =
+    let ( * ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ @-> returning void))
-        x0 x1 x2
+        Vector3i.s x0 x1
 
     (** Divides each component of the [Vector3i] by the components of the given [Vector3i].
 [codeblock]
 print(Vector3i(10, 20, 30) / Vector3i(2, 5, 3)) # Prints ""(5, 4, 10)""
 [/codeblock] *)
-    let ( / ) x0 x1 x2 =
+    let ( / ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr
            (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ @-> returning void))
-        x0 x1 x2
+        Vector3i.s x0 x1
 
     (** Gets the remainder of each component of the [Vector3i] with the components of the given [Vector3i]. This operation uses truncated division, which is often not desired as it does not work well with negative numbers. Consider using [method @GlobalScope.posmod] instead if you want to handle negative numbers.
 [codeblock]
 print(Vector3i(10, -20, 30) % Vector3i(7, 8, 9)) # Prints ""(3, -4, 3)""
 [/codeblock] *)
-    let ( % ) x0 x1 x2 =
+    let ( % ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_VECTOR3I)
         GlobalEnum.VariantOperator._OP_MODULE
         (funptr
            (Vector3i.typ @-> Vector3i.typ @-> Vector3i.typ @-> returning void))
-        x0 x1 x2
+        Vector3i.s x0 x1
 
-    let _Vector3i_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector3i.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Vector3i_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR3I
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Vector3i.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     module Axis = struct
       type t = Int.t
@@ -18263,57 +17716,57 @@ Operations take place in global space. *)
         (Vector2.typ @-> Transform2D.typ @-> returning Transform2D.typ)
         Transform2D.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM2D None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (Transform2D.typ @-> Transform2D.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the transforms are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM2D
         (Some GlobalEnum.VariantType._TYPE_TRANSFORM2D)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (Transform2D.typ @-> Transform2D.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the transforms are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM2D
         (Some GlobalEnum.VariantType._TYPE_TRANSFORM2D)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (Transform2D.typ @-> Transform2D.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Composes these two transformation matrices by multiplying them together. This has the effect of transforming the second transform (the child) by the first transform (the parent). *)
-    let ( * ) x0 x1 x2 =
+    let ( * ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM2D
         (Some GlobalEnum.VariantType._TYPE_TRANSFORM2D)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Transform2D.typ @-> Transform2D.typ @-> Transform2D.typ
           @-> returning void))
-        x0 x1 x2
+        Transform2D.s x0 x1
 
-    let _Transform2D_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM2D
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Transform2D.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Transform2D_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM2D
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Transform2D.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Vector4 = struct
@@ -18519,145 +17972,145 @@ This method is faster than using [method is_equal_approx] with one value as a ze
         Bool.s x0
 
     (** Returns the negative value of the [Vector4]. This is the same as writing [code]Vector4(-v.x, -v.y, -v.z, -v.w)[/code]. This operation flips the direction of the vector while keeping the same magnitude. With floats, the number zero can be either positive or negative. *)
-    let ( ~- ) x0 x1 x2 =
+    let ( ~- ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4 None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr
            (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> returning void))
-        x0 x1 x2
+        Vector4.s x0 x1
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) x0 x1 x2 =
+    let ( ~+ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4 None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr
            (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> returning void))
-        x0 x1 x2
+        Vector4.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4 None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Vector4.typ @-> Vector4.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the vectors are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Vector4.typ @-> Vector4.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the vectors are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Vector4.typ @-> Vector4.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector4] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( < ) x0 x1 x2 =
+    let ( < ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Vector4.typ @-> Vector4.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector4] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( <= ) x0 x1 x2 =
+    let ( <= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Vector4.typ @-> Vector4.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector4] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( > ) x0 x1 x2 =
+    let ( > ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Vector4.typ @-> Vector4.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector4] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
 [b]Note:[/b] Vectors with [constant @GDScript.NAN] elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included. *)
-    let ( >= ) x0 x1 x2 =
+    let ( >= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Vector4.typ @-> Vector4.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Adds each component of the [Vector4] by the components of the given [Vector4].
 [codeblock]
 print(Vector4(10, 20, 30, 40) + Vector4(3, 4, 5, 6)) # Prints ""(13, 24, 35, 46)""
 [/codeblock] *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> returning void))
-        x0 x1 x2
+        Vector4.s x0 x1
 
     (** Subtracts each component of the [Vector4] by the components of the given [Vector4].
 [codeblock]
 print(Vector4(10, 20, 30, 40) - Vector4(3, 4, 5, 6)) # Prints ""(7, 16, 25, 34)""
 [/codeblock] *)
-    let ( - ) x0 x1 x2 =
+    let ( - ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr
            (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> returning void))
-        x0 x1 x2
+        Vector4.s x0 x1
 
     (** Multiplies each component of the [Vector4] by the components of the given [Vector4].
 [codeblock]
 print(Vector4(10, 20, 30, 40)  *  Vector4(3, 4, 5, 6)) # Prints ""(30, 80, 150, 240)""
 [/codeblock] *)
-    let ( * ) x0 x1 x2 =
+    let ( * ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> returning void))
-        x0 x1 x2
+        Vector4.s x0 x1
 
     (** Divides each component of the [Vector4] by the components of the given [Vector4].
 [codeblock]
 print(Vector4(10, 20, 30, 40) / Vector4(2, 5, 3, 4)) # Prints ""(5, 4, 10, 10)""
 [/codeblock] *)
-    let ( / ) x0 x1 x2 =
+    let ( / ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_VECTOR4)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr
            (Vector4.typ @-> Vector4.typ @-> Vector4.typ @-> returning void))
-        x0 x1 x2
+        Vector4.s x0 x1
 
-    let _Vector4_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector4.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Vector4_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Vector4.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     module Axis = struct
       type t = Int.t
@@ -18743,149 +18196,149 @@ This method runs faster than [method length], so prefer it if you need to compar
         Vector4i.s x0 x1
 
     (** Returns the negative value of the [Vector4i]. This is the same as writing [code]Vector4i(-v.x, -v.y, -v.z, -v.w)[/code]. This operation flips the direction of the vector while keeping the same magnitude. *)
-    let ( ~- ) x0 x1 x2 =
+    let ( ~- ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr
            (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ @-> returning void))
-        x0 x1 x2
+        Vector4i.s x0 x1
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) x0 x1 x2 =
+    let ( ~+ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr
            (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ @-> returning void))
-        x0 x1 x2
+        Vector4i.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Vector4i.typ @-> Vector4i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the vectors are exactly equal. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Vector4i.typ @-> Vector4i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the vectors are not equal. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Vector4i.typ @-> Vector4i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector4i] vectors by first checking if the X value of the left vector is less than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors. *)
-    let ( < ) x0 x1 x2 =
+    let ( < ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Vector4i.typ @-> Vector4i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector4i] vectors by first checking if the X value of the left vector is less than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors. *)
-    let ( <= ) x0 x1 x2 =
+    let ( <= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Vector4i.typ @-> Vector4i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector4i] vectors by first checking if the X value of the left vector is greater than the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors. *)
-    let ( > ) x0 x1 x2 =
+    let ( > ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Vector4i.typ @-> Vector4i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares two [Vector4i] vectors by first checking if the X value of the left vector is greater than or equal to the X value of the [param right] vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors. *)
-    let ( >= ) x0 x1 x2 =
+    let ( >= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Vector4i.typ @-> Vector4i.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Adds each component of the [Vector4i] by the components of the given [Vector4i].
 [codeblock]
 print(Vector4i(10, 20, 30, 40) + Vector4i(3, 4, 5, 6)) # Prints ""(13, 24, 35, 46)""
 [/codeblock] *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ @-> returning void))
-        x0 x1 x2
+        Vector4i.s x0 x1
 
     (** Subtracts each component of the [Vector4i] by the components of the given [Vector4i].
 [codeblock]
 print(Vector4i(10, 20, 30, 40) - Vector4i(3, 4, 5, 6)) # Prints ""(7, 16, 25, 34)""
 [/codeblock] *)
-    let ( - ) x0 x1 x2 =
+    let ( - ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr
            (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ @-> returning void))
-        x0 x1 x2
+        Vector4i.s x0 x1
 
     (** Multiplies each component of the [Vector4i] by the components of the given [Vector4i].
 [codeblock]
 print(Vector4i(10, 20, 30, 40)  *  Vector4i(3, 4, 5, 6)) # Prints ""(30, 80, 150, 240)""
 [/codeblock] *)
-    let ( * ) x0 x1 x2 =
+    let ( * ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ @-> returning void))
-        x0 x1 x2
+        Vector4i.s x0 x1
 
     (** Divides each component of the [Vector4i] by the components of the given [Vector4i].
 [codeblock]
 print(Vector4i(10, 20, 30, 40) / Vector4i(2, 5, 3, 4)) # Prints ""(5, 4, 10, 10)""
 [/codeblock] *)
-    let ( / ) x0 x1 x2 =
+    let ( / ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr
            (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ @-> returning void))
-        x0 x1 x2
+        Vector4i.s x0 x1
 
     (** Gets the remainder of each component of the [Vector4i] with the components of the given [Vector4i]. This operation uses truncated division, which is often not desired as it does not work well with negative numbers. Consider using [method @GlobalScope.posmod] instead if you want to handle negative numbers.
 [codeblock]
 print(Vector4i(10, -20, 30, -40) % Vector4i(7, 8, 9, 10))  # Prints ""(3, -4, 3, 0)""
 [/codeblock] *)
-    let ( % ) x0 x1 x2 =
+    let ( % ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_VECTOR4I)
         GlobalEnum.VariantOperator._OP_MODULE
         (funptr
            (Vector4i.typ @-> Vector4i.typ @-> Vector4i.typ @-> returning void))
-        x0 x1 x2
+        Vector4i.s x0 x1
 
-    let _Vector4i_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Vector4i.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Vector4i_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_VECTOR4I
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Vector4i.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     module Axis = struct
       type t = Int.t
@@ -18990,56 +18443,56 @@ print(Vector4i(10, -20, 30, -40) % Vector4i(7, 8, 9, 10))  # Prints ""(3, -4, 3,
         Variant.s x0 x1 x2
 
     (** Returns the negative value of the [Plane]. This is the same as writing [code]Plane(-p.normal, -p.d)[/code]. This operation flips the direction of the normal vector and also flips the distance value, resulting in a Plane that is in the same place, but facing the opposite direction. *)
-    let ( ~- ) x0 x1 x2 =
+    let ( ~- ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PLANE None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr (Plane.typ @-> Plane.typ @-> Plane.typ @-> returning void))
-        x0 x1 x2
+        Plane.s x0 x1
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) x0 x1 x2 =
+    let ( ~+ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PLANE None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr (Plane.typ @-> Plane.typ @-> Plane.typ @-> returning void))
-        x0 x1 x2
+        Plane.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PLANE None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Plane.typ @-> Plane.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the planes are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PLANE
         (Some GlobalEnum.VariantType._TYPE_PLANE)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Plane.typ @-> Plane.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the planes are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PLANE
         (Some GlobalEnum.VariantType._TYPE_PLANE)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Plane.typ @-> Plane.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Plane_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PLANE
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Plane.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Plane_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PLANE
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Plane.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Quaternion = struct
@@ -19200,96 +18653,96 @@ The order of each consecutive rotation can be changed with [param order] (see [e
         Float.s x0
 
     (** Returns the negative value of the [Quaternion]. This is the same as multiplying all components by [code]-1[/code]. This operation results in a quaternion that represents the same rotation. *)
-    let ( ~- ) x0 x1 x2 =
+    let ( ~- ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Quaternion.typ
           @-> returning void))
-        x0 x1 x2
+        Quaternion.s x0 x1
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) x0 x1 x2 =
+    let ( ~+ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Quaternion.typ
           @-> returning void))
-        x0 x1 x2
+        Quaternion.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the components of both quaternions are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION
         (Some GlobalEnum.VariantType._TYPE_QUATERNION)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the components of both quaternions are not exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION
         (Some GlobalEnum.VariantType._TYPE_QUATERNION)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Adds each component of the left [Quaternion] to the right [Quaternion].
 This operation is not meaningful on its own, but it can be used as a part of a larger expression, such as approximating an intermediate rotation between two nearby rotations. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION
         (Some GlobalEnum.VariantType._TYPE_QUATERNION)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Quaternion.typ
           @-> returning void))
-        x0 x1 x2
+        Quaternion.s x0 x1
 
     (** Subtracts each component of the left [Quaternion] by the right [Quaternion].
 This operation is not meaningful on its own, but it can be used as a part of a larger expression. *)
-    let ( - ) x0 x1 x2 =
+    let ( - ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION
         (Some GlobalEnum.VariantType._TYPE_QUATERNION)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Quaternion.typ
           @-> returning void))
-        x0 x1 x2
+        Quaternion.s x0 x1
 
     (** Composes (multiplies) two quaternions. This rotates the [param right] quaternion (the child) by this quaternion (the parent). *)
-    let ( * ) x0 x1 x2 =
+    let ( * ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION
         (Some GlobalEnum.VariantType._TYPE_QUATERNION)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Quaternion.typ @-> Quaternion.typ @-> Quaternion.typ
           @-> returning void))
-        x0 x1 x2
+        Quaternion.s x0 x1
 
-    let _Quaternion_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Quaternion.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Quaternion_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_QUATERNION
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Quaternion.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module AABB = struct
@@ -19618,43 +19071,43 @@ The ray begin at [param from], faces [param dir] and extends towards infinity. *
         (Vector3.typ @-> Vector3.typ @-> AABB.typ @-> returning Variant.typ)
         Variant.s x0 x1 x2
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_AABB None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (AABB.typ @-> AABB.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if both [member position] and [member size] of the bounding boxes are exactly equal, respectively.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_AABB
         (Some GlobalEnum.VariantType._TYPE_AABB)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (AABB.typ @-> AABB.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the [member position] or [member size] of both bounding boxes are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_AABB
         (Some GlobalEnum.VariantType._TYPE_AABB)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (AABB.typ @-> AABB.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _AABB_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_AABB
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (AABB.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _AABB_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_AABB
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (AABB.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Basis = struct
@@ -19979,52 +19432,52 @@ The order of each consecutive rotation can be changed with [param order] (see [e
         (Vector3.typ @-> Int.typ @-> returning Basis.typ)
         Basis.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BASIS None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Basis.typ @-> Basis.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the components of both [Basis] matrices are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BASIS
         (Some GlobalEnum.VariantType._TYPE_BASIS)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Basis.typ @-> Basis.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the components of both [Basis] matrices are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BASIS
         (Some GlobalEnum.VariantType._TYPE_BASIS)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Basis.typ @-> Basis.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Transforms (multiplies) the [param right] basis by this basis.
 This is the operation performed between parent and child [Node3D]s. *)
-    let ( * ) x0 x1 x2 =
+    let ( * ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BASIS
         (Some GlobalEnum.VariantType._TYPE_BASIS)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr (Basis.typ @-> Basis.typ @-> Basis.typ @-> returning void))
-        x0 x1 x2
+        Basis.s x0 x1
 
-    let _Basis_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BASIS
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Basis.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Basis_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_BASIS
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Basis.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Transform3D = struct
@@ -20154,32 +19607,32 @@ The [param weight] should be between [code]0.0[/code] and [code]1.0[/code] (incl
         (Transform3D.typ @-> returning Bool.typ)
         Bool.s x0
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM3D None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (Transform3D.typ @-> Transform3D.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the components of both transforms are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM3D
         (Some GlobalEnum.VariantType._TYPE_TRANSFORM3D)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (Transform3D.typ @-> Transform3D.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the components of both transforms are not equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM3D
         (Some GlobalEnum.VariantType._TYPE_TRANSFORM3D)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (Transform3D.typ @-> Transform3D.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Transforms (multiplies) this transform by the [param right] transform.
 This is the operation performed between parent and child [Node3D]s.
@@ -20187,29 +19640,29 @@ This is the operation performed between parent and child [Node3D]s.
 - For translation, see [method translated] or [method translated_local].
 - For rotation, see [method rotated] or [method rotated_local].
 - For scale, see [method scaled] or [method scaled_local]. *)
-    let ( * ) x0 x1 x2 =
+    let ( * ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM3D
         (Some GlobalEnum.VariantType._TYPE_TRANSFORM3D)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Transform3D.typ @-> Transform3D.typ @-> Transform3D.typ
           @-> returning void))
-        x0 x1 x2
+        Transform3D.s x0 x1
 
-    let _Transform3D_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM3D
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Transform3D.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Transform3D_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_TRANSFORM3D
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Transform3D.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Projection = struct
@@ -20437,57 +19890,57 @@ The determinant can be used to calculate the invertibility of a matrix or solve 
         (Projection.typ @-> returning Float.typ)
         Float.s x0
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PROJECTION None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (Projection.typ @-> Projection.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the projections are equal.
 [b]Note:[/b] Due to floating-point precision errors, this may return [code]false[/code], even if the projections are virtually equal. An [code]is_equal_approx[/code] method may be added in a future version of Godot. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PROJECTION
         (Some GlobalEnum.VariantType._TYPE_PROJECTION)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (Projection.typ @-> Projection.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the projections are not equal.
 [b]Note:[/b] Due to floating-point precision errors, this may return [code]true[/code], even if the projections are virtually equal. An [code]is_equal_approx[/code] method may be added in a future version of Godot. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PROJECTION
         (Some GlobalEnum.VariantType._TYPE_PROJECTION)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (Projection.typ @-> Projection.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns a [Projection] that applies the combined transformations of this [Projection] and [param right]. *)
-    let ( * ) x0 x1 x2 =
+    let ( * ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PROJECTION
         (Some GlobalEnum.VariantType._TYPE_PROJECTION)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr
            (Projection.typ @-> Projection.typ @-> Projection.typ
           @-> returning void))
-        x0 x1 x2
+        Projection.s x0 x1
 
-    let _Projection_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PROJECTION
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Projection.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Projection_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PROJECTION
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Projection.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     module Planes = struct
       type t = Int.t
@@ -20902,96 +20355,96 @@ var color = Color.FromOkHsl(0.58f, 0.5f, 0.79f, 0.8f);
         Color.s x0
 
     (** Inverts the given color. This is equivalent to [code]Color.WHITE - c[/code] or [code]Color(1 - c.r, 1 - c.g, 1 - c.b, 1 - c.a)[/code]. Unlike with [method inverted], the [member a] component is inverted, too. *)
-    let ( ~- ) x0 x1 x2 =
+    let ( ~- ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR None
         GlobalEnum.VariantOperator._OP_NEGATE
         (funptr (Color.typ @-> Color.typ @-> Color.typ @-> returning void))
-        x0 x1 x2
+        Color.s x0 x1
 
     (** Returns the same value as if the [code]+[/code] was not there. Unary [code]+[/code] does nothing, but sometimes it can make your code more readable. *)
-    let ( ~+ ) x0 x1 x2 =
+    let ( ~+ ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR None
         GlobalEnum.VariantOperator._OP_POSITIVE
         (funptr (Color.typ @-> Color.typ @-> Color.typ @-> returning void))
-        x0 x1 x2
+        Color.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Color.typ @-> Color.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the colors are exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_COLOR)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Color.typ @-> Color.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the colors are not exactly equal.
 [b]Note:[/b] Due to floating-point precision errors, consider using [method is_equal_approx] instead, which is more reliable. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_COLOR)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Color.typ @-> Color.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Adds each component of the [Color] with the components of the given [Color]. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_COLOR)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr (Color.typ @-> Color.typ @-> Color.typ @-> returning void))
-        x0 x1 x2
+        Color.s x0 x1
 
     (** Subtracts each component of the [Color] by the components of the given [Color]. *)
-    let ( - ) x0 x1 x2 =
+    let ( - ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_COLOR)
         GlobalEnum.VariantOperator._OP_SUBTRACT
         (funptr (Color.typ @-> Color.typ @-> Color.typ @-> returning void))
-        x0 x1 x2
+        Color.s x0 x1
 
     (** Multiplies each component of the [Color] by the components of the given [Color]. *)
-    let ( * ) x0 x1 x2 =
+    let ( * ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_COLOR)
         GlobalEnum.VariantOperator._OP_MULTIPLY
         (funptr (Color.typ @-> Color.typ @-> Color.typ @-> returning void))
-        x0 x1 x2
+        Color.s x0 x1
 
     (** Divides each component of the [Color] by the components of the given [Color]. *)
-    let ( / ) x0 x1 x2 =
+    let ( / ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_COLOR)
         GlobalEnum.VariantOperator._OP_DIVIDE
         (funptr (Color.typ @-> Color.typ @-> Color.typ @-> returning void))
-        x0 x1 x2
+        Color.s x0 x1
 
-    let _Color_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Color.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Color_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Color.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Color_elem_PackedColorArray x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_COLOR
         (Some GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Color.typ @-> PackedColorArray.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module StringName = struct
@@ -22058,129 +21511,129 @@ GD.Print(buf.HexDecode().GetStringFromUtf8());
         (StringName.typ @-> returning Int.typ)
         Int.s x0
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _StringName_elem_String x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (StringName.typ @-> String.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the [StringName] and [param right] refer to the same name. Comparisons between [StringName]s are much faster than regular [String] comparisons. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the [StringName] and [param right] do not refer to the same name. Comparisons between [StringName]s are much faster than regular [String] comparisons. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left [StringName]'s pointer comes before [param right]. Note that this will not match their [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url]. *)
-    let ( < ) x0 x1 x2 =
+    let ( < ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left [StringName]'s pointer comes before [param right] or if they are the same. Note that this will not match their [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url]. *)
-    let ( <= ) x0 x1 x2 =
+    let ( <= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left [StringName]'s pointer comes after [param right]. Note that this will not match their [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url]. *)
-    let ( > ) x0 x1 x2 =
+    let ( > ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the left [StringName]'s pointer comes after [param right] or if they are the same. Note that this will not match their [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode order[/url]. *)
-    let ( >= ) x0 x1 x2 =
+    let ( >= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Appends [param right] at the end of this [StringName], returning a [String]. This is also known as a string concatenation. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (StringName.typ @-> StringName.typ @-> String.typ @-> returning void))
-        x0 x1 x2
+        String.s x0 x1
 
-    let ( % ) x0 x1 x2 =
+    let ( % ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_MODULE
         (funptr
            (StringName.typ @-> StringName.typ @-> String.typ @-> returning void))
-        x0 x1 x2
+        String.s x0 x1
 
-    let _StringName_elem_StringName x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_STRING_NAME)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (StringName.typ @-> StringName.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _StringName_elem_Object x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_OBJECT)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (StringName.typ @-> Object.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _StringName_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (StringName.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _StringName_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (StringName.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _StringName_elem_PackedStringArray x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_STRING_NAME
         (Some GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (StringName.typ @-> PackedStringArray.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module NodePath = struct
@@ -22317,42 +21770,42 @@ GD.Print(propertyPath); // :position:x
         (NodePath.typ @-> returning Bool.typ)
         Bool.s x0
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NODE_PATH None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (NodePath.typ @-> NodePath.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if two node paths are equal, i.e. all node names in the path are the same and in the same order. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NODE_PATH
         (Some GlobalEnum.VariantType._TYPE_NODE_PATH)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (NodePath.typ @-> NodePath.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if two node paths are not equal. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NODE_PATH
         (Some GlobalEnum.VariantType._TYPE_NODE_PATH)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (NodePath.typ @-> NodePath.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _NodePath_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NODE_PATH
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (NodePath.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _NodePath_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_NODE_PATH
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (NodePath.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module RID = struct
@@ -22372,59 +21825,59 @@ GD.Print(propertyPath); // :position:x
         (RID.typ @-> returning Int.typ)
         Int.s x0
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RID None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (RID.typ @-> RID.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if both [RID]s are equal, which means they both refer to the same low-level resource. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RID
         (Some GlobalEnum.VariantType._TYPE_RID)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (RID.typ @-> RID.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the [RID]s are not equal. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RID
         (Some GlobalEnum.VariantType._TYPE_RID)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (RID.typ @-> RID.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the [RID]'s ID is less than [param right]'s ID. *)
-    let ( < ) x0 x1 x2 =
+    let ( < ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RID
         (Some GlobalEnum.VariantType._TYPE_RID)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (RID.typ @-> RID.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the [RID]'s ID is less than or equal to [param right]'s ID. *)
-    let ( <= ) x0 x1 x2 =
+    let ( <= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RID
         (Some GlobalEnum.VariantType._TYPE_RID)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (RID.typ @-> RID.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the [RID]'s ID is greater than [param right]'s ID. *)
-    let ( > ) x0 x1 x2 =
+    let ( > ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RID
         (Some GlobalEnum.VariantType._TYPE_RID)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (RID.typ @-> RID.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the [RID]'s ID is greater than or equal to [param right]'s ID. *)
-    let ( >= ) x0 x1 x2 =
+    let ( >= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_RID
         (Some GlobalEnum.VariantType._TYPE_RID)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (RID.typ @-> RID.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Callable = struct
@@ -22577,42 +22030,42 @@ See also [method Object.call_deferred]. *)
         (Variadic.typ @-> Callable.typ @-> returning Callable.typ)
         Callable.s x0
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_CALLABLE None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Callable.typ @-> Callable.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if both [Callable]s invoke the same custom target. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_CALLABLE
         (Some GlobalEnum.VariantType._TYPE_CALLABLE)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Callable.typ @-> Callable.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if both [Callable]s invoke different targets. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_CALLABLE
         (Some GlobalEnum.VariantType._TYPE_CALLABLE)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Callable.typ @-> Callable.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Callable_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_CALLABLE
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Callable.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Callable_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_CALLABLE
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Callable.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Signal = struct
@@ -22695,41 +22148,41 @@ func _on_pressed(button):
         (Variadic.typ @-> Signal.typ @-> returning Void.typ)
         Void.s x0
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_SIGNAL None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Signal.typ @-> Signal.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if both signals share the same object and name. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_SIGNAL
         (Some GlobalEnum.VariantType._TYPE_SIGNAL)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Signal.typ @-> Signal.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the signals do not share the same object and name. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_SIGNAL
         (Some GlobalEnum.VariantType._TYPE_SIGNAL)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Signal.typ @-> Signal.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Signal_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_SIGNAL
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Signal.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Signal_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_SIGNAL
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Signal.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Dictionary = struct
@@ -22934,46 +22387,46 @@ GD.Print(GD.Hash(dict1) == GD.Hash(dict2)); // Prints true
         (Dictionary.typ @-> returning Bool.typ)
         Bool.s x0
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_DICTIONARY None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (Dictionary.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the two dictionaries contain the same keys and values. The order of the entries does not matter.
 [b]Note:[/b] In C#, by convention, this operator compares by [b]reference[/b]. If you need to compare by value, iterate over both dictionaries. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_DICTIONARY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (Dictionary.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if the two dictionaries do not contain the same keys and values. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_DICTIONARY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (Dictionary.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Dictionary_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_DICTIONARY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (Dictionary.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Dictionary_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_DICTIONARY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Dictionary.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module Array = struct
@@ -23519,81 +22972,81 @@ See also [method max] for an example of using a custom comparator. *)
         (Array.typ @-> returning Bool.typ)
         Bool.s x0
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY None
         GlobalEnum.VariantOperator._OP_NOT
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _Array_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Array.typ @-> Dictionary.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares the left operand [Array] against the [param right] [Array]. Returns [code]true[/code] if the sizes and contents of the arrays are equal, [code]false[/code] otherwise. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Compares the left operand [Array] against the [param right] [Array]. Returns [code]true[/code] if the sizes or contents of the arrays are [i]not[/i] equal, [code]false[/code] otherwise. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Performs a comparison for each index between the left operand [Array] and the [param right] [Array], considering the highest common index of both arrays for this comparison: Returns [code]true[/code] on the first occurrence of an element that is less, or [code]false[/code] if the element is greater. Note that depending on the type of data stored, this function may be recursive. If all elements are equal, it compares the length of both arrays and returns [code]false[/code] if the left operand [Array] has fewer elements, otherwise it returns [code]true[/code]. *)
-    let ( < ) x0 x1 x2 =
+    let ( < ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_LESS
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Performs a comparison for each index between the left operand [Array] and the [param right] [Array], considering the highest common index of both arrays for this comparison: Returns [code]true[/code] on the first occurrence of an element that is less, or [code]false[/code] if the element is greater. Note that depending on the type of data stored, this function may be recursive. If all elements are equal, it compares the length of both arrays and returns [code]true[/code] if the left operand [Array] has the same number of elements or fewer, otherwise it returns [code]false[/code]. *)
-    let ( <= ) x0 x1 x2 =
+    let ( <= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_LESS_EQUAL
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Performs a comparison for each index between the left operand [Array] and the [param right] [Array], considering the highest common index of both arrays for this comparison: Returns [code]true[/code] on the first occurrence of an element that is greater, or [code]false[/code] if the element is less. Note that depending on the type of data stored, this function may be recursive. If all elements are equal, it compares the length of both arrays and returns [code]true[/code] if the [param right] [Array] has more elements, otherwise it returns [code]false[/code]. *)
-    let ( > ) x0 x1 x2 =
+    let ( > ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_GREATER
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Performs a comparison for each index between the left operand [Array] and the [param right] [Array], considering the highest common index of both arrays for this comparison: Returns [code]true[/code] on the first occurrence of an element that is greater, or [code]false[/code] if the element is less. Note that depending on the type of data stored, this function may be recursive. If all elements are equal, it compares the length of both arrays and returns [code]true[/code] if the [param right] [Array] has more or the same number of elements, otherwise it returns [code]false[/code]. *)
-    let ( >= ) x0 x1 x2 =
+    let ( >= ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_GREATER_EQUAL
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Concatenates two [Array]s together, with the [param right] [Array] being added to the end of the [Array] specified in the left operand. For example, [code][1, 2] + [3, 4][/code] results in [code][1, 2, 3, 4][/code]. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr (Array.typ @-> Array.typ @-> Array.typ @-> returning void))
-        x0 x1 x2
+        Array.s x0 x1
 
-    let _Array_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr (Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
   end
 
   module PackedByteArray = struct
@@ -24100,60 +23553,60 @@ If the original data can't be converted to 64-bit floats, the resulting data is 
        @-> returning Int.typ)
         Int.s x0 x1 x2 x3
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedByteArray.typ @-> PackedByteArray.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedByteArray_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedByteArray.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedByteArray_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedByteArray.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal bytes at the corresponding indices. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedByteArray.typ @-> PackedByteArray.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedByteArray.typ @-> PackedByteArray.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns a new [PackedByteArray] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_BYTE_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedByteArray.typ @-> PackedByteArray.typ @-> PackedByteArray.typ
           @-> returning void))
-        x0 x1 x2
+        PackedByteArray.s x0 x1
   end
 
   module PackedInt32Array = struct
@@ -24332,60 +23785,60 @@ The size of the new array will be [code]int32_array.size()  *  4[/code]. *)
         (Int.typ @-> PackedInt32Array.typ @-> returning Int.typ)
         Int.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedInt32Array.typ @-> PackedInt32Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedInt32Array_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedInt32Array.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedInt32Array_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedInt32Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal ints at the corresponding indices. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedInt32Array.typ @-> PackedInt32Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedInt32Array.typ @-> PackedInt32Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns a new [PackedInt32Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT32_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedInt32Array.typ @-> PackedInt32Array.typ
           @-> PackedInt32Array.typ @-> returning void))
-        x0 x1 x2
+        PackedInt32Array.s x0 x1
   end
 
   module PackedInt64Array = struct
@@ -24564,60 +24017,60 @@ The size of the new array will be [code]int64_array.size()  *  8[/code]. *)
         (Int.typ @-> PackedInt64Array.typ @-> returning Int.typ)
         Int.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedInt64Array.typ @-> PackedInt64Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedInt64Array_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedInt64Array.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedInt64Array_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedInt64Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal ints at the corresponding indices. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedInt64Array.typ @-> PackedInt64Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedInt64Array.typ @-> PackedInt64Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns a new [PackedInt64Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_INT64_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedInt64Array.typ @-> PackedInt64Array.typ
           @-> PackedInt64Array.typ @-> returning void))
-        x0 x1 x2
+        PackedInt64Array.s x0 x1
   end
 
   module PackedFloat32Array = struct
@@ -24803,60 +24256,60 @@ The size of the new array will be [code]float32_array.size()  *  4[/code]. *)
         (Float.typ @-> PackedFloat32Array.typ @-> returning Int.typ)
         Int.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedFloat32Array.typ @-> PackedFloat32Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedFloat32Array_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedFloat32Array.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedFloat32Array_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedFloat32Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal floats at the corresponding indices. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedFloat32Array.typ @-> PackedFloat32Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedFloat32Array.typ @-> PackedFloat32Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns a new [PackedFloat32Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT32_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedFloat32Array.typ @-> PackedFloat32Array.typ
           @-> PackedFloat32Array.typ @-> returning void))
-        x0 x1 x2
+        PackedFloat32Array.s x0 x1
   end
 
   module PackedFloat64Array = struct
@@ -25042,60 +24495,60 @@ The size of the new array will be [code]float64_array.size()  *  8[/code]. *)
         (Float.typ @-> PackedFloat64Array.typ @-> returning Int.typ)
         Int.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedFloat64Array.typ @-> PackedFloat64Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedFloat64Array_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedFloat64Array.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedFloat64Array_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedFloat64Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal doubles at the corresponding indices. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedFloat64Array.typ @-> PackedFloat64Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedFloat64Array.typ @-> PackedFloat64Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns a new [PackedFloat64Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_FLOAT64_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedFloat64Array.typ @-> PackedFloat64Array.typ
           @-> PackedFloat64Array.typ @-> returning void))
-        x0 x1 x2
+        PackedFloat64Array.s x0 x1
   end
 
   module PackedStringArray = struct
@@ -25273,60 +24726,60 @@ If either [param begin] or [param end] are negative, they will be relative to th
         (String.typ @-> PackedStringArray.typ @-> returning Int.typ)
         Int.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedStringArray.typ @-> PackedStringArray.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedStringArray_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedStringArray.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedStringArray_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedStringArray.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal [String]s at the corresponding indices. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedStringArray.typ @-> PackedStringArray.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedStringArray.typ @-> PackedStringArray.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns a new [PackedStringArray] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_STRING_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedStringArray.typ @-> PackedStringArray.typ
           @-> PackedStringArray.typ @-> returning void))
-        x0 x1 x2
+        PackedStringArray.s x0 x1
   end
 
   module PackedVector2Array = struct
@@ -25516,60 +24969,60 @@ If either [param begin] or [param end] are negative, they will be relative to th
         (Vector2.typ @-> PackedVector2Array.typ @-> returning Int.typ)
         Int.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedVector2Array.typ @-> PackedVector2Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedVector2Array_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedVector2Array.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedVector2Array_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedVector2Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal [Vector2]s at the corresponding indices. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedVector2Array.typ @-> PackedVector2Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedVector2Array.typ @-> PackedVector2Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns a new [PackedVector2Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR2_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedVector2Array.typ @-> PackedVector2Array.typ
           @-> PackedVector2Array.typ @-> returning void))
-        x0 x1 x2
+        PackedVector2Array.s x0 x1
   end
 
   module PackedVector3Array = struct
@@ -25759,60 +25212,60 @@ If either [param begin] or [param end] are negative, they will be relative to th
         (Vector3.typ @-> PackedVector3Array.typ @-> returning Int.typ)
         Int.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedVector3Array.typ @-> PackedVector3Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedVector3Array_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedVector3Array.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedVector3Array_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedVector3Array.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal [Vector3]s at the corresponding indices. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedVector3Array.typ @-> PackedVector3Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedVector3Array.typ @-> PackedVector3Array.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns a new [PackedVector3Array] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_VECTOR3_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedVector3Array.typ @-> PackedVector3Array.typ
           @-> PackedVector3Array.typ @-> returning void))
-        x0 x1 x2
+        PackedVector3Array.s x0 x1
   end
 
   module PackedColorArray = struct
@@ -25990,59 +25443,59 @@ If either [param begin] or [param end] are negative, they will be relative to th
         (Color.typ @-> PackedColorArray.typ @-> returning Int.typ)
         Int.s x0 x1
 
-    let not x0 x1 x2 =
+    let not x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         None GlobalEnum.VariantOperator._OP_NOT
         (funptr
            (PackedColorArray.typ @-> PackedColorArray.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedColorArray_elem_Dictionary x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         (Some GlobalEnum.VariantType._TYPE_DICTIONARY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedColorArray.typ @-> Dictionary.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
-    let _PackedColorArray_elem_Array x0 x1 x2 =
+    let mem x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         (Some GlobalEnum.VariantType._TYPE_ARRAY)
         GlobalEnum.VariantOperator._OP_IN
         (funptr
            (PackedColorArray.typ @-> Array.typ @-> Bool.typ @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of both arrays are the same, i.e. they have all equal [Color]s at the corresponding indices. *)
-    let ( = ) x0 x1 x2 =
+    let ( = ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY)
         GlobalEnum.VariantOperator._OP_EQUAL
         (funptr
            (PackedColorArray.typ @-> PackedColorArray.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns [code]true[/code] if contents of the arrays differ. *)
-    let ( <> ) x0 x1 x2 =
+    let ( <> ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY)
         GlobalEnum.VariantOperator._OP_NOT_EQUAL
         (funptr
            (PackedColorArray.typ @-> PackedColorArray.typ @-> Bool.typ
           @-> returning void))
-        x0 x1 x2
+        Bool.s x0 x1
 
     (** Returns a new [PackedColorArray] with contents of [param right] added at the end of this array. For better performance, consider using [method append_array] instead. *)
-    let ( + ) x0 x1 x2 =
+    let ( + ) x0 x1 =
       foreign_builtin_operator GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY
         (Some GlobalEnum.VariantType._TYPE_PACKED_COLOR_ARRAY)
         GlobalEnum.VariantOperator._OP_ADD
         (funptr
            (PackedColorArray.typ @-> PackedColorArray.typ
           @-> PackedColorArray.typ @-> returning void))
-        x0 x1 x2
+        PackedColorArray.s x0 x1
   end
 end

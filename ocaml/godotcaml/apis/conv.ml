@@ -47,10 +47,29 @@ end
 
 (** FIXME! *)
 module String = struct
-  let to_ocaml : String.t structure ptr -> string = fun _ -> ""
+  open Foreign_api.Make (Api_types.ClassSizes)
+  open Godotcaml.C
+
+  let to_ocaml : String.t structure ptr -> string =
+   fun str_ptr ->
+    let const_str = coerce_ptr string_ptr.const str_ptr in
+    let len =
+      Int64.to_int_exn
+      @@ string_to_utf8_chars const_str (coerce_ptr (ptr char) null) 0L
+    in
+    let char_buf = allocate_n ~count:(len + 1) char in
+    let _ =
+      string_to_utf8_chars const_str char_buf (Int64.of_int @@ (len + 1))
+    in
+    string_from_ptr char_buf ~length:len
 
   let of_ocaml : string -> String.t structure ptr =
-   fun _ -> coerce_ptr (ptr String.s) null
+   fun s ->
+    let str_ptr = gc_alloc ~count:1 String.s in
+    let () =
+      string_new_with_utf8_chars (coerce_ptr string_ptr.uninit str_ptr) s
+    in
+    str_ptr
 end
 
 module Vector2 = struct

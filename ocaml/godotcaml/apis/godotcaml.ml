@@ -498,6 +498,16 @@ module C = struct
       (M.typedef_name "InterfaceStringNameNewWithUtf8Chars")
       (string_name_ptr.uninit @-> string @-> returning void)
 
+  let interface_string_new_with_utf8_chars =
+    fn_suite
+      (M.typedef_name "InterfaceStringNewWithUtf8Chars")
+      (string_ptr.uninit @-> string @-> returning void)
+
+  let interface_string_to_utf8_chars =
+    fn_suite
+      (M.typedef_name "InterfaceStringToUtf8Chars")
+      (string_ptr.const @-> ptr char @-> gint @-> returning gint)
+
   let interface_variant_get_ptr_constructor =
     fn_suite
       (M.typedef_name "InterfaceVariantGetPtrConstructor")

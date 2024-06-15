@@ -320,7 +320,7 @@ module Gen = struct
         ("or", "(||)");
         ("xor", "(~^^)");
         ("not", "not");
-        ("in", "elem");
+        ("in", "mem");
       ]
 
   let doc_comment contents =
@@ -517,10 +517,9 @@ module Gen = struct
   let binary_op_val_type : string -> string -> string -> ocaml =
    fun t1 t2 rty ->
     string
-    @@ sprintf
-         "(%s.t structure ptr -> %s.t structure ptr -> %s.t structure ptr -> \
-          unit)"
-         (mod_var_str t1) (mod_var_str t2) (mod_var_str rty)
+      (sprintf
+         "(%s.t structure ptr -> %s.t structure ptr -> %s.t structure ptr)"
+         (mod_var_str t1) (mod_var_str t2) (mod_var_str rty))
 
   let to_type_enum s =
     let var_str = var_str s in
@@ -648,16 +647,13 @@ module Gen = struct
       let c_type = assemble_type ty_frags ret_ty_frag in
       let rhs name t =
         string "foreign_utility_function"
-        ^^
-        if is_void then string "0"
-        else
-          OCaml.int (List.length ty_frags)
-          ^^ (if String.(ret_ty = "void") then string "_void" else string "")
-          ^/^ string "\"" ^^ name ^^ string "\""
-          ^/^ parens
-                (string "Base.Int64.of_string \""
-                ^^ OCaml.int64 uf.hash ^^ string "\"")
-          ^/^ t ^/^ qualified_s "@NONE" ret_ty
+        ^^ (if is_void then string "0" else OCaml.int (List.length ty_frags))
+        ^^ (if String.(ret_ty = "void") then string "_void" else string "")
+        ^/^ string "\"" ^^ name ^^ string "\""
+        ^/^ parens
+              (string "Base.Int64.of_string \""
+              ^^ OCaml.int64 uf.hash ^^ string "\"")
+        ^/^ t ^/^ qualified_s "@NONE" ret_ty
       in
       let fun_name = var uf.name in
       let dc = uf.description |> PPrint.optional doc_comment in
@@ -816,7 +812,8 @@ module Gen = struct
               ^^ string (to_type_enum t)
               ^^ string ") GlobalEnum.VariantOperator._OP_IN"
               ^/^ parens
-                    (string "funptr " ^^ binary_op_type this t op.return_type))
+                    (string "funptr " ^^ binary_op_type this t op.return_type)
+              ^/^ qualified_s this op.return_type)
         | "in", _ ->
             (* Should have covered all the cases; fail otherwise for my sake. *)
             assert false
@@ -830,7 +827,7 @@ module Gen = struct
               ^^ var (Map.find_exn op_map op_name)
               ^/^ parens
                     (string "funptr " ^^ binary_op_type this this op.return_type)
-              )
+              ^/^ qualified_s this op.return_type)
         | op_name, Some t when String.(t = this) ->
             (* Normal path: binary operator. *)
             Some
@@ -841,7 +838,8 @@ module Gen = struct
               ^^ string ") GlobalEnum.VariantOperator."
               ^^ var (Map.find_exn op_map op_name)
               ^/^ parens
-                    (string "funptr " ^^ binary_op_type this t op.return_type))
+                    (string "funptr " ^^ binary_op_type this t op.return_type)
+              ^/^ qualified_s this op.return_type)
         | _ ->
             (* We don't care about the forest of pointless operators.
                We will provide Variant-polymorphic ones if you need them. *)
@@ -855,7 +853,7 @@ module Gen = struct
       in
       let dc = op.description |> PPrint.optional doc_comment in
       rhs
-      |> Option.map ~f:(fun the_rhs -> dc ^/^ let_fun 3 lhs the_rhs)
+      |> Option.map ~f:(fun the_rhs -> dc ^/^ let_fun 2 lhs the_rhs)
       |> Option.value ~default:(string "")
 
     let operator_to_mli : string -> operator -> ocaml =
@@ -886,8 +884,7 @@ module Gen = struct
       in
       let lhs = Map.find_exn op_ocaml_names op.name in
       let lhs =
-        if String.(lhs = "elem") then
-          this ^ "_elem_" ^ Option.value_exn op.right_type
+        if String.(lhs = "mem") then "mem_" ^ Option.value_exn op.right_type
         else lhs
       in
       let dc = op.description |> PPrint.optional doc_comment in

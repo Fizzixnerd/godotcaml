@@ -103,6 +103,14 @@ functor
     let get_fun fun_name typ =
       coerce InterfaceFunctionPtr.t typ (!get_proc_address fun_name)
 
+    let string_new_with_utf8_chars str_ptr str =
+      get_fun "string_new_with_utf8_chars"
+        interface_string_new_with_utf8_chars.typ str_ptr str
+
+    let string_to_utf8_chars str_ptr char_ptr max_write_length =
+      get_fun "string_to_utf8_chars" interface_string_to_utf8_chars.typ str_ptr
+        char_ptr max_write_length
+
     let string_name_new_with_utf8_chars str_name_ptr str =
       get_fun "string_name_new_with_utf8_chars"
         interface_string_name_new_with_utf8_chars.typ str_name_ptr str
@@ -110,7 +118,8 @@ functor
     (** Call the destructor at some point! *)
     let string_name_of_string str =
       let string_name =
-        coerce StringName.typ string_name_ptr.uninit (StringName.new_uninit ())
+        coerce StringName.typ string_name_ptr.uninit
+          (gc_alloc ~count:1 StringName.s)
       in
       let () = string_name_new_with_utf8_chars string_name str in
       let string_name =
@@ -140,7 +149,7 @@ functor
     let variant_get_ptr_utility_function utility_function_name function_hash =
       let string_name = string_name_of_string utility_function_name in
       let ret =
-        get_fun "get_ptr_utility_function"
+        get_fun "variant_get_ptr_utility_function"
           interface_variant_get_ptr_utility_function.typ string_name
           function_hash
       in
@@ -173,11 +182,25 @@ functor
         (coerce GetVariantToTypeConstructor.t
            get_variant_to_type_constructor.typ getter variant_type)
 
-    let foreign_builtin_operator : int -> int option -> int -> 'a typ -> 'a =
-     fun variant_type arg_type_opt operator typ ->
-      coerce PtrOperatorEvaluator.t typ
-        (variant_get_ptr_operator_evaluator operator variant_type
-           (arg_type_opt |> Option.value ~default:variant_type))
+    let foreign_builtin_operator :
+        int ->
+        int option ->
+        int ->
+        ('a ptr -> 'b ptr -> 'c ptr -> unit) typ ->
+        'c typ ->
+        'a ptr ->
+        'b ptr ->
+        'c ptr =
+     fun variant_type arg_type_opt operator typ ret_typ lhs rhs ->
+      let op left right ret =
+        coerce PtrOperatorEvaluator.t typ
+          (variant_get_ptr_operator_evaluator operator variant_type
+             (arg_type_opt |> Option.value ~default:variant_type))
+          left right ret
+      in
+      let ret = gc_alloc ~count:1 ret_typ in
+      let () = op lhs rhs ret in
+      ret
 
     let foreign_arr0 = coerce_ptr (ptr type_ptr.const) null
 

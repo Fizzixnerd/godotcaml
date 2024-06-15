@@ -3,9 +3,9 @@ open Foreign_api.Godotcaml
 open Ctypes
 open Api_types
 open Foreign_api.Make (ClassSizes)
-open Api_builtins
 
 let funptr = Foreign.funptr
+let _ = Utop_loader.M.main
 
 let hello_extension_entry (get_proc_address : nativeint) (_library : nativeint)
     (initialization : nativeint) =
@@ -24,11 +24,21 @@ let hello_extension_entry (get_proc_address : nativeint) (_library : nativeint)
   let initialize (_userdata : unit ptr) (p_level : int) =
     Stdio.print_endline @@ "up: " ^ Base.Int.to_string p_level;
 
-    let my_int = Conv.Int.of_ocaml (Int64.of_int 5) in
-    let my_other_int = Conv.Int.of_ocaml (Int64.of_int 8) in
-    let my_ret_int = Conv.Int.of_ocaml (Int64.of_int 0) in
-    BuiltinClass.Int.(my_int + my_other_int) my_ret_int;
-    Stdio.printf "%d BANG\n" (Int64.to_int_exn (Conv.Int.to_ocaml my_ret_int))
+    if p_level = 3 then
+      let () = Stdio.print_endline "before" in
+      let () =
+        match
+          Dynlink.loadfile
+            "/home/fizzixnerd/.opam/5.0.0+options/lib/utop/uTop.cma"
+        with
+        | () -> ()
+        | exception (Dynlink.Error err as e) ->
+            Stdio.print_endline (Dynlink.error_message err);
+            Exn.reraise e "FUCKED"
+      in
+      let () = Stdio.print_endline "after" in
+      let module Top = (val Toplevel.get_toplevel () : Toplevel.TOPLEVEL) in
+      Top.main ()
   in
 
   let deinitialize (_userdata : unit ptr) (p_level : int) =
@@ -40,4 +50,6 @@ let hello_extension_entry (get_proc_address : nativeint) (_library : nativeint)
 
   1
 
-let () = Stdlib.Callback.register "hello_extension_entry" hello_extension_entry
+let () =
+  Stdlib.Callback.register "hello_extension_entry" hello_extension_entry;
+  Dynlink.loadfile "/home/fizzixnerd/.opam/5.0.0+options/lib/utop/uTop.cma"

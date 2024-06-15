@@ -13,10 +13,18 @@
  (flags (:standard -g -w -32)))
 
 (executable
- (modules My_ocaml_extension Api_classes Api_classes_intf Api_builtins Foreign_api Api_types Conv)
- (modes (native (shared_object)))
+ (modules My_ocaml_extension Api_classes Api_classes_intf Api_builtins Foreign_api Api_types Conv Toplevel Utop_loader)
+ (modes (native shared_object))
  (name my_ocaml_extension)
  (foreign_stubs (language c) (names hello-gdextension))
- (libraries core yojson pprint ctypes godotcaml)
+ (libraries dynlink core yojson pprint ctypes godotcaml)
  (preprocess (pps ppx_jane ppx_yojson_conv))
+ (flags (:standard -g -w -32)))
+
+ (executable
+ (modules Blarg)
+ (modes (native exe))
+ (name blarg)
+ (libraries dynlink core)
+ (preprocess (pps ppx_jane))
  (flags (:standard -g -w -32)))
