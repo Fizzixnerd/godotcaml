@@ -3,9 +3,9 @@ open Foreign_api.Godotcaml
 open Ctypes
 open Api_types
 open Foreign_api.Make (ClassSizes)
+open Api_builtins
 
 let funptr = Foreign.funptr
-let _ = Utop_loader.M.main
 
 let hello_extension_entry (get_proc_address : nativeint) (_library : nativeint)
     (initialization : nativeint) =
@@ -24,21 +24,14 @@ let hello_extension_entry (get_proc_address : nativeint) (_library : nativeint)
   let initialize (_userdata : unit ptr) (p_level : int) =
     Stdio.print_endline @@ "up: " ^ Base.Int.to_string p_level;
 
-    if p_level = 3 then
-      let () = Stdio.print_endline "before" in
-      let () =
-        match
-          Dynlink.loadfile
-            "/home/fizzixnerd/.opam/5.0.0+options/lib/utop/uTop.cma"
-        with
-        | () -> ()
-        | exception (Dynlink.Error err as e) ->
-            Stdio.print_endline (Dynlink.error_message err);
-            Exn.reraise e "FUCKED"
-      in
-      let () = Stdio.print_endline "after" in
-      let module Top = (val Toplevel.get_toplevel () : Toplevel.TOPLEVEL) in
-      Top.main ()
+    let new_int = Conv.Int.of_ocaml 5L in
+    let other_int = Conv.Int.of_ocaml 8L in
+    if
+      Conv.Bool.to_ocaml
+        BuiltinClass.Int.(
+          UtilityFunction.randi () * new_int
+          < UtilityFunction.randi () / other_int)
+    then Stdio.printf "Roar!"
   in
 
   let deinitialize (_userdata : unit ptr) (p_level : int) =
@@ -50,6 +43,4 @@ let hello_extension_entry (get_proc_address : nativeint) (_library : nativeint)
 
   1
 
-let () =
-  Stdlib.Callback.register "hello_extension_entry" hello_extension_entry;
-  Dynlink.loadfile "/home/fizzixnerd/.opam/5.0.0+options/lib/utop/uTop.cma"
+let () = Stdlib.Callback.register "hello_extension_entry" hello_extension_entry
