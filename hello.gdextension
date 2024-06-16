@@ -3,6 +3,6 @@ entry_symbol = "hello_extension_entry"
 compatibility_minimum = "4.2"
 
 [libraries]
-linux.x86_64 = "libhello-gdextension.so"
+linux.x86_64 = "ocaml/godotcaml/_build/default/apis/my_ocaml_extension.so"
 windows.x86_64 = "hello-gdextension.dll"
 macos = "libhello-gdextension.dylib"
