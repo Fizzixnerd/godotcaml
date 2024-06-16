@@ -4,12 +4,26 @@ open Ctypes
 open Foreign_api
 open Api_types.ApiTypes
 
+module type CONV = sig
+  type godot_t
+  type ocaml_t
+
+  val to_ocaml : t -> ocaml_t
+  val of_ocaml : ocaml_t -> t
+end
+
 module Nil = struct
+  type godot_t = Nil.t structure ptr
+  type ocaml_t = unit
+
   let to_ocaml : Nil.t structure ptr -> unit = fun _ -> ()
   let of_ocaml () = coerce_ptr (ptr Nil.s) null
 end
 
 module Bool = struct
+  type godot_t = Bool.t structure ptr
+  type ocaml_t = bool
+
   let to_ocaml : Bool.t structure ptr -> bool =
    fun x ->
     let open Unsigned.UInt8 in
@@ -25,6 +39,9 @@ module Bool = struct
 end
 
 module Int = struct
+  type godot_t = Int.t structure ptr
+  type ocaml_t = int64
+
   let to_ocaml : Int.t structure ptr -> int64 =
    fun x -> !@(coerce_ptr (ptr int64_t) x)
 
@@ -36,6 +53,9 @@ module Int = struct
 end
 
 module Float = struct
+  type godot_t = Float.t structure ptr
+  type ocaml_t = float
+
   let to_ocaml : Float.t structure ptr -> float =
    fun x -> !@(coerce_ptr (ptr double) x)
 
@@ -46,10 +66,12 @@ module Float = struct
     ret
 end
 
-(** FIXME! *)
 module String = struct
   open Foreign_api.Make (Api_types.ClassSizes)
   open Godotcaml.C
+
+  type godot_t = String.t structure ptr
+  type ocaml_t = string
 
   let to_ocaml : String.t structure ptr -> string =
    fun str_ptr ->
@@ -74,6 +96,9 @@ module String = struct
 end
 
 module Vector2 = struct
+  type godot_t = Vector2.t structure ptr
+  type ocaml_t = v2
+
   let to_ocaml : Vector2.t structure ptr -> v2 =
    fun x ->
     let float_ptr = coerce_ptr (ptr double) x in
@@ -89,6 +114,9 @@ module Vector2 = struct
 end
 
 module Vector2i = struct
+  type godot_t = Vector2i.t structure ptr
+  type ocaml_t = int32 * int32
+
   let to_ocaml : Vector2i.t structure ptr -> int32 * int32 =
    fun x ->
     let int32_ptr = coerce_ptr (ptr int32_t) x in
@@ -104,6 +132,9 @@ module Vector2i = struct
 end
 
 module Rect2 = struct
+  type godot_t = Rect2.t structure ptr
+  type ocaml_t = v2 * size2
+
   let to_ocaml : Rect2.t structure ptr -> v2 * size2 =
    fun x ->
     let float_ptr = coerce_ptr (ptr double) x in
@@ -122,6 +153,9 @@ module Rect2 = struct
 end
 
 module Rect2i = struct
+  type godot_t = Rect2i.t structure ptr
+  type ocaml_t = (int32 * int32) * (int32 * int32)
+
   let to_ocaml : Rect2i.t structure ptr -> (int32 * int32) * (int32 * int32) =
    fun x ->
     let int32_ptr = coerce_ptr (ptr int32_t) x in
@@ -139,6 +173,9 @@ module Rect2i = struct
 end
 
 module Vector3 = struct
+  type godot_t = Vector3.t structure ptr
+  type ocaml_t = v3
+
   let to_ocaml : Vector3.t structure ptr -> v3 =
    fun x ->
     let float_ptr = coerce_ptr (ptr double) x in
@@ -155,6 +192,9 @@ module Vector3 = struct
 end
 
 module Vector3i = struct
+  type godot_t = Vector3i.t structure ptr
+  type ocaml_t = int32 * int32 * int32
+
   let to_ocaml : Vector3i.t structure ptr -> int32 * int32 * int32 =
    fun x ->
     let int32_ptr = coerce_ptr (ptr int32_t) x in
@@ -171,27 +211,32 @@ module Vector3i = struct
 end
 
 module Transform2D = struct
-  let to_ocaml : Transform2D.t structure ptr -> v2 * v2 * v2 =
+  type godot_t = Transform2D.t structure ptr
+  type ocaml_t = m2 * v2
+
+  let to_ocaml : Transform2D.t structure ptr -> ocaml_t =
    fun x ->
     let float_ptr = coerce_ptr (ptr double) x in
-    ( V2.v !@float_ptr !@(float_ptr +@ 1),
-      V2.v !@(float_ptr +@ 2) !@(float_ptr +@ 3),
+    ( M2.v !@float_ptr !@(float_ptr +@ 1) !@(float_ptr +@ 2) !@(float_ptr +@ 3),
       V2.v !@(float_ptr +@ 4) !@(float_ptr +@ 5) )
 
-  let of_ocaml : v2 * v2 * v2 -> Transform2D.t structure ptr =
-   fun (x, y, o) ->
+  let of_ocaml : ocaml_t -> Transform2D.t structure ptr =
+   fun (m, o) ->
     let ret = gc_alloc ~count:1 Transform2D.s in
     let float_ptr = coerce_ptr (ptr double) ret in
-    let () = float_ptr <-@ V2.x x in
-    let () = float_ptr +@ 1 <-@ V2.y x in
-    let () = float_ptr +@ 2 <-@ V2.x y in
-    let () = float_ptr +@ 3 <-@ V2.y y in
+    let () = float_ptr <-@ M2.e00 m in
+    let () = float_ptr +@ 1 <-@ M2.e01 m in
+    let () = float_ptr +@ 2 <-@ M2.e10 m in
+    let () = float_ptr +@ 3 <-@ M2.e11 m in
     let () = float_ptr +@ 4 <-@ V2.x o in
     let () = float_ptr +@ 5 <-@ V2.y o in
     ret
 end
 
 module Vector4 = struct
+  type godot_t = Vector4.t structure ptr
+  type ocaml_t = v4
+
   let to_ocaml : Vector4.t structure ptr -> v4 =
    fun x ->
     let float_ptr = coerce_ptr (ptr double) x in
@@ -209,6 +254,9 @@ module Vector4 = struct
 end
 
 module Vector4i = struct
+  type godot_t = Vector4i.t structure ptr
+  type ocaml_t = int32 * int32 * int32 * int32
+
   let to_ocaml : Vector4i.t structure ptr -> int32 * int32 * int32 * int32 =
    fun x ->
     let int32_ptr = coerce_ptr (ptr int32_t) x in
@@ -226,6 +274,9 @@ module Vector4i = struct
 end
 
 module Plane = struct
+  type godot_t = Plane.t structure ptr
+  type ocaml_t = v3 * float
+
   let to_ocaml : Plane.t structure ptr -> v3 * float =
    fun x ->
     let float_ptr = coerce_ptr (ptr double) x in
@@ -243,6 +294,9 @@ module Plane = struct
 end
 
 module Quaternion = struct
+  type godot_t = Quaternion.t structure ptr
+  type ocaml_t = quat
+
   let to_ocaml : Quaternion.t structure ptr -> quat =
    fun x ->
     let float_ptr = coerce_ptr (ptr double) x in
@@ -260,6 +314,9 @@ module Quaternion = struct
 end
 
 module AABB = struct
+  type godot_t = AABB.t structure ptr
+  type ocaml_t = v3 * size3
+
   let to_ocaml : AABB.t structure ptr -> v3 * size3 =
    fun x ->
     let float_ptr = coerce_ptr (ptr double) x in
@@ -280,6 +337,9 @@ module AABB = struct
 end
 
 module Basis = struct
+  type godot_t = Basis.t structure ptr
+  type ocaml_t = m3
+
   let to_ocaml : Basis.t structure ptr -> m3 =
    fun x ->
     let float_ptr = coerce_ptr (ptr double) x in
@@ -303,13 +363,16 @@ module Basis = struct
     let () = float_ptr +@ 3 <-@ M3.e10 m in
     let () = float_ptr +@ 4 <-@ M3.e11 m in
     let () = float_ptr +@ 5 <-@ M3.e12 m in
-    let () = float_ptr +@ 6 <-@ V3.x z in
-    let () = float_ptr +@ 7 <-@ V3.y z in
-    let () = float_ptr +@ 8 <-@ V3.z z in
+    let () = float_ptr +@ 6 <-@ M3.e20 m in
+    let () = float_ptr +@ 7 <-@ M3.e21 m in
+    let () = float_ptr +@ 8 <-@ M3.e22 m in
     ret
 end
 
 module Transform3D = struct
+  type godot_t = Transform3D.t structure ptr
+  type ocaml_t = m3 * v3
+
   let to_ocaml : Transform3D.t structure ptr -> m3 * v3 =
    fun x ->
     let float_ptr = coerce_ptr (ptr double) x in
@@ -344,6 +407,9 @@ module Transform3D = struct
 end
 
 module Projection = struct
+  type godot_t = Projection.t structure ptr
+  type ocaml_t = m4
+
   let to_ocaml : Projection.t structure ptr -> m4 =
    fun x ->
     let float_ptr = coerce_ptr (ptr double) x in
@@ -388,6 +454,9 @@ module Projection = struct
 end
 
 module Color = struct
+  type godot_t = Color.t structure ptr
+  type ocaml_t = color
+
   let to_ocaml : Color.t structure ptr -> color =
    fun x ->
     let float_ptr = coerce_ptr (ptr float) x in
@@ -404,21 +473,130 @@ module Color = struct
     ret
 end
 
-module StringName = struct end
-module NodePath = struct end
-module RID = struct end
-module Object = struct end
-module Callable = struct end
-module Signal = struct end
-module Dictionary = struct end
-module Array = struct end
-module PackedByteArray = struct end
-module PackedInt32Array = struct end
-module PackedInt64Array = struct end
-module PackedFloat32Array = struct end
-module PackedFloat64Array = struct end
-module PackedStringArray = struct end
-module PackedVector2Array = struct end
-module PackedVector3Array = struct end
-module PackedColorArray = struct end
-module Variant = struct end
+module StringName = struct
+  type godot_t = StringName.t structure ptr
+  type ocaml_t = StringName.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module NodePath = struct
+  type godot_t = NodePath.t structure ptr
+  type ocaml_t = NodePath.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module RID = struct
+  type godot_t = RID.t structure ptr
+  type ocaml_t = RID.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module Callable = struct
+  type godot_t = Callable.t structure ptr
+  type ocaml_t = Callable.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module Signal = struct
+  type godot_t = Signal.t structure ptr
+  type ocaml_t = Signal.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module Dictionary = struct
+  type godot_t = Dictionary.t structure ptr
+  type ocaml_t = Dictionary.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module Array = struct
+  type godot_t = Array.t structure ptr
+  type ocaml_t = Array.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module PackedByteArray = struct
+  type godot_t = PackedByteArray.t structure ptr
+  type ocaml_t = PackedByteArray.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module PackedInt32Array = struct
+  type godot_t = PackedInt32Array.t structure ptr
+  type ocaml_t = PackedInt32Array.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module PackedInt64Array = struct
+  type godot_t = PackedInt64Array.t structure ptr
+  type ocaml_t = PackedInt64Array.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module PackedFloat32Array = struct
+  type godot_t = PackedFloat32Array.t structure ptr
+  type ocaml_t = PackedFloat32Array.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module PackedFloat64Array = struct
+  type godot_t = PackedFloat64Array.t structure ptr
+  type ocaml_t = PackedFloat64Array.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module PackedStringArray = struct
+  type godot_t = PackedStringArray.t structure ptr
+  type ocaml_t = PackedStringArray.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module PackedVector2Array = struct
+  type godot_t = PackedVector2Array.t structure ptr
+  type ocaml_t = PackedVector2Array.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module PackedVector3Array = struct
+  type godot_t = PackedVector3Array.t structure ptr
+  type ocaml_t = PackedVector3Array.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module PackedColorArray = struct
+  type godot_t = PackedColorArray.t structure ptr
+  type ocaml_t = PackedColorArray.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end

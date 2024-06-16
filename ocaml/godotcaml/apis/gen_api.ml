@@ -1605,6 +1605,23 @@ let () =
   |> PPrint.concat
   |> Gen.gen_file "api_classes.ml";
 
+  (* api.builtin_classes
+  |> List.map ~f:(fun bic ->
+         sprintf
+           {|
+    module %s = struct
+      type godot_t = %s.t structure ptr
+      type ocaml_t = %s.t structure ptr
+      let to_ocaml (x: godot_t) : ocaml_t = x
+      let of_ocaml (x: ocaml_t) : godot_t = x
+    end
+      |}
+           (Gen.mod_var_str bic.name) (Gen.mod_var_str bic.name)
+           (Gen.mod_var_str bic.name)
+         |> string
+         |> fun x -> x ^^ hardline)
+  |> PPrint.concat |> Gen.gen_file "blarg.ml";
+ *)
   ()
 
 (* form the bicnames list *)
