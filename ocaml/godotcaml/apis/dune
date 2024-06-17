@@ -8,12 +8,12 @@
 (library 
  (modules Godotcaml Bootstrap)
  (name godotcaml)
- (libraries core ctypes ctypes.foreign lwt)
+ (libraries core ctypes ctypes.foreign)
  (preprocess (pps ppx_jane))
  (flags (:standard -g -w -32)))
 
 (executable
- (modules My_ocaml_extension Api_classes Api_classes_intf Api_builtins Foreign_api Api_types Conv)
+ (modules My_ocaml_extension Api_classes Api_classes_intf Api_builtins Gdforeign Foreign_api Foreign_base Foreign_methods Foreign_utility_functions Api_types Conv)
  (modes (native shared_object))
  (name my_ocaml_extension)
  (foreign_stubs (language c) (names hello-gdextension))

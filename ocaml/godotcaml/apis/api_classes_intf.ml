@@ -1,11 +1,10 @@
 open! Base
 open Ctypes
-module M = Foreign_api.Make (Api_types.ClassSizes)
+module M = Gdforeign
 open M
+open Api_builtins
 
 let funptr = Foreign.funptr
-
-open Api_builtins
 
 module Class0 = struct
   module Object = struct

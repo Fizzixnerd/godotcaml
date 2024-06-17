@@ -1,6 +1,7 @@
 open Gg
 open! Base
 open Ctypes
+open Foreign_base
 open Foreign_api
 open Api_types.ApiTypes
 
@@ -8,8 +9,8 @@ module type CONV = sig
   type godot_t
   type ocaml_t
 
-  val to_ocaml : t -> ocaml_t
-  val of_ocaml : ocaml_t -> t
+  val to_ocaml : godot_t -> ocaml_t
+  val of_ocaml : ocaml_t -> godot_t
 end
 
 module Nil = struct
@@ -497,6 +498,14 @@ module RID = struct
   let of_ocaml (x : ocaml_t) : godot_t = x
 end
 
+module Object = struct
+  type godot_t = Object.t structure ptr
+  type ocaml_t = Object.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
 module Callable = struct
   type godot_t = Callable.t structure ptr
   type ocaml_t = Callable.t structure ptr
@@ -596,6 +605,22 @@ end
 module PackedColorArray = struct
   type godot_t = PackedColorArray.t structure ptr
   type ocaml_t = PackedColorArray.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
+module Variant = struct
+  type godot_t = Variant.t structure ptr
+  type ocaml_t = C.variant_ptr structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = coerce_ptr C.variant_ptr.plain x
+  let of_ocaml (x : ocaml_t) : godot_t = coerce_ptr (ptr Variant.s) x
+end
+
+module Void = struct
+  type godot_t = unit
+  type ocaml_t = unit
 
   let to_ocaml (x : godot_t) : ocaml_t = x
   let of_ocaml (x : ocaml_t) : godot_t = x

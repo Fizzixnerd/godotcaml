@@ -146,131 +146,128 @@ module C = struct
     let s = typedef call_error_struct "GDExtensionCallError"
   end
 
-  type 'a fn_suite = { fn : 'a fn; typ : 'a typ }
+  type 'a fn_suite = {
+    fn : 'a fn;
+    typ : 'a typ;
+    dyn : (module Funptr with type fn = 'a);
+  }
 
   let fn_suite name fn =
     let typ = typedef (funptr fn) name in
-    { fn; typ }
+    let dyn = dynamic_funptr fn in
+    { fn; typ; dyn }
 
   let variant_from_type_constructor_func =
-    dynamic_funptr (variant_ptr.uninit @-> type_ptr.plain @-> returning void)
-
-  module VariantFromTypeConstructorFunc =
-    (val variant_from_type_constructor_func)
-
-  let variant_from_type_constructor_func typ =
     fn_suite
       (M.typedef_name "VariantFromTypeConstructorFunc")
-      (variant_ptr.uninit @-> typ @-> returning void)
+      (variant_ptr.uninit @-> type_ptr.plain @-> returning void)
 
-  let get_variant_from_type_constructor =
-    dynamic_funptr (variant_type @-> returning VariantFromTypeConstructorFunc.t)
-
-  module GetVariantFromTypeConstructor = (val get_variant_from_type_constructor)
+  module VariantFromTypeConstructorFunc =
+    (val variant_from_type_constructor_func.dyn)
 
   let get_variant_from_type_constructor =
     fn_suite
       (M.typedef_name "GetVariantFromTypeConstructor")
       (variant_type @-> returning VariantFromTypeConstructorFunc.t)
 
+  module GetVariantFromTypeConstructor =
+    (val get_variant_from_type_constructor.dyn)
+
   let variant_to_type_constructor_func =
-    dynamic_funptr (type_ptr.uninit @-> variant_ptr.plain @-> returning void)
-
-  module VariantToTypeConstructorFunc = (val variant_to_type_constructor_func)
-
-  let variant_to_type_constructor_func typ =
     fn_suite
       (M.typedef_name "VariantToTypeConstructorFunc")
-      (typ @-> variant_ptr.plain @-> returning void)
+      (type_ptr.uninit @-> variant_ptr.plain @-> returning void)
 
-  let get_variant_to_type_constructor =
-    dynamic_funptr (variant_type @-> returning VariantToTypeConstructorFunc.t)
-
-  module GetVariantToTypeConstructor = (val get_variant_to_type_constructor)
+  module VariantToTypeConstructorFunc =
+    (val variant_to_type_constructor_func.dyn)
 
   let get_variant_to_type_constructor =
     fn_suite
       (M.typedef_name "GetVariantToTypeConstructor")
       (variant_type @-> returning VariantToTypeConstructorFunc.t)
 
+  module GetVariantToTypeConstructor = (val get_variant_to_type_constructor.dyn)
+
+  let ptr_builtin_method =
+    fn_suite ""
+      (type_ptr.plain @-> ptr type_ptr.const @-> type_ptr.plain @-> int
+     @-> returning void)
+
+  module PtrBuiltinMethod = (val ptr_builtin_method.dyn)
+
   let ptr_operator_evaluator =
-    dynamic_funptr
+    fn_suite ""
       (type_ptr.const @-> type_ptr.const @-> type_ptr.plain @-> returning void)
 
-  module PtrOperatorEvaluator = (val ptr_operator_evaluator)
-
-  let ptr_builtin_method =
-    dynamic_funptr
-      (type_ptr.plain @-> ptr type_ptr.const @-> type_ptr.plain @-> int
-     @-> returning void)
-
-  module PtrBuiltinMethod = (val ptr_builtin_method)
-
-  let ptr_builtin_method =
-    Foreign.funptr
-      (type_ptr.plain @-> ptr type_ptr.const @-> type_ptr.plain @-> int
-     @-> returning void)
+  module PtrOperatorEvaluator = (val ptr_operator_evaluator.dyn)
 
   let ptr_constructor =
     fn_suite
       (M.typedef_name "PtrConstructor")
       (type_ptr.uninit @-> ptr type_ptr.const @-> returning void)
 
+  module PtrConstructor = (val ptr_constructor.dyn)
+
   let ptr_destructor =
     fn_suite (M.typedef_name "PtrDestructor") (type_ptr.plain @-> returning void)
+
+  module PtrDestructor = (val ptr_destructor.dyn)
 
   let ptr_setter =
     fn_suite
       (M.typedef_name "PtrSetter")
       (type_ptr.plain @-> type_ptr.const @-> returning void)
 
+  module PtrSetter = (val ptr_setter.dyn)
+
   let ptr_getter =
     fn_suite
       (M.typedef_name "PtrGetter")
       (type_ptr.const @-> type_ptr.plain @-> returning void)
+
+  module PtrGetter = (val ptr_getter.dyn)
 
   let ptr_indexed_setter =
     fn_suite
       (M.typedef_name "PtrIndexedSetter")
       (type_ptr.plain @-> gint @-> type_ptr.const @-> returning void)
 
+  module PtrIndexedSetter = (val ptr_indexed_setter.dyn)
+
   let ptr_indexed_getter =
     fn_suite
       (M.typedef_name "PtrIndexedGetter")
       (type_ptr.const @-> gint @-> type_ptr.plain @-> returning void)
+
+  module PtrIndexedGetter = (val ptr_indexed_getter.dyn)
 
   let ptr_keyed_setter =
     fn_suite
       (M.typedef_name "PtrKeyedSetter")
       (type_ptr.plain @-> type_ptr.const @-> type_ptr.const @-> returning void)
 
+  module PtrKeyedSetter = (val ptr_keyed_setter.dyn)
+
   let ptr_keyed_getter =
     fn_suite
       (M.typedef_name "PtrKeyedGetter")
       (type_ptr.const @-> type_ptr.const @-> type_ptr.plain @-> returning void)
+
+  module PtrKeyedGetter = (val ptr_keyed_getter.dyn)
 
   let ptr_keyed_checker =
     fn_suite
       (M.typedef_name "PtrKeyedChecker")
       (variant_ptr.const @-> variant_ptr.const @-> returning uint32_t)
 
-  let ptr_utility_function =
-    dynamic_funptr
-      (type_ptr.plain @-> ptr type_ptr.const @-> int @-> returning void)
-
-  module PtrUtilityFunction = (val ptr_utility_function)
+  module PtrKeyedChecker = (val ptr_keyed_checker.dyn)
 
   let ptr_utility_function =
     fn_suite
       (M.typedef_name "PtrUtilityFunction")
       (type_ptr.plain @-> ptr type_ptr.const @-> int @-> returning void)
 
-  let variant_call =
-    dynamic_funptr
-      (variant_ptr.plain @-> string_name_ptr.const @-> ptr variant_ptr.const
-     @-> gint @-> variant_ptr.uninit @-> ptr CallError.s @-> returning void)
-
-  module VariantCall = (val variant_call)
+  module PtrUtilityFunction = (val ptr_utility_function.dyn)
 
   let variant_call =
     fn_suite
@@ -278,18 +275,15 @@ module C = struct
       (variant_ptr.plain @-> string_name_ptr.const @-> ptr variant_ptr.const
      @-> gint @-> variant_ptr.uninit @-> ptr CallError.s @-> returning void)
 
-  let variant_call_static =
-    dynamic_funptr
-      (variant_type @-> string_name_ptr.const @-> ptr variant_ptr.const @-> gint
-     @-> variant_ptr.uninit @-> ptr CallError.s @-> returning void)
-
-  module VariantCallStatic = (val variant_call_static)
+  module VariantCall = (val variant_call.dyn)
 
   let variant_call_static =
     fn_suite
       (M.typedef_name "VariantCallStatic")
       (variant_type @-> string_name_ptr.const @-> ptr variant_ptr.const @-> gint
      @-> variant_ptr.uninit @-> ptr CallError.s @-> returning void)
+
+  module VariantCallStatic = (val variant_call_static.dyn)
 
   let class_constructor =
     fn_suite
@@ -349,16 +343,22 @@ module C = struct
       (class_instance_ptr.plain @-> string_name_ptr.const @-> variant_ptr.const
      @-> returning gbool)
 
+  module ClassSet = (val class_set.dyn)
+
   let class_get =
     fn_suite
       (M.typedef_name "ClassGet")
       (class_instance_ptr.plain @-> string_name_ptr.const @-> variant_ptr.plain
      @-> returning gbool)
 
+  module ClassGet = (val class_get.dyn)
+
   let class_get_rid =
     fn_suite
       (M.typedef_name "ClassGetRID")
       (class_instance_ptr.plain @-> returning uint64_t)
+
+  module ClassGetRID = (val class_get_rid.dyn)
 
   module PropertyInfo = struct
     type t
@@ -413,15 +413,21 @@ module C = struct
       (class_instance_ptr.plain @-> ptr uint32_t
       @-> returning property_info_ptr.plain)
 
+  module ClassGetPropertyList = (val class_get_property_list.dyn)
+
   let class_free_property_list =
     fn_suite
       (M.typedef_name "ClassFreePropertyList")
       (class_instance_ptr.plain @-> property_info_ptr.const @-> returning void)
 
+  module ClassFreePropertyList = (val class_free_property_list.dyn)
+
   let class_property_can_revert =
     fn_suite
       (M.typedef_name "ClassFreePropertyCanRevert")
       (class_instance_ptr.plain @-> string_name_ptr.const @-> returning gbool)
+
+  module ClassPropertyCanRevert = (val class_property_can_revert.dyn)
 
   let class_property_get_revert =
     fn_suite
@@ -429,16 +435,23 @@ module C = struct
       (class_instance_ptr.plain @-> string_name_ptr.const @-> variant_ptr.plain
      @-> returning gbool)
 
-  let class_property_validate_property =
+  module ClassPropertyGetRevert = (val class_property_get_revert.dyn)
+
+  let class_validate_property =
     fn_suite
-      (M.typedef_name "ClassFreePropertyValidateProperty")
+      (M.typedef_name "ClassValidateProperty")
       (class_instance_ptr.plain @-> property_info_ptr.plain @-> returning gbool)
 
+  module ClassValidateProperty = (val class_validate_property.dyn)
+
   (* deprecated function was here *)
-  let class_notification_2 =
+
+  let class_notification2 =
     fn_suite
       (M.typedef_name "ClassNotification2")
       (class_instance_ptr.plain @-> int32_t @-> gbool @-> returning void)
+
+  module ClassNotification2 = (val class_notification2.dyn)
 
   let class_to_string =
     fn_suite
@@ -446,6 +459,185 @@ module C = struct
       (class_instance_ptr.plain @-> ptr gbool
       (* return value *) @-> returning string_ptr.plain (* also return value? *)
       )
+
+  module ClassToString = (val class_to_string.dyn)
+
+  let class_reference = fn_suite "" (class_instance_ptr.plain @-> returning void)
+
+  module ClassReference = (val class_reference.dyn)
+
+  let class_unreference =
+    fn_suite "" (class_instance_ptr.plain @-> returning void)
+
+  module ClassUnreference = (val class_unreference.dyn)
+
+  let class_call_virtual =
+    fn_suite ""
+      (class_instance_ptr.plain @-> type_ptr.const @-> type_ptr.plain
+     @-> returning void)
+
+  module ClassCallVirtual = (val class_call_virtual.dyn)
+
+  let class_create_instance =
+    fn_suite "" (ptr void @-> returning object_ptr.plain)
+
+  module ClassCreateInstance = (val class_create_instance.dyn)
+
+  let class_free_instance =
+    fn_suite "" (ptr void @-> class_instance_ptr.plain @-> returning void)
+
+  module ClassFreeInstance = (val class_free_instance.dyn)
+
+  let class_recreate_instance =
+    fn_suite ""
+      (ptr void @-> object_ptr.plain @-> returning class_instance_ptr.plain)
+
+  module ClassRecreateInstance = (val class_recreate_instance.dyn)
+
+  let class_get_virtual =
+    fn_suite ""
+      (ptr void @-> string_name_ptr.const @-> returning ClassCallVirtual.t)
+
+  module ClassGetVirtual = (val class_get_virtual.dyn)
+
+  let class_get_virtual_call_data =
+    fn_suite "" (ptr void @-> string_name_ptr.const @-> returning (ptr void))
+
+  module ClassGetVirtualCallData = (val class_get_virtual_call_data.dyn)
+
+  let class_call_virtual_with_data =
+    fn_suite ""
+      (class_instance_ptr.plain @-> string_name_ptr.const @-> ptr void
+     @-> ptr type_ptr.const @-> returning type_ptr.plain)
+
+  module ClassCallVirtualWithData = (val class_call_virtual_with_data.dyn)
+
+  module ClassCreationInfo2 = struct
+    type t
+
+    let class_creation_info2_struct : t structure typ =
+      structure (M.typedef_name "ClassCreationInfo2")
+
+    let is_virtual_f = field class_creation_info2_struct "is_virtual" gbool
+    let is_abstract_f = field class_creation_info2_struct "is_abstract" gbool
+    let is_exposed_f = field class_creation_info2_struct "is_exposed" gbool
+    let set_func_f = field class_creation_info2_struct "set_func" ClassSet.t
+    let get_func_f = field class_creation_info2_struct "get_func" ClassGet.t
+
+    let get_property_list_func_f =
+      field class_creation_info2_struct "get_property_list_func"
+        ClassGetPropertyList.t
+
+    let free_property_list_func_f =
+      field class_creation_info2_struct "free_property_list_func"
+        ClassFreePropertyList.t
+
+    let property_can_revert_func_f =
+      field class_creation_info2_struct "property_can_revert_func"
+        ClassPropertyCanRevert.t
+
+    let property_get_revert_func_f =
+      field class_creation_info2_struct "property_get_revert_func"
+        ClassPropertyGetRevert.t
+
+    let validate_property_func_f =
+      field class_creation_info2_struct "validate_property_func"
+        ClassPropertyValidateProperty.t
+
+    let notification_func_f =
+      field class_creation_info2_struct "notification_func" ClassNotification2.t
+
+    let to_string_func_f =
+      field class_creation_info2_struct "to_string_func" ClassToString.t
+
+    let reference_func_f =
+      field class_creation_info2_struct "reference_func" ClassReference.t
+
+    let unreference_func_f =
+      field class_creation_info2_struct "unreference_func" ClassUnreference.t
+
+    let create_instance_func_f =
+      field class_creation_info2_struct "create_instance_func"
+        ClassCreateInstance.t
+
+    let free_instance_func_f =
+      field class_creation_info2_struct "free_instance_func" ClassFreeInstance.t
+
+    let get_virtual_func_f =
+      field class_creation_info2_struct "get_virtual_func" ClassGetVirtual.t_opt
+
+    let get_virtual_call_data_func_f =
+      field class_creation_info2_struct "get_virtual_call_data_func"
+        ClassGetVirtualCallData.t_opt
+
+    let call_virtual_with_data_func_f =
+      field class_creation_info2_struct "call_virtual_with_data_func"
+        ClassCallVirtualWithData.t_opt
+
+    let get_rid_func_f =
+      field class_creation_info2_struct "get_rid_func" ClassGetRID.t
+
+    let class_userdata =
+      field class_creation_info2_struct "class_userdata" (ptr void)
+
+    let () = seal class_creation_info2_struct
+
+    let s =
+      typedef class_creation_info2_struct (M.typedef_name "ClassCreationInfo2")
+  end
+
+  type class_library_ptr
+
+  let class_library_ptr : class_library_ptr M.ptr_suite =
+    M.ptr_suite "Variant" (structure "gdoclasslib")
+
+  (* METHOD *)
+
+  module ClassMethodFlags = struct
+    let normal = 1
+    let editor = 2
+    let const = 4
+    let virtual_ = 8
+    let vararg = 16
+    let static = 32
+    let default = normal
+  end
+
+  module ClassMethodArgumentMetadata = struct
+    let none = 0
+    let int_is_int8 = 1
+    let int_is_int16 = 2
+    let int_is_int32 = 3
+    let int_is_int64 = 4
+    let int_is_uint8 = 5
+    let int_is_uint16 = 6
+    let int_is_uint32 = 7
+    let int_is_uint64 = 8
+    let real_is_float = 9
+    let real_is_double = 10
+  end
+
+  let class_method_call =
+    fn_suite ""
+      (ptr void @-> class_instance_ptr.plain @-> ptr variant_ptr.const @-> gint
+     @-> variant_ptr.plain
+      @-> returning (ptr CallError.s))
+
+  module ClassMethodCall = (val class_method_call.dyn)
+
+  let class_method_validated_call =
+    fn_suite ""
+      (ptr void @-> class_instance_ptr.plain @-> ptr variant_ptr.const
+      @-> returning variant_ptr.plain)
+
+  module ClassMethodValidatedCall = (val class_method_validated_call.dyn)
+
+  let class_method_ptr_call =
+    fn_suite ""
+      (ptr void @-> class_instance_ptr.plain @-> ptr variant_ptr.const
+     @-> returning type_ptr.plain)
+
+  module ClassMethodPtrCall = (val class_method_ptr_call.dyn)
 
   (* snip! *)
 

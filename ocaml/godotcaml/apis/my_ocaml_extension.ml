@@ -1,8 +1,6 @@
 open! Base
-open Foreign_api.Godotcaml
 open Ctypes
-open Api_types
-open Foreign_api.Make (ClassSizes)
+open Gdforeign
 open Api_builtins
 
 let funptr = Foreign.funptr
@@ -19,19 +17,13 @@ let hello_extension_entry (get_proc_address : nativeint) (_library : nativeint)
       (ptr_of_raw_address get_proc_address)
   in
 
-  Foreign_api.get_proc_address := get_proc_address;
+  Foreign_base.get_proc_address := get_proc_address;
 
   let initialize (_userdata : unit ptr) (p_level : int) =
     Stdio.print_endline @@ "up: " ^ Base.Int.to_string p_level;
-
-    let new_int = Conv.Int.of_ocaml 5L in
-    let other_int = Conv.Int.of_ocaml 8L in
-    if
-      Conv.Bool.to_ocaml
-        BuiltinClass.Int.(
-          UtilityFunction.randi () * new_int
-          < UtilityFunction.randi () / other_int)
-    then Stdio.printf "Roar!"
+    let ture = BuiltinClass.Int.( + ) 2L 1L in
+    Stdio.printf "ture = %Ld\n" ture;
+    Stdio.Out_channel.flush Stdio.stdout
   in
 
   let deinitialize (_userdata : unit ptr) (p_level : int) =

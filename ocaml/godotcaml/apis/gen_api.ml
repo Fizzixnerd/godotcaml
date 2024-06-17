@@ -318,7 +318,7 @@ module Gen = struct
         ("~", "(~~~)");
         ("and", "(&&)");
         ("or", "(||)");
-        ("xor", "(~^^)");
+        ("xor", "xor");
         ("not", "not");
         ("in", "mem");
       ]
@@ -464,7 +464,8 @@ module Gen = struct
 
   let let_fun n name value =
     let args =
-      List.range 0 n |> List.map ~f:(fun k -> string (sprintf " x%i " k))
+      (if n = 0 then [ 0 ] else List.range 0 n)
+      |> List.map ~f:(fun k -> string (sprintf " x%i " k))
     in
     string "let " ^^ var name ^^ PPrint.concat args ^^ string " = "
     ^/^ nest 2 value ^^ PPrint.concat args
@@ -507,6 +508,12 @@ module Gen = struct
     ^^ string " = struct"
     ^^ nest 2 (break 1 ^^ separate (hardline ^^ hardline) defs ^^ break 1)
     ^^ string "end"
+
+  let unary_op_type : string -> string -> ocaml =
+   fun t1 rty ->
+    string
+      (sprintf "(%s.typ @-> %s.typ @-> returning void)" (mod_var_str t1)
+         (mod_var_str rty))
 
   let binary_op_type : string -> string -> string -> ocaml =
    fun t1 t2 rty ->
@@ -633,31 +640,26 @@ module Gen = struct
 
     let t_to_ocaml : t -> ocaml =
      fun uf ->
-      let ty_frags =
-        uf.arguments |> Option.value ~default:[]
-        |> List.map ~f:argument_to_ocaml_fragment
-      in
-      let ty_frags, is_void =
-        match ty_frags with
-        | [] -> ([ string "void @-> " ], true)
-        | _ as ty_frags -> (ty_frags, false)
-      in
+      let types = uf.arguments |> Option.value ~default:[] in
       let ret_ty = uf.return_type |> Option.value ~default:"void" in
-      let ret_ty_frag = ret_ty |> return_type_to_ocaml_fragment in
-      let c_type = assemble_type ty_frags ret_ty_frag in
-      let rhs name t =
+      let ret_to_ocaml = ret_ty |> mod_var_str |> sprintf "Conv.%s.to_ocaml" in
+      let x_of_ocamls =
+        types
+        |> List.map ~f:(fun t ->
+               t.type_ |> mod_var_str |> sprintf "Conv.%s.of_ocaml")
+        |> String.concat ~sep:" " |> string
+      in
+      let rhs name =
         string "foreign_utility_function"
-        ^^ (if is_void then string "0" else OCaml.int (List.length ty_frags))
+        ^^ OCaml.int (List.length types)
         ^^ (if String.(ret_ty = "void") then string "_void" else string "")
-        ^/^ string "\"" ^^ name ^^ string "\""
-        ^/^ parens
-              (string "Base.Int64.of_string \""
-              ^^ OCaml.int64 uf.hash ^^ string "\"")
-        ^/^ t ^/^ qualified_s "@NONE" ret_ty
+        ^/^ string "\"" ^^ name ^^ string "\"" ^/^ OCaml.int64 uf.hash
+        ^^ string "L" ^/^ qualified_s "@NONE" ret_ty ^/^ string ret_to_ocaml
+        ^/^ x_of_ocamls
       in
       let fun_name = var uf.name in
       let dc = uf.description |> PPrint.optional doc_comment in
-      dc ^/^ let_fun (List.length ty_frags) uf.name (rhs fun_name c_type)
+      dc ^/^ let_fun (List.length types) uf.name (rhs fun_name)
 
     let t_list_to_ocaml : t list -> ocaml =
      fun ufs -> module_ "UtilityFunction" (List.map ~f:t_to_ocaml ufs)
@@ -754,11 +756,8 @@ module Gen = struct
         ^^ (if meth.is_static then string "_static" else string "")
         ^/^ string "GlobalEnum.VariantType."
         ^^ string (to_type_enum this)
-        ^/^ string "\"" ^^ name ^^ string "\""
-        ^/^ parens
-              (string "Base.Int64.of_string \""
-              ^^ OCaml.int64 meth.hash ^^ string "\"")
-        ^/^ t ^/^ qualified_s this ret_type
+        ^/^ string "\"" ^^ name ^^ string "\"" ^/^ OCaml.int64 meth.hash
+        ^^ string "L" ^/^ t ^/^ qualified_s this ret_type
       in
       dc
       ^/^ let_fun
@@ -806,7 +805,7 @@ module Gen = struct
                | "StringName" | "PackedVector2Array" | "PackedVector3Array"
                | "PackedVector4Array" | "PackedColorArray" ) as t) ) ->
             Some
-              (string "foreign_builtin_operator GlobalEnum.VariantType."
+              (string "foreign_builtin_operator2 GlobalEnum.VariantType."
               ^^ string (to_type_enum this)
               ^^ string " (Some GlobalEnum.VariantType."
               ^^ string (to_type_enum t)
@@ -820,18 +819,17 @@ module Gen = struct
         | op_name, None ->
             (* Unary operators. *)
             Some
-              (string "foreign_builtin_operator GlobalEnum.VariantType."
+              (string "foreign_builtin_operator1 GlobalEnum.VariantType."
               ^^ string (to_type_enum this)
               ^^ string " None "
               ^^ string " GlobalEnum.VariantOperator."
               ^^ var (Map.find_exn op_map op_name)
-              ^/^ parens
-                    (string "funptr " ^^ binary_op_type this this op.return_type)
+              ^/^ parens (string "funptr " ^^ unary_op_type this op.return_type)
               ^/^ qualified_s this op.return_type)
         | op_name, Some t when String.(t = this) ->
             (* Normal path: binary operator. *)
             Some
-              (string "foreign_builtin_operator GlobalEnum.VariantType."
+              (string "foreign_builtin_operator2 GlobalEnum.VariantType."
               ^^ string (to_type_enum this)
               ^^ string " (Some GlobalEnum.VariantType."
               ^^ string (to_type_enum t)
@@ -839,7 +837,11 @@ module Gen = struct
               ^^ var (Map.find_exn op_map op_name)
               ^/^ parens
                     (string "funptr " ^^ binary_op_type this t op.return_type)
-              ^/^ qualified_s this op.return_type)
+              ^/^ qualified_s this op.return_type
+              ^/^ string (sprintf "Conv.%s.of_ocaml" (mod_var_str this))
+              ^/^ string (sprintf "Conv.%s.of_ocaml" (mod_var_str t))
+              ^/^ string
+                    (sprintf "Conv.%s.to_ocaml" (mod_var_str op.return_type)))
         | _ ->
             (* We don't care about the forest of pointless operators.
                We will provide Variant-polymorphic ones if you need them. *)
@@ -847,13 +849,16 @@ module Gen = struct
       in
       let lhs = Map.find_exn op_ocaml_names op.name in
       let lhs =
-        if String.(lhs = "elem") then
-          this ^ "_elem_" ^ Option.value_exn op.right_type
+        if String.(lhs = "mem") then "mem_" ^ Option.value_exn op.right_type
         else lhs
       in
       let dc = op.description |> PPrint.optional doc_comment in
       rhs
-      |> Option.map ~f:(fun the_rhs -> dc ^/^ let_fun 2 lhs the_rhs)
+      |> Option.map ~f:(fun the_rhs ->
+             dc
+             ^/^ let_fun
+                   (if op.right_type |> Option.is_none then 1 else 2)
+                   lhs the_rhs)
       |> Option.value ~default:(string "")
 
     let operator_to_mli : string -> operator -> ocaml =
@@ -1121,13 +1126,15 @@ module Gen = struct
         mk_method_type this meth.arguments return_type_opt meth.is_static
           meth.is_vararg
       in
-      let ret_to_variant = mod_var ret_type ^^ string ".to_variant" in
-      let variant_to_ret = mod_var ret_type ^^ string ".of_variant" in
+      let ret_to_variant = mod_var ret_type ^^ string ".godot_to_variant" in
+      let variant_to_ret = mod_var ret_type ^^ string ".ocaml_of_variant" in
       let args = Option.value ~default:[] meth.arguments in
       let args_to_variants : ocaml =
         List.fold_left ~init:(string "")
           ~f:(fun acc x ->
-            acc ^/^ mod_var (remove_prefix this x.type_) ^^ string ".to_variant")
+            acc
+            ^/^ mod_var (remove_prefix this x.type_)
+            ^^ string ".ocaml_to_variant")
           args
       in
       let rhs name t =
@@ -1291,16 +1298,24 @@ module Gen = struct
         (List.map ~f:string
            [
              "include Api_types.SUB_API_TYPE";
-             "val to_variant : t structure ptr -> C.variant_ptr structure ptr";
-             "val of_variant : C.variant_ptr structure ptr -> t structure ptr";
+             "val ocaml_to_variant : t structure ptr -> C.variant_ptr \
+              structure ptr";
+             "val godot_to_variant : t structure ptr -> C.variant_ptr \
+              structure ptr";
+             "val ocaml_of_variant : C.variant_ptr structure ptr -> t \
+              structure ptr";
+             "val godot_of_variant : C.variant_ptr structure ptr -> t \
+              structure ptr";
            ])
       ^/^ string
             {|
       module Variant = struct
         include Variant
 
-        let to_variant : t structure ptr -> C.variant_ptr structure ptr = coerce_ptr C.variant_ptr.plain
-        let of_variant : C.variant_ptr structure ptr -> t structure ptr = coerce_ptr (ptr s)
+        let ocaml_to_variant : t structure ptr -> C.variant_ptr structure ptr = coerce_ptr C.variant_ptr.plain
+        let ocaml_of_variant : C.variant_ptr structure ptr -> t structure ptr = coerce_ptr (ptr s)
+        let godot_to_variant : t structure ptr -> C.variant_ptr structure ptr = coerce_ptr C.variant_ptr.plain
+        let godot_of_variant : C.variant_ptr structure ptr -> t structure ptr = coerce_ptr (ptr s)
       end
       |}
     else
@@ -1320,17 +1335,21 @@ module Gen = struct
       include %s
       include Conv.%s
 
-      let to_variant : t structure ptr -> C.variant_ptr structure ptr = fun x ->
+      let godot_to_variant (x:godot_t) : C.variant_ptr structure ptr = 
         let new_variant_ptr = coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1) in
         let () = get_variant_from_type_constructor type_enum typ new_variant_ptr (coerce_ptr typ x) in
         let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
         inited_variant_ptr
 
-      let of_variant : C.variant_ptr structure ptr -> t structure ptr = fun x ->
+      let ocaml_to_variant : ocaml_t -> C.variant_ptr structure ptr = fun x ->
+        godot_to_variant (of_ocaml x)
+
+      let godot_of_variant : C.variant_ptr structure ptr -> godot_t = fun x ->
         let new_type_ptr = gc_alloc s ~count:1 in
         let () = get_variant_to_type_constructor type_enum typ (coerce_ptr typ new_type_ptr) x in
-        let inited_type_ptr = coerce_ptr (ptr s) new_type_ptr in
-        inited_type_ptr
+        coerce_ptr (ptr s) new_type_ptr
+
+      let ocaml_of_variant (x: C.variant_ptr structure ptr) : ocaml_t = to_ocaml (godot_of_variant x)
 
     end
     |}
@@ -1357,10 +1376,10 @@ module Gen = struct
       module %s = struct
         include GlobalEnum0.%s
 
-        let to_ocaml = Conv.Int.to_ocaml
-        let of_ocaml = Conv.Int.of_ocaml
-        let to_variant = ApiTypes.Int.to_variant
-        let of_variant = ApiTypes.Int.of_variant
+        let godot_to_variant = ApiTypes.Int.godot_to_variant
+        let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
+        let godot_of_variant = ApiTypes.Int.godot_of_variant
+        let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
 
         type t = ApiTypes.Int.t structure ptr
         let s = ApiTypes.Int.s
@@ -1492,6 +1511,231 @@ module Gen = struct
            |> module_ (mod_var_str c.name)
            |> fun x -> x ^^ hardline)
     |> module_ "BuiltinClass0"
+
+  let concat_with_spaces xs = xs |> String.concat ~sep:" "
+
+  let gen_utility_function (n : int) : ocaml =
+    let ks = List.range 0 n in
+    let xs = ks |> List.map ~f:(fun k -> sprintf "x%d" k) in
+    let xs' = xs |> List.map ~f:(fun x -> sprintf "%s'" x) in
+    let let_xs' =
+      xs |> List.map ~f:(fun x -> sprintf "let %s' = %s_of_ocaml %s in" x x x)
+    in
+    let x_of_ocamls = xs |> List.map ~f:(fun x -> sprintf "%s_of_ocaml" x) in
+    sprintf
+      {|
+    let foreign_utility_function%d =
+     fun name hash ret_typ ret_to_ocaml %s ->
+      let utility_function = variant_get_ptr_utility_function name hash in
+      let count = %d in
+      fun %s ->
+        let ret =
+          coerce (ptr ret_typ) type_ptr.plain (gc_alloc ret_typ ~count:1)
+        in
+        %s
+        (* let x0 = x0_of_ocaml x0 in *)
+        let arr = foreign_arr%d %s in
+        let () =
+          coerce PtrUtilityFunction.t ptr_utility_function.typ utility_function
+            ret arr count
+        in
+        ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret)
+    |}
+      n
+      (concat_with_spaces x_of_ocamls)
+      n (concat_with_spaces xs)
+      (concat_with_spaces let_xs')
+      n (concat_with_spaces xs')
+    |> string
+
+  let gen_utility_function_void (n : int) : ocaml =
+    let ks = List.range 0 n in
+    let xs = ks |> List.map ~f:(fun k -> sprintf "x%d" k) in
+    let xs' = xs |> List.map ~f:(fun x -> sprintf "%s'" x) in
+    let let_xs' =
+      xs |> List.map ~f:(fun x -> sprintf "let %s' = %s_of_ocaml %s in" x x x)
+    in
+    let x_of_ocamls = xs |> List.map ~f:(fun x -> sprintf "%s_of_ocaml" x) in
+    sprintf
+      {|
+      let foreign_utility_function%d_void =
+       fun name hash ret_typ _ret_to_ocaml %s ->
+        let utility_function = variant_get_ptr_utility_function name hash in
+        let count = %d in
+        fun %s ->
+          let ret =
+            coerce (ptr ret_typ) type_ptr.plain null
+          in
+          %s
+          (* let x0 = x0_of_ocaml x0 in *)
+          let arr = foreign_arr%d %s in
+          let () =
+            coerce PtrUtilityFunction.t ptr_utility_function.typ utility_function
+              ret arr count
+          in
+          ()
+      |}
+      n
+      (concat_with_spaces x_of_ocamls)
+      n (concat_with_spaces xs)
+      (concat_with_spaces let_xs')
+      n (concat_with_spaces xs')
+    |> string
+
+  let gen_foreign_method (n : int) : ocaml =
+    let ks = List.range 0 n in
+    let xs = ks |> List.map ~f:(fun k -> sprintf "x%d" k) in
+    let xs' = xs |> List.map ~f:(fun x -> sprintf " %s'" x) in
+    let let_xs' =
+      xs |> List.map ~f:(fun x -> sprintf "let %s' = %s_to_variant %s in" x x x)
+    in
+    let x_to_variants =
+      xs |> List.map ~f:(fun x -> sprintf " %s_to_variant" x)
+    in
+    sprintf
+      {|
+      let foreign_method%d method_name _fn ret_typ ret_to_variant ret_of_variant %s =
+        (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+        let string_name = string_name_of_string method_name in
+        (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+        let err = global_call_error in
+        let count = %dL in
+        fun %s base ->
+          let ret =
+            coerce_ptr variant_ptr.uninit
+              (ret_to_variant (gc_alloc ret_typ ~count:1))
+          in
+          %s
+          (* let x' = x_to_variant x in *)
+          let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr%d %s) in
+          let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+          let () = variant_call () base string_name arr count ret err in
+          let ret = coerce_ptr variant_ptr.plain ret in
+          if is_error err then raise (to_exn err) else ret_of_variant ret
+    |}
+      n
+      (concat_with_spaces x_to_variants)
+      n (concat_with_spaces xs)
+      (concat_with_spaces let_xs')
+      n (concat_with_spaces xs')
+    |> string
+
+  let gen_foreign_method_void (n : int) =
+    let ks = List.range 0 n in
+    let xs = ks |> List.map ~f:(fun k -> sprintf "x%d" k) in
+    let xs' = xs |> List.map ~f:(fun x -> sprintf " %s'" x) in
+    let let_xs' =
+      xs |> List.map ~f:(fun x -> sprintf "let %s' = %s_to_variant %s in" x x x)
+    in
+    let x_to_variants =
+      xs |> List.map ~f:(fun x -> sprintf " %s_to_variant" x)
+    in
+    sprintf
+      {|
+      let foreign_method%d_void method_name _fn _ret_typ _ret_to_variant _ret_of_variant %s =
+        (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+        let string_name = string_name_of_string method_name in
+        (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+        let err = global_call_error in
+        let count = %dL in
+        fun %s base ->
+          let ret =
+            coerce_ptr variant_ptr.uninit null
+          in
+          %s
+          (* let x' = x_to_variant x in *)
+          let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr%d %s) in
+          let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+          let () = variant_call () base string_name arr count ret err in
+          if is_error err then raise (to_exn err) else ()
+    |}
+      n
+      (concat_with_spaces x_to_variants)
+      n (concat_with_spaces xs)
+      (concat_with_spaces let_xs')
+      n (concat_with_spaces xs')
+    |> string
+
+  let gen_foreign_method_static (n : int) =
+    let ks = List.range 0 n in
+    let xs = ks |> List.map ~f:(fun k -> sprintf "x%d" k) in
+    let xs' = xs |> List.map ~f:(fun x -> sprintf " %s'" x) in
+    let let_xs' =
+      xs |> List.map ~f:(fun x -> sprintf "let %s' = %s_to_variant %s in" x x x)
+    in
+    let x_to_variants =
+      xs |> List.map ~f:(fun x -> sprintf " %s_to_variant" x)
+    in
+    sprintf
+      {|
+        let foreign_method%d_static method_name _fn ret_typ ret_to_variant ret_of_variant %s =
+          (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+          let string_name = string_name_of_string method_name in
+          (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+          let err = global_call_error in
+          let count = %dL in
+          fun %s ->
+            let ret =
+              coerce_ptr variant_ptr.uninit
+                (ret_to_variant (gc_alloc ret_typ ~count:1))
+            in
+            %s
+            (* let x' = x_to_variant x in *)
+            let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr%d %s) in
+            let () = variant_call_static () VariantType.object_ string_name arr count ret err in
+            let ret = coerce_ptr variant_ptr.plain ret in
+            if is_error err then raise (to_exn err) else ret_of_variant ret
+      |}
+      n
+      (concat_with_spaces x_to_variants)
+      n (concat_with_spaces xs)
+      (concat_with_spaces let_xs')
+      n (concat_with_spaces xs')
+    |> string
+
+  let concat_with_cons xs = xs |> String.concat ~sep:" :: "
+
+  let gen_foreign_methodv (n : int) =
+    let ks = List.range 0 n in
+    let xs = ks |> List.map ~f:(fun k -> sprintf "x%d" k) in
+    let xs' = xs |> List.map ~f:(fun x -> sprintf " %s'" x) in
+    let let_xs' =
+      xs
+      |> List.map ~f:(fun x ->
+             sprintf
+               "let %s' = coerce_ptr variant_ptr.const (%s_to_variant %s) in" x
+               x x)
+    in
+    let x_to_variants =
+      xs |> List.map ~f:(fun x -> sprintf " %s_to_variant" x)
+    in
+    sprintf
+      {|
+        let foreign_method%dv method_name _fn ret_typ ret_to_variant ret_of_variant %s =
+          (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+          let string_name = string_name_of_string method_name in
+          (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+          let err = global_call_error in
+          fun %s vs base ->
+            let ret =
+              coerce_ptr variant_ptr.uninit
+                (ret_to_variant (gc_alloc ret_typ ~count:1))
+            in
+            let count = Int64.of_int (%d + VariadicVariants.length vs) in
+            %s
+            (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
+            let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arrv (%s :: vs)) in
+            let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
+            let () = variant_call () base string_name arr count ret err in
+            let ret = coerce_ptr variant_ptr.plain ret in
+            if is_error err then raise (to_exn err) else ret_of_variant ret
+      |}
+      n
+      (concat_with_spaces x_to_variants)
+      (concat_with_spaces xs) n
+      (concat_with_spaces let_xs')
+      (concat_with_cons xs')
+    |> string
 end
 
 module DepSort = struct
@@ -1549,7 +1793,8 @@ let () =
     string "module ClassSizes = Godotcaml.BuiltinClassSize.Double_64"
     ^^ hardline;
     string "open Godotcaml" ^^ hardline;
-    string "open C" ^^ hardline ^^ hardline;
+    string "open C" ^^ hardline;
+    hardline;
     Gen.gen_class_sizes_module_type type_names ^^ hardline ^^ hardline;
     Gen.gen_api_type_module_type () ^^ hardline;
     (* Gen.gen_foreign_api_module_type type_names ^^ hardline; *)
@@ -1560,11 +1805,10 @@ let () =
 
   [
     string "open! Base" ^^ hardline;
-    string "open Foreign_api" ^^ hardline;
-    string "open Foreign_api.Godotcaml" ^^ hardline;
     string "open Ctypes" ^^ hardline;
-    string "module M = Foreign_api.Make(Api_types.ClassSizes)" ^^ hardline;
-    string "open M" ^^ hardline ^^ hardline;
+    string "module M = Gdforeign" ^^ hardline;
+    string "open M" ^^ hardline;
+    hardline;
     string "let funptr = Foreign.funptr" ^^ hardline;
     Gen.gen_final_api_types type_names ^^ hardline ^^ hardline;
     Gen.GlobalEnum.t_list_to_ocaml api.global_enums ^^ hardline ^^ hardline;
@@ -1582,10 +1826,11 @@ let () =
   [
     string "open! Base" ^^ hardline;
     string "open Ctypes" ^^ hardline;
-    string "module M = Foreign_api.Make(Api_types.ClassSizes)" ^^ hardline;
-    string "open M" ^^ hardline ^^ hardline;
-    string "let funptr = Foreign.funptr" ^^ hardline;
+    string "module M = Gdforeign" ^^ hardline;
+    string "open M" ^^ hardline;
+    hardline;
     string "open Api_builtins" ^^ hardline;
+    string "let funptr = Foreign.funptr" ^^ hardline;
     Gen.gen_pre_class_type_defs classes_topsorted ^^ hardline ^^ hardline;
     mli |> Gen.module_ "Class";
   ]
@@ -1595,33 +1840,64 @@ let () =
   [
     string "open! Base" ^^ hardline;
     string "open Ctypes" ^^ hardline;
-    string "module M = Foreign_api.Make(Api_types.ClassSizes)" ^^ hardline;
-    string "open M" ^^ hardline ^^ hardline;
-    string "let funptr = Foreign.funptr" ^^ hardline;
+    string "module M = Gdforeign" ^^ hardline;
+    string "open M" ^^ hardline;
+    hardline;
     string "open Api_builtins" ^^ hardline;
     string "open Api_classes_intf" ^^ hardline;
+    string "let funptr = Foreign.funptr" ^^ hardline;
+    Gen.gen_pre_class_type_defs classes_topsorted ^^ hardline ^^ hardline;
     ml |> Gen.module_ "Class";
   ]
   |> PPrint.concat
   |> Gen.gen_file "api_classes.ml";
 
+  let headers =
+    string
+      {|
+open! Base
+open Ctypes
+open Godotcaml
+open C
+module Suite = TypedSuite
+module Godotcaml = Godotcaml
+open Foreign_base
+    |}
+  in
+  List.range 1 15
+  |> List.map ~f:(fun k ->
+         Gen.gen_foreign_method k ^/^ Gen.gen_foreign_methodv k
+         ^/^ Gen.gen_foreign_method_static k
+         ^/^ Gen.gen_foreign_method_void k
+         ^^ hardline ^^ hardline)
+  |> fun xs ->
+  headers :: xs |> PPrint.concat |> Gen.gen_file "foreign_methods.ml";
+
+  List.range 1 15
+  |> List.map ~f:(fun k ->
+         Gen.gen_utility_function k
+         ^/^ Gen.gen_utility_function_void k
+         ^^ hardline ^^ hardline)
+  |> fun xs ->
+  headers :: xs |> PPrint.concat |> Gen.gen_file "foreign_utility_functions.ml";
+
   (* api.builtin_classes
-  |> List.map ~f:(fun bic ->
-         sprintf
-           {|
-    module %s = struct
-      type godot_t = %s.t structure ptr
-      type ocaml_t = %s.t structure ptr
-      let to_ocaml (x: godot_t) : ocaml_t = x
-      let of_ocaml (x: ocaml_t) : godot_t = x
-    end
-      |}
-           (Gen.mod_var_str bic.name) (Gen.mod_var_str bic.name)
-           (Gen.mod_var_str bic.name)
-         |> string
-         |> fun x -> x ^^ hardline)
-  |> PPrint.concat |> Gen.gen_file "blarg.ml";
- *)
+     |> List.map ~f:(fun bic ->
+            sprintf
+              {|
+       module %s = struct
+         type godot_t = %s.t structure ptr
+         type ocaml_t = %s.t structure ptr
+         let to_ocaml (x: godot_t) : ocaml_t = x
+         let of_ocaml (x: ocaml_t) : godot_t = x
+       end
+         |}
+              (Gen.mod_var_str bic.name) (Gen.mod_var_str bic.name)
+              (Gen.mod_var_str bic.name)
+            |> string
+            |> fun x -> x ^^ hardline)
+     |> PPrint.concat |> Gen.gen_file "blarg.ml";
+  *)
   ()
 
 (* form the bicnames list *)
