@@ -1,5 +1,6 @@
 open! Base
 open Ctypes
+open Godotcaml_base
 open Godotcaml
 open C
 module Suite = TypedSuite
@@ -9,6 +10,9 @@ let get_proc_address : (string -> InterfaceFunctionPtr.t) ref =
   ref (fun (_ : string) ->
       Stdio.print_endline "get_proc_address -> it does nothing!";
       assert false)
+
+let library : class_library_ptr structure ptr ref =
+  ref (coerce (ptr void) class_library_ptr.plain null)
 
 let gc_alloc = allocate_n
 let global_call_error = allocate_n CallError.s ~count:1
@@ -157,24 +161,36 @@ let variant_call () = get_fun "variant_call" variant_call.typ
 let variant_call_static () =
   get_fun "variant_call_static" variant_call_static.typ
 
-let get_variant_from_type_constructor variant_type (variant_typ : 'a ptr typ) =
+let get_variant_from_type_constructor variant_type =
   let getter =
     get_fun "get_variant_from_type_constructor" GetVariantFromTypeConstructor.t
   in
-  coerce VariantFromTypeConstructorFunc.t
-    (variant_from_type_constructor_func variant_typ).typ
+  coerce VariantFromTypeConstructorFunc.t variant_from_type_constructor_func.typ
     (coerce GetVariantFromTypeConstructor.t
        get_variant_from_type_constructor.typ getter variant_type)
 
-let get_variant_to_type_constructor (variant_type : int)
-    (variant_typ : 'a ptr typ) =
+let get_variant_to_type_constructor (variant_type : int) =
   let getter =
     get_fun "get_variant_to_type_constructor" GetVariantToTypeConstructor.t
   in
-  coerce VariantToTypeConstructorFunc.t
-    (variant_to_type_constructor_func variant_typ).typ
+  coerce VariantToTypeConstructorFunc.t variant_to_type_constructor_func.typ
     (coerce GetVariantToTypeConstructor.t get_variant_to_type_constructor.typ
        getter variant_type)
+
+let classdb_construct_object class_name =
+  get_fun "classdb_construct_object" interface_classdb_construct_object.typ
+    class_name
+
+let classdb_register_extension_class2 library class_name parent_class_name
+    extension_funcs =
+  get_fun "classdb_register_extension_class2"
+    interface_classdb_register_extension_class2.typ library class_name
+    parent_class_name extension_funcs
+
+let classdb_register_extension_class_method library class_name method_info =
+  get_fun "classdb_register_extension_class_method"
+    interface_classdb_register_extension_class_method.typ library class_name
+    method_info
 
 let foreign_builtin_operator2 variant_type arg_type_opt operator typ ret_typ
     lhs_of_ocaml rhs_of_ocaml ret_to_ocaml lhs rhs =
@@ -188,6 +204,7 @@ let foreign_builtin_operator2 variant_type arg_type_opt operator typ ret_typ
   let () = op (lhs_of_ocaml lhs) (rhs_of_ocaml rhs) ret in
   ret_to_ocaml ret
 
+(* FIXME *)
 let foreign_builtin_operator1 variant_type arg_type_opt operator typ ret_typ lhs
     =
   let op left ret =

@@ -26,8 +26,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -39,8 +39,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -65,8 +65,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -78,8 +78,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -104,8 +104,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -117,8 +117,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -143,8 +143,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -156,8 +156,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -182,8 +182,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -195,8 +195,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -221,8 +221,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -234,8 +234,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -260,8 +260,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -273,8 +273,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -299,8 +299,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -312,8 +312,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -338,8 +338,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -351,8 +351,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -377,8 +377,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -390,8 +390,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -416,8 +416,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -429,8 +429,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -455,8 +455,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -468,8 +468,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -494,8 +494,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -507,8 +507,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -533,8 +533,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -546,8 +546,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -572,8 +572,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -585,8 +585,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -611,8 +611,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -624,8 +624,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -650,8 +650,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -663,8 +663,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -689,8 +689,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -702,8 +702,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -728,8 +728,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -741,8 +741,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -767,8 +767,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -780,8 +780,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -806,8 +806,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -819,8 +819,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -845,8 +845,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -858,8 +858,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -884,8 +884,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -897,8 +897,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -923,8 +923,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -936,8 +936,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -962,8 +962,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -975,8 +975,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -1001,8 +1001,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -1014,8 +1014,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -1040,8 +1040,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -1053,8 +1053,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -1079,8 +1079,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -1092,8 +1092,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -1118,8 +1118,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -1131,8 +1131,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -1157,8 +1157,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -1170,8 +1170,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -1196,8 +1196,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -1209,8 +1209,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -1235,8 +1235,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -1248,8 +1248,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -1274,8 +1274,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -1287,8 +1287,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -1313,8 +1313,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -1326,8 +1326,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -1352,8 +1352,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -1365,8 +1365,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -1391,8 +1391,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -1404,8 +1404,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -1430,8 +1430,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -1443,8 +1443,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr
@@ -1469,8 +1469,8 @@ module ApiTypes = struct
         coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
       in
       let () =
-        get_variant_from_type_constructor type_enum typ new_variant_ptr
-          (coerce_ptr typ x)
+        get_variant_from_type_constructor type_enum new_variant_ptr
+          (coerce_ptr C.type_ptr.plain x)
       in
       let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
       inited_variant_ptr
@@ -1482,8 +1482,8 @@ module ApiTypes = struct
      fun x ->
       let new_type_ptr = gc_alloc s ~count:1 in
       let () =
-        get_variant_to_type_constructor type_enum typ
-          (coerce_ptr typ new_type_ptr)
+        get_variant_to_type_constructor type_enum
+          (coerce_ptr C.type_ptr.uninit new_type_ptr)
           x
       in
       coerce_ptr (ptr s) new_type_ptr

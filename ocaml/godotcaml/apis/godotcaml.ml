@@ -84,6 +84,9 @@ module C = struct
   let variant_type = typedef enum (M.typedef_name "VariantType")
 
   module VariantType = struct
+    type t = int
+
+    let typ = int
     let nil = 0
     let bool = 1
     let int = 2
@@ -380,6 +383,18 @@ module C = struct
     let usage_f = field property_info_struct "usage" uint32_t
     let () = seal property_info_struct
     let s = typedef property_info_struct (M.typedef_name "PropertyInfo")
+
+    let make allocator type_ name class_name hint ?hint_string usage =
+      let ret = allocator s in
+      ret |-> type_f <-@ type_;
+      ret |-> name_f <-@ name;
+      ret |-> class_name_f <-@ class_name;
+      ret |-> hint_f <-@ hint;
+      ret |-> hint_string_f
+      <-@ (hint_string
+          |> Option.value ~default:(coerce (ptr void) string_ptr.plain null));
+      ret |-> usage_f <-@ usage;
+      ret
   end
 
   let property_info_ptr = M.ptr_suite "PropertyInfo" PropertyInfo.s
@@ -456,9 +471,9 @@ module C = struct
   let class_to_string =
     fn_suite
       (M.typedef_name "ClassToString")
-      (class_instance_ptr.plain @-> ptr gbool
-      (* return value *) @-> returning string_ptr.plain (* also return value? *)
-      )
+      (class_instance_ptr.plain
+      @-> ptr gbool (* return value *)
+      @-> string_ptr.plain (* also return value? *) @-> returning void)
 
   module ClassToString = (val class_to_string.dyn)
 
@@ -521,40 +536,42 @@ module C = struct
     let is_virtual_f = field class_creation_info2_struct "is_virtual" gbool
     let is_abstract_f = field class_creation_info2_struct "is_abstract" gbool
     let is_exposed_f = field class_creation_info2_struct "is_exposed" gbool
-    let set_func_f = field class_creation_info2_struct "set_func" ClassSet.t
-    let get_func_f = field class_creation_info2_struct "get_func" ClassGet.t
+    let set_func_f = field class_creation_info2_struct "set_func" ClassSet.t_opt
+    let get_func_f = field class_creation_info2_struct "get_func" ClassGet.t_opt
 
     let get_property_list_func_f =
       field class_creation_info2_struct "get_property_list_func"
-        ClassGetPropertyList.t
+        ClassGetPropertyList.t_opt
 
     let free_property_list_func_f =
       field class_creation_info2_struct "free_property_list_func"
-        ClassFreePropertyList.t
+        ClassFreePropertyList.t_opt
 
     let property_can_revert_func_f =
       field class_creation_info2_struct "property_can_revert_func"
-        ClassPropertyCanRevert.t
+        ClassPropertyCanRevert.t_opt
 
     let property_get_revert_func_f =
       field class_creation_info2_struct "property_get_revert_func"
-        ClassPropertyGetRevert.t
+        ClassPropertyGetRevert.t_opt
 
     let validate_property_func_f =
       field class_creation_info2_struct "validate_property_func"
-        ClassPropertyValidateProperty.t
+        ClassValidateProperty.t_opt
 
     let notification_func_f =
-      field class_creation_info2_struct "notification_func" ClassNotification2.t
+      field class_creation_info2_struct "notification_func"
+        ClassNotification2.t_opt
 
     let to_string_func_f =
-      field class_creation_info2_struct "to_string_func" ClassToString.t
+      field class_creation_info2_struct "to_string_func" ClassToString.t_opt
 
     let reference_func_f =
-      field class_creation_info2_struct "reference_func" ClassReference.t
+      field class_creation_info2_struct "reference_func" ClassReference.t_opt
 
     let unreference_func_f =
-      field class_creation_info2_struct "unreference_func" ClassUnreference.t
+      field class_creation_info2_struct "unreference_func"
+        ClassUnreference.t_opt
 
     let create_instance_func_f =
       field class_creation_info2_struct "create_instance_func"
@@ -562,6 +579,10 @@ module C = struct
 
     let free_instance_func_f =
       field class_creation_info2_struct "free_instance_func" ClassFreeInstance.t
+
+    let recreate_instance_func_f =
+      field class_creation_info2_struct "recreate_instance_func"
+        ClassRecreateInstance.t_opt
 
     let get_virtual_func_f =
       field class_creation_info2_struct "get_virtual_func" ClassGetVirtual.t_opt
@@ -575,15 +596,68 @@ module C = struct
         ClassCallVirtualWithData.t_opt
 
     let get_rid_func_f =
-      field class_creation_info2_struct "get_rid_func" ClassGetRID.t
+      field class_creation_info2_struct "get_rid_func" ClassGetRID.t_opt
 
-    let class_userdata =
+    let class_userdata_f =
       field class_creation_info2_struct "class_userdata" (ptr void)
 
     let () = seal class_creation_info2_struct
 
     let s =
       typedef class_creation_info2_struct (M.typedef_name "ClassCreationInfo2")
+
+    let make allocator ?is_virtual ?is_abstract ?is_exposed ?get ?set
+        ?get_property_list ?free_property_list ?property_can_revert
+        ?property_get_revert ?validate_property ?notification ?to_string
+        ?reference ?unreference ?recreate_instance ?get_virtual
+        ?get_virtual_call_data ?call_virtual_with_data ?get_rid ?class_userdata
+        create_instance free_instance : t structure ptr =
+      let ret = allocator s in
+      let debooleanize : bool -> Unsigned.UInt8.t =
+       fun x -> Unsigned.UInt8.of_int (if x then 1 else 0)
+      in
+      ret |-> is_virtual_f
+      <-@ (is_virtual |> Option.value ~default:false |> debooleanize);
+      ret |-> is_abstract_f
+      <-@ (is_abstract |> Option.value ~default:false |> debooleanize);
+      ret |-> is_exposed_f
+      <-@ (is_exposed |> Option.value ~default:true |> debooleanize);
+      ret |-> get_func_f <-@ (get |> Option.map ~f:ClassGet.of_fun);
+      ret |-> set_func_f <-@ (set |> Option.map ~f:ClassSet.of_fun);
+      ret |-> get_property_list_func_f
+      <-@ (get_property_list |> Option.map ~f:ClassGetPropertyList.of_fun);
+      ret |-> free_property_list_func_f
+      <-@ (free_property_list |> Option.map ~f:ClassFreePropertyList.of_fun);
+      ret |-> property_can_revert_func_f
+      <-@ (property_can_revert |> Option.map ~f:ClassPropertyCanRevert.of_fun);
+      ret |-> property_get_revert_func_f
+      <-@ (property_get_revert |> Option.map ~f:ClassPropertyGetRevert.of_fun);
+      ret |-> validate_property_func_f
+      <-@ (validate_property |> Option.map ~f:ClassValidateProperty.of_fun);
+      ret |-> notification_func_f
+      <-@ (notification |> Option.map ~f:ClassNotification2.of_fun);
+      ret |-> to_string_func_f
+      <-@ (to_string |> Option.map ~f:ClassToString.of_fun);
+      ret |-> reference_func_f
+      <-@ (reference |> Option.map ~f:ClassReference.of_fun);
+      ret |-> unreference_func_f
+      <-@ (unreference |> Option.map ~f:ClassUnreference.of_fun);
+      ret |-> create_instance_func_f
+      <-@ (create_instance |> ClassCreateInstance.of_fun);
+      ret |-> free_instance_func_f
+      <-@ (free_instance |> ClassFreeInstance.of_fun);
+      ret |-> recreate_instance_func_f
+      <-@ (recreate_instance |> Option.map ~f:ClassRecreateInstance.of_fun);
+      ret |-> get_virtual_func_f
+      <-@ (get_virtual |> Option.map ~f:ClassGetVirtual.of_fun);
+      ret |-> get_virtual_call_data_func_f
+      <-@ (get_virtual_call_data |> Option.map ~f:ClassGetVirtualCallData.of_fun);
+      ret |-> call_virtual_with_data_func_f
+      <-@ (call_virtual_with_data
+          |> Option.map ~f:ClassCallVirtualWithData.of_fun);
+      ret |-> get_rid_func_f <-@ (get_rid |> Option.map ~f:ClassGetRID.of_fun);
+      ret |-> class_userdata_f <-@ (class_userdata |> Option.value ~default:null);
+      ret
   end
 
   type class_library_ptr
@@ -594,6 +668,9 @@ module C = struct
   (* METHOD *)
 
   module ClassMethodFlags = struct
+    type t = int
+
+    let typ = int
     let normal = 1
     let editor = 2
     let const = 4
@@ -604,6 +681,9 @@ module C = struct
   end
 
   module ClassMethodArgumentMetadata = struct
+    type t = int
+
+    let typ = int
     let none = 0
     let int_is_int8 = 1
     let int_is_int16 = 2
@@ -639,11 +719,43 @@ module C = struct
 
   module ClassMethodPtrCall = (val class_method_ptr_call.dyn)
 
+  module ClassMethodInfo = struct
+    type t
+
+    let s : t structure typ = structure "gdoclassmethodinfo"
+    let name_f = field s "name" string_name_ptr.plain
+    let method_userdata_f = field s "method_userdata" (ptr void)
+    let call_func_f = field s "call_func" ClassMethodCall.t
+    let ptrcall_func_f = field s "ptrcall_func" ClassMethodPtrCall.t
+    let method_flags_f = field s "method_flags" uint32_t
+    let has_return_value_f = field s "has_return_value" gbool
+
+    let return_value_info_f =
+      field s "return_value_info" property_info_ptr.plain
+
+    let return_value_metadata_f = field s "return_value_metadata" int
+    let argument_count_f = field s "argument_count" uint32_t
+    let arguments_info_f = field s "arguments_info" property_info_ptr.plain
+
+    let arguments_metadata_f =
+      field s "arguments_metadata" (ptr ClassMethodArgumentMetadata.typ)
+
+    let default_argument_count_f = field s "default_argument_count" uint32_t
+
+    let default_arguments_f =
+      field s "default_arguments" (ptr variant_ptr.plain)
+
+    let () = seal s
+  end
+
   (* snip! *)
 
   let initialization_level = typedef enum (M.typedef_name "InitializationLevel")
 
   module InitializationLevel = struct
+    type t = int
+
+    let typ = int
     let core = 0
     let servers = 1
     let scene = 2
@@ -728,4 +840,34 @@ module C = struct
       (M.typedef_name "InterfaceVariantGetPtrBuiltinMethod")
       (variant_type @-> string_name_ptr.const @-> gint
       @-> returning PtrBuiltinMethod.t)
+
+  let interface_classdb_construct_object =
+    fn_suite "" (string_name_ptr.const @-> returning object_ptr.plain)
+
+  module ClassDBConstructObject = (val interface_classdb_construct_object.dyn)
+
+  let interface_get_method_bind =
+    fn_suite ""
+      (string_name_ptr.const @-> string_name_ptr.const @-> gint
+      @-> (*FIXME*) returning (ptr void))
+
+  let interface_get_class_tag =
+    fn_suite "" (string_name_ptr.const @-> returning (ptr void))
+
+  let interface_classdb_register_extension_class2 =
+    fn_suite ""
+      (class_library_ptr.plain @-> string_name_ptr.const
+     @-> string_name_ptr.const @-> ptr ClassCreationInfo2.s @-> returning void)
+
+  let interface_classdb_register_extension_class_method =
+    fn_suite ""
+      (class_library_ptr.plain @-> string_name_ptr.const
+     @-> ptr ClassMethodInfo.s @-> returning void)
+
+  (* register integer constant here. *)
+
+  let interface_classdb_register_extension_class_property =
+    fn_suite ""
+      (class_library_ptr.plain @-> string_name_ptr.const @-> ptr PropertyInfo.s
+     @-> string_name_ptr.const @-> string_name_ptr.const @-> returning void)
 end

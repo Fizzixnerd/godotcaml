@@ -1,5 +1,6 @@
 open! Base
 open Ctypes
+open Godotcaml_base
 module ClassSizes = Godotcaml.BuiltinClassSize.Double_64
 open Godotcaml
 open C

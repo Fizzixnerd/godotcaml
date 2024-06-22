@@ -1,5 +1,6 @@
 open! Base
 open Ctypes
+open Godotcaml_base
 open Godotcaml
 open C
 module Suite = TypedSuite

@@ -1337,7 +1337,7 @@ module Gen = struct
 
       let godot_to_variant (x:godot_t) : C.variant_ptr structure ptr = 
         let new_variant_ptr = coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1) in
-        let () = get_variant_from_type_constructor type_enum typ new_variant_ptr (coerce_ptr typ x) in
+        let () = get_variant_from_type_constructor type_enum new_variant_ptr (coerce_ptr C.type_ptr.plain x) in
         let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
         inited_variant_ptr
 
@@ -1346,7 +1346,7 @@ module Gen = struct
 
       let godot_of_variant : C.variant_ptr structure ptr -> godot_t = fun x ->
         let new_type_ptr = gc_alloc s ~count:1 in
-        let () = get_variant_to_type_constructor type_enum typ (coerce_ptr typ new_type_ptr) x in
+        let () = get_variant_to_type_constructor type_enum (coerce_ptr C.type_ptr.uninit new_type_ptr) x in
         coerce_ptr (ptr s) new_type_ptr
 
       let ocaml_of_variant (x: C.variant_ptr structure ptr) : ocaml_t = to_ocaml (godot_of_variant x)
@@ -1790,6 +1790,7 @@ let () =
   [
     string "open! Base" ^^ hardline;
     string "open Ctypes" ^^ hardline;
+    string "open Godotcaml_base" ^^ hardline;
     string "module ClassSizes = Godotcaml.BuiltinClassSize.Double_64"
     ^^ hardline;
     string "open Godotcaml" ^^ hardline;
@@ -1844,7 +1845,6 @@ let () =
     string "open M" ^^ hardline;
     hardline;
     string "open Api_builtins" ^^ hardline;
-    string "open Api_classes_intf" ^^ hardline;
     string "let funptr = Foreign.funptr" ^^ hardline;
     Gen.gen_pre_class_type_defs classes_topsorted ^^ hardline ^^ hardline;
     ml |> Gen.module_ "Class";
@@ -1857,6 +1857,7 @@ let () =
       {|
 open! Base
 open Ctypes
+open Godotcaml_base
 open Godotcaml
 open C
 module Suite = TypedSuite

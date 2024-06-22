@@ -16,11 +16,47 @@
 (documentation https://url/to/documentation)
 
 (package
- (name godotcaml)
+ (name godotcaml_base)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml dune)
+ (depends 
+  ocaml 
+  dune
+  odoc
+  core
+  ctypes
+  ctypes-foreign
+  yojson
+  pprint
+  re
+  topological_sort
+  gg
+  ppxlib
+  ppxlib-metaquot
+  ppx_deriving
+  ppx_jane
+  ppx_yojson_conv)
  (tags
   (topics "to describe" your project)))
+
+(package
+ (name godotcaml_api)
+ (synopsis "A short synopsis")
+ (description "A longer description")
+ (depends ocaml dune godotcaml_base)
+ (tags 
+  (topics "to describe" your project)))
+
+(package
+ (name ppx_godot)
+ (synopsis "A short synopsis")
+ (description "A longer description")
+ (depends ocaml dune godotcaml my_ocaml_extension)
+ (tags
+  (topics "to describe" your project)))
+
+(package
+ (name godotcaml)
+  (depends ocaml dune godotcaml_base godotcaml_apis))
 
 ; See the complete stanza docs at https://dune.readthedocs.io/en/stable/dune-files.html#dune-project

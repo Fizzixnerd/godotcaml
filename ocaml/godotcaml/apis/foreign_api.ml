@@ -1,5 +1,6 @@
 open! Base
 open Ctypes
+open Godotcaml_base
 open Godotcaml
 open C
 module Suite = TypedSuite
@@ -97,8 +98,8 @@ functor
         let arr = foreign_arr0 in
         let base = coerce_ptr type_ptr.plain base in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         coerce type_ptr.plain (ptr ret_typ) ret
 
@@ -122,8 +123,8 @@ functor
         let arr = foreign_arr0 in
         let base = coerce_ptr type_ptr.plain base in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         ()
 
@@ -150,8 +151,8 @@ functor
         let arr = foreign_arr1 x in
         let base = coerce_ptr type_ptr.plain base in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         coerce type_ptr.plain (ptr ret_typ) ret
 
@@ -171,8 +172,8 @@ functor
         let arr = foreign_arr1 x in
         let base = coerce_ptr type_ptr.plain null in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         coerce type_ptr.plain (ptr ret_typ) ret
 
@@ -197,8 +198,8 @@ functor
         let arr = foreign_arr1 x in
         let base = coerce_ptr type_ptr.plain base in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         ()
 
@@ -226,8 +227,8 @@ functor
         let arr = foreign_arr2 x y in
         let base = coerce_ptr type_ptr.plain base in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         coerce type_ptr.plain (ptr ret_typ) ret
 
@@ -254,8 +255,8 @@ functor
         let arr = foreign_arr2 x y in
         let base = coerce_ptr type_ptr.plain null in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         coerce type_ptr.plain (ptr ret_typ) ret
 
@@ -281,8 +282,8 @@ functor
         let arr = foreign_arr2 x y in
         let base = coerce_ptr type_ptr.plain base in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         ()
 
@@ -311,8 +312,8 @@ functor
         let arr = foreign_arr3 x y z in
         let base = coerce_ptr type_ptr.plain base in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         coerce type_ptr.plain (ptr ret_typ) ret
 
@@ -340,8 +341,8 @@ functor
         let arr = foreign_arr3 x y z in
         let base = coerce_ptr type_ptr.plain null in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         coerce type_ptr.plain (ptr ret_typ) ret
 
@@ -371,8 +372,8 @@ functor
         let arr = foreign_arr4 x y z w in
         let base = coerce_ptr type_ptr.plain base in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         coerce type_ptr.plain (ptr ret_typ) ret
 
@@ -401,8 +402,8 @@ functor
         let arr = foreign_arr4 x y z w in
         let base = coerce_ptr type_ptr.plain null in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         coerce type_ptr.plain (ptr ret_typ) ret
 
@@ -432,8 +433,8 @@ functor
         let arr = foreign_arr5 x y z w r in
         let base = coerce_ptr type_ptr.plain null in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         coerce type_ptr.plain (ptr ret_typ) ret
 
@@ -464,8 +465,8 @@ functor
         let arr = foreign_arr6 x y z w r s in
         let base = coerce_ptr type_ptr.plain null in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         coerce type_ptr.plain (ptr ret_typ) ret
 
@@ -498,8 +499,8 @@ functor
         let arr = foreign_arr7 x y z w r s t in
         let base = coerce_ptr type_ptr.plain base in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         coerce type_ptr.plain (ptr ret_typ) ret
 
@@ -532,8 +533,8 @@ functor
         let arr = foreign_arr8 x y z w r s t u in
         let base = coerce_ptr type_ptr.plain null in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         coerce type_ptr.plain (ptr ret_typ) ret
 
@@ -560,8 +561,8 @@ functor
         let arr = foreign_arrv xs in
         let base = coerce_ptr type_ptr.plain base in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         coerce type_ptr.plain (ptr ret_typ) ret
 
@@ -586,8 +587,8 @@ functor
         let arr = foreign_arrv xs in
         let base = coerce_ptr type_ptr.plain base in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         ()
 
@@ -613,8 +614,8 @@ functor
         let arr = foreign_arrv (coerce_ptr type_ptr.const x :: xs) in
         let base = coerce_ptr type_ptr.plain base in
         let () =
-          coerce PtrBuiltinMethod.t ptr_builtin_method builtin_method base arr
-            ret count
+          coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+            arr ret count
         in
         ()
 

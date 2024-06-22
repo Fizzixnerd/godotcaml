@@ -7,18 +7,33 @@
 
 (library 
  (modules Godotcaml Bootstrap)
- (name godotcaml)
+ (public_name godotcaml_base)
+ (name godotcaml_base)
  (libraries core ctypes ctypes.foreign)
  (preprocess (pps ppx_jane))
  (flags (:standard -g -w -32)))
 
-(executable
+(library
  (modules My_ocaml_extension Api_classes Api_classes_intf Api_builtins Gdforeign Foreign_api Foreign_base Foreign_methods Foreign_utility_functions Api_types Conv)
- (modes (native shared_object))
- (name my_ocaml_extension)
+ (public_name godotcaml_api)
+ (name godotcaml_api)
  (foreign_stubs (language c) (names hello-gdextension))
- (libraries gg core yojson pprint ctypes godotcaml)
+ (libraries gg core yojson pprint ctypes godotcaml_base)
  (preprocess (pps ppx_jane ppx_yojson_conv))
  (flags (:standard -g -w -32)))
 
+(library
+ (name ppx_godot)
+ (modules Ppx_godot)
+ (kind ppx_rewriter)
+ (public_name ppx_godot)
+ (libraries core ppx_deriving ppxlib)
+ (preprocess (pps ppxlib.metaquot))
+ (flags (:standard -g -w -32)))
  
+ (executable
+  (name uses_ppx_godot)
+  (modules Uses_ppx_godot)
+  (libraries core)
+  (preprocess (pps ppx_godot))
+  (flags (:standard -g -w -32)))
