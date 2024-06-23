@@ -14,6 +14,7 @@ let get_proc_address : (string -> InterfaceFunctionPtr.t) ref =
 let library : class_library_ptr structure ptr ref =
   ref (coerce (ptr void) class_library_ptr.plain null)
 
+let on_load : (unit -> unit) ref = ref (fun () -> ())
 let gc_alloc = allocate_n
 let global_call_error = allocate_n CallError.s ~count:1
 

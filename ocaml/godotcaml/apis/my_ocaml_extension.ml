@@ -1,7 +1,9 @@
 open! Base
 open Ctypes
+open Godotcaml_api
 open Gdforeign
 open Api_builtins
+open! Uses_ppx_godot
 
 let funptr = Foreign.funptr
 
@@ -76,7 +78,7 @@ let hello_extension_entry (get_proc_address : nativeint) (library : nativeint)
           (string_name_of_string subclass_of)
           class_info
       in
-      ()
+      !on_load ()
   in
 
   let deinitialize (_userdata : unit ptr) (p_level : int) =

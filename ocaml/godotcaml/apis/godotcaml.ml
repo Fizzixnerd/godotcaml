@@ -668,15 +668,15 @@ module C = struct
   (* METHOD *)
 
   module ClassMethodFlags = struct
-    type t = int
+    type t = Unsigned.UInt32.t
 
-    let typ = int
-    let normal = 1
-    let editor = 2
-    let const = 4
-    let virtual_ = 8
-    let vararg = 16
-    let static = 32
+    let typ = uint32_t
+    let normal = Unsigned.UInt32.of_int 1
+    let editor = Unsigned.UInt32.of_int 2
+    let const = Unsigned.UInt32.of_int 4
+    let virtual_ = Unsigned.UInt32.of_int 8
+    let vararg = Unsigned.UInt32.of_int 16
+    let static = Unsigned.UInt32.of_int 32
     let default = normal
   end
 
@@ -746,6 +746,41 @@ module C = struct
       field s "default_arguments" (ptr variant_ptr.plain)
 
     let () = seal s
+
+    let make ?method_userdata ?method_flags ?return_value_info
+        ?return_value_metadata ?default_argument_count ?default_arguments
+        allocator name has_return_value argument_count arguments_info
+        arguments_metadata call_func ptrcall_func =
+      let debooleanize : bool -> Unsigned.UInt8.t =
+       fun x -> Unsigned.UInt8.of_int (if x then 1 else 0)
+      in
+      let ret = allocator s in
+      ret |-> name_f <-@ name;
+      ret |-> method_userdata_f
+      <-@ (method_userdata |> Option.value ~default:null);
+      ret |-> call_func_f <-@ call_func;
+      ret |-> ptrcall_func_f <-@ ptrcall_func;
+      ret |-> method_flags_f
+      <-@ (method_flags |> Option.value ~default:ClassMethodFlags.default);
+      ret |-> has_return_value_f <-@ debooleanize has_return_value;
+      ret |-> return_value_info_f
+      <-@ (return_value_info
+          |> Option.value
+               ~default:(coerce (ptr void) property_info_ptr.plain null));
+      ret |-> return_value_metadata_f
+      <-@ (return_value_metadata
+          |> Option.value ~default:ClassMethodArgumentMetadata.none);
+      ret |-> argument_count_f <-@ argument_count;
+      ret |-> arguments_info_f <-@ arguments_info;
+      ret |-> arguments_metadata_f <-@ arguments_metadata;
+      ret |-> default_argument_count_f
+      <-@ (default_argument_count
+          |> Option.value ~default:(Unsigned.UInt32.of_int 0));
+      ret |-> default_arguments_f
+      <-@ (default_arguments
+          |> Option.value
+               ~default:(coerce (ptr void) (ptr variant_ptr.plain) null));
+      ret
   end
 
   (* snip! *)

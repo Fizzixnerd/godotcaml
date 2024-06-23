@@ -14,10 +14,9 @@
  (flags (:standard -g -w -32)))
 
 (library
- (modules My_ocaml_extension Api_classes Api_classes_intf Api_builtins Gdforeign Foreign_api Foreign_base Foreign_methods Foreign_utility_functions Api_types Conv)
+ (modules  Api_classes Api_classes_intf Api_builtins Gdforeign Foreign_api Foreign_base Foreign_methods Foreign_utility_functions Api_types Conv)
  (public_name godotcaml_api)
  (name godotcaml_api)
- (foreign_stubs (language c) (names hello-gdextension))
  (libraries gg core yojson pprint ctypes godotcaml_base)
  (preprocess (pps ppx_jane ppx_yojson_conv))
  (flags (:standard -g -w -32)))
@@ -32,8 +31,10 @@
  (flags (:standard -g -w -32)))
  
  (executable
-  (name uses_ppx_godot)
-  (modules Uses_ppx_godot)
-  (libraries core)
+  (name my_ocaml_extension)
+  (modes (native shared_object))
+  (foreign_stubs (language c) (names hello-gdextension))
+  (modules Uses_ppx_godot My_ocaml_extension)
+  (libraries core godotcaml_api)
   (preprocess (pps ppx_godot))
   (flags (:standard -g -w -32)))

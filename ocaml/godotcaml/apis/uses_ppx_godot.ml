@@ -1,5 +1,12 @@
 open! Base
+open Godotcaml_api.Api_classes.Class
 
-[%%gclass { class_name = "TestThing" }]
+module%gclass MyClass = struct
+  [%%ginherits Node]
 
-let () = Stdio.printf "%s\n" godot_class_name
+  include Node
+end
+
+let () =
+  Stdio.printf "%s\n" MyClass._godot_inherits;
+  Stdio.printf "%s\n" MyClass._godot_class_name
