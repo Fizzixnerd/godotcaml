@@ -1298,6 +1298,7 @@ module Gen = struct
         (List.map ~f:string
            [
              "include Api_types.SUB_API_TYPE";
+             "include Conv.CONV";
              "val ocaml_to_variant : t structure ptr -> C.variant_ptr \
               structure ptr";
              "val godot_to_variant : t structure ptr -> C.variant_ptr \
@@ -1306,6 +1307,7 @@ module Gen = struct
               structure ptr";
              "val godot_of_variant : C.variant_ptr structure ptr -> t \
               structure ptr";
+             "val godot_typ : godot_t typ";
            ])
       ^/^ string
             {|
@@ -1351,6 +1353,7 @@ module Gen = struct
 
       let ocaml_of_variant (x: C.variant_ptr structure ptr) : ocaml_t = to_ocaml (godot_of_variant x)
 
+      let godot_typ : godot_t typ = ptr s
     end
     |}
                (mod_var_str type_name) (mod_var_str type_name)

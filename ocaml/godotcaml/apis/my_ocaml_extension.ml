@@ -33,51 +33,6 @@ let hello_extension_entry (get_proc_address : nativeint) (library : nativeint)
     Stdio.Out_channel.flush Stdio.stdout;
 
     if p_level = 2 then
-      let get_virtual : ClassGetVirtual.fn option =
-        Option.some (fun _ _name -> coerce_ptr ClassCallVirtual.t null)
-      in
-      let get_property_list : ClassGetPropertyList.fn option =
-        Option.some (fun _inst count ->
-            count <-@ Unsigned.UInt32.of_int 1;
-            let arr = gc_alloc ~count:1 PropertyInfo.s in
-            arr
-            <-@ !@(PropertyInfo.make
-                     (gc_alloc ~count:1 ?finalise:None)
-                     VariantType.object_
-                     (coerce_ptr string_name_ptr.plain
-                        (string_name_of_string "GetOffMyLawn"))
-                     (coerce_ptr string_name_ptr.plain
-                        (string_name_of_string "Object"))
-                     (Unsigned.UInt32.of_int 0) (Unsigned.UInt32.of_int 6));
-            arr)
-      in
-      let free_property_list = Option.some (fun _ _ -> ()) in
-      let notification = Option.some (fun _ _ _ -> ()) in
-      let to_string : ClassToString.fn option =
-        Option.some (fun _ is_valid out_str ->
-            is_valid <-@ Unsigned.UInt8.of_int 0;
-            coerce_ptr (ptr int64_t) out_str
-            <-@ !@(coerce_ptr (ptr int64_t) (Conv.String.of_ocaml "")))
-      in
-      let reference = Option.some (fun _ -> ()) in
-      let unreference = Option.some (fun _ -> ()) in
-      let subclass_of = "Node" in
-      let class_info =
-        ClassCreationInfo2.make
-          (gc_alloc ~count:1 ?finalise:None)
-          ?get_property_list ?free_property_list ?notification ?to_string
-          ?reference ?unreference ?get_virtual
-          (fun _ ->
-            coerce_ptr object_ptr.plain
-            @@ classdb_construct_object (string_name_of_string subclass_of))
-          (fun _ _ -> ())
-      in
-      let () =
-        classdb_register_extension_class2 library
-          (string_name_of_string "OcamlTestThing")
-          (string_name_of_string subclass_of)
-          class_info
-      in
       !on_load ()
   in
 

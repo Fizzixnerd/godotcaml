@@ -129,6 +129,10 @@ let string_name_of_string str =
   in
   string_name
 
+let variant_new_copy dest src =
+  get_fun "variant_new_copy"
+    interface_variant_new_copy.typ dest src
+
 let variant_get_ptr_constructor variant_type constructor_index =
   get_fun "variant_get_ptr_constructor"
     interface_variant_get_ptr_constructor.typ variant_type constructor_index

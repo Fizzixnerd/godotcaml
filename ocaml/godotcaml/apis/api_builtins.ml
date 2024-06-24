@@ -47,6 +47,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type BOOL = sig
@@ -86,6 +88,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type INT = sig
@@ -125,6 +129,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type FLOAT = sig
@@ -164,6 +170,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type STRING = sig
@@ -203,6 +211,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type VECTOR2 = sig
@@ -242,6 +252,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type VECTOR2I = sig
@@ -281,6 +293,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type RECT2 = sig
@@ -320,6 +334,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type RECT2I = sig
@@ -359,6 +375,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type VECTOR3 = sig
@@ -398,6 +416,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type VECTOR3I = sig
@@ -437,6 +457,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type TRANSFORM2D = sig
@@ -476,6 +498,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type VECTOR4 = sig
@@ -515,6 +539,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type VECTOR4I = sig
@@ -554,6 +580,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type PLANE = sig
@@ -593,6 +621,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type QUATERNION = sig
@@ -632,6 +662,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type AABB = sig
@@ -671,6 +703,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type BASIS = sig
@@ -710,6 +744,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type TRANSFORM3D = sig
@@ -749,6 +785,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type PROJECTION = sig
@@ -788,6 +826,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type COLOR = sig
@@ -827,6 +867,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type STRINGNAME = sig
@@ -866,6 +908,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type NODEPATH = sig
@@ -905,6 +949,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type RID = sig
@@ -944,6 +990,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type OBJECT = sig
@@ -983,6 +1031,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type CALLABLE = sig
@@ -1022,6 +1072,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type SIGNAL = sig
@@ -1061,6 +1113,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type DICTIONARY = sig
@@ -1100,6 +1154,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type ARRAY = sig
@@ -1139,6 +1195,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type PACKEDBYTEARRAY = sig
@@ -1178,6 +1236,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type PACKEDINT32ARRAY = sig
@@ -1217,6 +1277,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type PACKEDINT64ARRAY = sig
@@ -1256,6 +1318,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type PACKEDFLOAT32ARRAY = sig
@@ -1295,6 +1359,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type PACKEDFLOAT64ARRAY = sig
@@ -1334,6 +1400,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type PACKEDSTRINGARRAY = sig
@@ -1373,6 +1441,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type PACKEDVECTOR2ARRAY = sig
@@ -1412,6 +1482,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type PACKEDVECTOR3ARRAY = sig
@@ -1451,6 +1523,8 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type PACKEDCOLORARRAY = sig
@@ -1490,15 +1564,19 @@ module ApiTypes = struct
 
     let ocaml_of_variant (x : C.variant_ptr structure ptr) : ocaml_t =
       to_ocaml (godot_of_variant x)
+
+    let godot_typ : godot_t typ = ptr s
   end
 
   module type VARIANT = sig
     include Api_types.SUB_API_TYPE
+    include Conv.CONV
 
     val ocaml_to_variant : t structure ptr -> C.variant_ptr structure ptr
     val godot_to_variant : t structure ptr -> C.variant_ptr structure ptr
     val ocaml_of_variant : C.variant_ptr structure ptr -> t structure ptr
     val godot_of_variant : C.variant_ptr structure ptr -> t structure ptr
+    val godot_typ : godot_t typ
   end
 
   module Variant = struct

@@ -384,15 +384,13 @@ module C = struct
     let () = seal property_info_struct
     let s = typedef property_info_struct (M.typedef_name "PropertyInfo")
 
-    let make allocator type_ name class_name hint ?hint_string usage =
+    let make allocator type_ name class_name hint hint_string usage =
       let ret = allocator s in
       ret |-> type_f <-@ type_;
       ret |-> name_f <-@ name;
       ret |-> class_name_f <-@ class_name;
       ret |-> hint_f <-@ hint;
-      ret |-> hint_string_f
-      <-@ (hint_string
-          |> Option.value ~default:(coerce (ptr void) string_ptr.plain null));
+      ret |-> hint_string_f <-@ hint_string;
       ret |-> usage_f <-@ usage;
       ret
   end
@@ -700,22 +698,21 @@ module C = struct
   let class_method_call =
     fn_suite ""
       (ptr void @-> class_instance_ptr.plain @-> ptr variant_ptr.const @-> gint
-     @-> variant_ptr.plain
-      @-> returning (ptr CallError.s))
+     @-> variant_ptr.plain @-> ptr CallError.s @-> returning void)
 
   module ClassMethodCall = (val class_method_call.dyn)
 
   let class_method_validated_call =
     fn_suite ""
       (ptr void @-> class_instance_ptr.plain @-> ptr variant_ptr.const
-      @-> returning variant_ptr.plain)
+     @-> variant_ptr.plain @-> returning void)
 
   module ClassMethodValidatedCall = (val class_method_validated_call.dyn)
 
   let class_method_ptr_call =
     fn_suite ""
       (ptr void @-> class_instance_ptr.plain @-> ptr variant_ptr.const
-     @-> returning type_ptr.plain)
+     @-> type_ptr.plain @-> returning void)
 
   module ClassMethodPtrCall = (val class_method_ptr_call.dyn)
 
@@ -846,6 +843,11 @@ module C = struct
     fn_suite
       (M.typedef_name "InterfaceStringToUtf8Chars")
       (string_ptr.const @-> ptr char @-> gint @-> returning gint)
+
+  let interface_variant_new_copy =
+    fn_suite
+      (M.typedef_name "")
+      (variant_ptr.uninit @-> variant_ptr.const @-> returning void)
 
   let interface_variant_get_ptr_constructor =
     fn_suite
