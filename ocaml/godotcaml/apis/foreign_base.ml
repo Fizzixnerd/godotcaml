@@ -130,8 +130,7 @@ let string_name_of_string str =
   string_name
 
 let variant_new_copy dest src =
-  get_fun "variant_new_copy"
-    interface_variant_new_copy.typ dest src
+  get_fun "variant_new_copy" interface_variant_new_copy.typ dest src
 
 let variant_get_ptr_constructor variant_type constructor_index =
   get_fun "variant_get_ptr_constructor"
@@ -185,6 +184,10 @@ let get_variant_to_type_constructor (variant_type : int) =
 let classdb_construct_object class_name =
   get_fun "classdb_construct_object" interface_classdb_construct_object.typ
     class_name
+
+let object_set_instance obj_ptr class_name instance =
+  get_fun "object_set_instance" interface_object_set_instance.typ obj_ptr
+    class_name instance
 
 let classdb_register_extension_class2 library class_name parent_class_name
     extension_funcs =

@@ -24,6 +24,7 @@
 (library
  (name ppx_godot)
  (modules Ppx_godot)
+ (modes native)
  (kind ppx_rewriter)
  (public_name ppx_godot)
  (libraries core ppx_deriving ppxlib)
@@ -36,5 +37,5 @@
   (foreign_stubs (language c) (names hello-gdextension))
   (modules Uses_ppx_godot My_ocaml_extension)
   (libraries core godotcaml_api)
-  (preprocess (pps ppx_godot))
+  (preprocess (pps ppx_godot ppxlib.metaquot))
   (flags (:standard -g -w -32)))

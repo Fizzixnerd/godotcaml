@@ -32,8 +32,7 @@ let hello_extension_entry (get_proc_address : nativeint) (library : nativeint)
     Stdio.printf "ture = %Ld\n" ture;
     Stdio.Out_channel.flush Stdio.stdout;
 
-    if p_level = 2 then
-      !on_load ()
+    if p_level = 2 then !on_load ()
   in
 
   let deinitialize (_userdata : unit ptr) (p_level : int) =

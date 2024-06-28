@@ -9,10 +9,30 @@ module%gclass MyClass = struct
   include Class.Node
   open Godotcaml_api.Api_builtins
 
-  let%gfunc f = gfunc1 (module BuiltinClass0.Int) (module Class.Node) (module BuiltinClass0.Int) (fun i _self -> Stdio.print_endline "rawr"; Stdio.Out_channel.flush Stdio.stdout; Int64.(i + 1L))
+  let%gfunc succ =
+    [| ClassMethodFlags.default |]
+      (module BuiltinClass0.Int)
+      (module Class.Node)
+      (module BuiltinClass0.Int)
+      (fun i _self -> Int64.(i + 1L))
+
+  let%gfunc add =
+    [| ClassMethodFlags.default |]
+      (module BuiltinClass0.Int)
+      (module BuiltinClass0.Int)
+      (module Class.Node)
+      (module BuiltinClass0.Int)
+      (fun i j _self -> Stdio.print_endline "Bark!"; Int64.(i + j))
+
+  let%gfunc_void _process =
+      [| ClassMethodFlags.virtual_ |]
+      (module BuiltinClass0.Float)
+      (module Class.Node)
+      (module ApiTypes.Void)
+      (fun _x _self -> Stdio.print_endline "Rawr!")
 
 end
 
-let () =
-  Stdio.printf "%s\n" MyClass._godot_inherits;
-  Stdio.printf "%s\n" MyClass._godot_class_name
+(* let () =
+   Topeval.init ();
+   ignore @@ Topeval.execute_phrase true Stdlib.Format.std_formatter (Parser.toplevel_phrase Lexer.token (Lexing.from_string "print_endline \"Hello from space!\"")) *)

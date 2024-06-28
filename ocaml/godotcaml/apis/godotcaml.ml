@@ -845,8 +845,7 @@ module C = struct
       (string_ptr.const @-> ptr char @-> gint @-> returning gint)
 
   let interface_variant_new_copy =
-    fn_suite
-      (M.typedef_name "")
+    fn_suite (M.typedef_name "")
       (variant_ptr.uninit @-> variant_ptr.const @-> returning void)
 
   let interface_variant_get_ptr_constructor =
@@ -882,6 +881,11 @@ module C = struct
     fn_suite "" (string_name_ptr.const @-> returning object_ptr.plain)
 
   module ClassDBConstructObject = (val interface_classdb_construct_object.dyn)
+
+  let interface_object_set_instance =
+    fn_suite ""
+      (object_ptr.plain @-> string_name_ptr.const @-> class_instance_ptr.plain
+     @-> returning void)
 
   let interface_get_method_bind =
     fn_suite ""
