@@ -298,15 +298,21 @@ module C = struct
       (M.typedef_name "InstanceBindingCreateCallback")
       (ptr void @-> ptr void @-> returning (ptr void))
 
+  module InstanceBindingCreateCallback = (val instance_binding_create_callback.dyn)
+
   let instance_binding_free_callback =
     fn_suite
       (M.typedef_name "InstanceBindingFreeCallback")
       (ptr void @-> ptr void @-> ptr void @-> returning void)
 
+  module InstanceBindingFreeCallback = (val instance_binding_free_callback.dyn)
+
   let instance_binding_reference_callback =
     fn_suite
       (M.typedef_name "InstanceBindingReferenceCallback")
       (ptr void @-> ptr void @-> gbool @-> returning gbool)
+
+  module InstanceBindingReferenceCallback = (val instance_binding_reference_callback.dyn)
 
   module InstanceBindingCallbacks = struct
     type t
@@ -316,21 +322,28 @@ module C = struct
 
     let create_callback_f =
       field instance_binding_callbacks_struct "create_callback"
-        instance_binding_create_callback.typ
+        InstanceBindingCreateCallback.t_opt
 
     let free_callback_f =
       field instance_binding_callbacks_struct "free_callback"
-        instance_binding_free_callback.typ
+        InstanceBindingFreeCallback.t_opt
 
     let reference_callback_f =
       field instance_binding_callbacks_struct "reference_callback"
-        instance_binding_reference_callback.typ
+        InstanceBindingReferenceCallback.t_opt
 
     let () = seal instance_binding_callbacks_struct
 
     let s =
       typedef instance_binding_callbacks_struct
         (M.typedef_name "InstanceBindingCallbacks")
+
+    let make = fun ?create_callback ?free_callback ?reference_callback allocator ->
+      let ret = allocator s in
+      ret |-> create_callback_f <-@ (create_callback |> Option.map ~f:InstanceBindingCreateCallback.of_fun);
+      ret |-> free_callback_f <-@ (free_callback |> Option.map ~f:InstanceBindingFreeCallback.of_fun);
+      ret |-> reference_callback_f <-@(reference_callback |> Option.map ~f:InstanceBindingReferenceCallback.of_fun);
+      ret
   end
 
   (* EXTENSION CLASSES *)
@@ -886,6 +899,19 @@ module C = struct
     fn_suite ""
       (object_ptr.plain @-> string_name_ptr.const @-> class_instance_ptr.plain
      @-> returning void)
+
+  let interface_object_set_instance_binding =
+    fn_suite ""
+      (object_ptr.plain @-> ptr void @-> ptr void @-> ptr InstanceBindingCallbacks.s
+     @-> returning void)
+  
+
+  let interface_object_cast_to =
+    fn_suite ""
+      (object_ptr.plain @-> ptr void @-> returning class_instance_ptr.plain)
+
+  let interface_object_get_instance_id =
+    fn_suite "" (object_ptr.const @-> returning instance_id)
 
   let interface_get_method_bind =
     fn_suite ""

@@ -1208,19 +1208,36 @@ module Gen = struct
      fun _n c ->
       let defs =
         List.concat
-          [
-            [ string "open! ApiTypes"; string "include ApiTypes.Object" ];
-            c.inherits |> Option.to_list
-            |> List.map ~f:(fun x ->
-                   string (sprintf "include %s" (mod_var_str x)));
-            List.map ~f:enum_to_ocaml (c.enums |> Option.value ~default:[]);
-            List.map ~f:constant_to_ocaml
-              (c.constants |> Option.value ~default:[]);
-            List.map ~f:(method_to_ocaml c.name)
-              (c.methods |> Option.value ~default:[]);
-            (* List.map ~f:(signal_to_ocaml c.name)
-               (c.signals |> Option.value ~default:[]); *)
-          ]
+        @@ [
+             [
+               string "open! ApiTypes";
+               string "open! Conv.Object";
+               string "include ApiTypes.Object";
+             ];
+             c.inherits |> Option.to_list
+             |> List.map ~f:(fun x ->
+                    string (sprintf "include %s" (mod_var_str x)));
+             (if String.(c.name = "RefCounted") then
+                [ string "let coerce_to_ref_counted x = coerce_ptr typ x" ]
+              else []);
+             List.map ~f:enum_to_ocaml (c.enums |> Option.value ~default:[]);
+             List.map ~f:constant_to_ocaml
+               (c.constants |> Option.value ~default:[]);
+             List.map ~f:(method_to_ocaml c.name)
+               (c.methods |> Option.value ~default:[]);
+             [
+               string
+                 "let of_ocaml x = \n\
+                 \  let () = _reference_ocaml reference \
+                  coerce_to_ref_counted x in x";
+               string
+                 "let to_ocaml x = \n\
+                 \  let () = _reference_ocaml reference \
+                  coerce_to_ref_counted x in x";
+             ]
+             (* List.map ~f:(signal_to_ocaml c.name)
+                (c.signals |> Option.value ~default:[]); *);
+           ]
       in
       module_ c.name defs
 

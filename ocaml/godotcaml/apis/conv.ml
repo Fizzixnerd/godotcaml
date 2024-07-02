@@ -499,9 +499,62 @@ module RID = struct
 end
 
 module Object = struct
+  open Godotcaml.C
+
   type godot_t = Object.t structure ptr
   type ocaml_t = Object.t structure ptr
 
+  (* FIXME: This should set a property on the object probably. *)
+  let _ocaml_referenced_objects = Hash_set.create (module Int64)
+
+  let is_referenced_by_ocaml obj_ptr =
+    let instance_id =
+      Unsigned.UInt64.to_int64 (object_get_instance_id obj_ptr)
+    in
+    Hash_set.mem _ocaml_referenced_objects instance_id
+
+  let set_is_referenced_by_ocaml is_reffed obj_ptr =
+    let instance_id =
+      Unsigned.UInt64.to_int64 (object_get_instance_id obj_ptr)
+    in
+    if is_reffed then Hash_set.add _ocaml_referenced_objects instance_id
+    else Hash_set.remove _ocaml_referenced_objects instance_id
+
+  let _refcounted_string_name () = string_name_of_string "RefCounted"
+  let _refcounted_class_tag () = classdb_get_class_tag (_refcounted_string_name ())
+
+  let _reference_ocaml reference coerce_to_ref_counted
+      (obj_ptr : Object.t structure ptr) =
+    let maybe_refcount_obj =
+      object_cast_to
+        (coerce_ptr object_ptr.plain obj_ptr)
+        (_refcounted_class_tag ())
+    in
+    let const_obj_ptr = coerce_ptr object_ptr.const obj_ptr in
+    if
+      (not (is_null maybe_refcount_obj))
+      && not (is_referenced_by_ocaml const_obj_ptr)
+    then
+      let is_good = reference (coerce_to_ref_counted maybe_refcount_obj) in
+      set_is_referenced_by_ocaml is_good const_obj_ptr
+
+  let _unreference_ocaml unreference coerce_to_ref_counted
+      (obj_ptr : Object.t structure ptr) =
+    let maybe_refcount_obj =
+      object_cast_to
+        (coerce_ptr object_ptr.plain obj_ptr)
+        (_refcounted_class_tag ())
+    in
+    let const_obj_ptr = coerce_ptr object_ptr.const obj_ptr in
+    if
+      (not (is_null maybe_refcount_obj)) && is_referenced_by_ocaml const_obj_ptr
+    then
+      let is_good = unreference (coerce_to_ref_counted maybe_refcount_obj) in
+      set_is_referenced_by_ocaml (not is_good) const_obj_ptr
+
+  let reference _x = false
+  let unreference _x = true
+  let coerce_to_ref_counted x = x
   let to_ocaml (x : godot_t) : ocaml_t = x
   let of_ocaml (x : ocaml_t) : godot_t = x
 end

@@ -14,6 +14,10 @@ let get_proc_address : (string -> InterfaceFunctionPtr.t) ref =
 let library : class_library_ptr structure ptr ref =
   ref (coerce (ptr void) class_library_ptr.plain null)
 
+let coerce_ptr new_typ x =
+  let voidp = to_voidp x in
+  coerce (ptr void) new_typ voidp
+
 let on_load : (unit -> unit) ref = ref (fun () -> ())
 let gc_alloc = allocate_n
 let global_call_error = allocate_n CallError.s ~count:1
@@ -40,10 +44,6 @@ let to_exn : CallError.t structure ptr -> exn =
   | 5 -> Instance_is_null
   | 6 -> Method_not_const
   | _ -> Unknown_call_error
-
-let coerce_ptr new_typ x =
-  let voidp = to_voidp x in
-  coerce (ptr void) new_typ voidp
 
 include Api_types.ApiTypes
 
@@ -181,13 +181,23 @@ let get_variant_to_type_constructor (variant_type : int) =
     (coerce GetVariantToTypeConstructor.t get_variant_to_type_constructor.typ
        getter variant_type)
 
-let classdb_construct_object class_name =
-  get_fun "classdb_construct_object" interface_classdb_construct_object.typ
-    class_name
-
 let object_set_instance obj_ptr class_name instance =
   get_fun "object_set_instance" interface_object_set_instance.typ obj_ptr
     class_name instance
+
+let object_set_instance_binding obj_ptr lib instance callbacks =
+  get_fun "object_set_instance_binding" interface_object_set_instance_binding.typ obj_ptr
+    lib instance callbacks
+
+let object_cast_to obj_ptr class_tag =
+  get_fun "object_cast_to" interface_object_cast_to.typ obj_ptr class_tag
+
+let object_get_instance_id obj_ptr =
+  get_fun "object_get_instance_id" interface_object_get_instance_id.typ obj_ptr
+
+let classdb_construct_object class_name =
+  get_fun "classdb_construct_object" interface_classdb_construct_object.typ
+    class_name
 
 let classdb_register_extension_class2 library class_name parent_class_name
     extension_funcs =
@@ -199,6 +209,9 @@ let classdb_register_extension_class_method library class_name method_info =
   get_fun "classdb_register_extension_class_method"
     interface_classdb_register_extension_class_method.typ library class_name
     method_info
+
+let classdb_get_class_tag class_name =
+  get_fun "classdb_get_class_tag" interface_get_class_tag.typ class_name
 
 let foreign_builtin_operator2 variant_type arg_type_opt operator typ ret_typ
     lhs_of_ocaml rhs_of_ocaml ret_to_ocaml lhs rhs =

@@ -9,6 +9,7 @@ module C = C
 open Api_types
 open Foreign_base
 
+(* FIXME: Make this not a functor maybe! *)
 module Make =
 functor
   (ClassSizes : CLASS_SIZES)

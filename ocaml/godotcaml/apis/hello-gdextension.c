@@ -3,6 +3,18 @@
 #include <caml/memory.h>
 #include <caml/callback.h>
 #include <caml/alloc.h>
+#include <caml/custom.h>
+
+static struct custom_operations custom_operators = {
+    .identifier = "GodotCPointer",
+    .finalize = custom_finalize_default,
+    .compare = custom_compare_default,
+    .compare_ext = custom_compare_ext_default,
+    .hash = custom_hash_default,
+    .serialize = custom_serialize_default,
+    .deserialize = custom_deserialize_default,
+    .fixed_length = NULL
+};
 
 GDExtensionBool hello_extension_entry(
     GDExtensionInterfaceGetProcAddress p_get_proc_address,
@@ -16,23 +28,23 @@ GDExtensionBool hello_extension_entry(
         CAMLparam0();
         CAMLlocal3(get_proc_addr, library, initialization);
 
-        get_proc_addr = caml_alloc(1, Custom_tag);
+        get_proc_addr = caml_alloc_custom_mem(&custom_operators, 8, 0);
         *(GDExtensionInterfaceGetProcAddress*)Data_custom_val(get_proc_addr) = p_get_proc_address;
 
-        library = caml_alloc(1, Custom_tag);
+        library = caml_alloc_custom_mem(&custom_operators, 8, 0);
         *(GDExtensionClassLibraryPtr*)Data_custom_val(library) = p_library;
 
-        initialization = caml_alloc(1, Custom_tag);
+        initialization = caml_alloc_custom_mem(&custom_operators, 8, 0);
         *(GDExtensionInitialization**)Data_custom_val(initialization) = r_initialization;
 
         const value * entry = caml_named_value("hello_extension_entry");
         if (entry == NULL) {
             puts("Could not initialize the extension! Returning 0...");
-            return 0;
+            CAMLreturn(0);
         } else {
             puts("Initializing extension from OCaml!");
             int ret = Int_val(caml_callback3(*entry, get_proc_addr, library, initialization));
             printf("Done initializing from OCaml! Returning %d...\n", ret);
-            return ret;
+            CAMLreturn(ret);
         }
     }

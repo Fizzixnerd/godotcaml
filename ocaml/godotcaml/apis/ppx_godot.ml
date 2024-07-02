@@ -17,11 +17,18 @@ module Class = struct
                 @@ classdb_construct_object
                      (string_name_of_string _godot_inherits)
               in
+              let instance_binding_callbacks = InstanceBindingCallbacks.make 
+                (gc_alloc ~count:1 ?finalise:None)
+              in
               object_set_instance ret
                 (string_name_of_string _godot_class_name)
                 (coerce_ptr class_instance_ptr.plain null);
+              object_set_instance_binding ret
+                (coerce_ptr (ptr void) !library)
+                (coerce_ptr (ptr void) null)
+                instance_binding_callbacks;
               ret)
-            (fun _ _ -> ())
+            (fun _ _ -> Stdio.print_endline "collecting")
 
         let () =
           let open Godotcaml_base.Godotcaml.C in
@@ -212,10 +219,12 @@ module Func = struct
                      let self =
                        coerce class_instance_ptr.plain Self.godot_typ instance
                      in
-                     let ret'' = [%e
-                                    pexp_apply
-                                      (pexp_ident { txt = lident f_name; loc })
-                                      (call_es @ [ (Nolabel, [%expr self]) ])] in
+                     let ret'' =
+                       [%e
+                         pexp_apply
+                           (pexp_ident { txt = lident f_name; loc })
+                           (call_es @ [ (Nolabel, [%expr self]) ])]
+                     in
                      ignore ret'';
                      [%e
                        if not is_void_returning then
@@ -223,8 +232,7 @@ module Func = struct
                            variant_new_copy
                              (coerce variant_ptr.plain variant_ptr.uninit ret)
                              (coerce_ptr variant_ptr.const
-                             @@ Ret.ocaml_to_variant
-                                  ret'')]
+                             @@ Ret.ocaml_to_variant ret'')]
                        else [%expr ignore self]]];
                [%stri
                  let ptrcall_func :
@@ -235,20 +243,18 @@ module Func = struct
                      let self =
                        coerce class_instance_ptr.plain Self.godot_typ instance
                      in
-                     let ret'' = [%e
-                     pexp_apply
-                       (pexp_ident
-                          { txt = lident f_name; loc })
-                       (ptrcall_es
-                       @ [ (Nolabel, [%expr self]) ])] in
-                      ignore ret'';
+                     let ret'' =
+                       [%e
+                         pexp_apply
+                           (pexp_ident { txt = lident f_name; loc })
+                           (ptrcall_es @ [ (Nolabel, [%expr self]) ])]
+                     in
+                     ignore ret'';
                      [%e
                        if not is_void_returning then
                          [%expr
                            let ret' = coerce_ptr Ret.typ ret in
-                           ret'
-                           <-@ !@(Ret.of_ocaml
-                                    ret'')]
+                           ret' <-@ !@(Ret.of_ocaml ret'')]
                        else [%expr ()]]];
                [%stri
                  let () =
@@ -332,7 +338,6 @@ module Func = struct
 
   let non_void_rule = Context_free.Rule.extension non_void_extender
   let () = Driver.register_transformation ~rules:[ non_void_rule ] "gfunc"
-
   let void_rule = Context_free.Rule.extension void_extender
   let () = Driver.register_transformation ~rules:[ void_rule ] "gfunc_void"
 end
