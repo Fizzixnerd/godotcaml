@@ -1,1 +1,5 @@
 [created:2024-07-01] Move conversions referencing nonsense to Class0
+
+[created:2024-07-02] Add (val Super) for super class bindings.
+
+[created:2024-07-02] Add documentation from original signal to Gsignal

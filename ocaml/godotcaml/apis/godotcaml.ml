@@ -793,6 +793,55 @@ module C = struct
       ret
   end
 
+  (* CALLABLE *)
+  
+  let callable_custom_call = fn_suite "" (ptr void @-> ptr variant_ptr.const @-> gint @-> variant_ptr.plain @-> ptr CallError.s @-> returning void)
+  module CallableCustomCall = (val callable_custom_call.dyn)
+  let callable_custom_is_valid = fn_suite "" (ptr void @-> returning gbool)
+  module CallablCustomIsValid = (val callable_custom_is_valid.dyn)
+  let callable_custom_free = fn_suite "" (ptr void @-> returning void)
+  module CallableCustomFree = (val callable_custom_free.dyn)
+  let callable_custom_hash = fn_suite "" (ptr void @-> returning uint32_t)
+  module CallableCustomHash = (val callable_custom_hash.dyn)
+  let callable_custom_equal = fn_suite "" (ptr void @-> ptr void @-> returning gbool)
+  module CallableCustomEqual = (val callable_custom_equal.dyn)
+  let callable_custom_less_than = fn_suite "" (ptr void @-> ptr void @-> returning gbool)
+  module CallableCustomLessThan = (val callable_custom_less_than.dyn)
+  let callable_custom_to_string = fn_suite "" (ptr void @-> ptr gbool @-> string_ptr.plain @-> returning void)
+  module CallableCustomToString = (val callable_custom_to_string.dyn)
+
+  module CallableInfoStruct = struct
+    type t
+
+    let s : t structure typ = structure "gdocallableinfostruct"
+
+    let callable_userdata_f = field s "callable_userdata" (ptr void)
+    let token_f = field s "token" (class_library_ptr.plain)
+    let object_id_f = field s "object_id" instance_id
+    let call_func_f = field s "call_func" CallableCustomCall.t
+    let is_valid_func_f = field s "is_valid_func" CallablCustomIsValid.t_opt
+    let free_func_f = field s "free_func" CallableCustomFree.t_opt
+    let hash_func_f = field s "hash_func" CallableCustomHash.t_opt
+    let equal_func_f = field s "equal_func" CallableCustomEqual.t_opt
+    let less_than_func_f = field s "less_than_func" CallableCustomLessThan.t_opt
+    let to_string_func_f = field s "to_string_func" CallableCustomToString.t_opt
+
+    let () = seal s
+
+    let make ?callable_userdata ?object_id ?is_valid_func ?free_func ?hash_func ?equal_func ?less_than_func ?to_string_func allocator token call_func : t structure ptr =
+      let ret = allocator s in 
+      ret |-> callable_userdata_f <-@ (callable_userdata |> Option.value ~default:null);
+      ret |-> token_f <-@ token;
+      ret |-> object_id_f <-@ (object_id |> Option.value ~default:(Unsigned.UInt64.of_int64 0L));
+      ret |-> call_func_f <-@ call_func;
+      ret |-> is_valid_func_f <-@ is_valid_func;
+      ret |-> free_func_f <-@ free_func;
+      ret |-> hash_func_f <-@ hash_func;
+      ret |-> less_than_func_f <-@ less_than_func;
+      ret |-> to_string_func_f <-@ to_string_func;
+      ret
+  end
+
   (* snip! *)
 
   let initialization_level = typedef enum (M.typedef_name "InitializationLevel")
@@ -920,6 +969,11 @@ module C = struct
 
   let interface_get_class_tag =
     fn_suite "" (string_name_ptr.const @-> returning (ptr void))
+
+  let interface_callable_custom_create = 
+    fn_suite "" (type_ptr.uninit @-> ptr CallableCustomInfo.s @-> returning void)
+
+    (*typedef void (*GDExtensionInterfaceCallableCustomCreate)(GDExtensionUninitializedTypePtr r_callable, GDExtensionCallableCustomInfo *p_callable_custom_info); *)*)
 
   let interface_classdb_register_extension_class2 =
     fn_suite ""

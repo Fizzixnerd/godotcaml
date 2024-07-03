@@ -14,7 +14,7 @@
  (flags ( -g -w -32)))
 
 (library
- (modules  Api_classes Api_classes_intf Api_builtins Api_helpers Gdforeign Foreign_api Foreign_base Foreign_methods Foreign_utility_functions Api_types Conv)
+ (modules Gsignal GCallable Api_classes Api_classes_intf Api_builtins Api_helpers Gdforeign Foreign_api Foreign_base Foreign_methods Foreign_utility_functions Api_types Conv)
  (public_name godotcaml_api)
  (name godotcaml_api)
  (libraries gg core yojson pprint ctypes godotcaml_base)
