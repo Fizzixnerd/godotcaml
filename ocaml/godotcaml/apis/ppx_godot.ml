@@ -17,8 +17,8 @@ module Class = struct
                 @@ classdb_construct_object
                      (string_name_of_string _godot_inherits)
               in
-              let instance_binding_callbacks = InstanceBindingCallbacks.make 
-                (gc_alloc ~count:1 ?finalise:None)
+              let instance_binding_callbacks =
+                InstanceBindingCallbacks.make (gc_alloc ~count:1 ?finalise:None)
               in
               object_set_instance ret
                 (string_name_of_string _godot_class_name)
@@ -135,20 +135,13 @@ module Func = struct
              pstr_module
              @@ module_binding ~name:{ txt = Some name; loc } ~expr:mod_expr)
     in
-    let call_to_ocaml : label -> expression -> expression =
-     fun mod_name e ->
-      let to_ocaml_ident =
-        pexp_ident { txt = Ldot (lident mod_name, "to_ocaml"); loc }
-      in
-      pexp_apply to_ocaml_ident [ (Nolabel, e) ]
+    let call : label -> label -> expression -> expression =
+     fun func_name mod_name e ->
+      let ident = pexp_ident { txt = Ldot (lident mod_name, func_name); loc } in
+      pexp_apply ident [ (Nolabel, e) ]
     in
-    let call_ocaml_of_variant : label -> expression -> expression =
-     fun mod_name e ->
-      let to_ocaml_ident =
-        pexp_ident { txt = Ldot (lident mod_name, "ocaml_of_variant"); loc }
-      in
-      pexp_apply to_ocaml_ident [ (Nolabel, e) ]
-    in
+    let call_to_ocaml = call "to_ocaml" in
+    let call_ocaml_of_variant = call "ocaml_of_variant" in
 
     let call_es =
       xs
@@ -340,4 +333,142 @@ module Func = struct
   let () = Driver.register_transformation ~rules:[ non_void_rule ] "gfunc"
   let void_rule = Context_free.Rule.extension void_extender
   let () = Driver.register_transformation ~rules:[ void_rule ] "gfunc_void"
+end
+
+module Callable = struct
+  let parse_args :
+      (arg_label * expression) list ->
+      module_expr list * module_expr * expression =
+   fun args ->
+    let rec parse_args' acc args =
+      match args with
+      | (_, a) :: (_ :: _ :: _ as rest) -> parse_args' (a :: acc) rest
+      | [ (_, ret); (_, impl) ] -> (List.rev acc, ret, impl)
+      | _ ->
+          failwith
+            "Not enough args in a gcallable binding: requires at least 2."
+    in
+    let args, ret, impl = parse_args' [] args in
+    let extract_module_expr e =
+      match e.pexp_desc with
+      | Pexp_pack me -> me
+      | _ ->
+          failwith
+            "Expected module pack expressions (e.g. `(module \
+             MyInScopeModule)`) for all but the last argument in a gcallable \
+             binding."
+    in
+    (args |> List.map ~f:extract_module_expr, extract_module_expr ret, impl)
+
+  let expander is_void_returning ~ctxt rec_flag f_name _ args in_body =
+    let loc = Expansion_context.Extension.extension_point_loc ctxt in
+    let (module M) = Ast_builder.make loc in
+    let open M in
+    let args, ret, impl = parse_args args in
+    let xs =
+      args |> List.mapi ~f:(fun i arg -> (Printf.sprintf "X%d" i, arg))
+    in
+    let let_mod_xs_in =
+      xs
+      |> List.map ~f:(fun (name, mod_expr) ->
+             pexp_letmodule { txt = Some name; loc } mod_expr)
+    in
+    let call func_name mod_name e =
+      let ident = pexp_ident { txt = Ldot (lident mod_name, func_name); loc } in
+      pexp_apply ident [ (Nolabel, e) ]
+    in
+    let call_ocaml_of_variant = call "ocaml_of_variant" in
+    let call_es =
+      xs
+      |> List.mapi ~f:(fun i (mod_name, _) ->
+             ( Nolabel,
+               call_ocaml_of_variant mod_name
+                 [%expr
+                   !@(coerce_ptr (ptr variant_ptr.plain) args
+                     +@ [%e
+                          pexp_constant (Pconst_integer (Int.to_string i, None))]
+                     )] ))
+    in
+    let let_mod_ret_in = pexp_letmodule { txt = Some "Ret"; loc } ret in
+    let let_func_in =
+      pexp_let rec_flag
+        [ value_binding ~pat:(ppat_var { txt = f_name; loc }) ~expr:impl ]
+    in
+    let composed_let_xs =
+      let_mod_xs_in |> List.fold ~f:(fun acc y z -> acc (y z)) ~init:Fn.id
+    in
+    let composed_lets x = let_func_in (let_mod_ret_in (composed_let_xs x)) in
+    let let_callable e =
+      pexp_let Nonrecursive
+        [ value_binding ~pat:(ppat_var { txt = f_name; loc }) ~expr:e ]
+        in_body
+    in
+    let_callable
+      (composed_lets
+         [%expr
+           let open Godotcaml_api.Gdforeign in
+           let open Godotcaml_base.Godotcaml.C in
+           let callable_func : Godotcaml_base.Godotcaml.C.CallableCustomCall.fn
+               =
+            fun _userdata args count ret call_error ->
+             let () =
+               assert (
+                 Int64.(
+                   count
+                   = of_int
+                       [%e
+                         pexp_constant
+                           (Pconst_integer
+                              ( Printf.sprintf "%d"
+                                  (let_mod_xs_in |> List.length),
+                                None ))]))
+             in
+             call_error <-@ !@CallError.call_ok;
+             let ret' =
+               [%e pexp_apply (pexp_ident { txt = lident f_name; loc }) call_es]
+             in
+             ignore ret';
+             [%e
+               if not is_void_returning then
+                 [%expr
+                   variant_new_copy
+                     (coerce variant_ptr.plain variant_ptr.uninit ret)
+                     (coerce_ptr variant_ptr.const (Ret.ocaml_to_variant ret'))]
+               else [%expr ()]]
+           in
+           let info_struct =
+             Godotcaml_base.Godotcaml.C.CallableInfoStruct.make
+               (gc_alloc ~count:1 ?finalise:None)
+               !Godotcaml_api.Gdforeign.library
+               (CallableCustomCall.of_fun callable_func)
+           in
+           let callable_ptr =
+             coerce_ptr Godotcaml_base.Godotcaml.C.type_ptr.uninit
+               (Godotcaml_api.Gdforeign.gc_alloc ~count:1
+                  Godotcaml_api.Api_types.ApiTypes.Callable.s)
+           in
+           let () = callable_custom_create callable_ptr info_struct in
+           coerce_ptr
+             (ptr Godotcaml_api.Api_types.ApiTypes.Callable.s)
+             callable_ptr])
+
+  let pattern =
+    Ast_pattern.(
+      single_expr_payload
+        (pexp_let __
+           (value_binding ~pat:(ppat_var __) ~expr:(pexp_apply __ __) ^:: nil)
+           __))
+
+  let non_void_extender =
+    Extension.V3.declare "gcallable" Extension.Context.expression pattern
+      (expander false)
+
+  let void_extender =
+    Extension.V3.declare "gcallable_void" Extension.Context.expression pattern
+      (expander true)
+
+  let non_void_rule = Context_free.Rule.extension non_void_extender
+  let () = Driver.register_transformation ~rules:[ non_void_rule ] "gcallable"
+  let void_rule = Context_free.Rule.extension void_extender
+  let () = Driver.register_transformation ~rules:[ void_rule ] "gcallable_void"
 end

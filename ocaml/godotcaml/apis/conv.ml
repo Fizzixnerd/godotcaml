@@ -521,7 +521,9 @@ module Object = struct
     else Hash_set.remove _ocaml_referenced_objects instance_id
 
   let _refcounted_string_name () = string_name_of_string "RefCounted"
-  let _refcounted_class_tag () = classdb_get_class_tag (_refcounted_string_name ())
+
+  let _refcounted_class_tag () =
+    classdb_get_class_tag (_refcounted_string_name ())
 
   let _reference_ocaml reference coerce_to_ref_counted
       (obj_ptr : Object.t structure ptr) =

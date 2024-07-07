@@ -186,14 +186,18 @@ let object_set_instance obj_ptr class_name instance =
     class_name instance
 
 let object_set_instance_binding obj_ptr lib instance callbacks =
-  get_fun "object_set_instance_binding" interface_object_set_instance_binding.typ obj_ptr
-    lib instance callbacks
+  get_fun "object_set_instance_binding"
+    interface_object_set_instance_binding.typ obj_ptr lib instance callbacks
 
 let object_cast_to obj_ptr class_tag =
   get_fun "object_cast_to" interface_object_cast_to.typ obj_ptr class_tag
 
 let object_get_instance_id obj_ptr =
   get_fun "object_get_instance_id" interface_object_get_instance_id.typ obj_ptr
+
+let callable_custom_create callable_ptr callable_custom_info =
+  get_fun "callable_custom_create" interface_callable_custom_create.typ
+    callable_ptr callable_custom_info
 
 let classdb_construct_object class_name =
   get_fun "classdb_construct_object" interface_classdb_construct_object.typ

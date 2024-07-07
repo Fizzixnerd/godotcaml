@@ -105,7 +105,7 @@ module GlobalEnum0 = struct
 
     (** Aligns the center of the inline object (e.g. image, table) to the position of the text specified by [code]INLINE_ALIGNMENT_TO_ * [/code] constant. *)
     let _INLINE_ALIGNMENT_CENTER_TO = 1
-`
+
     (** Aligns the baseline (user defined) of the inline object (e.g. image, table) to the position of the text specified by [code]INLINE_ALIGNMENT_TO_ * [/code] constant. *)
     let _INLINE_ALIGNMENT_BASELINE_TO = 3
 

@@ -147,6 +147,13 @@ module C = struct
     let expected_f = field call_error_struct "expected" int32_t
     let () = seal call_error_struct
     let s = typedef call_error_struct "GDExtensionCallError"
+
+    let call_ok =
+      let p = allocate_n ~count:1 s in
+      p |-> error_f <-@ 0;
+      p |-> argument_f <-@ 0l;
+      p |-> expected_f <-@ 0l;
+      p
   end
 
   type 'a fn_suite = {
@@ -298,7 +305,8 @@ module C = struct
       (M.typedef_name "InstanceBindingCreateCallback")
       (ptr void @-> ptr void @-> returning (ptr void))
 
-  module InstanceBindingCreateCallback = (val instance_binding_create_callback.dyn)
+  module InstanceBindingCreateCallback =
+    (val instance_binding_create_callback.dyn)
 
   let instance_binding_free_callback =
     fn_suite
@@ -312,7 +320,8 @@ module C = struct
       (M.typedef_name "InstanceBindingReferenceCallback")
       (ptr void @-> ptr void @-> gbool @-> returning gbool)
 
-  module InstanceBindingReferenceCallback = (val instance_binding_reference_callback.dyn)
+  module InstanceBindingReferenceCallback =
+    (val instance_binding_reference_callback.dyn)
 
   module InstanceBindingCallbacks = struct
     type t
@@ -338,11 +347,15 @@ module C = struct
       typedef instance_binding_callbacks_struct
         (M.typedef_name "InstanceBindingCallbacks")
 
-    let make = fun ?create_callback ?free_callback ?reference_callback allocator ->
+    let make ?create_callback ?free_callback ?reference_callback allocator =
       let ret = allocator s in
-      ret |-> create_callback_f <-@ (create_callback |> Option.map ~f:InstanceBindingCreateCallback.of_fun);
-      ret |-> free_callback_f <-@ (free_callback |> Option.map ~f:InstanceBindingFreeCallback.of_fun);
-      ret |-> reference_callback_f <-@(reference_callback |> Option.map ~f:InstanceBindingReferenceCallback.of_fun);
+      ret |-> create_callback_f
+      <-@ (create_callback |> Option.map ~f:InstanceBindingCreateCallback.of_fun);
+      ret |-> free_callback_f
+      <-@ (free_callback |> Option.map ~f:InstanceBindingFreeCallback.of_fun);
+      ret |-> reference_callback_f
+      <-@ (reference_callback
+          |> Option.map ~f:InstanceBindingReferenceCallback.of_fun);
       ret
   end
 
@@ -794,29 +807,47 @@ module C = struct
   end
 
   (* CALLABLE *)
-  
-  let callable_custom_call = fn_suite "" (ptr void @-> ptr variant_ptr.const @-> gint @-> variant_ptr.plain @-> ptr CallError.s @-> returning void)
+
+  let callable_custom_call =
+    fn_suite ""
+      (ptr void @-> ptr variant_ptr.const @-> gint @-> variant_ptr.plain
+     @-> ptr CallError.s @-> returning void)
+
   module CallableCustomCall = (val callable_custom_call.dyn)
+
   let callable_custom_is_valid = fn_suite "" (ptr void @-> returning gbool)
+
   module CallablCustomIsValid = (val callable_custom_is_valid.dyn)
+
   let callable_custom_free = fn_suite "" (ptr void @-> returning void)
+
   module CallableCustomFree = (val callable_custom_free.dyn)
+
   let callable_custom_hash = fn_suite "" (ptr void @-> returning uint32_t)
+
   module CallableCustomHash = (val callable_custom_hash.dyn)
-  let callable_custom_equal = fn_suite "" (ptr void @-> ptr void @-> returning gbool)
+
+  let callable_custom_equal =
+    fn_suite "" (ptr void @-> ptr void @-> returning gbool)
+
   module CallableCustomEqual = (val callable_custom_equal.dyn)
-  let callable_custom_less_than = fn_suite "" (ptr void @-> ptr void @-> returning gbool)
+
+  let callable_custom_less_than =
+    fn_suite "" (ptr void @-> ptr void @-> returning gbool)
+
   module CallableCustomLessThan = (val callable_custom_less_than.dyn)
-  let callable_custom_to_string = fn_suite "" (ptr void @-> ptr gbool @-> string_ptr.plain @-> returning void)
+
+  let callable_custom_to_string =
+    fn_suite "" (ptr void @-> ptr gbool @-> string_ptr.plain @-> returning void)
+
   module CallableCustomToString = (val callable_custom_to_string.dyn)
 
   module CallableInfoStruct = struct
     type t
 
     let s : t structure typ = structure "gdocallableinfostruct"
-
     let callable_userdata_f = field s "callable_userdata" (ptr void)
-    let token_f = field s "token" (class_library_ptr.plain)
+    let token_f = field s "token" class_library_ptr.plain
     let object_id_f = field s "object_id" instance_id
     let call_func_f = field s "call_func" CallableCustomCall.t
     let is_valid_func_f = field s "is_valid_func" CallablCustomIsValid.t_opt
@@ -825,14 +856,17 @@ module C = struct
     let equal_func_f = field s "equal_func" CallableCustomEqual.t_opt
     let less_than_func_f = field s "less_than_func" CallableCustomLessThan.t_opt
     let to_string_func_f = field s "to_string_func" CallableCustomToString.t_opt
-
     let () = seal s
 
-    let make ?callable_userdata ?object_id ?is_valid_func ?free_func ?hash_func ?equal_func ?less_than_func ?to_string_func allocator token call_func : t structure ptr =
-      let ret = allocator s in 
-      ret |-> callable_userdata_f <-@ (callable_userdata |> Option.value ~default:null);
+    let make ?callable_userdata ?object_id ?is_valid_func ?free_func ?hash_func
+        ?equal_func ?less_than_func ?to_string_func allocator token call_func :
+        t structure ptr =
+      let ret = allocator s in
+      ret |-> callable_userdata_f
+      <-@ (callable_userdata |> Option.value ~default:null);
       ret |-> token_f <-@ token;
-      ret |-> object_id_f <-@ (object_id |> Option.value ~default:(Unsigned.UInt64.of_int64 0L));
+      ret |-> object_id_f
+      <-@ (object_id |> Option.value ~default:(Unsigned.UInt64.of_int64 0L));
       ret |-> call_func_f <-@ call_func;
       ret |-> is_valid_func_f <-@ is_valid_func;
       ret |-> free_func_f <-@ free_func;
@@ -951,9 +985,9 @@ module C = struct
 
   let interface_object_set_instance_binding =
     fn_suite ""
-      (object_ptr.plain @-> ptr void @-> ptr void @-> ptr InstanceBindingCallbacks.s
-     @-> returning void)
-  
+      (object_ptr.plain @-> ptr void @-> ptr void
+      @-> ptr InstanceBindingCallbacks.s
+      @-> returning void)
 
   let interface_object_cast_to =
     fn_suite ""
@@ -970,10 +1004,8 @@ module C = struct
   let interface_get_class_tag =
     fn_suite "" (string_name_ptr.const @-> returning (ptr void))
 
-  let interface_callable_custom_create = 
-    fn_suite "" (type_ptr.uninit @-> ptr CallableCustomInfo.s @-> returning void)
-
-    (*typedef void (*GDExtensionInterfaceCallableCustomCreate)(GDExtensionUninitializedTypePtr r_callable, GDExtensionCallableCustomInfo *p_callable_custom_info); *)*)
+  let interface_callable_custom_create =
+    fn_suite "" (type_ptr.uninit @-> ptr CallableInfoStruct.s @-> returning void)
 
   let interface_classdb_register_extension_class2 =
     fn_suite ""
@@ -984,8 +1016,6 @@ module C = struct
     fn_suite ""
       (class_library_ptr.plain @-> string_name_ptr.const
      @-> ptr ClassMethodInfo.s @-> returning void)
-
-  (* register integer constant here. *)
 
   let interface_classdb_register_extension_class_property =
     fn_suite ""

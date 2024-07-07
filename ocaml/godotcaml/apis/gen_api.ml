@@ -1228,12 +1228,12 @@ module Gen = struct
              [
                string
                  "let of_ocaml x = \n\
-                 \  let () = _reference_ocaml reference \
-                  coerce_to_ref_counted x in x";
+                 \  let () = _reference_ocaml reference coerce_to_ref_counted \
+                  x in x";
                string
                  "let to_ocaml x = \n\
-                 \  let () = _reference_ocaml reference \
-                  coerce_to_ref_counted x in x";
+                 \  let () = _reference_ocaml reference coerce_to_ref_counted \
+                  x in x";
              ]
              (* List.map ~f:(signal_to_ocaml c.name)
                 (c.signals |> Option.value ~default:[]); *);
