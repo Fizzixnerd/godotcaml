@@ -1,32 +1,43 @@
-(executable (modules Gen_api) (name gen_api)
+(executable 
+   (modules Gen_api) 
+   (name gen_api)
    (libraries core yojson pprint ctypes re topological_sort)
    (preprocess (pps ppx_jane ppx_yojson_conv))
-   (flags (-g - w - 32)))
-  (library
-     (modules Godotcaml Bootstrap)
-     (public_name godotcaml_base)
-     (name godotcaml_base)
-     (libraries core ctypes ctypes.foreign)
-     (preprocess (pps ppx_jane))
-     (flags (-g - w - 32)))
-  (library
-     (modules Gsignal Gcallable Api_classes Api_classes_intf Api_builtins
-        Api_helpers Gdforeign Foreign_api Foreign_base Foreign_methods
-        Foreign_utility_functions Api_types Conv)
-     (public_name godotcaml_api)
-     (name godotcaml_api)
-     (libraries gg core yojson pprint ctypes godotcaml_base)
-     (preprocess (pps ppx_jane ppx_yojson_conv))
-     (flags (-g - w - 32)))
-  (library (name ppx_godot) (modules Ppx_godot) (modes native)
-     (kind ppx_rewriter) (public_name ppx_godot)
-     (libraries core ppx_deriving ppxlib)
-     (preprocess (pps ppxlib.metaquot))
-     (flags (-g - w - 32)))
-  (executable (name my_ocaml_extension)
-     (modes (native shared_object))
-     (foreign_stubs (language c) (names hello - gdextension))
-     (modules Uses_ppx_godot My_ocaml_extension)
-     (libraries core godotcaml_api)
-     (preprocess (pps ppx_godot ppxlib.metaquot))
-     (flags (-g - w - 32)))
+   (flags (:standard -g -w -32)))
+
+(library
+   (modules Godotcaml Bootstrap)
+   (public_name godotcaml_base)
+   (name godotcaml_base)
+   (libraries core ctypes ctypes.foreign living)
+   (preprocess (pps ppx_jane))
+   (flags (:standard -g -w -32)))
+
+(library
+   (modules Gsignal Gcallable Api_classes Api_classes_intf Api_builtins
+      Api_helpers Gdforeign Foreign_api Foreign_base Foreign_methods Foreign_array
+      Foreign_utility_functions Api_types Conv)
+   (public_name godotcaml_api)
+   (name godotcaml_api)
+   (libraries gg core yojson pprint ctypes godotcaml_base living)
+   (preprocess (pps ppx_jane ppx_yojson_conv))
+   (flags (:standard -g -w -32)))
+
+(library (name ppx_godot) 
+   (modules Ppx_godot)
+   (modes native)
+   (kind ppx_rewriter)
+   (public_name ppx_godot)
+   (libraries core ppx_deriving ppxlib)
+   (preprocess (pps ppxlib.metaquot))
+   (flags (:standard -g -w -32)))
+
+(executable 
+   (name my_ocaml_extension)
+   (modes (native shared_object))
+   (foreign_stubs (language c)
+   (names hello-gdextension))
+   (modules Uses_ppx_godot My_ocaml_extension)
+   (libraries core godotcaml_api)
+   (preprocess (pps ppx_godot ppxlib.metaquot))
+   (flags (:standard -g -w -32)))

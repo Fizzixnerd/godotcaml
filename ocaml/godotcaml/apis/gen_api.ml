@@ -1756,6 +1756,28 @@ module Gen = struct
       (concat_with_spaces let_xs')
       (concat_with_cons xs')
     |> string
+
+  let gen_foreign_array (n : int) =
+    let ks = List.range 0 n in
+    let xs = ks |> List.map ~f:(fun k -> sprintf "x%d" k) in
+    let locs = ks |> List.map ~f:(fun k -> sprintf "let* loc%d = arr +@ %d in\n" k k) in
+    let units = ks |> List.map ~f:(fun k -> sprintf "let* () = loc%d <-@ coerce_ptr type_ptr.const x%d in\n" k k) in
+    sprintf 
+    {|
+      let foreign_array%d %s =
+        let open Living_core.Let_syntax in
+        let count = %d in
+        let arr = allocate_n ~count type_ptr.const in
+        %s
+        %s
+        Living_core.named_return "foreign_array%d" arr
+    |}
+      n
+      (concat_with_spaces xs)
+      n
+      (concat_with_spaces locs)
+      (concat_with_spaces units)
+      n
 end
 
 module DepSort = struct
@@ -1872,35 +1894,52 @@ let () =
   |> PPrint.concat
   |> Gen.gen_file "api_classes.ml";
 
-  let headers =
+  let foreign_array_headers =
     string
       {|
 open! Base
-open Ctypes
+open Living
+open Living_ctypes
+open Foreign_base
+      |}
+  in
+  let foreign_arrays =
+    List.range 1 15
+    |> List.map ~f:(fun k ->
+      Get.gen_foreign_array k ^^ hardline ^^ hardline)
+  in foreign_array_headers :: foreign_arrays |> PPrint.concat |> Gen.gen_file "foreign_arrays.ml"
+
+  let foreign_headers =
+    string
+      {|
+open! Base
+open Living
+open Living_ctypes
 open Godotcaml_base
 open Godotcaml
 open C
 module Suite = TypedSuite
 module Godotcaml = Godotcaml
 open Foreign_base
+open Foreign_array
     |}
   in
-  List.range 1 15
-  |> List.map ~f:(fun k ->
+  let foreign_methods = 
+    List.range 1 15
+    |> List.map ~f:(fun k ->
          Gen.gen_foreign_method k ^/^ Gen.gen_foreign_methodv k
          ^/^ Gen.gen_foreign_method_static k
          ^/^ Gen.gen_foreign_method_void k
          ^^ hardline ^^ hardline)
-  |> fun xs ->
-  headers :: xs |> PPrint.concat |> Gen.gen_file "foreign_methods.ml";
+  in foreign_headers :: foreign_methods |> PPrint.concat |> Gen.gen_file "foreign_methods.ml";
 
-  List.range 1 15
-  |> List.map ~f:(fun k ->
+  let foreign_utility_functions = 
+    List.range 1 15
+    |> List.map ~f:(fun k ->
          Gen.gen_utility_function k
          ^/^ Gen.gen_utility_function_void k
          ^^ hardline ^^ hardline)
-  |> fun xs ->
-  headers :: xs |> PPrint.concat |> Gen.gen_file "foreign_utility_functions.ml";
+  in foreign_headers :: foreign_utility_functions |> PPrint.concat |> Gen.gen_file "foreign_utility_functions.ml";
 
   (* api.builtin_classes
      |> List.map ~f:(fun bic ->

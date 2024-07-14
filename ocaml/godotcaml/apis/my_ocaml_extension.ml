@@ -7,6 +7,21 @@ open! Uses_ppx_godot
 
 let funptr = Foreign.funptr
 
+let initialize (_userdata : unit ptr) (p_level : int) =
+  Stdio.print_endline @@ "up: " ^ Base.Int.to_string p_level;
+
+  if p_level = 2 then
+    !on_load ()
+  else
+    ()
+
+let initialize_ptr = C.Initialization.InitFunc.of_fun initialize
+
+let deinitialize (_userdata : unit ptr) (p_level : int) =
+  Stdio.print_endline @@ "down: " ^ Base.Int.to_string p_level
+
+let deinitialize_ptr = C.Initialization.InitFunc.of_fun deinitialize
+
 let hello_extension_entry (get_proc_address : nativeint) (library : nativeint)
     (initialization : nativeint) =
   let open C in
@@ -25,22 +40,10 @@ let hello_extension_entry (get_proc_address : nativeint) (library : nativeint)
 
   Foreign_base.get_proc_address := get_proc_address;
   Foreign_base.library := library;
+  Foreign_base.initialization := initialization;
 
-  let initialize (_userdata : unit ptr) (p_level : int) =
-    Stdio.print_endline @@ "up: " ^ Base.Int.to_string p_level;
-    let ture = BuiltinClass.Int.( + ) 2L 1L in
-    Stdio.printf "ture = %Ld\n" ture;
-    Stdio.Out_channel.flush Stdio.stdout;
-
-    if p_level = 2 then !on_load ()
-  in
-
-  let deinitialize (_userdata : unit ptr) (p_level : int) =
-    Stdio.print_endline @@ "down: " ^ Base.Int.to_string p_level
-  in
-
-  Initialization.(initialization |-> initialize_f <-@ initialize);
-  Initialization.(initialization |-> deinitialize_f <-@ deinitialize);
+  Initialization.(initialization |-> initialize_f <-@ initialize_ptr);
+  Initialization.(initialization |-> deinitialize_f <-@ deinitialize_ptr);
 
   1
 

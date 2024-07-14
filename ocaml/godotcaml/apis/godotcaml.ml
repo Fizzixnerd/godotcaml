@@ -1,5 +1,6 @@
 open! Base
 open! Core
+open Living
 include Bootstrap
 
 module type SUITE = sig
@@ -92,8 +93,10 @@ module C = struct
     let int = 2
     let float = 3
     let string = 4
-    let object_ = 14
     let string_name = 21
+    let object_ = 24
+    let callable = 25
+    let signal = 26
   end
 
   let variant_operator = typedef enum (M.typedef_name "VariantOperator")
@@ -349,13 +352,9 @@ module C = struct
 
     let make ?create_callback ?free_callback ?reference_callback allocator =
       let ret = allocator s in
-      ret |-> create_callback_f
-      <-@ (create_callback |> Option.map ~f:InstanceBindingCreateCallback.of_fun);
-      ret |-> free_callback_f
-      <-@ (free_callback |> Option.map ~f:InstanceBindingFreeCallback.of_fun);
-      ret |-> reference_callback_f
-      <-@ (reference_callback
-          |> Option.map ~f:InstanceBindingReferenceCallback.of_fun);
+      ret |-> create_callback_f <-@ create_callback;
+      ret |-> free_callback_f <-@ free_callback;
+      ret |-> reference_callback_f <-@ reference_callback;
       ret
   end
 
@@ -646,40 +645,24 @@ module C = struct
       <-@ (is_abstract |> Option.value ~default:false |> debooleanize);
       ret |-> is_exposed_f
       <-@ (is_exposed |> Option.value ~default:true |> debooleanize);
-      ret |-> get_func_f <-@ (get |> Option.map ~f:ClassGet.of_fun);
-      ret |-> set_func_f <-@ (set |> Option.map ~f:ClassSet.of_fun);
-      ret |-> get_property_list_func_f
-      <-@ (get_property_list |> Option.map ~f:ClassGetPropertyList.of_fun);
-      ret |-> free_property_list_func_f
-      <-@ (free_property_list |> Option.map ~f:ClassFreePropertyList.of_fun);
-      ret |-> property_can_revert_func_f
-      <-@ (property_can_revert |> Option.map ~f:ClassPropertyCanRevert.of_fun);
-      ret |-> property_get_revert_func_f
-      <-@ (property_get_revert |> Option.map ~f:ClassPropertyGetRevert.of_fun);
-      ret |-> validate_property_func_f
-      <-@ (validate_property |> Option.map ~f:ClassValidateProperty.of_fun);
-      ret |-> notification_func_f
-      <-@ (notification |> Option.map ~f:ClassNotification2.of_fun);
-      ret |-> to_string_func_f
-      <-@ (to_string |> Option.map ~f:ClassToString.of_fun);
-      ret |-> reference_func_f
-      <-@ (reference |> Option.map ~f:ClassReference.of_fun);
-      ret |-> unreference_func_f
-      <-@ (unreference |> Option.map ~f:ClassUnreference.of_fun);
-      ret |-> create_instance_func_f
-      <-@ (create_instance |> ClassCreateInstance.of_fun);
-      ret |-> free_instance_func_f
-      <-@ (free_instance |> ClassFreeInstance.of_fun);
-      ret |-> recreate_instance_func_f
-      <-@ (recreate_instance |> Option.map ~f:ClassRecreateInstance.of_fun);
-      ret |-> get_virtual_func_f
-      <-@ (get_virtual |> Option.map ~f:ClassGetVirtual.of_fun);
-      ret |-> get_virtual_call_data_func_f
-      <-@ (get_virtual_call_data |> Option.map ~f:ClassGetVirtualCallData.of_fun);
-      ret |-> call_virtual_with_data_func_f
-      <-@ (call_virtual_with_data
-          |> Option.map ~f:ClassCallVirtualWithData.of_fun);
-      ret |-> get_rid_func_f <-@ (get_rid |> Option.map ~f:ClassGetRID.of_fun);
+      ret |-> get_func_f <-@ get;
+      ret |-> set_func_f <-@ set;
+      ret |-> get_property_list_func_f <-@ get_property_list;
+      ret |-> free_property_list_func_f <-@ free_property_list;
+      ret |-> property_can_revert_func_f <-@ property_can_revert;
+      ret |-> property_get_revert_func_f <-@ property_get_revert;
+      ret |-> validate_property_func_f <-@ validate_property;
+      ret |-> notification_func_f <-@ notification;
+      ret |-> to_string_func_f <-@ to_string;
+      ret |-> reference_func_f <-@ reference;
+      ret |-> unreference_func_f <-@ unreference;
+      ret |-> create_instance_func_f <-@ create_instance;
+      ret |-> free_instance_func_f <-@ free_instance;
+      ret |-> recreate_instance_func_f <-@ recreate_instance;
+      ret |-> get_virtual_func_f <-@ get_virtual;
+      ret |-> get_virtual_call_data_func_f <-@ get_virtual_call_data;
+      ret |-> call_virtual_with_data_func_f <-@ call_virtual_with_data;
+      ret |-> get_rid_func_f <-@ get_rid;
       ret |-> class_userdata_f <-@ (class_userdata |> Option.value ~default:null);
       ret
   end
@@ -871,6 +854,7 @@ module C = struct
       ret |-> is_valid_func_f <-@ is_valid_func;
       ret |-> free_func_f <-@ free_func;
       ret |-> hash_func_f <-@ hash_func;
+      ret |-> equal_func_f <-@ equal_func;
       ret |-> less_than_func_f <-@ less_than_func;
       ret |-> to_string_func_f <-@ to_string_func;
       ret
@@ -900,16 +884,15 @@ module C = struct
     let init_func =
       fn_suite "InitFunc" (ptr void @-> initialization_level @-> returning void)
 
+    module InitFunc = (val init_func.dyn)
+
     let minimum_initialization_level_f =
       field initialization_struct "minimum_initialization_level"
         initialization_level
 
     let userdata_f = field initialization_struct "userdata" (ptr void)
-    let initialize_f = field initialization_struct "initialize" init_func.typ
-
-    let deinitialize_f =
-      field initialization_struct "deinitialize" init_func.typ
-
+    let initialize_f = field initialization_struct "initialize" InitFunc.t
+    let deinitialize_f = field initialization_struct "deinitialize" InitFunc.t
     let () = seal initialization_struct
     let s = typedef initialization_struct (M.typedef_name "Initialization")
   end
