@@ -1284,21 +1284,21 @@ module Gen = struct
     string
       (sprintf
          {|
-      module %s = struct
-        type t
-        let s : t structure typ = structure "%s_Dummy"
-        let _ = field s "%s_dummy_do_not_touch" (array ClassSizes.%s uint8_t)
-        let () = seal s
-        %s
-        let of_voidp = coerce (ptr void) (ptr s)
-        let to_voidp = coerce (ptr s) (ptr void)
-        let to_type_ptr = coerce (ptr s) type_ptr.plain
-        let typ = view ~read:of_voidp ~write:to_voidp (ptr void)
-        let size = ClassSizes.%s
+module %s = struct
+  type t
+  let s : t structure typ = structure "%s_Dummy"
+  let _ = field s "%s_dummy_do_not_touch" (array ClassSizes.%s uint8_t)
+  let () = seal s
+  %s
+  let of_voidp = coerce (ptr void) (ptr s)
+  let to_voidp = coerce (ptr s) (ptr void)
+  let to_type_ptr = coerce (ptr s) type_ptr.plain
+  let typ = view ~read:of_voidp ~write:to_voidp (ptr void)
+  let size = ClassSizes.%s
 
-        (** Change this to gc_alloc! (or just remove) *)
-        let new_uninit () = allocate_n ~count:1 s
-      end
+  (** Change this to gc_alloc! (or just remove) *)
+  let new_uninit () = allocate_n ~count:1 s
+end
       |}
          (mod_var_str type_name) (mod_var_str type_name) (var_str type_name)
          (var_str type_name)
@@ -1328,14 +1328,14 @@ module Gen = struct
            ])
       ^/^ string
             {|
-      module Variant = struct
-        include Variant
+module Variant = struct
+  include Variant
 
-        let ocaml_to_variant : t structure ptr -> C.variant_ptr structure ptr = coerce_ptr C.variant_ptr.plain
-        let ocaml_of_variant : C.variant_ptr structure ptr -> t structure ptr = coerce_ptr (ptr s)
-        let godot_to_variant : t structure ptr -> C.variant_ptr structure ptr = coerce_ptr C.variant_ptr.plain
-        let godot_of_variant : C.variant_ptr structure ptr -> t structure ptr = coerce_ptr (ptr s)
-      end
+  let ocaml_to_variant : t structure ptr -> C.variant_ptr structure ptr = coerce_ptr C.variant_ptr.plain
+  let ocaml_of_variant : C.variant_ptr structure ptr -> t structure ptr = coerce_ptr (ptr s)
+  let godot_to_variant : t structure ptr -> C.variant_ptr structure ptr = coerce_ptr C.variant_ptr.plain
+  let godot_of_variant : C.variant_ptr structure ptr -> t structure ptr = coerce_ptr (ptr s)
+end
       |}
     else
       module_type
@@ -1350,28 +1350,28 @@ module Gen = struct
       ^/^ string
             (sprintf
                {|
-    module %s = struct
-      include %s
-      include Conv.%s
+module %s = struct
+  include %s
+  include Conv.%s
 
-      let godot_to_variant (x:godot_t) : C.variant_ptr structure ptr = 
-        let new_variant_ptr = coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1) in
-        let () = get_variant_from_type_constructor type_enum new_variant_ptr (coerce_ptr C.type_ptr.plain x) in
-        let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
-        inited_variant_ptr
+  let godot_to_variant (x:godot_t) : C.variant_ptr structure ptr = 
+    let new_variant_ptr = coerce_ptr C.variant_ptr.uninit (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1) in
+    let () = get_variant_from_type_constructor type_enum new_variant_ptr (coerce_ptr C.type_ptr.plain x) in
+    let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
+    inited_variant_ptr
 
-      let ocaml_to_variant : ocaml_t -> C.variant_ptr structure ptr = fun x ->
-        godot_to_variant (of_ocaml x)
+  let ocaml_to_variant : ocaml_t -> C.variant_ptr structure ptr = fun x ->
+    godot_to_variant (of_ocaml x)
 
-      let godot_of_variant : C.variant_ptr structure ptr -> godot_t = fun x ->
-        let new_type_ptr = gc_alloc s ~count:1 in
-        let () = get_variant_to_type_constructor type_enum (coerce_ptr C.type_ptr.uninit new_type_ptr) x in
-        coerce_ptr (ptr s) new_type_ptr
+  let godot_of_variant : C.variant_ptr structure ptr -> godot_t = fun x ->
+    let new_type_ptr = Living_core.Default.unsafe_free (gc_alloc s ~count:1) in
+    let () = get_variant_to_type_constructor type_enum (coerce_ptr C.type_ptr.uninit new_type_ptr) x in
+    coerce_ptr (ptr s) new_type_ptr
 
-      let ocaml_of_variant (x: C.variant_ptr structure ptr) : ocaml_t = to_ocaml (godot_of_variant x)
+  let ocaml_of_variant (x: C.variant_ptr structure ptr) : ocaml_t = to_ocaml (godot_of_variant x)
 
-      let godot_typ : godot_t typ = ptr s
-    end
+  let godot_typ : godot_t typ = ptr s
+end
     |}
                (mod_var_str type_name) (mod_var_str type_name)
                (mod_var_str type_name))
@@ -1393,18 +1393,18 @@ module Gen = struct
       string
         (sprintf
            {|
-      module %s = struct
-        include GlobalEnum0.%s
+module %s = struct
+  include GlobalEnum0.%s
 
-        let godot_to_variant = ApiTypes.Int.godot_to_variant
-        let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
-        let godot_of_variant = ApiTypes.Int.godot_of_variant
-        let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+  let godot_to_variant = ApiTypes.Int.godot_to_variant
+  let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
+  let godot_of_variant = ApiTypes.Int.godot_of_variant
+  let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
 
-        type t = ApiTypes.Int.t structure ptr
-        let s = ApiTypes.Int.s
-        let typ = ApiTypes.Int.typ
-      end
+  type t = ApiTypes.Int.t structure ptr
+  let s = ApiTypes.Int.s
+  let typ = ApiTypes.Int.typ
+end
       |}
            (mod_var_str (remove_dots name))
            (mod_var_str (remove_dots name)))
@@ -1420,9 +1420,9 @@ module Gen = struct
       (* I know these aren't supposed to contain newlines, but w/e... *)
       (sprintf
          {|
-        module type CLASS_SIZES = sig
-          %s
-        end
+module type CLASS_SIZES = sig
+  %s
+end
         |}
          (String.concat ~sep:"\n"
             (List.map type_names ~f:(fun tn ->
@@ -1432,21 +1432,21 @@ module Gen = struct
    fun () ->
     string
       {|
-    module type SUB_API_TYPE = sig
-      type t
-    
-      val s : t structure typ
-      val of_voidp : unit ptr -> t structure ptr
-      val to_voidp : t structure ptr -> unit ptr
-      val typ : t structure ptr typ
-      val size : int
-      val new_uninit : unit -> t structure ptr
-    end
+module type SUB_API_TYPE = sig
+  type t
 
-    module type API_TYPE = sig
-      include SUB_API_TYPE
-      val to_type_ptr : t structure ptr -> type_ptr structure Godotcaml.TypedSuite.plain ptr
-    end
+  val s : t structure typ
+  val of_voidp : unit ptr -> t structure ptr
+  val to_voidp : t structure ptr -> unit ptr
+  val typ : t structure ptr typ
+  val size : int
+  val new_uninit : unit -> t structure ptr
+end
+
+module type API_TYPE = sig
+  include SUB_API_TYPE
+  val to_type_ptr : t structure ptr -> type_ptr structure Godotcaml.TypedSuite.plain ptr
+end
     |}
 
   (* let gen_foreign_api_module_type : string list -> ocaml =
@@ -1544,22 +1544,23 @@ module Gen = struct
     let x_of_ocamls = xs |> List.map ~f:(fun x -> sprintf "%s_of_ocaml" x) in
     sprintf
       {|
-    let foreign_utility_function%d =
-     fun name hash ret_typ ret_to_ocaml %s ->
-      let utility_function = variant_get_ptr_utility_function name hash in
-      let count = %d in
-      fun %s ->
-        let ret =
-          coerce (ptr ret_typ) type_ptr.plain (gc_alloc ret_typ ~count:1)
-        in
-        %s
-        (* let x0 = x0_of_ocaml x0 in *)
-        let arr = foreign_arr%d %s in
-        let () =
-          coerce PtrUtilityFunction.t ptr_utility_function.typ utility_function
-            ret arr count
-        in
-        ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret)
+let foreign_utility_function%d =
+  fun name hash ret_typ ret_to_ocaml %s ->
+  let utility_function = Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash) in
+  let count = %d in
+  fun %s ->
+    let open Living_core.Default.Let_syntax in
+    let* ret =
+      Living_core.Default.map (coerce (ptr ret_typ) type_ptr.plain) (gc_alloc ret_typ ~count:1)
+    in
+    %s
+    (* let x0 = x0_of_ocaml x0 in *)
+    let* arr = foreign_array%d %s in
+    let () =
+      coerce PtrUtilityFunction.t ptr_utility_function.typ utility_function
+        ret arr count
+    in
+    Living_core.Default.named_return name (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
     |}
       n
       (concat_with_spaces x_of_ocamls)
@@ -1578,22 +1579,23 @@ module Gen = struct
     let x_of_ocamls = xs |> List.map ~f:(fun x -> sprintf "%s_of_ocaml" x) in
     sprintf
       {|
-      let foreign_utility_function%d_void =
-       fun name hash ret_typ _ret_to_ocaml %s ->
-        let utility_function = variant_get_ptr_utility_function name hash in
-        let count = %d in
-        fun %s ->
-          let ret =
-            coerce (ptr ret_typ) type_ptr.plain null
-          in
-          %s
-          (* let x0 = x0_of_ocaml x0 in *)
-          let arr = foreign_arr%d %s in
-          let () =
-            coerce PtrUtilityFunction.t ptr_utility_function.typ utility_function
-              ret arr count
-          in
-          ()
+let foreign_utility_function%d_void =
+  fun name hash ret_typ _ret_to_ocaml %s ->
+  let utility_function = Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash) in
+  let count = %d in
+  fun %s ->
+    let open Living_core.Default.Let_syntax in
+    let ret =
+      coerce (ptr ret_typ) type_ptr.plain null
+    in
+    %s
+    (* let x0 = x0_of_ocaml x0 in *)
+    let* arr = foreign_array%d %s in
+    let () =
+      coerce PtrUtilityFunction.t ptr_utility_function.typ utility_function
+        ret arr count
+    in
+    Living_core.Default.named_return name ()
       |}
       n
       (concat_with_spaces x_of_ocamls)
@@ -1614,24 +1616,27 @@ module Gen = struct
     in
     sprintf
       {|
-      let foreign_method%d method_name _fn ret_typ ret_to_variant ret_of_variant %s =
-        (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-        let string_name = string_name_of_string method_name in
-        (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-        let err = global_call_error in
-        let count = %dL in
-        fun %s base ->
-          let ret =
-            coerce_ptr variant_ptr.uninit
-              (ret_to_variant (gc_alloc ret_typ ~count:1))
-          in
-          %s
-          (* let x' = x_to_variant x in *)
-          let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr%d %s) in
-          let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-          let () = variant_call () base string_name arr count ret err in
-          let ret = coerce_ptr variant_ptr.plain ret in
-          if is_error err then raise (to_exn err) else ret_of_variant ret
+let foreign_method%d method_name _fn ret_typ ret_to_variant ret_of_variant %s =
+  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+  let string_name = string_name_of_string method_name in
+  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+  let err = global_call_error in
+  let count = %dL in
+  fun %s base ->
+    let open Living_core.Default.Let_syntax in
+    let ret =
+      coerce_ptr variant_ptr.uninit
+        (ret_to_variant (gc_alloc ret_typ ~count:1))
+    in
+    %s
+    (* let x' = x_to_variant x in *)
+    let* arr = Living_core.Default.map (coerce_ptr (ptr variant_ptr.const)) (foreign_array%d %s) in
+    let* base = Living_core.Default.map (coerce_ptr variant_ptr.plain) (foreign_array1 base) in
+    let* () = string_name |> Living_core.Default.map (fun sn -> variant_call () base sn arr count ret err) in
+    let ret = coerce_ptr variant_ptr.plain ret in
+    if is_error err
+      then raise (to_exn err)
+      else Living_core.Default.named_return method_name (ret_of_variant ret)
     |}
       n
       (concat_with_spaces x_to_variants)
@@ -1652,22 +1657,25 @@ module Gen = struct
     in
     sprintf
       {|
-      let foreign_method%d_void method_name _fn _ret_typ _ret_to_variant _ret_of_variant %s =
-        (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-        let string_name = string_name_of_string method_name in
-        (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-        let err = global_call_error in
-        let count = %dL in
-        fun %s base ->
-          let ret =
-            coerce_ptr variant_ptr.uninit null
-          in
-          %s
-          (* let x' = x_to_variant x in *)
-          let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr%d %s) in
-          let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-          let () = variant_call () base string_name arr count ret err in
-          if is_error err then raise (to_exn err) else ()
+let foreign_method%d_void method_name _fn _ret_typ _ret_to_variant _ret_of_variant %s =
+  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+  let string_name = string_name_of_string method_name in
+  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+  let err = global_call_error in
+  let count = %dL in
+  fun %s base ->
+    let open Living_core.Default.Let_syntax in
+    let ret =
+      coerce_ptr variant_ptr.uninit null
+    in
+    %s
+    (* let x' = x_to_variant x in *)
+    let* arr = Living_core.Default.map (coerce_ptr (ptr variant_ptr.const)) (foreign_array%d %s) in
+    let* base = Living_core.Default.map (coerce_ptr variant_ptr.plain) (foreign_array1 base) in
+    let* () = string_name |> Living_core.Default.map (fun sn -> variant_call () base sn arr count ret err) in
+    if is_error err
+      then raise (to_exn err)
+      else Living_core.Default.named_return method_name ()
     |}
       n
       (concat_with_spaces x_to_variants)
@@ -1688,23 +1696,27 @@ module Gen = struct
     in
     sprintf
       {|
-        let foreign_method%d_static method_name _fn ret_typ ret_to_variant ret_of_variant %s =
-          (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-          let string_name = string_name_of_string method_name in
-          (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-          let err = global_call_error in
-          let count = %dL in
-          fun %s ->
-            let ret =
-              coerce_ptr variant_ptr.uninit
-                (ret_to_variant (gc_alloc ret_typ ~count:1))
-            in
-            %s
-            (* let x' = x_to_variant x in *)
-            let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arr%d %s) in
-            let () = variant_call_static () VariantType.object_ string_name arr count ret err in
-            let ret = coerce_ptr variant_ptr.plain ret in
-            if is_error err then raise (to_exn err) else ret_of_variant ret
+let foreign_method%d_static method_name _fn ret_typ ret_to_variant ret_of_variant %s =
+  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+  let string_name = string_name_of_string method_name in
+  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
+  let err = global_call_error in
+  let count = %dL in
+  fun %s ->
+    let open Living_core.Default.Let_syntax in
+    let* ret =
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (fun r -> coerce_ptr variant_ptr.uninit
+        (ret_to_variant r))
+    in
+    %s
+    (* let x' = x_to_variant x in *)
+    let* arr = Living_core.Default.map (coerce_ptr (ptr variant_ptr.const)) (foreign_array%d %s) in
+    let* () = string_name |> Living_core.Default.map (fun sn -> variant_call_static () VariantType.object_ sn arr count ret err) in
+    let ret = coerce_ptr variant_ptr.plain ret in
+    if is_error err
+      then raise (to_exn err)
+      else Living_core.Default.named_return method_name (ret_of_variant ret)
       |}
       n
       (concat_with_spaces x_to_variants)
@@ -1731,24 +1743,25 @@ module Gen = struct
     in
     sprintf
       {|
-        let foreign_method%dv method_name _fn ret_typ ret_to_variant ret_of_variant %s =
-          (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-          let string_name = string_name_of_string method_name in
-          (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-          let err = global_call_error in
-          fun %s vs base ->
-            let ret =
-              coerce_ptr variant_ptr.uninit
-                (ret_to_variant (gc_alloc ret_typ ~count:1))
-            in
-            let count = Int64.of_int (%d + VariadicVariants.length vs) in
-            %s
-            (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-            let arr = coerce_ptr (ptr variant_ptr.const) (foreign_arrv (%s :: vs)) in
-            let base = coerce_ptr variant_ptr.plain (foreign_arr1 base) in
-            let () = variant_call () base string_name arr count ret err in
-            let ret = coerce_ptr variant_ptr.plain ret in
-            if is_error err then raise (to_exn err) else ret_of_variant ret
+let foreign_method%dv method_name _fn ret_typ ret_to_variant ret_of_variant %s =
+  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+  let string_name = string_name_of_string method_name in
+  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+  let err = global_call_error in
+  fun %s vs base ->
+    let open Living_core.Default.Let_syntax in
+    let ret =
+      coerce_ptr variant_ptr.uninit
+        (ret_to_variant (gc_alloc ret_typ ~count:1))
+    in
+    let count = Int64.of_int (%d + VariadicVariants.length vs) in
+    %s
+    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
+    let* arr = Living_core.Default.map (coerce_ptr (ptr variant_ptr.const)) (foreign_arrayv (%s :: vs)) in
+    let* base = Living_core.Default.map (coerce_ptr variant_ptr.plain) (foreign_array1 base) in
+    let* () = string_name |> Living_core.Default.map (fun sn -> variant_call () base sn arr count ret err) in
+    let ret = coerce_ptr variant_ptr.plain ret in
+    Living_core.Default.named_return method_name (if is_error err then raise (to_exn err) else ret_of_variant ret)
       |}
       n
       (concat_with_spaces x_to_variants)
@@ -1757,27 +1770,117 @@ module Gen = struct
       (concat_with_cons xs')
     |> string
 
+  let gen_foreign_builtin_method (n : int) =
+    let ks = List.range 0 n in
+    let xs = ks |> List.map ~f:(fun k -> sprintf "x%d" k) in
+    sprintf
+      {|
+let foreign_builtin_method%d =
+  fun variant_type method_name method_hash _fn ret_typ ->
+    let string_name = Living_core.Default.unsafe_free (string_name_of_string method_name) in
+    let builtin_method =
+      variant_get_ptr_builtin_method variant_type string_name method_hash
+    in
+    let () = (* call stringname destructor here *) () in
+    let count = %d in
+    fun %s base ->
+      let open Living_core.Default.Let_syntax in
+      let* ret =
+        Living_core.Default.map (coerce (ptr ret_typ) type_ptr.plain) (gc_alloc ret_typ ~count:1)
+      in
+      let* arr = foreign_array%d %s in
+      let base = coerce_ptr type_ptr.plain base in
+      let () =
+        coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+          arr ret count
+      in
+      Living_core.Default.named_return method_name (coerce type_ptr.plain (ptr ret_typ) ret)
+      |}
+      n n (concat_with_spaces xs) n (concat_with_spaces xs)
+    |> string
+
+  let gen_foreign_builtin_method_void (n : int) =
+    let ks = List.range 0 n in
+    let xs = ks |> List.map ~f:(fun k -> sprintf "x%d" k) in
+    sprintf
+      {|
+let foreign_builtin_method%d_void =
+  fun variant_type method_name method_hash _fn _ ->
+    let string_name = Living_core.Default.unsafe_free (string_name_of_string method_name) in
+    let builtin_method =
+      variant_get_ptr_builtin_method variant_type string_name method_hash
+    in
+    let () = (* call stringname destructor here *) () in
+    let count = %d in
+    fun %s base ->
+      let open Living_core.Default.Let_syntax in
+      let ret = coerce_ptr type_ptr.plain null
+      in
+      let* arr = foreign_array%d %s in
+      let base = coerce_ptr type_ptr.plain base in
+      let () =
+        coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+          arr ret count
+      in
+      Living_core.Default.named_return method_name ()
+      |}
+      n n (concat_with_spaces xs) n (concat_with_spaces xs)
+    |> string
+
+  let gen_foreign_builtin_method_static (n : int) =
+    let ks = List.range 0 n in
+    let xs = ks |> List.map ~f:(fun k -> sprintf "x%d" k) in
+    sprintf
+      {|
+let foreign_builtin_method%d_static =
+  fun variant_type method_name method_hash _fn ret_typ ->
+    let string_name = Living_core.Default.unsafe_free (string_name_of_string method_name) in
+    let builtin_method =
+      variant_get_ptr_builtin_method variant_type string_name method_hash
+    in
+    let () = (* call stringname destructor here *) () in
+    let count = %d in
+    fun %s ->
+      let open Living_core.Default.Let_syntax in
+      let* ret =
+        Living_core.Default.map (coerce (ptr ret_typ) type_ptr.plain) (gc_alloc ret_typ ~count:1)
+      in
+      let* arr = foreign_array%d %s in
+      let base = coerce_ptr type_ptr.plain null in
+      let () =
+        coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+          arr ret count
+      in
+      Living_core.Default.named_return method_name (coerce type_ptr.plain (ptr ret_typ) ret)
+      |}
+      n n (concat_with_spaces xs) n (concat_with_spaces xs)
+    |> string
+
   let gen_foreign_array (n : int) =
     let ks = List.range 0 n in
     let xs = ks |> List.map ~f:(fun k -> sprintf "x%d" k) in
-    let locs = ks |> List.map ~f:(fun k -> sprintf "let* loc%d = arr +@ %d in\n" k k) in
-    let units = ks |> List.map ~f:(fun k -> sprintf "let* () = loc%d <-@ coerce_ptr type_ptr.const x%d in\n" k k) in
-    sprintf 
-    {|
-      let foreign_array%d %s =
-        let open Living_core.Let_syntax in
-        let count = %d in
-        let arr = allocate_n ~count type_ptr.const in
-        %s
-        %s
-        Living_core.named_return "foreign_array%d" arr
+    let locs =
+      ks |> List.map ~f:(fun k -> sprintf "let loc%d = arr +@ %d in\n" k k)
+    in
+    let units =
+      ks
+      |> List.map ~f:(fun k ->
+             sprintf "let* () = loc%d <-@ coerce_ptr type_ptr.const x%d in\n" k
+               k)
+    in
+    sprintf
+      {|
+let foreign_array%d %s =
+  let open Living_core.Default.Let_syntax in
+  let count = %d in
+  let* arr = allocate_n ~count type_ptr.const in
+  %s
+  %s
+  Living_core.Default.named_return "foreign_array%d" arr
     |}
-      n
-      (concat_with_spaces xs)
-      n
-      (concat_with_spaces locs)
-      (concat_with_spaces units)
-      n
+      n (concat_with_spaces xs) n (concat_with_spaces locs)
+      (concat_with_spaces units) n
+    |> string
 end
 
 module DepSort = struct
@@ -1850,6 +1953,8 @@ let () =
     string "open! Base" ^^ hardline;
     string "open Ctypes" ^^ hardline;
     string "module M = Gdforeign" ^^ hardline;
+    string "open Godotcaml_base.Godotcaml" ^^ hardline;
+    string "open Living" ^^ hardline;
     string "open M" ^^ hardline;
     hardline;
     string "let funptr = Foreign.funptr" ^^ hardline;
@@ -1898,48 +2003,466 @@ let () =
     string
       {|
 open! Base
+open Godotcaml_base.Godotcaml.C
 open Living
-open Living_ctypes
+open Living_ctypes.Default
 open Foreign_base
       |}
   in
   let foreign_arrays =
     List.range 1 15
-    |> List.map ~f:(fun k ->
-      Get.gen_foreign_array k ^^ hardline ^^ hardline)
-  in foreign_array_headers :: foreign_arrays |> PPrint.concat |> Gen.gen_file "foreign_arrays.ml"
+    |> List.map ~f:(fun k -> Gen.gen_foreign_array k ^^ hardline ^^ hardline)
+  in
+
+  let foreign_arrays_misc =
+    string
+      {|
+let foreign_array0 =
+  Living_core.Default.named_return "foreign_array0"
+    (coerce_ptr (ptr type_ptr.const) null)
+
+(* TODO: Optimize this with a ref or something to make it not O(n^2)! *)
+let foreign_arrayv xs =
+  let count = Variadic.length xs in
+  let arr = allocate_n type_ptr.const ~count in
+  for i = 0 to count - 1 do
+    let ret = 
+      let arri = arr |> Living_core.Default.bind (fun x -> x +@ i) in
+      arri <-@ coerce_ptr type_ptr.const (List.nth_exn xs i)
+    in Living_core.Default.unsafe_free ret
+  done;
+  arr
+    |}
+  in
+
+  foreign_array_headers :: foreign_arrays_misc :: foreign_arrays
+  |> PPrint.concat
+  |> Gen.gen_file "foreign_arrays.ml";
 
   let foreign_headers =
     string
       {|
 open! Base
 open Living
-open Living_ctypes
+open Living_ctypes.Default
 open Godotcaml_base
 open Godotcaml
 open C
 module Suite = TypedSuite
 module Godotcaml = Godotcaml
 open Foreign_base
-open Foreign_array
+open Foreign_arrays
     |}
   in
-  let foreign_methods = 
+  let foreign_methods =
     List.range 1 15
     |> List.map ~f:(fun k ->
-         Gen.gen_foreign_method k ^/^ Gen.gen_foreign_methodv k
-         ^/^ Gen.gen_foreign_method_static k
-         ^/^ Gen.gen_foreign_method_void k
-         ^^ hardline ^^ hardline)
-  in foreign_headers :: foreign_methods |> PPrint.concat |> Gen.gen_file "foreign_methods.ml";
+           Gen.gen_foreign_method k ^/^ Gen.gen_foreign_methodv k
+           ^/^ Gen.gen_foreign_method_static k
+           ^/^ Gen.gen_foreign_method_void k
+           ^^ hardline ^^ hardline)
+  in
 
-  let foreign_utility_functions = 
+  let foreign_methods_misc =
+    string
+      {|
+let foreign_method0 method_name _fn ret_typ ret_to_variant ret_of_variant =
+  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+  let string_name = string_name_of_string method_name in
+  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+  let err = global_call_error in
+  let count = Int64.of_int 0 in
+  fun base ->
+    let open Living_core.Default.Let_syntax in
+    let* ret =
+      Living_core.Default.map( coerce_ptr variant_ptr.uninit) (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+    in
+    let* arr = Living_core.Default.map (coerce_ptr (ptr variant_ptr.const)) foreign_array0 in
+    let* base = Living_core.Default.map (coerce_ptr variant_ptr.plain) (foreign_array1 base) in
+    let* () = string_name |> Living_core.Default.map (fun sn -> variant_call () base sn arr count ret err) in
+    let ret = coerce_ptr variant_ptr.plain ret in
+    Living_core.Default.named_return method_name (if is_error err then raise (to_exn err) else ret_of_variant ret)
+
+let foreign_method0_void_static method_name _fn _ret_typ _ret_to_variant
+    _ret_of_variant =
+  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+  let string_name = string_name_of_string method_name in
+  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+  let err = global_call_error in
+  let count = Int64.of_int 0 in
+  fun () ->
+    let open Living_core.Default.Let_syntax in
+    let ret = coerce_ptr variant_ptr.uninit null in
+    let* arr = Living_core.Default.map (coerce_ptr (ptr variant_ptr.const)) foreign_array0 in
+    let* () =
+      string_name |> Living_core.Default.map (fun sn -> variant_call_static () VariantType.object_ sn arr count ret
+        err)
+    in
+    Living_core.Default.named_return method_name (if is_error err then raise (to_exn err) else ())
+
+let foreign_method0v method_name _fn ret_typ ret_to_variant ret_of_variant =
+  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+  let string_name = string_name_of_string method_name in
+  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+  let err = global_call_error in
+  fun vs base ->
+    let open Living_core.Default.Let_syntax in
+    let count = Int64.of_int (List.length vs) in
+    let* ret =
+      Living_core.Default.map (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+    in
+    let* arr = Living_core.Default.map (coerce_ptr (ptr variant_ptr.const)) (foreign_arrayv vs) in
+    let* base = Living_core.Default.map (coerce_ptr variant_ptr.plain) (foreign_array1 base) in
+    let* () = string_name |> Living_core.Default.map (fun sn -> variant_call () base sn arr count ret err) in
+    let ret = coerce_ptr variant_ptr.plain ret in
+    Living_core.Default.named_return method_name (if is_error err then raise (to_exn err) else ret_of_variant ret)
+
+let foreign_method0_static method_name _fn ret_typ ret_to_variant
+    ret_of_variant _x_to_variant =
+  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+  let string_name = string_name_of_string method_name in
+  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+  let err = global_call_error in
+  let count = Int64.of_int 0 in
+  fun () ->
+    let open Living_core.Default.Let_syntax in
+    let* ret =
+      Living_core.Default.map (coerce_ptr variant_ptr.uninit) (Living_core.Default.map ret_to_variant
+        (gc_alloc ret_typ ~count:1))
+    in
+    let* arr = Living_core.Default.map (coerce_ptr (ptr variant_ptr.const)) foreign_array0 in
+    let* () =
+      string_name |> Living_core.Default.map (fun sn -> variant_call_static () VariantType.object_ sn arr count ret
+        err)
+    in
+    let ret = coerce_ptr variant_ptr.plain ret in
+    Living_core.Default.named_return method_name (if is_error err then raise (to_exn err) else ret_of_variant ret)
+
+let foreign_method0_void method_name _fn _ret_typ _ret_to_variant
+    _ret_of_variant =
+  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+  let string_name = string_name_of_string method_name in
+  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+  let err = global_call_error in
+  let count = Int64.of_int 0 in
+  fun base ->
+    let open Living_core.Default.Let_syntax in
+    let ret = coerce_ptr variant_ptr.uninit null in
+    let* arr = Living_core.Default.map (coerce_ptr (ptr variant_ptr.const)) foreign_array0 in
+    let* base = Living_core.Default.map (coerce_ptr variant_ptr.plain) (foreign_array1 base) in
+    let* () = string_name |> Living_core.Default.map (fun sn -> variant_call () base sn arr count ret err) in
+    Living_core.Default.named_return method_name (if is_error err then raise (to_exn err) else ())
+
+let foreign_method1v_void method_name _fn _ret_typ _ret_to_variant
+    _ret_of_variant x_to_variant =
+  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+  let string_name = string_name_of_string method_name in
+  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+  let err = global_call_error in
+  fun x vs base ->
+    let open Living_core.Default.Let_syntax in
+    let count = Int64.of_int (1 + VariadicVariants.length vs) in
+    let ret = coerce_ptr variant_ptr.uninit null in
+    let x' = x_to_variant x in
+    let* arr =
+      Living_core.Default.map (coerce_ptr (ptr variant_ptr.const))
+        (foreign_arrayv (coerce_ptr variant_ptr.const x' :: vs))
+    in
+    let* base = Living_core.Default.map (coerce_ptr variant_ptr.plain) (foreign_array1 base) in
+    let* () = string_name |> Living_core.Default.map (fun sn -> variant_call () base sn arr count ret err) in
+    Living_core.Default.named_return method_name (if is_error err then raise (to_exn err) else ())
+
+let foreign_method1_void_static method_name _fn _ret_typ _ret_to_variant
+    _ret_of_variant x_to_variant =
+  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+  let string_name = string_name_of_string method_name in
+  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+  let err = global_call_error in
+  let count = Int64.of_int 1 in
+  fun x ->
+    let open Living_core.Default.Let_syntax in
+    let ret = coerce_ptr variant_ptr.uninit null in
+    let x' = x_to_variant x in
+    let* arr = Living_core.Default.map (coerce_ptr (ptr variant_ptr.const)) (foreign_array1 x') in
+    let* () =
+      string_name |> Living_core.Default.map (fun sn -> variant_call_static () VariantType.object_ sn arr count ret
+        err)
+    in
+    Living_core.Default.named_return method_name (if is_error err then raise (to_exn err) else ())
+
+let foreign_method2_void_static method_name _fn _ret_typ _ret_to_variant
+    _ret_of_variant x_to_variant y_to_variant =
+  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+  let string_name = string_name_of_string method_name in
+  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+  let err = global_call_error in
+  let count = Int64.of_int 2 in
+  fun x y ->
+    let open Living_core.Default.Let_syntax in
+    let ret = coerce_ptr variant_ptr.uninit null in
+    let x' = x_to_variant x in
+    let y' = y_to_variant y in
+    let* arr = Living_core.Default.map (coerce_ptr (ptr variant_ptr.const)) (foreign_array2 x' y') in
+    let* () =
+      string_name |> Living_core.Default.map (fun sn -> variant_call_static () VariantType.object_ sn arr count ret
+        err)
+    in
+    Living_core.Default.named_return method_name (if is_error err then raise (to_exn err) else ())
+
+let foreign_method2v_void method_name _fn _ret_typ _ret_to_variant
+    _ret_of_variant x_to_variant y_to_variant =
+  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+  let string_name = string_name_of_string method_name in
+  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+  let err = global_call_error in
+  fun x y vs base ->
+    let open Living_core.Default.Let_syntax in
+    let count = Int64.of_int (2 + VariadicVariants.length vs) in
+    let ret = coerce_ptr variant_ptr.uninit null in
+    let x' = x_to_variant x in
+    let y' = y_to_variant y in
+    let* arr =
+      Living_core.Default.map (coerce_ptr (ptr variant_ptr.const))
+        (foreign_arrayv
+            (coerce_ptr variant_ptr.const x'
+            :: coerce_ptr variant_ptr.const y'
+            :: vs))
+    in
+    let* base = Living_core.Default.map (coerce_ptr variant_ptr.plain) (foreign_array1 base) in
+    let* () = string_name |> Living_core.Default.map (fun sn -> variant_call () base sn arr count ret err) in
+    Living_core.Default.named_return method_name (if is_error err then raise (to_exn err) else ())
+
+let foreign_method3v_void method_name _fn _ret_typ _ret_to_variant
+    _ret_of_variant x_to_variant y_to_variant z_to_variant =
+  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
+  let string_name = string_name_of_string method_name in
+  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
+  let err = global_call_error in
+  fun x y z vs base ->
+    let open Living_core.Default.Let_syntax in
+    let count = Int64.of_int (3 + VariadicVariants.length vs) in
+    let ret = coerce_ptr variant_ptr.uninit null in
+    let x' = x_to_variant x in
+    let y' = y_to_variant y in
+    let z' = z_to_variant z in
+    let* arr =
+      Living_core.Default.map (coerce_ptr (ptr variant_ptr.const))
+        (foreign_arrayv
+            (coerce_ptr variant_ptr.const x'
+            :: coerce_ptr variant_ptr.const y'
+            :: coerce_ptr variant_ptr.const z'
+            :: vs))
+    in
+    let* base = Living_core.Default.map (coerce_ptr variant_ptr.plain) (foreign_array1 base) in
+    let* () = string_name |> Living_core.Default.map (fun sn -> variant_call () base sn arr count ret err) in
+    Living_core.Default.named_return method_name (if is_error err then raise (to_exn err) else ())
+    |}
+  in
+
+  foreign_headers :: foreign_methods_misc :: foreign_methods
+  |> PPrint.concat
+  |> Gen.gen_file "foreign_methods.ml";
+
+  let foreign_utility_functions =
     List.range 1 15
     |> List.map ~f:(fun k ->
-         Gen.gen_utility_function k
-         ^/^ Gen.gen_utility_function_void k
-         ^^ hardline ^^ hardline)
-  in foreign_headers :: foreign_utility_functions |> PPrint.concat |> Gen.gen_file "foreign_utility_functions.ml";
+           Gen.gen_utility_function k
+           ^/^ Gen.gen_utility_function_void k
+           ^^ hardline ^^ hardline)
+  in
+
+  let foreign_utility_functions_misc =
+    string
+      {|
+let foreign_utility_function0 name hash ret_typ ret_to_ocaml =
+  let utility_function = Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash) in
+  let count = 0 in
+  fun () ->
+    let open Living_core.Default.Let_syntax in
+    let* ret =
+      Living_core.Default.map
+        (coerce (ptr ret_typ) type_ptr.plain)
+        (gc_alloc ret_typ ~count:1)
+    in
+    let* arr = foreign_array0 in
+    let () =
+      coerce PtrUtilityFunction.t ptr_utility_function.typ utility_function ret
+        arr count
+    in
+    Living_core.Default.named_return name
+      (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))    
+
+let foreign_utility_function0_void name hash ret_typ _ret_to_ocaml =
+  let utility_function = Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash) in
+  let count = 0 in
+  fun () ->
+    let open Living_core.Default.Let_syntax in
+    let ret = coerce (ptr ret_typ) type_ptr.plain null in
+    let* arr = foreign_array0 in
+    let () =
+      coerce PtrUtilityFunction.t ptr_utility_function.typ utility_function ret
+        arr count
+    in
+    Living_core.Default.named_return name ()
+
+let foreign_utility_functionv :
+    string ->
+    int64 ->
+    (Variadic.t -> 'r ptr) fn ->
+    'r typ ->
+    ('r ptr -> 'b) ->
+    Variadic.t ->
+    'b Living_core.Default.t =
+ fun name hash _fn ret_typ ret_to_ocaml ->
+  let utility_function = Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash) in
+  fun xs ->
+    let open Living_core.Default.Let_syntax in
+    let count = Variadic.length xs in
+    let* ret = Living_core.Default.map (coerce (ptr ret_typ) type_ptr.plain) (gc_alloc ret_typ ~count:1) in
+    let* arr = foreign_arrayv xs in
+    let () =
+      coerce PtrUtilityFunction.t ptr_utility_function.typ utility_function ret
+        arr count
+    in
+    Living_core.Default.named_return name (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
+
+let foreign_utility_functionv_void :
+    string -> int64 -> (Variadic.t -> unit) fn -> 'any -> Variadic.t -> unit Living_core.Default.t =
+ fun name hash _fn _ ->
+  let utility_function = Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash) in
+  fun xs ->
+    let open Living_core.Default.Let_syntax in
+    let count = Variadic.length xs in
+    let ret = coerce_ptr type_ptr.plain null in
+    let* arr = foreign_arrayv xs in
+    let () =
+      coerce PtrUtilityFunction.t ptr_utility_function.typ utility_function ret
+        arr count
+    in
+    Living_core.Default.named_return name ()
+    |}
+  in
+
+  foreign_headers :: foreign_utility_functions_misc :: foreign_utility_functions
+  |> PPrint.concat
+  |> Gen.gen_file "foreign_utility_functions.ml";
+
+  let foreign_builtin_methods =
+    List.range 1 15
+    |> List.map ~f:(fun k ->
+           Gen.gen_foreign_builtin_method k
+           ^/^ Gen.gen_foreign_builtin_method_void k
+           ^/^ Gen.gen_foreign_builtin_method_static k
+           ^^ hardline ^^ hardline)
+  in
+  let foreign_builtin_methods_misc =
+    string
+      {|
+let foreign_builtin_method0 =
+  fun variant_type method_name method_hash _fn ret_typ ->
+    let string_name = Living_core.Default.unsafe_free (string_name_of_string method_name) in
+    let builtin_method =
+      variant_get_ptr_builtin_method variant_type string_name method_hash
+    in
+    let () = (* call stringname destructor here *) () in
+    let count = 0 in
+    fun base ->
+      let open Living_core.Default.Let_syntax in
+      let* ret =
+        Living_core.Default.map (coerce (ptr ret_typ) type_ptr.plain) (gc_alloc ret_typ ~count:1)
+      in
+      let* arr = foreign_array0 in
+      let base = coerce_ptr type_ptr.plain base in
+      let () =
+        coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+          arr ret count
+      in
+      Living_core.Default.named_return method_name (coerce type_ptr.plain (ptr ret_typ) ret)
+
+let foreign_builtin_method0_void =
+  fun variant_type method_name method_hash _fn _ ->
+    let string_name = Living_core.Default.unsafe_free (string_name_of_string method_name) in
+    let builtin_method =
+      variant_get_ptr_builtin_method variant_type string_name method_hash
+    in
+    let () = (* call stringname destructor here *) () in
+    let count = 0 in
+    fun base ->
+      let open Living_core.Default.Let_syntax in
+      let ret = coerce_ptr type_ptr.plain null in
+      let* arr = foreign_array0 in
+      let base = coerce_ptr type_ptr.plain base in
+      let () =
+        coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+          arr ret count
+      in
+      Living_core.Default.named_return method_name ()
+
+let foreign_builtin_method0v =
+  fun variant_type method_name method_hash _fn ret_typ ->
+    let string_name = Living_core.Default.unsafe_free (string_name_of_string method_name) in
+    let builtin_method =
+      variant_get_ptr_builtin_method variant_type string_name method_hash
+    in
+    let () = (* call stringname destructor here *) () in
+    fun xs base ->
+      let open Living_core.Default.Let_syntax in
+      let count = Variadic.length xs in
+      let* ret =
+        Living_core.Default.map (coerce (ptr ret_typ) type_ptr.plain) (gc_alloc ret_typ ~count:1)
+      in
+      let* arr = foreign_arrayv xs in
+      let base = coerce_ptr type_ptr.plain base in
+      let () =
+        coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+          arr ret count
+      in
+      Living_core.Default.named_return method_name (coerce type_ptr.plain (ptr ret_typ) ret)
+
+let foreign_builtin_method0v_void =
+  fun variant_type method_name method_hash _fn _ ->
+    let string_name = Living_core.Default.unsafe_free (string_name_of_string method_name) in
+    let builtin_method =
+      variant_get_ptr_builtin_method variant_type string_name method_hash
+    in
+    let () = (* call stringname destructor here *) () in
+    fun xs base ->
+      let open Living_core.Default.Let_syntax in
+      let count = Variadic.length xs in
+      let ret = coerce_ptr type_ptr.plain null in
+      let* arr = foreign_arrayv xs in
+      let base = coerce_ptr type_ptr.plain base in
+      let () =
+        coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+          arr ret count
+      in
+      Living_core.Default.named_return method_name ()
+
+let foreign_builtin_method1v_void =
+  fun variant_type method_name method_hash _fn _ ->
+    let string_name = Living_core.Default.unsafe_free (string_name_of_string method_name) in
+    let builtin_method =
+      variant_get_ptr_builtin_method variant_type string_name method_hash
+    in
+    let () = (* call stringname destructor here *) () in
+    fun x xs base ->
+      let open Living_core.Default.Let_syntax in
+      let count = Variadic.length xs + 1 in
+      let ret = coerce_ptr type_ptr.plain null in
+      let* arr = foreign_arrayv (coerce_ptr type_ptr.const x :: xs) in
+      let base = coerce_ptr type_ptr.plain base in
+      let () =
+        coerce PtrBuiltinMethod.t ptr_builtin_method.typ builtin_method base
+          arr ret count
+      in
+      Living_core.Default.named_return method_name ()
+  |}
+  in
+
+  foreign_headers :: foreign_builtin_methods_misc :: foreign_builtin_methods
+  |> PPrint.concat
+  |> Gen.gen_file "foreign_builtin_methods.ml";
 
   (* api.builtin_classes
      |> List.map ~f:(fun bic ->

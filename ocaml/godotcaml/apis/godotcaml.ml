@@ -389,6 +389,8 @@ module C = struct
   module ClassGetRID = (val class_get_rid.dyn)
 
   module PropertyInfo = struct
+    open Living_ctypes.Default
+
     type t
 
     let property_info_struct : t structure typ =
@@ -410,14 +412,15 @@ module C = struct
     let s = typedef property_info_struct (M.typedef_name "PropertyInfo")
 
     let make allocator type_ name class_name hint hint_string usage =
-      let ret = allocator s in
-      ret |-> type_f <-@ type_;
-      ret |-> name_f <-@ name;
-      ret |-> class_name_f <-@ class_name;
-      ret |-> hint_f <-@ hint;
-      ret |-> hint_string_f <-@ hint_string;
-      ret |-> usage_f <-@ usage;
-      ret
+      let open Living_core.Default.Let_syntax in
+      let* ret = allocator s in
+      let* () = ret |-> type_f <-@ type_ in
+      let* () = ret |-> name_f <-@ name in
+      let* () = ret |-> class_name_f <-@ class_name in
+      let* () = ret |-> hint_f <-@ hint in
+      let* () = ret |-> hint_string_f <-@ hint_string in
+      let* () = ret |-> usage_f <-@ usage in
+      Living_core.Default.return ret
   end
 
   let property_info_ptr = M.ptr_suite "PropertyInfo" PropertyInfo.s
@@ -551,6 +554,8 @@ module C = struct
   module ClassCallVirtualWithData = (val class_call_virtual_with_data.dyn)
 
   module ClassCreationInfo2 = struct
+    open Living_ctypes.Default
+
     type t
 
     let class_creation_info2_struct : t structure typ =
@@ -634,37 +639,51 @@ module C = struct
         ?property_get_revert ?validate_property ?notification ?to_string
         ?reference ?unreference ?recreate_instance ?get_virtual
         ?get_virtual_call_data ?call_virtual_with_data ?get_rid ?class_userdata
-        create_instance free_instance : t structure ptr =
-      let ret = allocator s in
+        create_instance free_instance : t structure ptr Living_core.Default.t =
+      let open Living_core.Default.Let_syntax in
       let debooleanize : bool -> Unsigned.UInt8.t =
        fun x -> Unsigned.UInt8.of_int (if x then 1 else 0)
       in
-      ret |-> is_virtual_f
-      <-@ (is_virtual |> Option.value ~default:false |> debooleanize);
-      ret |-> is_abstract_f
-      <-@ (is_abstract |> Option.value ~default:false |> debooleanize);
-      ret |-> is_exposed_f
-      <-@ (is_exposed |> Option.value ~default:true |> debooleanize);
-      ret |-> get_func_f <-@ get;
-      ret |-> set_func_f <-@ set;
-      ret |-> get_property_list_func_f <-@ get_property_list;
-      ret |-> free_property_list_func_f <-@ free_property_list;
-      ret |-> property_can_revert_func_f <-@ property_can_revert;
-      ret |-> property_get_revert_func_f <-@ property_get_revert;
-      ret |-> validate_property_func_f <-@ validate_property;
-      ret |-> notification_func_f <-@ notification;
-      ret |-> to_string_func_f <-@ to_string;
-      ret |-> reference_func_f <-@ reference;
-      ret |-> unreference_func_f <-@ unreference;
-      ret |-> create_instance_func_f <-@ create_instance;
-      ret |-> free_instance_func_f <-@ free_instance;
-      ret |-> recreate_instance_func_f <-@ recreate_instance;
-      ret |-> get_virtual_func_f <-@ get_virtual;
-      ret |-> get_virtual_call_data_func_f <-@ get_virtual_call_data;
-      ret |-> call_virtual_with_data_func_f <-@ call_virtual_with_data;
-      ret |-> get_rid_func_f <-@ get_rid;
-      ret |-> class_userdata_f <-@ (class_userdata |> Option.value ~default:null);
-      ret
+      let* ret = allocator s in
+      let* () =
+        ret |-> is_virtual_f
+        <-@ (is_virtual |> Option.value ~default:false |> debooleanize)
+      in
+      let* () =
+        ret |-> is_abstract_f
+        <-@ (is_abstract |> Option.value ~default:false |> debooleanize)
+      in
+      let* () =
+        ret |-> is_exposed_f
+        <-@ (is_exposed |> Option.value ~default:true |> debooleanize)
+      in
+      let* () = ret |-> get_func_f <-@ get in
+      let* () = ret |-> set_func_f <-@ set in
+      let* () = ret |-> get_property_list_func_f <-@ get_property_list in
+      let* () = ret |-> free_property_list_func_f <-@ free_property_list in
+      let* () = ret |-> property_can_revert_func_f <-@ property_can_revert in
+      let* () = ret |-> property_get_revert_func_f <-@ property_get_revert in
+      let* () = ret |-> validate_property_func_f <-@ validate_property in
+      let* () = ret |-> notification_func_f <-@ notification in
+      let* () = ret |-> to_string_func_f <-@ to_string in
+      let* () = ret |-> reference_func_f <-@ reference in
+      let* () = ret |-> unreference_func_f <-@ unreference in
+      let* () = ret |-> create_instance_func_f <-@ create_instance in
+      let* () = ret |-> free_instance_func_f <-@ free_instance in
+      let* () = ret |-> recreate_instance_func_f <-@ recreate_instance in
+      let* () = ret |-> get_virtual_func_f <-@ get_virtual in
+      let* () =
+        ret |-> get_virtual_call_data_func_f <-@ get_virtual_call_data
+      in
+      let* () =
+        ret |-> call_virtual_with_data_func_f <-@ call_virtual_with_data
+      in
+      let* () = ret |-> get_rid_func_f <-@ get_rid in
+      let* () =
+        ret |-> class_userdata_f
+        <-@ (class_userdata |> Option.value ~default:null)
+      in
+      Living_core.Default.return ret
   end
 
   type class_library_ptr
@@ -726,6 +745,8 @@ module C = struct
   module ClassMethodPtrCall = (val class_method_ptr_call.dyn)
 
   module ClassMethodInfo = struct
+    open Living_ctypes.Default
+
     type t
 
     let s : t structure typ = structure "gdoclassmethodinfo"
@@ -757,36 +778,49 @@ module C = struct
         ?return_value_metadata ?default_argument_count ?default_arguments
         allocator name has_return_value argument_count arguments_info
         arguments_metadata call_func ptrcall_func =
+      let open Living_core.Default.Let_syntax in
       let debooleanize : bool -> Unsigned.UInt8.t =
        fun x -> Unsigned.UInt8.of_int (if x then 1 else 0)
       in
-      let ret = allocator s in
-      ret |-> name_f <-@ name;
-      ret |-> method_userdata_f
-      <-@ (method_userdata |> Option.value ~default:null);
-      ret |-> call_func_f <-@ call_func;
-      ret |-> ptrcall_func_f <-@ ptrcall_func;
-      ret |-> method_flags_f
-      <-@ (method_flags |> Option.value ~default:ClassMethodFlags.default);
-      ret |-> has_return_value_f <-@ debooleanize has_return_value;
-      ret |-> return_value_info_f
-      <-@ (return_value_info
-          |> Option.value
-               ~default:(coerce (ptr void) property_info_ptr.plain null));
-      ret |-> return_value_metadata_f
-      <-@ (return_value_metadata
-          |> Option.value ~default:ClassMethodArgumentMetadata.none);
-      ret |-> argument_count_f <-@ argument_count;
-      ret |-> arguments_info_f <-@ arguments_info;
-      ret |-> arguments_metadata_f <-@ arguments_metadata;
-      ret |-> default_argument_count_f
-      <-@ (default_argument_count
-          |> Option.value ~default:(Unsigned.UInt32.of_int 0));
-      ret |-> default_arguments_f
-      <-@ (default_arguments
-          |> Option.value
-               ~default:(coerce (ptr void) (ptr variant_ptr.plain) null));
-      ret
+      let* ret = allocator s in
+      let* () = ret |-> name_f <-@ name in
+      let* () =
+        ret |-> method_userdata_f
+        <-@ (method_userdata |> Option.value ~default:null)
+      in
+      let* () = ret |-> call_func_f <-@ call_func in
+      let* () = ret |-> ptrcall_func_f <-@ ptrcall_func in
+      let* () =
+        ret |-> method_flags_f
+        <-@ (method_flags |> Option.value ~default:ClassMethodFlags.default)
+      in
+      let* () = ret |-> has_return_value_f <-@ debooleanize has_return_value in
+      let* () =
+        ret |-> return_value_info_f
+        <-@ (return_value_info
+            |> Option.value
+                 ~default:(coerce (ptr void) property_info_ptr.plain null))
+      in
+      let* () =
+        ret |-> return_value_metadata_f
+        <-@ (return_value_metadata
+            |> Option.value ~default:ClassMethodArgumentMetadata.none)
+      in
+      let* () = ret |-> argument_count_f <-@ argument_count in
+      let* () = ret |-> arguments_info_f <-@ arguments_info in
+      let* () = ret |-> arguments_metadata_f <-@ arguments_metadata in
+      let* () =
+        ret |-> default_argument_count_f
+        <-@ (default_argument_count
+            |> Option.value ~default:(Unsigned.UInt32.of_int 0))
+      in
+      let* () =
+        ret |-> default_arguments_f
+        <-@ (default_arguments
+            |> Option.value
+                 ~default:(coerce (ptr void) (ptr variant_ptr.plain) null))
+      in
+      Living_core.Default.return ret
   end
 
   (* CALLABLE *)
@@ -826,6 +860,8 @@ module C = struct
   module CallableCustomToString = (val callable_custom_to_string.dyn)
 
   module CallableInfoStruct = struct
+    open Living_ctypes.Default
+
     type t
 
     let s : t structure typ = structure "gdocallableinfostruct"
@@ -843,21 +879,26 @@ module C = struct
 
     let make ?callable_userdata ?object_id ?is_valid_func ?free_func ?hash_func
         ?equal_func ?less_than_func ?to_string_func allocator token call_func :
-        t structure ptr =
-      let ret = allocator s in
-      ret |-> callable_userdata_f
-      <-@ (callable_userdata |> Option.value ~default:null);
-      ret |-> token_f <-@ token;
-      ret |-> object_id_f
-      <-@ (object_id |> Option.value ~default:(Unsigned.UInt64.of_int64 0L));
-      ret |-> call_func_f <-@ call_func;
-      ret |-> is_valid_func_f <-@ is_valid_func;
-      ret |-> free_func_f <-@ free_func;
-      ret |-> hash_func_f <-@ hash_func;
-      ret |-> equal_func_f <-@ equal_func;
-      ret |-> less_than_func_f <-@ less_than_func;
-      ret |-> to_string_func_f <-@ to_string_func;
-      ret
+        t structure ptr Living_core.Default.t =
+      let open Living_core.Default.Let_syntax in
+      let* ret = allocator s in
+      let* () =
+        ret |-> callable_userdata_f
+        <-@ (callable_userdata |> Option.value ~default:null)
+      in
+      let* () = ret |-> token_f <-@ token in
+      let* () =
+        ret |-> object_id_f
+        <-@ (object_id |> Option.value ~default:(Unsigned.UInt64.of_int64 0L))
+      in
+      let* () = ret |-> call_func_f <-@ call_func in
+      let* () = ret |-> is_valid_func_f <-@ is_valid_func in
+      let* () = ret |-> free_func_f <-@ free_func in
+      let* () = ret |-> hash_func_f <-@ hash_func in
+      let* () = ret |-> equal_func_f <-@ equal_func in
+      let* () = ret |-> less_than_func_f <-@ less_than_func in
+      let* () = ret |-> to_string_func_f <-@ to_string_func in
+      Living_core.Default.return ret
   end
 
   (* snip! *)

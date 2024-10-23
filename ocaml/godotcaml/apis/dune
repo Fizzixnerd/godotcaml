@@ -15,10 +15,10 @@
 
 (library
    (modules Gsignal Gcallable Api_classes Api_classes_intf Api_builtins
-      Api_helpers Gdforeign Foreign_api Foreign_base Foreign_methods Foreign_array
+      Api_helpers Gdforeign Foreign_base Foreign_methods Foreign_builtin_methods Foreign_arrays
       Foreign_utility_functions Api_types Conv)
-   (public_name godotcaml_api)
-   (name godotcaml_api)
+   (public_name godotcaml_apis)
+   (name godotcaml_apis)
    (libraries gg core yojson pprint ctypes godotcaml_base living)
    (preprocess (pps ppx_jane ppx_yojson_conv))
    (flags (:standard -g -w -32)))
@@ -38,6 +38,6 @@
    (foreign_stubs (language c)
    (names hello-gdextension))
    (modules Uses_ppx_godot My_ocaml_extension)
-   (libraries core godotcaml_api)
+   (libraries core godotcaml_apis)
    (preprocess (pps ppx_godot ppxlib.metaquot))
    (flags (:standard -g -w -32)))

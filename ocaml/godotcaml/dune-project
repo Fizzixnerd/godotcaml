@@ -40,7 +40,7 @@
   (topics "to describe" your project)))
 
 (package
- (name godotcaml_api)
+ (name godotcaml_apis)
  (synopsis "A short synopsis")
  (description "A longer description")
  (depends ocaml dune godotcaml_base)

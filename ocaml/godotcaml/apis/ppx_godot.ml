@@ -46,8 +46,7 @@ module Class = struct
           let open Godotcaml_base.Godotcaml.C in
           let open Godotcaml_api.Gdforeign in
           ClassCreationInfo2.make
-            (gc_alloc ~count:1
-               ~finalise:(fun _ -> Stdio.print_endline "Blarg!"))
+            (gc_alloc ~count:1 ~finalise:(fun _ -> Stdio.print_endline "Blarg!"))
             new_ptr finalizer_ptr
 
         let () =
@@ -55,12 +54,15 @@ module Class = struct
           let open Godotcaml_api.Gdforeign in
           let on_load_func = !on_load in
           let new_on_load_func () =
-            let@ godot_inherits_strname = string_name_of_string _godot_inherits in
-            let@ godot_class_name_strname = string_name_of_string _godot_class_name in
+            let@ godot_inherits_strname =
+              string_name_of_string _godot_inherits
+            in
+            let@ godot_class_name_strname =
+              string_name_of_string _godot_class_name
+            in
             classdb_register_extension_class2
               !Godotcaml_api.Gdforeign.library
-              godot_class_name_strname godot_inherits_strname
-              _godot_class_info;
+              godot_class_name_strname godot_inherits_strname _godot_class_info;
             !_godot_methods_loader ();
             on_load_func ()
           in
@@ -172,7 +174,7 @@ module Func = struct
                    !@(coerce_ptr (ptr variant_ptr.plain) args
                      +@ [%e
                           pexp_constant (Pconst_integer (Int.to_string i, None))]
-                     )]))
+                     )] ))
     in
     let ptrcall_es : (arg_label * expression) list =
       xs
@@ -267,11 +269,16 @@ module Func = struct
                        else [%expr ()]]];
                [%stri
                  let call_func_ptr =
-                   Ctypes.Root.get (Ctypes.Root.create (Godotcaml_base.Godotcaml.C.ClassMethodCall.of_fun call_func))];
+                   Ctypes.Root.get
+                     (Ctypes.Root.create
+                        (Godotcaml_base.Godotcaml.C.ClassMethodCall.of_fun
+                           call_func))];
                [%stri
                  let ptrcall_func_ptr =
-                   Ctypes.Root.get (Ctypes.Root.create (Godotcaml_base.Godotcaml.C.ClassMethodPtrCall.of_fun
-                     ptrcall_func))];
+                   Ctypes.Root.get
+                     (Ctypes.Root.create
+                        (Godotcaml_base.Godotcaml.C.ClassMethodPtrCall.of_fun
+                           ptrcall_func))];
                [%stri
                  let () =
                    let count =
@@ -300,20 +307,14 @@ module Func = struct
                          "??"
                        |> coerce_ptr string_ptr.plain
                      in
-                     let zero =
-                      Unsigned.UInt32.of_int 0
-                      in
-                     let six =
-                      Unsigned.UInt32.of_int 6
-                     in
+                     let zero = Unsigned.UInt32.of_int 0 in
+                     let six = Unsigned.UInt32.of_int 6 in
                      let@ argument_infos =
                        List.range 0 count
                        |> List.map ~f:(fun _i ->
                               PropertyInfo.make
-                                (gc_alloc ~count:1
-                                   ~finalise:(fun _ ->
-                                          Stdio.print_endline
-                                            "THE PROPERTY INFOS"))
+                                (gc_alloc ~count:1 ~finalise:(fun _ ->
+                                     Stdio.print_endline "THE PROPERTY INFOS"))
                                 VariantType.int xn int zero hint_str six)
                      in
                      (* FIXME: Make not O(n^2)! *)
@@ -324,9 +325,8 @@ module Func = struct
                      done;
                      let@ ret_info =
                        PropertyInfo.make
-                         (gc_alloc ~count:1
-                            ~finalise:(fun _ ->
-                                   Stdio.print_endline "THE PROPERTY INFOS RET"))
+                         (gc_alloc ~count:1 ~finalise:(fun _ ->
+                              Stdio.print_endline "THE PROPERTY INFOS RET"))
                          VariantType.callable xn callable zero hint_str six
                      in
                      let flags =
@@ -344,12 +344,14 @@ module Func = struct
                        ClassMethodInfo.make ~return_value_info:ret_info
                          ~return_value_metadata:ClassMethodArgumentMetadata.none
                          ~method_flags:flags
-                         (gc_alloc ~count:1
-                            ~finalise:(fun _ -> Stdio.print_endline "the method infos!"))
+                         (gc_alloc ~count:1 ~finalise:(fun _ ->
+                              Stdio.print_endline "the method infos!"))
                          function_name true count' arguments_info
                          arguments_metadata call_func_ptr ptrcall_func_ptr
                      in
-                     let@ class_name = string_name_of_string _godot_class_name in
+                     let@ class_name =
+                       string_name_of_string _godot_class_name
+                     in
                      classdb_register_extension_class_method
                        !Godotcaml_api.Gdforeign.library
                        class_name method_info;
@@ -485,8 +487,8 @@ module Callable = struct
            let@ callable_func_ptr = CallableCustomCall.of_fun callable_func in
            let@ info_struct =
              Godotcaml_base.Godotcaml.C.CallableInfoStruct.make
-               (gc_alloc ~count:1
-                  ~finalise:(fun _ -> Stdio.prerr_endline "Woof!"))
+               (gc_alloc ~count:1 ~finalise:(fun _ ->
+                    Stdio.prerr_endline "Woof!"))
                !Godotcaml_api.Gdforeign.library
                callable_func_ptr
            in

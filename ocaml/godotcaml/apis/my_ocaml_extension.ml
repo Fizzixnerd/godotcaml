@@ -10,10 +10,7 @@ let funptr = Foreign.funptr
 let initialize (_userdata : unit ptr) (p_level : int) =
   Stdio.print_endline @@ "up: " ^ Base.Int.to_string p_level;
 
-  if p_level = 2 then
-    !on_load ()
-  else
-    ()
+  if p_level = 2 then !on_load () else ()
 
 let initialize_ptr = C.Initialization.InitFunc.of_fun initialize
 

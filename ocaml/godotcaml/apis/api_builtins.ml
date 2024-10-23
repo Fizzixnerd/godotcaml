@@ -1,6 +1,8 @@
 open! Base
 open Ctypes
 module M = Gdforeign
+open Godotcaml_base.Godotcaml
+open Living
 open M
 
 let funptr = Foreign.funptr
@@ -23,7 +25,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -37,7 +40,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -64,7 +69,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -78,7 +84,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -105,7 +113,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -119,7 +128,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -146,7 +157,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -160,7 +172,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -187,7 +201,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -201,7 +216,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -228,7 +245,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -242,7 +260,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -269,7 +289,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -283,7 +304,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -310,7 +333,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -324,7 +348,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -351,7 +377,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -365,7 +392,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -392,7 +421,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -406,7 +436,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -433,7 +465,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -447,7 +480,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -474,7 +509,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -488,7 +524,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -515,7 +553,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -529,7 +568,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -556,7 +597,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -570,7 +612,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -597,7 +641,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -611,7 +656,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -638,7 +685,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -652,7 +700,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -679,7 +729,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -693,7 +744,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -720,7 +773,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -734,7 +788,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -761,7 +817,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -775,7 +832,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -802,7 +861,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -816,7 +876,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -843,7 +905,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -857,7 +920,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -884,7 +949,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -898,7 +964,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -925,7 +993,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -939,7 +1008,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -966,7 +1037,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -980,7 +1052,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -1007,7 +1081,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -1021,7 +1096,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -1048,7 +1125,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -1062,7 +1140,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -1089,7 +1169,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -1103,7 +1184,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -1130,7 +1213,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -1144,7 +1228,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -1171,7 +1257,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -1185,7 +1272,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -1212,7 +1301,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -1226,7 +1316,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -1253,7 +1345,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -1267,7 +1360,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -1294,7 +1389,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -1308,7 +1404,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -1335,7 +1433,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -1349,7 +1448,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -1376,7 +1477,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -1390,7 +1492,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -1417,7 +1521,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -1431,7 +1536,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -1458,7 +1565,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -1472,7 +1580,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -1499,7 +1609,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -1513,7 +1624,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)
@@ -1540,7 +1653,8 @@ module ApiTypes = struct
 
     let godot_to_variant (x : godot_t) : C.variant_ptr structure ptr =
       let new_variant_ptr =
-        coerce_ptr C.variant_ptr.uninit (gc_alloc Variant.s ~count:1)
+        coerce_ptr C.variant_ptr.uninit
+          (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1)
       in
       let () =
         get_variant_from_type_constructor type_enum new_variant_ptr
@@ -1554,7 +1668,9 @@ module ApiTypes = struct
 
     let godot_of_variant : C.variant_ptr structure ptr -> godot_t =
      fun x ->
-      let new_type_ptr = gc_alloc s ~count:1 in
+      let new_type_ptr =
+        Living_core.Default.unsafe_free (gc_alloc s ~count:1)
+      in
       let () =
         get_variant_to_type_constructor type_enum
           (coerce_ptr C.type_ptr.uninit new_type_ptr)

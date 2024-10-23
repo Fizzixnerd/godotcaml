@@ -1,6 +1,6 @@
 (executable
  (name main)
  (modes (native shared_object))
- (libraries godotcaml ctypes.foreign ctypes)
+ (libraries godotcaml_base ctypes.foreign ctypes)
  (foreign_stubs (language c) (names hello-gdextension))
  (flags (:standard -g -w -26-32)))

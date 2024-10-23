@@ -1,6 +1,5 @@
 include Foreign_base
-include Foregin_array
-include Foreign_api
-include Foreign_api.Make (Api_types.ClassSizes)
+include Foreign_arrays
 include Foreign_methods
+include Foreign_builtin_methods
 include Foreign_utility_functions
