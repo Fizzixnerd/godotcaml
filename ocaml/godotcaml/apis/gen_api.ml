@@ -1228,12 +1228,14 @@ module Gen = struct
              [
                string
                  "let of_ocaml x = \n\
-                 \  let () = _reference_ocaml reference coerce_to_ref_counted \
-                  x in x";
+                 \  let () = _reference_ocaml (fun y -> \
+                  Living.Living_core.Default.unsafe_free @@ reference y) \
+                  coerce_to_ref_counted x in x";
                string
                  "let to_ocaml x = \n\
-                 \  let () = _reference_ocaml reference coerce_to_ref_counted \
-                  x in x";
+                 \  let () = _reference_ocaml (fun y -> \
+                  Living.Living_core.Default.unsafe_free @@ reference y) \
+                  coerce_to_ref_counted x in x";
              ]
              (* List.map ~f:(signal_to_ocaml c.name)
                 (c.signals |> Option.value ~default:[]); *);
@@ -1624,9 +1626,9 @@ let foreign_method%d method_name _fn ret_typ ret_to_variant ret_of_variant %s =
   let count = %dL in
   fun %s base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit
-        (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     %s
     (* let x' = x_to_variant x in *)
@@ -1750,9 +1752,9 @@ let foreign_method%dv method_name _fn ret_typ ret_to_variant ret_of_variant %s =
   let err = global_call_error in
   fun %s vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit
-        (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (%d + VariadicVariants.length vs) in
     %s

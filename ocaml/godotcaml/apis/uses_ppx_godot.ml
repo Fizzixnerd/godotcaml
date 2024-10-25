@@ -1,7 +1,8 @@
 open! Base
-open! Godotcaml_api.Api_helpers
-open Godotcaml_api.Api_classes
-open Ctypes
+open! Godotcaml_apis.Api_helpers
+open Godotcaml_apis.Api_classes
+open Living
+open Living_ctypes.Default
 
 let () =
   Stdio.print_endline "rawr-1!";
@@ -11,9 +12,9 @@ module%gclass MyClass = struct
   [%%ginherits Node]
 
   include Class.Node
-  open Godotcaml_api.Api_builtins
+  open Godotcaml_apis.Api_builtins
 
-  (* Not the function pointer!*)
+  (* Not the function pointer! *)
   let succ x =
     let y = Int64.(x + 1L) in
     y
@@ -23,7 +24,7 @@ module%gclass MyClass = struct
       (module BuiltinClass0.Int)
       (module Class.Node)
       (module BuiltinClass0.Callable)
-      (fun _i self ->
+      (fun _i _self ->
         let%gcallable succ =
           gcallable (module BuiltinClass0.Int) (module BuiltinClass0.Int) succ
         in

@@ -817,8 +817,8 @@ module Object = struct
     in
     Living_core.Default.unsafe_free ret
 
-  let reference _x = false
-  let unreference _x = true
+  let reference _x = Living_core.Default.return false
+  let unreference _x = Living_core.Default.return true
   let coerce_to_ref_counted x = x
   let to_ocaml (x : godot_t) : ocaml_t = x
   let of_ocaml (x : ocaml_t) : godot_t = x

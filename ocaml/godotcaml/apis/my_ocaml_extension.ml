@@ -1,8 +1,7 @@
 open! Base
 open Ctypes
-open Godotcaml_api
+open Godotcaml_apis
 open Gdforeign
-open Api_builtins
 open! Uses_ppx_godot
 
 let funptr = Foreign.funptr
@@ -12,16 +11,16 @@ let initialize (_userdata : unit ptr) (p_level : int) =
 
   if p_level = 2 then !on_load () else ()
 
-let initialize_ptr = C.Initialization.InitFunc.of_fun initialize
+let initialize_ptr = Godotcaml.C.Initialization.InitFunc.of_fun initialize
 
 let deinitialize (_userdata : unit ptr) (p_level : int) =
   Stdio.print_endline @@ "down: " ^ Base.Int.to_string p_level
 
-let deinitialize_ptr = C.Initialization.InitFunc.of_fun deinitialize
+let deinitialize_ptr = Godotcaml.C.Initialization.InitFunc.of_fun deinitialize
 
 let hello_extension_entry (get_proc_address : nativeint) (library : nativeint)
     (initialization : nativeint) =
-  let open C in
+  let open Godotcaml.C in
   let initialization =
     coerce (ptr void) (ptr Initialization.s) (ptr_of_raw_address initialization)
   in

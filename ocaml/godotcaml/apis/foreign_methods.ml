@@ -307,8 +307,10 @@ let foreign_method1 method_name _fn ret_typ ret_to_variant ret_of_variant
   let count = 1L in
   fun x0 base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let x0' = x0_to_variant x0 in
     (* let x' = x_to_variant x in *)
@@ -339,8 +341,10 @@ let foreign_method1v method_name _fn ret_typ ret_to_variant ret_of_variant
   let err = global_call_error in
   fun x0 vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (1 + VariadicVariants.length vs) in
     let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
@@ -433,8 +437,10 @@ let foreign_method2 method_name _fn ret_typ ret_to_variant ret_of_variant
   let count = 2L in
   fun x0 x1 base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let x0' = x0_to_variant x0 in
     let x1' = x1_to_variant x1 in
@@ -466,8 +472,10 @@ let foreign_method2v method_name _fn ret_typ ret_to_variant ret_of_variant
   let err = global_call_error in
   fun x0 x1 vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (2 + VariadicVariants.length vs) in
     let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
@@ -563,8 +571,10 @@ let foreign_method3 method_name _fn ret_typ ret_to_variant ret_of_variant
   let count = 3L in
   fun x0 x1 x2 base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let x0' = x0_to_variant x0 in
     let x1' = x1_to_variant x1 in
@@ -597,8 +607,10 @@ let foreign_method3v method_name _fn ret_typ ret_to_variant ret_of_variant
   let err = global_call_error in
   fun x0 x1 x2 vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (3 + VariadicVariants.length vs) in
     let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
@@ -697,8 +709,10 @@ let foreign_method4 method_name _fn ret_typ ret_to_variant ret_of_variant
   let count = 4L in
   fun x0 x1 x2 x3 base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let x0' = x0_to_variant x0 in
     let x1' = x1_to_variant x1 in
@@ -732,8 +746,10 @@ let foreign_method4v method_name _fn ret_typ ret_to_variant ret_of_variant
   let err = global_call_error in
   fun x0 x1 x2 x3 vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (4 + VariadicVariants.length vs) in
     let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
@@ -835,8 +851,10 @@ let foreign_method5 method_name _fn ret_typ ret_to_variant ret_of_variant
   let count = 5L in
   fun x0 x1 x2 x3 x4 base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let x0' = x0_to_variant x0 in
     let x1' = x1_to_variant x1 in
@@ -871,8 +889,10 @@ let foreign_method5v method_name _fn ret_typ ret_to_variant ret_of_variant
   let err = global_call_error in
   fun x0 x1 x2 x3 x4 vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (5 + VariadicVariants.length vs) in
     let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
@@ -979,8 +999,10 @@ let foreign_method6 method_name _fn ret_typ ret_to_variant ret_of_variant
   let count = 6L in
   fun x0 x1 x2 x3 x4 x5 base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let x0' = x0_to_variant x0 in
     let x1' = x1_to_variant x1 in
@@ -1017,8 +1039,10 @@ let foreign_method6v method_name _fn ret_typ ret_to_variant ret_of_variant
   let err = global_call_error in
   fun x0 x1 x2 x3 x4 x5 vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (6 + VariadicVariants.length vs) in
     let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
@@ -1129,8 +1153,10 @@ let foreign_method7 method_name _fn ret_typ ret_to_variant ret_of_variant
   let count = 7L in
   fun x0 x1 x2 x3 x4 x5 x6 base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let x0' = x0_to_variant x0 in
     let x1' = x1_to_variant x1 in
@@ -1168,8 +1194,10 @@ let foreign_method7v method_name _fn ret_typ ret_to_variant ret_of_variant
   let err = global_call_error in
   fun x0 x1 x2 x3 x4 x5 x6 vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (7 + VariadicVariants.length vs) in
     let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
@@ -1283,8 +1311,10 @@ let foreign_method8 method_name _fn ret_typ ret_to_variant ret_of_variant
   let count = 8L in
   fun x0 x1 x2 x3 x4 x5 x6 x7 base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let x0' = x0_to_variant x0 in
     let x1' = x1_to_variant x1 in
@@ -1323,8 +1353,10 @@ let foreign_method8v method_name _fn ret_typ ret_to_variant ret_of_variant
   let err = global_call_error in
   fun x0 x1 x2 x3 x4 x5 x6 x7 vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (8 + VariadicVariants.length vs) in
     let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
@@ -1442,8 +1474,10 @@ let foreign_method9 method_name _fn ret_typ ret_to_variant ret_of_variant
   let count = 9L in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let x0' = x0_to_variant x0 in
     let x1' = x1_to_variant x1 in
@@ -1483,8 +1517,10 @@ let foreign_method9v method_name _fn ret_typ ret_to_variant ret_of_variant
   let err = global_call_error in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (9 + VariadicVariants.length vs) in
     let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
@@ -1605,8 +1641,10 @@ let foreign_method10 method_name _fn ret_typ ret_to_variant ret_of_variant
   let count = 10L in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let x0' = x0_to_variant x0 in
     let x1' = x1_to_variant x1 in
@@ -1647,8 +1685,10 @@ let foreign_method10v method_name _fn ret_typ ret_to_variant ret_of_variant
   let err = global_call_error in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (10 + VariadicVariants.length vs) in
     let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
@@ -1776,8 +1816,10 @@ let foreign_method11 method_name _fn ret_typ ret_to_variant ret_of_variant
   let count = 11L in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let x0' = x0_to_variant x0 in
     let x1' = x1_to_variant x1 in
@@ -1820,8 +1862,10 @@ let foreign_method11v method_name _fn ret_typ ret_to_variant ret_of_variant
   let err = global_call_error in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (11 + VariadicVariants.length vs) in
     let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
@@ -1952,8 +1996,10 @@ let foreign_method12 method_name _fn ret_typ ret_to_variant ret_of_variant
   let count = 12L in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let x0' = x0_to_variant x0 in
     let x1' = x1_to_variant x1 in
@@ -1997,8 +2043,10 @@ let foreign_method12v method_name _fn ret_typ ret_to_variant ret_of_variant
   let err = global_call_error in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (12 + VariadicVariants.length vs) in
     let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
@@ -2132,8 +2180,10 @@ let foreign_method13 method_name _fn ret_typ ret_to_variant ret_of_variant
   let count = 13L in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let x0' = x0_to_variant x0 in
     let x1' = x1_to_variant x1 in
@@ -2178,8 +2228,10 @@ let foreign_method13v method_name _fn ret_typ ret_to_variant ret_of_variant
   let err = global_call_error in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (13 + VariadicVariants.length vs) in
     let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
@@ -2316,8 +2368,10 @@ let foreign_method14 method_name _fn ret_typ ret_to_variant ret_of_variant
   let count = 14L in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let x0' = x0_to_variant x0 in
     let x1' = x1_to_variant x1 in
@@ -2364,8 +2418,10 @@ let foreign_method14v method_name _fn ret_typ ret_to_variant ret_of_variant
   let err = global_call_error in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 vs base ->
     let open Living_core.Default.Let_syntax in
-    let ret =
-      coerce_ptr variant_ptr.uninit (ret_to_variant (gc_alloc ret_typ ~count:1))
+    let* ret =
+      Living_core.Default.map
+        (coerce_ptr variant_ptr.uninit)
+        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
     in
     let count = Int64.of_int (14 + VariadicVariants.length vs) in
     let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in

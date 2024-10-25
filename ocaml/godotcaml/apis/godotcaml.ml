@@ -1,10 +1,11 @@
 open! Base
 open! Core
 open Living
+open Living_core.Default.Let_syntax
 include Bootstrap
 
 module type SUITE = sig
-  open Ctypes
+  open Living_ctypes.Default
 
   type 'a plain
   type 'a const
@@ -21,7 +22,7 @@ module type SUITE = sig
 end
 
 module TypedSuite = struct
-  open Ctypes
+  open Living_ctypes.Default
 
   type 'a plain = 'a
   type 'a const
@@ -76,7 +77,7 @@ module TypedSuite = struct
 end
 
 module C = struct
-  open Ctypes
+  open Living_ctypes.Default
   open! PosixTypes
   open! Foreign
   module M = TypedSuite
@@ -152,11 +153,17 @@ module C = struct
     let s = typedef call_error_struct "GDExtensionCallError"
 
     let call_ok =
-      let p = allocate_n ~count:1 s in
-      p |-> error_f <-@ 0;
-      p |-> argument_f <-@ 0l;
-      p |-> expected_f <-@ 0l;
-      p
+      let ret =
+        let* p = allocate_n ~count:1 s in
+        let erf = p |-> error_f in
+        let* () = erf <-@ 0 in
+        let arf = p |-> argument_f in
+        let* () = arf <-@ 0l in
+        let exf = p |-> expected_f in
+        let* () = exf <-@ 0l in
+        Living_core.Default.return p
+      in
+      Living_core.Default.unsafe_free ret
   end
 
   type 'a fn_suite = {
@@ -351,11 +358,11 @@ module C = struct
         (M.typedef_name "InstanceBindingCallbacks")
 
     let make ?create_callback ?free_callback ?reference_callback allocator =
-      let ret = allocator s in
-      ret |-> create_callback_f <-@ create_callback;
-      ret |-> free_callback_f <-@ free_callback;
-      ret |-> reference_callback_f <-@ reference_callback;
-      ret
+      let* ret = allocator s in
+      let* () = ret |-> create_callback_f <-@ create_callback in
+      let* () = ret |-> free_callback_f <-@ free_callback in
+      let* () = ret |-> reference_callback_f <-@ reference_callback in
+      Living_core.Default.named_return "InstanceBindingCallbacks.make" ret
   end
 
   (* EXTENSION CLASSES *)
