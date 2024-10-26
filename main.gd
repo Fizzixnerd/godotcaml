@@ -9,9 +9,10 @@ func _ready():
 	c.set_process(true)
 	self.set_process(true)
 	c_ = c
-	succ = c_.f(0)
+	succ = c_.succ_by(3)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	print(succ.call(5))
+	#c_._process(delta)
+	print(succ.call(7))

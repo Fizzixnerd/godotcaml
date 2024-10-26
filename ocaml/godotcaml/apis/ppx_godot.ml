@@ -12,11 +12,12 @@ module Class = struct
         let instance_binding_callbacks =
           let open Godotcaml_base.Godotcaml.C in
           let open Godotcaml_apis.Gdforeign in
-          Living_core.Default.unsafe_free @@
-          InstanceBindingCallbacks.make
-            (gc_alloc ~count:1
-               ?finalise:
-                 (Some (fun _ -> Stdio.print_endline "THE INSTANCE BINDINGS!")))
+          Living_core.Default.unsafe_free
+          @@ InstanceBindingCallbacks.make
+               (gc_alloc ~count:1
+                  ?finalise:
+                    (Some
+                       (fun _ -> Stdio.print_endline "THE INSTANCE BINDINGS!")))
 
         let new_ _ =
           let open Godotcaml_base.Godotcaml.C in
@@ -55,10 +56,11 @@ module Class = struct
         let _godot_class_info =
           let open Godotcaml_base.Godotcaml.C in
           let open Godotcaml_apis.Gdforeign in
-          Living_core.Default.unsafe_free @@
-          ClassCreationInfo2.make
-            (gc_alloc ~count:1 ~finalise:(fun _ -> Stdio.print_endline "Blarg!"))
-            new_ptr finalizer_ptr
+          Living_core.Default.unsafe_free
+          @@ ClassCreationInfo2.make
+               (gc_alloc ~count:1 ~finalise:(fun _ ->
+                    Stdio.print_endline "Blarg!"))
+               new_ptr finalizer_ptr
 
         let () =
           let open Godotcaml_base.Godotcaml.C in
@@ -340,41 +342,40 @@ module Func = struct
                        (string_name_of_string s)
                    in
                    let new_methods_loader () =
-                    let final_ret =
-
-                     let open Godotcaml_base.Godotcaml.C in
-                     let open Godotcaml_apis.Gdforeign in
-                     let* arguments_info = gc_alloc ~count PropertyInfo.s in
-                     let* arguments_metadata = gc_alloc ~count int in
-                     let* xn = mkstrnamep "x" in
-                     let* int = mkstrnamep "int" in
-                     let* callable = mkstrnamep "Callable" in
-                     let$ hint_str =
-                       Godotcaml_apis.Api_builtins.BuiltinClass0.String.of_ocaml
-                         "??"
-                       |> coerce_ptr string_ptr.plain
-                     in
-                     let zero = Unsigned.UInt32.of_int 0 in
-                     let six = Unsigned.UInt32.of_int 6 in
-                     let* argument_infos =
-                       List.range 0 count
-                       |> List.map ~f:(fun _i ->
-                              PropertyInfo.make
-                                (gc_alloc ~count:1 ~finalise:(fun _ ->
-                                     Stdio.print_endline "THE PROPERTY INFOS"))
-                                VariantType.int xn int zero hint_str six)
-                       |> Living_core.Default.sequence_list
-                     in
-                     (* FIXME: Make not O(n^2)! *)
-                     for i = 0 to count - 1 do
-                       let ret =
-                         let* ai = !@(List.nth_exn argument_infos i) in
-                         let* () = arguments_info +@ i <-@ ai in
-                         arguments_metadata +@ i
-                         <-@ ClassMethodArgumentMetadata.none
+                     let final_ret =
+                       let open Godotcaml_base.Godotcaml.C in
+                       let open Godotcaml_apis.Gdforeign in
+                       let* arguments_info = gc_alloc ~count PropertyInfo.s in
+                       let* arguments_metadata = gc_alloc ~count int in
+                       let* xn = mkstrnamep "x" in
+                       let* int = mkstrnamep "int" in
+                       let* callable = mkstrnamep "Callable" in
+                       let$ hint_str =
+                         Godotcaml_apis.Api_builtins.BuiltinClass0.String
+                         .of_ocaml "??"
+                         |> coerce_ptr string_ptr.plain
                        in
-                       Living_core.Default.unsafe_free ret
-                     done;
+                       let zero = Unsigned.UInt32.of_int 0 in
+                       let six = Unsigned.UInt32.of_int 6 in
+                       let* argument_infos =
+                         List.range 0 count
+                         |> List.map ~f:(fun _i ->
+                                PropertyInfo.make
+                                  (gc_alloc ~count:1 ~finalise:(fun _ ->
+                                       Stdio.print_endline "THE PROPERTY INFOS"))
+                                  VariantType.int xn int zero hint_str six)
+                         |> Living_core.Default.sequence_list
+                       in
+                       (* FIXME: Make not O(n^2)! *)
+                       for i = 0 to count - 1 do
+                         let ret =
+                           let* ai = !@(List.nth_exn argument_infos i) in
+                           let* () = arguments_info +@ i <-@ ai in
+                           arguments_metadata +@ i
+                           <-@ ClassMethodArgumentMetadata.none
+                         in
+                         Living_core.Default.unsafe_free ret
+                       done;
                        let* ret_info =
                          PropertyInfo.make
                            (gc_alloc ~count:1 ~finalise:(fun _ ->

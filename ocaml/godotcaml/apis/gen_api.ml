@@ -1282,6 +1282,10 @@ module Gen = struct
       (mli, ml)
   end
 
+  let pretypeify xs = "'" ^ (xs |> String.concat ~sep:" -> '")
+  let typeify_static xs = pretypeify xs ^ " -> 'ret"
+  let typeify xs = pretypeify xs ^ " -> 'base ptr -> 'ret"
+
   let gen_api_type type_name =
     string
       (sprintf
@@ -1624,7 +1628,7 @@ let foreign_method%d method_name _fn ret_typ ret_to_variant ret_of_variant %s =
   (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
   let err = global_call_error in
   let count = %dL in
-  fun %s base ->
+  (fun %s base ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       Living_core.Default.map (coerce_ptr variant_ptr.uninit)
@@ -1638,7 +1642,7 @@ let foreign_method%d method_name _fn ret_typ ret_to_variant ret_of_variant %s =
     let ret = coerce_ptr variant_ptr.plain ret in
     if is_error err
       then raise (to_exn err)
-      else Living_core.Default.named_return method_name (ret_of_variant ret)
+      else Living_core.Default.named_return method_name (ret_of_variant ret))
     |}
       n
       (concat_with_spaces x_to_variants)
@@ -1772,20 +1776,21 @@ let foreign_method%dv method_name _fn ret_typ ret_to_variant ret_of_variant %s =
       (concat_with_cons xs')
     |> string
 
+  (** FIXME: DO ALL THESE *)
   let gen_foreign_builtin_method (n : int) =
     let ks = List.range 0 n in
     let xs = ks |> List.map ~f:(fun k -> sprintf "x%d" k) in
     sprintf
       {|
 let foreign_builtin_method%d =
-  fun variant_type method_name method_hash _fn ret_typ ->
+  fun variant_type method_name method_hash (_fn: (%s) fn) ret_typ ->
     let string_name = Living_core.Default.unsafe_free (string_name_of_string method_name) in
     let builtin_method =
       variant_get_ptr_builtin_method variant_type string_name method_hash
     in
     let () = (* call stringname destructor here *) () in
     let count = %d in
-    fun %s base ->
+    (fun %s base ->
       let open Living_core.Default.Let_syntax in
       let* ret =
         Living_core.Default.map (coerce (ptr ret_typ) type_ptr.plain) (gc_alloc ret_typ ~count:1)
@@ -1797,8 +1802,10 @@ let foreign_builtin_method%d =
           arr ret count
       in
       Living_core.Default.named_return method_name (coerce type_ptr.plain (ptr ret_typ) ret)
+      : %s Living_core.Default.t)
       |}
-      n n (concat_with_spaces xs) n (concat_with_spaces xs)
+      n (typeify xs) n (concat_with_spaces xs) n (concat_with_spaces xs)
+      (typeify xs)
     |> string
 
   let gen_foreign_builtin_method_void (n : int) =

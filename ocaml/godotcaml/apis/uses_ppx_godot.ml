@@ -3,10 +3,15 @@ open! Godotcaml_apis.Api_helpers
 open Godotcaml_apis.Api_classes
 open Living
 open Living_ctypes.Default
+open Godotcaml_apis.Gsignal
 
 let () =
   Stdio.print_endline "rawr-1!";
   Stdlib.Gc.compact ()
+
+let succ_by y x =
+  let z = Int64.(x + y) in
+  z
 
 module%gclass MyClass = struct
   [%%ginherits Node]
@@ -14,42 +19,26 @@ module%gclass MyClass = struct
   include Class.Node
   open Godotcaml_apis.Api_builtins
 
-  (* Not the function pointer! *)
-  let succ x =
-    let y = Int64.(x + 1L) in
-    y
-
-  let%gfunc f =
+  let%gfunc succ_by =
     [| ClassMethodFlags.default |]
       (module BuiltinClass0.Int)
       (module Class.Node)
       (module BuiltinClass0.Callable)
-      (fun _i _self ->
-        let%gcallable succ =
-          gcallable (module BuiltinClass0.Int) (module BuiltinClass0.Int) succ
+      (fun i _self ->
+        let%gcallable succer =
+          gcallable
+            (module BuiltinClass0.Int)
+            (module BuiltinClass0.Int)
+            (succ_by i)
         in
-        succ)
+        succer)
 
-  (* let%gfunc add =
-     [| ClassMethodFlags.default |]
-       (module BuiltinClass0.Int)
-       (module BuiltinClass0.Int)
-       (module Class.Node)
-       (module BuiltinClass0.Int)
-       (fun i j _self ->
-         Stdio.print_endline "Bark!";
-         let ret = Int64.(i + j) in
-         Stdio.print_endline "Added!";
-         ret)
-  *)
-  (*
-     let%gfunc_void _process =
-       [| ClassMethodFlags.virtual_ |]
-         (module BuiltinClass0.Float)
-         (module Class.Node)
-         (module ApiTypes.Void)
-         (fun _x _self -> Stdio.print_endline "Rawr!")
-  *)
+  let%gfunc_void _process =
+    [| ClassMethodFlags.virtual_ |]
+      (module BuiltinClass0.Float)
+      (module Class.Node)
+      (module ApiTypes.Void)
+      (fun _x _self -> Stdio.print_endline "Rawr!")
 end
 
 let () =

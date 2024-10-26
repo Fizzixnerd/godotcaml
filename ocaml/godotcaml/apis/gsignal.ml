@@ -24,38 +24,39 @@ let connect ?connect_flags callable signal =
       (connect_flags |> Option.value ~default:0L |> Conv.Int.of_ocaml)
       signal.raw
   in
-  Living_core.Default.named_return "connect"
+  Living_core.Default.named_return "Gsignal.connect"
     (Result.ok_if_true Int64.(Conv.Int.to_ocaml result = 0L) ~error:result)
 
 let emit : 'a -> 'a t -> unit Living_core.Default.t =
  fun args signal -> BuiltinClass.Signal.emit (signal.marshal args) signal.raw
 
-let emit2 : 'a0 -> 'a1 -> ('a0 * 'a1) t -> unit Living_core.Default.t =
- fun x0 x1 signal ->
-  BuiltinClass.Signal.emit (signal.marshal (x0, x1)) signal.raw
+(* let emit2 : 'a0 -> 'a1 -> ('a0 * 'a1) t -> unit Living_core.Default.t =
+    fun x0 x1 signal ->
+     BuiltinClass.Signal.emit (signal.marshal (x0, x1)) signal.raw
 
-let emit3 :
-    'a0 -> 'a1 -> 'a2 -> ('a0 * 'a1 * 'a2) t -> unit Living_core.Default.t =
- fun x0 x1 x2 signal ->
-  BuiltinClass.Signal.emit (signal.marshal (x0, x1, x2)) signal.raw
+   let emit3 :
+       'a0 -> 'a1 -> 'a2 -> ('a0 * 'a1 * 'a2) t -> unit Living_core.Default.t =
+    fun x0 x1 x2 signal ->
+     BuiltinClass.Signal.emit (signal.marshal (x0, x1, x2)) signal.raw
 
-let emit4 :
-    'a0 ->
-    'a1 ->
-    'a2 ->
-    'a3 ->
-    ('a0 * 'a1 * 'a2 * 'a3) t ->
-    unit Living_core.Default.t =
- fun x0 x1 x2 x3 signal ->
-  BuiltinClass.Signal.emit (signal.marshal (x0, x1, x2, x3)) signal.raw
+   let emit4 :
+       'a0 ->
+       'a1 ->
+       'a2 ->
+       'a3 ->
+       ('a0 * 'a1 * 'a2 * 'a3) t ->
+       unit Living_core.Default.t =
+    fun x0 x1 x2 x3 signal ->
+     BuiltinClass.Signal.emit (signal.marshal (x0, x1, x2, x3)) signal.raw
 
-let emit5 :
-    'a0 ->
-    'a1 ->
-    'a2 ->
-    'a3 ->
-    'a4 ->
-    ('a0 * 'a1 * 'a2 * 'a3 * 'a4) t ->
-    unit Living_core.Default.t =
- fun x0 x1 x2 x3 x4 signal ->
-  BuiltinClass.Signal.emit (signal.marshal (x0, x1, x2, x3, x4)) signal.raw
+   let emit5 :
+       'a0 ->
+       'a1 ->
+       'a2 ->
+       'a3 ->
+       'a4 ->
+       ('a0 * 'a1 * 'a2 * 'a3 * 'a4) t ->
+       unit Living_core.Default.t =
+    fun x0 x1 x2 x3 x4 signal ->
+     BuiltinClass.Signal.emit (signal.marshal (x0, x1, x2, x3, x4)) signal.raw
+*)
