@@ -1,6 +1,14 @@
 open! Base
 open! Ppxlib
 
+let extract_module_expr e =
+  match e.pexp_desc with
+  | Pexp_pack me -> me
+  | _ ->
+      failwith
+        "Expected module pack expressions (e.g. `(module MyInScopeModule)`) \
+         for all but the last argument in this binding."
+
 module Class = struct
   let expander ~ctxt class_name module_items =
     let loc = Expansion_context.Extension.extension_point_loc ctxt in
@@ -13,11 +21,7 @@ module Class = struct
           let open Godotcaml_base.Godotcaml.C in
           let open Godotcaml_apis.Gdforeign in
           Living_core.Default.unsafe_free
-          @@ InstanceBindingCallbacks.make
-               (gc_alloc ~count:1
-                  ?finalise:
-                    (Some
-                       (fun _ -> Stdio.print_endline "THE INSTANCE BINDINGS!")))
+          @@ InstanceBindingCallbacks.make (gc_alloc ~count:1 ?finalise:None)
 
         let new_ _ =
           let open Godotcaml_base.Godotcaml.C in
@@ -58,8 +62,7 @@ module Class = struct
           let open Godotcaml_apis.Gdforeign in
           Living_core.Default.unsafe_free
           @@ ClassCreationInfo2.make
-               (gc_alloc ~count:1 ~finalise:(fun _ ->
-                    Stdio.print_endline "Blarg!"))
+               (gc_alloc ~count:1 ?finalise:None)
                new_ptr finalizer_ptr
 
         let () =
@@ -80,6 +83,8 @@ module Class = struct
             classdb_register_extension_class2
               !Godotcaml_apis.Gdforeign.library
               godot_class_name_strname godot_inherits_strname _godot_class_info;
+            !_godot_vars_loader ();
+            !_godot_signals_loader ();
             !_godot_methods_loader ();
             Living_core.Default.return (on_load_func ())
           in
@@ -91,6 +96,8 @@ module Class = struct
           [%e Ast_builder.Default.estring ~loc class_name]
 
         let _godot_methods_loader = ref (fun () -> ())
+        let _godot_signals_loader = ref (fun () -> ())
+        let _godot_vars_loader = ref (fun () -> ())
 
         let _godot_inherits : string =
           [%e Ast_builder.Default.estring ~loc "RefCounted"]]
@@ -134,6 +141,125 @@ module Inherits = struct
   let () = Driver.register_transformation ~rules:[ rule ] "ginherits"
 end
 
+module Signal = struct
+  let parse_args : (arg_label * expression) list -> module_expr list =
+   fun args_with_labels ->
+    args_with_labels |> List.map ~f:(fun x -> extract_module_expr (snd x))
+
+  let expander ~ctxt _rec_flag signal_name _trash args =
+    let loc = Expansion_context.Extension.extension_point_loc ctxt in
+    let (module M) = Ast_builder.make loc in
+    let open M in
+    let args = parse_args args in
+    let xs =
+      args |> List.mapi ~f:(fun i arg -> (Printf.sprintf "X%d" i, arg))
+    in
+    let mod_xs =
+      xs
+      |> List.map ~f:(fun (name, mod_expr) ->
+             pstr_module
+             @@ module_binding ~name:{ txt = Some name; loc } ~expr:mod_expr)
+    in
+    let type_enums_and_names =
+      xs
+      |> List.map ~f:(fun (mod_name, _) ->
+             pexp_tuple
+               [
+                 pexp_ident { txt = Ldot (lident mod_name, "type_enum"); loc };
+                 pexp_ident { txt = Ldot (lident mod_name, "type_name"); loc };
+               ])
+    in
+    let stris =
+      mod_xs
+      @ [%str
+          let _register_signal () =
+            let open Godotcaml_base.Godotcaml.C in
+            let open Godotcaml_apis.Gdforeign in
+            let open Living in
+            let _signal_name =
+              [%e Ast_builder.Default.estring ~loc signal_name]
+            in
+            let count =
+              [%e
+                pexp_constant
+                  (Pconst_integer
+                     (Printf.sprintf "%d" (mod_xs |> List.length), None))]
+            in
+            let ret =
+              let open Living_core.Default.Let_syntax in
+              let mkstrnamep x =
+                Living_core.Default.map
+                  (coerce_ptr string_name_ptr.plain)
+                  (string_name_of_string x)
+              in
+              let* class_name_strname =
+                string_name_of_string _godot_class_name
+              in
+              let* signal_name_strname = string_name_of_string _signal_name in
+              let* x = mkstrnamep "x" in
+              let* int = mkstrnamep "int" in
+              let$ hint_str =
+                Godotcaml_apis.Api_builtins.BuiltinClass0.String.of_ocaml "??"
+                |> coerce_ptr string_ptr.plain
+              in
+              let zero = Unsigned.UInt32.of_int 0 in
+              let six = Unsigned.UInt32.of_int 6 in
+              let* argument_info_ptr = gc_alloc ~count PropertyInfo.s in
+              let* argument_infos =
+                [%e pexp_array type_enums_and_names]
+                |> Base.Array.map ~f:(fun (te, tn) ->
+                       let* tn = mkstrnamep tn in
+                       PropertyInfo.make
+                         (gc_alloc ~count:1 ?finalise:None)
+                         te tn tn zero hint_str six)
+                |> Base.Array.to_list |> Living_core.Default.sequence_list
+              in
+              (* FIXME: Make not O(n^2)! *)
+              for i = 0 to count - 1 do
+                let ret =
+                  let* ai = !@(List.nth_exn argument_infos i) in
+                  argument_info_ptr +@ i <-@ ai
+                in
+                Living_core.Default.unsafe_free ret
+              done;
+              Living_core.Default.return
+              @@ classdb_register_extension_class_signal
+                   !Godotcaml_apis.Gdforeign.library
+                   class_name_strname signal_name_strname argument_info_ptr
+                   (count |> Int64.of_int)
+            in
+            Living_core.Default.unsafe_free ret
+
+          let () =
+            let old_signals_loader = !_godot_signals_loader in
+            let new_signals_loader () =
+              _register_signal ();
+              old_signals_loader ()
+            in
+            _godot_signals_loader := new_signals_loader]
+    in
+    pstr_module
+    @@ module_binding
+         ~name:{ txt = Some ("Gsignal_" ^ signal_name); loc }
+         ~expr:(pmod_structure stris)
+
+  let pattern =
+    Ast_pattern.(
+      pstr
+        (pstr_value __
+           (value_binding ~pat:(ppat_var __) ~expr:(pexp_apply __ __) ^:: nil)
+        ^:: nil))
+
+  let extender =
+    Extension.V3.declare "gsignal" Extension.Context.structure_item pattern
+      expander
+
+  let non_void_rule = Context_free.Rule.extension extender
+  let () = Driver.register_transformation ~rules:[ non_void_rule ] "gsignal"
+end
+
+module Var = struct end
+
 module Func = struct
   let parse_args :
       (arg_label * expression) list ->
@@ -146,15 +272,6 @@ module Func = struct
       | _ -> failwith "Not enough args in a gfunc binding: requires at least 3."
     in
     let args, self, ret, impl = parse_args' [] args in
-    let extract_module_expr e =
-      match e.pexp_desc with
-      | Pexp_pack me -> me
-      | _ ->
-          failwith
-            "Expected module pack expressions (e.g. `(module \
-             MyInScopeModule)`) for all but the last argument in a gfunc \
-             binding."
-    in
     ( args |> List.map ~f:extract_module_expr,
       extract_module_expr self,
       extract_module_expr ret,
@@ -173,6 +290,29 @@ module Func = struct
       |> List.map ~f:(fun (name, mod_expr) ->
              pstr_module
              @@ module_binding ~name:{ txt = Some name; loc } ~expr:mod_expr)
+    in
+    let arg_enums_and_names =
+      xs
+      |> List.map ~f:(fun (mod_name, _) ->
+             pexp_tuple
+               [
+                 pexp_ident { txt = Ldot (lident mod_name, "type_enum"); loc };
+                 pexp_ident { txt = Ldot (lident mod_name, "type_name"); loc };
+               ])
+    in
+    let ret_enum_and_name =
+      if is_void_returning then
+        pexp_tuple
+          [
+            pexp_constant (Pconst_integer ("0", None));
+            pexp_constant (Pconst_string ("", loc, None));
+          ]
+      else
+        pexp_tuple
+          [
+            pexp_ident { txt = Ldot (lident "Ret", "type_enum"); loc };
+            pexp_ident { txt = Ldot (lident "Ret", "type_name"); loc };
+          ]
     in
     let call : label -> label -> expression -> expression =
      fun func_name mod_name e ->
@@ -347,8 +487,6 @@ module Func = struct
                        let open Godotcaml_apis.Gdforeign in
                        let* arguments_info = gc_alloc ~count PropertyInfo.s in
                        let* arguments_metadata = gc_alloc ~count int in
-                       let* xn = mkstrnamep "x" in
-                       let* int = mkstrnamep "int" in
                        let* callable = mkstrnamep "Callable" in
                        let$ hint_str =
                          Godotcaml_apis.Api_builtins.BuiltinClass0.String
@@ -358,12 +496,13 @@ module Func = struct
                        let zero = Unsigned.UInt32.of_int 0 in
                        let six = Unsigned.UInt32.of_int 6 in
                        let* argument_infos =
-                         List.range 0 count
-                         |> List.map ~f:(fun _i ->
+                         [%e pexp_array arg_enums_and_names]
+                         |> Base.Array.map ~f:(fun (te, tn) ->
+                                let* tn = mkstrnamep tn in
                                 PropertyInfo.make
-                                  (gc_alloc ~count:1 ~finalise:(fun _ ->
-                                       Stdio.print_endline "THE PROPERTY INFOS"))
-                                  VariantType.int xn int zero hint_str six)
+                                  (gc_alloc ~count:1 ?finalise:None)
+                                  te tn tn zero hint_str six)
+                         |> Base.Array.to_list
                          |> Living_core.Default.sequence_list
                        in
                        (* FIXME: Make not O(n^2)! *)
@@ -376,11 +515,12 @@ module Func = struct
                          in
                          Living_core.Default.unsafe_free ret
                        done;
+                       let ret_enum, ret_name = [%e ret_enum_and_name] in
+                       let* ret_name = mkstrnamep ret_name in
                        let* ret_info =
                          PropertyInfo.make
-                           (gc_alloc ~count:1 ~finalise:(fun _ ->
-                                Stdio.print_endline "THE PROPERTY INFOS RET"))
-                           VariantType.callable xn callable zero hint_str six
+                           (gc_alloc ~count:1 ?finalise:None)
+                           ret_enum ret_name ret_name zero hint_str six
                        in
                        let flags =
                          [%e pexp_array class_method_flags]
@@ -399,8 +539,7 @@ module Func = struct
                            ~return_value_metadata:
                              ClassMethodArgumentMetadata.none
                            ~method_flags:flags
-                           (gc_alloc ~count:1 ~finalise:(fun _ ->
-                                Stdio.print_endline "the method infos!"))
+                           (gc_alloc ~count:1 ?finalise:None)
                            function_name true count' arguments_info
                            arguments_metadata call_func_ptr ptrcall_func_ptr
                        in
@@ -564,8 +703,7 @@ module Callable = struct
              let$ callable_func_ptr = CallableCustomCall.of_fun callable_func in
              let* info_struct =
                Godotcaml_base.Godotcaml.C.CallableInfoStruct.make
-                 (gc_alloc ~count:1 ~finalise:(fun _ ->
-                      Stdio.prerr_endline "Woof!"))
+                 (gc_alloc ~count:1 ?finalise:None)
                  !Godotcaml_apis.Gdforeign.library
                  callable_func_ptr
              in

@@ -1,13 +1,7 @@
 open! Base
-open! Godotcaml_apis.Api_helpers
 open Godotcaml_apis.Api_classes
 open Living
 open Living_ctypes.Default
-open Godotcaml_apis.Gsignal
-
-let () =
-  Stdio.print_endline "rawr-1!";
-  Stdlib.Gc.compact ()
 
 let succ_by y x =
   let z = Int64.(x + y) in
@@ -18,6 +12,8 @@ module%gclass MyClass = struct
 
   include Class.Node
   open Godotcaml_apis.Api_builtins
+
+  let%gsignal my_signal = [||] (module BuiltinClass0.Int)
 
   let%gfunc succ_by =
     [| ClassMethodFlags.default |]
@@ -38,13 +34,5 @@ module%gclass MyClass = struct
       (module BuiltinClass0.Float)
       (module Class.Node)
       (module ApiTypes.Void)
-      (fun _x _self -> Stdio.print_endline "Rawr!")
+      (fun _delta _self -> Stdio.print_endline "RAWR")
 end
-
-let () =
-  Stdio.print_endline "rawr2!";
-  Stdlib.Gc.compact ()
-
-(* let () =
-   Topeval.init ();
-   ignore @@ Topeval.execute_phrase true Stdlib.Format.std_formatter (Parser.toplevel_phrase Lexer.token (Lexing.from_string "print_endline \"Hello from space!\"")) *)

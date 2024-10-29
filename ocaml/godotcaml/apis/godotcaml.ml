@@ -1052,4 +1052,10 @@ module C = struct
     fn_suite ""
       (class_library_ptr.plain @-> string_name_ptr.const @-> ptr PropertyInfo.s
      @-> string_name_ptr.const @-> string_name_ptr.const @-> returning void)
+
+  let interface_classdb_register_extension_class_signal =
+    fn_suite ""
+      (class_library_ptr.plain @-> string_name_ptr.const
+     @-> string_name_ptr.const @-> ptr PropertyInfo.s @-> gint
+     @-> returning void)
 end

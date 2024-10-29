@@ -14,8 +14,8 @@
    (flags (:standard -g -w -32)))
 
 (library
-   (modules Gsignal Gcallable Api_classes Api_classes_intf Api_builtins
-      Api_helpers Gdforeign Foreign_base Foreign_methods Foreign_builtin_methods Foreign_arrays
+   (modules Gsignal Api_classes Api_classes_intf Api_builtins
+      Gdforeign Foreign_base Foreign_methods Foreign_builtin_methods Foreign_arrays
       Foreign_utility_functions Api_types Conv)
    (public_name godotcaml_apis)
    (name godotcaml_apis)

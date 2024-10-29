@@ -73,6 +73,7 @@ module ApiTypes = struct
     let _ = field s "_Nil_dummy_do_not_touch" (array ClassSizes._Nil uint8_t)
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_NIL
+    let type_name = "Nil"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -90,6 +91,7 @@ module ApiTypes = struct
     let _ = field s "bool_dummy_do_not_touch" (array ClassSizes.bool uint8_t)
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_BOOL
+    let type_name = "bool"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -107,6 +109,7 @@ module ApiTypes = struct
     let _ = field s "int_dummy_do_not_touch" (array ClassSizes.int uint8_t)
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_INT
+    let type_name = "int"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -124,6 +127,7 @@ module ApiTypes = struct
     let _ = field s "float_dummy_do_not_touch" (array ClassSizes.float uint8_t)
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_FLOAT
+    let type_name = "float"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -144,6 +148,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_STRING
+    let type_name = "String"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -164,6 +169,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_VECTOR2
+    let type_name = "Vector2"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -185,6 +191,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_VECTOR2I
+    let type_name = "Vector2i"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -205,6 +212,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_RECT2
+    let type_name = "Rect2"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -225,6 +233,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_RECT2I
+    let type_name = "Rect2i"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -245,6 +254,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_VECTOR3
+    let type_name = "Vector3"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -266,6 +276,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_VECTOR3I
+    let type_name = "Vector3i"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -287,6 +298,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_TRANSFORM2D
+    let type_name = "Transform2D"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -307,6 +319,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_VECTOR4
+    let type_name = "Vector4"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -328,6 +341,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_VECTOR4I
+    let type_name = "Vector4i"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -348,6 +362,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_PLANE
+    let type_name = "Plane"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -369,6 +384,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_QUATERNION
+    let type_name = "Quaternion"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -386,6 +402,7 @@ module ApiTypes = struct
     let _ = field s "_AABB_dummy_do_not_touch" (array ClassSizes._AABB uint8_t)
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_AABB
+    let type_name = "AABB"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -406,6 +423,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_BASIS
+    let type_name = "Basis"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -427,6 +445,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_TRANSFORM3D
+    let type_name = "Transform3D"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -448,6 +467,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_PROJECTION
+    let type_name = "Projection"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -468,6 +488,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_COLOR
+    let type_name = "Color"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -489,6 +510,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_STRING_NAME
+    let type_name = "StringName"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -510,6 +532,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_NODE_PATH
+    let type_name = "NodePath"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -527,6 +550,7 @@ module ApiTypes = struct
     let _ = field s "_RID_dummy_do_not_touch" (array ClassSizes._RID uint8_t)
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_RID
+    let type_name = "RID"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -547,6 +571,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_OBJECT
+    let type_name = "Object"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -568,6 +593,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_CALLABLE
+    let type_name = "Callable"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -588,6 +614,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_SIGNAL
+    let type_name = "Signal"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -609,6 +636,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_DICTIONARY
+    let type_name = "Dictionary"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -629,6 +657,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_ARRAY
+    let type_name = "Array"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -650,6 +679,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_PACKED_BYTE_ARRAY
+    let type_name = "PackedByteArray"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -671,6 +701,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_PACKED_INT32_ARRAY
+    let type_name = "PackedInt32Array"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -692,6 +723,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_PACKED_INT64_ARRAY
+    let type_name = "PackedInt64Array"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -713,6 +745,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_PACKED_FLOAT32_ARRAY
+    let type_name = "PackedFloat32Array"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -734,6 +767,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_PACKED_FLOAT64_ARRAY
+    let type_name = "PackedFloat64Array"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -755,6 +789,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_PACKED_STRING_ARRAY
+    let type_name = "PackedStringArray"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -776,6 +811,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_PACKED_VECTOR2_ARRAY
+    let type_name = "PackedVector2Array"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -797,6 +833,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_PACKED_VECTOR3_ARRAY
+    let type_name = "PackedVector3Array"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain
@@ -818,6 +855,7 @@ module ApiTypes = struct
 
     let () = seal s
     let type_enum = GlobalEnum0.VariantType._TYPE_PACKED_COLOR_ARRAY
+    let type_name = "PackedColorArray"
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain

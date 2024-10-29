@@ -232,6 +232,12 @@ let classdb_register_extension_class_method library class_name method_info =
     interface_classdb_register_extension_class_method.typ library class_name
     method_info
 
+let classdb_register_extension_class_signal library class_name signal_name
+    argument_infos argument_count =
+  get_fun "classdb_register_extension_class_signal"
+    interface_classdb_register_extension_class_signal.typ library class_name
+    signal_name argument_infos argument_count
+
 let classdb_get_class_tag class_name =
   get_fun "classdb_get_class_tag" interface_get_class_tag.typ class_name
 

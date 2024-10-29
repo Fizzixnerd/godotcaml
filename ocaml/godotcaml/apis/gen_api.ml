@@ -1309,8 +1309,12 @@ end
          (mod_var_str type_name) (mod_var_str type_name) (var_str type_name)
          (var_str type_name)
          (if String.(type_name <> "Variant") then
-            sprintf "let type_enum = GlobalEnum0.VariantType.%s"
-              (to_type_enum type_name)
+            sprintf
+              {|
+  let type_enum = GlobalEnum0.VariantType.%s
+  let type_name = "%s"
+            |}
+              (to_type_enum type_name) type_name
           else "")
          (var_str type_name))
 
