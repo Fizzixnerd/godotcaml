@@ -62,7 +62,7 @@ module Class = struct
           let open Godotcaml_apis.Gdforeign in
           let get_virtual =
             ClassGetVirtual.of_fun (fun _ f_str_name ->
-                _godot_virtual_function_lookup "_process"
+                _godot_virtual_function_lookup f_str_name
                 |> Option.value ~default:(coerce_ptr ClassCallVirtual.t null))
           in
           Living_core.Default.unsafe_free
@@ -109,8 +109,22 @@ module Class = struct
             (f : Godotcaml_base.Godotcaml.C.ClassCallVirtual.t) =
           Hashtbl.add _godot_virtual_function_table ~key:function_name ~data:f
 
-        let _godot_virtual_function_lookup function_name =
-          Hashtbl.find _godot_virtual_function_table function_name
+        let _godot_virtual_function_lookup function_stringname =
+          let open Godotcaml_apis.Api_builtins in
+          let open Godotcaml_apis.Gdforeign in
+          let open Living in
+          let open Living_core.Default.Let_syntax in
+          Living_core.Default.unsafe_free
+          @@
+          let* s =
+            Living_core.Default.map BuiltinClass0.String.to_ocaml
+              (BuiltinClass.StringName.substr
+                 (BuiltinClass0.Int.of_ocaml 0L)
+                 (BuiltinClass0.Int.of_ocaml (-1L))
+                 (coerce_ptr StringName.typ function_stringname))
+          in
+          Living_core.Default.return
+            (Hashtbl.find _godot_virtual_function_table s)
 
         let _godot_inherits : string =
           [%e Ast_builder.Default.estring ~loc "RefCounted"]]
@@ -629,11 +643,10 @@ module Override = struct
                          let open Godotcaml_apis.Gdforeign in
                          Living_core.Default.unsafe_free
                          @@
-                         let* arg0 = !@(coerce_ptr (ptr X0.godot_typ) args) in
-                         let x0 = X0.to_ocaml arg0 in
-                         let self =
-                           Self.to_ocaml (coerce_ptr Self.godot_typ self)
-                         in
+                         let* arg0 = !@args in
+                         let x0 = X0.to_ocaml (coerce_ptr X0.godot_typ arg0) in
+                         let self = coerce_ptr Self.godot_typ self in
+                         let self = Self.to_ocaml self in
                          [%e
                            if is_void_returning then
                              [%expr
@@ -644,7 +657,9 @@ module Override = struct
                                let ret' =
                                  Ret.of_ocaml ([%e function_expr] x0 self)
                                in
-                               Living_core.Default.return ret <-@ ret']])
+                               Living_core.Default.return
+                                 (coerce_ptr Ret.godot_t ret)
+                               <-@ ret']])
                    in
                    let _res =
                      _godot_virtual_function_add [%e function_name_expr]

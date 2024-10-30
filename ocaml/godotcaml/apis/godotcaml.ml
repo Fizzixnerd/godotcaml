@@ -521,7 +521,7 @@ module C = struct
 
   let class_call_virtual =
     fn_suite ""
-      (class_instance_ptr.plain @-> type_ptr.const @-> type_ptr.plain
+      (class_instance_ptr.plain @-> ptr type_ptr.const @-> type_ptr.plain
      @-> returning void)
 
   module ClassCallVirtual = (val class_call_virtual.dyn)
