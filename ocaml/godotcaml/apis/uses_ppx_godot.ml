@@ -29,10 +29,10 @@ module%gclass MyClass = struct
         in
         succer)
 
-  let%gfunc_void _process =
+  let%goverride_void _process =
     [| ClassMethodFlags.virtual_ |]
       (module BuiltinClass0.Float)
       (module Class.Node)
       (module ApiTypes.Void)
-      (fun _delta _self -> Stdio.print_endline "RAWR")
+      (fun _delta _self -> Stdio.print_endline "RAWR!!")
 end

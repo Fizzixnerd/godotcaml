@@ -60,10 +60,15 @@ module Class = struct
         let _godot_class_info =
           let open Godotcaml_base.Godotcaml.C in
           let open Godotcaml_apis.Gdforeign in
+          let get_virtual =
+            ClassGetVirtual.of_fun (fun _ f_str_name ->
+                _godot_virtual_function_lookup "_process"
+                |> Option.value ~default:(coerce_ptr ClassCallVirtual.t null))
+          in
           Living_core.Default.unsafe_free
           @@ ClassCreationInfo2.make
                (gc_alloc ~count:1 ?finalise:None)
-               new_ptr finalizer_ptr
+               new_ptr finalizer_ptr ~get_virtual
 
         let () =
           let open Godotcaml_base.Godotcaml.C in
@@ -98,6 +103,14 @@ module Class = struct
         let _godot_methods_loader = ref (fun () -> ())
         let _godot_signals_loader = ref (fun () -> ())
         let _godot_vars_loader = ref (fun () -> ())
+        let _godot_virtual_function_table = Hashtbl.create (module String)
+
+        let _godot_virtual_function_add function_name
+            (f : Godotcaml_base.Godotcaml.C.ClassCallVirtual.t) =
+          Hashtbl.add _godot_virtual_function_table ~key:function_name ~data:f
+
+        let _godot_virtual_function_lookup function_name =
+          Hashtbl.find _godot_virtual_function_table function_name
 
         let _godot_inherits : string =
           [%e Ast_builder.Default.estring ~loc "RefCounted"]]
@@ -277,7 +290,8 @@ module Func = struct
       extract_module_expr ret,
       impl )
 
-  let expander is_void_returning ~ctxt rec_flag f_name class_method_flags args =
+  let module_defs is_void_returning ~ctxt rec_flag f_name class_method_flags
+      args =
     let loc = Expansion_context.Extension.extension_point_loc ctxt in
     let (module M) = Ast_builder.make loc in
     let open M in
@@ -376,186 +390,184 @@ module Func = struct
       pstr_value rec_flag
         [ value_binding ~pat:(ppat_var { txt = f_name; loc }) ~expr:impl ]
     in
+    mod_xs
+    @ [
+        mod_self;
+        mod_ret;
+        let_func;
+        [%stri
+          let call_func : Godotcaml_base.Godotcaml.C.ClassMethodCall.fn =
+            let open Godotcaml_base.Godotcaml.C in
+            let open Godotcaml_apis.Gdforeign in
+            fun _method_userdata instance args count ret _err ->
+              (* FIXME: Make this set err appropriately! *)
+              let () =
+                assert (
+                  Int64.(
+                    count
+                    = of_int
+                        [%e
+                          pexp_constant
+                            (Pconst_integer
+                               ( Printf.sprintf "%d" (mod_xs |> List.length),
+                                 None ))]))
+              in
+              let self =
+                coerce class_instance_ptr.plain Self.godot_typ instance
+              in
+              let ret'' =
+                [%e
+                  pexp_apply
+                    (pexp_ident { txt = lident f_name; loc })
+                    (call_es @ [ (Nolabel, [%expr self]) ])]
+              in
+              ignore ret'';
+              [%e
+                if not is_void_returning then
+                  [%expr
+                    variant_new_copy
+                      (coerce variant_ptr.plain variant_ptr.uninit ret)
+                      (coerce_ptr variant_ptr.const
+                      @@ Ret.ocaml_to_variant ret'')]
+                else [%expr ignore self]]];
+        [%stri
+          let ptrcall_func : Godotcaml_base.Godotcaml.C.ClassMethodPtrCall.fn =
+            let open Godotcaml_base.Godotcaml.C in
+            let open Godotcaml_apis.Gdforeign in
+            let open Living.Living_core.Default.Let_syntax in
+            fun _method_userdata instance args ret ->
+              let self =
+                coerce class_instance_ptr.plain Self.godot_typ instance
+              in
+              let ret'' =
+                [%e
+                  pexp_apply
+                    (pexp_ident { txt = lident f_name; loc })
+                    (ptrcall_es @ [ (Nolabel, [%expr self]) ])]
+              in
+              ignore ret'';
+              let final_ret =
+                [%e
+                  if not is_void_returning then
+                    [%expr
+                      let ret' =
+                        Living.Living_core.Default.return
+                          (coerce_ptr Ret.typ ret)
+                      in
+                      let* ret_ptr = !@(Ret.of_ocaml ret'') in
+                      ret' <-@ ret_ptr]
+                  else [%expr Living.Living_core.Default.return ()]]
+              in
+              Living.Living_core.Default.unsafe_free final_ret];
+        [%stri
+          let call_func_ptr =
+            Ctypes.Root.get
+              (Ctypes.Root.create
+                 (Godotcaml_base.Godotcaml.C.ClassMethodCall.of_fun call_func))];
+        [%stri
+          let ptrcall_func_ptr =
+            Ctypes.Root.get
+              (Ctypes.Root.create
+                 (Godotcaml_base.Godotcaml.C.ClassMethodPtrCall.of_fun
+                    ptrcall_func))];
+        [%stri
+          let count =
+            [%e
+              pexp_constant
+                (Pconst_integer
+                   (Printf.sprintf "%d" (mod_xs |> List.length), None))]];
+        [%stri
+          let () =
+            let open Living in
+            let open Living_core.Default.Let_syntax in
+            let old_methods_loader = !_godot_methods_loader in
+            let mkstrnamep s =
+              let open Godotcaml_base.Godotcaml.C in
+              let open Godotcaml_apis.Gdforeign in
+              Living_core.Default.map
+                (coerce string_name_ptr.const string_name_ptr.plain)
+                (string_name_of_string s)
+            in
+            let new_methods_loader () =
+              let final_ret =
+                let open Godotcaml_base.Godotcaml.C in
+                let open Godotcaml_apis.Gdforeign in
+                let* arguments_info = gc_alloc ~count PropertyInfo.s in
+                let* arguments_metadata = gc_alloc ~count int in
+                let* callable = mkstrnamep "Callable" in
+                let$ hint_str =
+                  Godotcaml_apis.Api_builtins.BuiltinClass0.String.of_ocaml "??"
+                  |> coerce_ptr string_ptr.plain
+                in
+                let zero = Unsigned.UInt32.of_int 0 in
+                let six = Unsigned.UInt32.of_int 6 in
+                let* argument_infos =
+                  [%e pexp_array arg_enums_and_names]
+                  |> Base.Array.map ~f:(fun (te, tn) ->
+                         let* tn = mkstrnamep tn in
+                         PropertyInfo.make
+                           (gc_alloc ~count:1 ?finalise:None)
+                           te tn tn zero hint_str six)
+                  |> Base.Array.to_list |> Living_core.Default.sequence_list
+                in
+                (* FIXME: Make not O(n^2)! *)
+                for i = 0 to count - 1 do
+                  let ret =
+                    let* ai = !@(List.nth_exn argument_infos i) in
+                    let* () = arguments_info +@ i <-@ ai in
+                    arguments_metadata +@ i <-@ ClassMethodArgumentMetadata.none
+                  in
+                  Living_core.Default.unsafe_free ret
+                done;
+                let ret_enum, ret_name = [%e ret_enum_and_name] in
+                let* ret_name = mkstrnamep ret_name in
+                let* ret_info =
+                  PropertyInfo.make
+                    (gc_alloc ~count:1 ?finalise:None)
+                    ret_enum ret_name ret_name zero hint_str six
+                in
+                let flags =
+                  [%e pexp_array class_method_flags]
+                  |> Base.Array.fold ~init:(Unsigned.UInt32.of_int 0)
+                       ~f:Unsigned.UInt32.add
+                in
+                let* function_name =
+                  mkstrnamep
+                    [%e pexp_constant (Pconst_string (f_name, loc, None))]
+                in
+                let count' = Unsigned.UInt32.of_int count in
+                let* method_info =
+                  let open Godotcaml_base.Godotcaml.C in
+                  ClassMethodInfo.make ~return_value_info:ret_info
+                    ~return_value_metadata:ClassMethodArgumentMetadata.none
+                    ~method_flags:flags
+                    (gc_alloc ~count:1 ?finalise:None)
+                    function_name true count' arguments_info arguments_metadata
+                    call_func_ptr ptrcall_func_ptr
+                in
+                let* class_name = string_name_of_string _godot_class_name in
+                classdb_register_extension_class_method
+                  !Godotcaml_apis.Gdforeign.library
+                  class_name method_info;
+                Living_core.Default.return (old_methods_loader ())
+                (* Tail "recursion" *)
+              in
+              Living_core.Default.unsafe_free final_ret
+            in
+            _godot_methods_loader := new_methods_loader];
+      ]
+
+  let expander is_void_returning ~ctxt rec_flag f_name class_method_flags args =
+    let loc = Expansion_context.Extension.extension_point_loc ctxt in
+    let (module M) = Ast_builder.make loc in
+    let open M in
     pstr_module
     @@ module_binding
          ~name:{ txt = Some ("Gfunc_" ^ f_name); loc }
          ~expr:
-           (pmod_structure @@ mod_xs
-           @ [
-               mod_self;
-               mod_ret;
-               let_func;
-               [%stri
-                 let call_func : Godotcaml_base.Godotcaml.C.ClassMethodCall.fn =
-                   let open Godotcaml_base.Godotcaml.C in
-                   let open Godotcaml_apis.Gdforeign in
-                   fun _method_userdata instance args count ret _err ->
-                     (* FIXME: Make this set err appropriately! *)
-                     let () =
-                       assert (
-                         Int64.(
-                           count
-                           = of_int
-                               [%e
-                                 pexp_constant
-                                   (Pconst_integer
-                                      ( Printf.sprintf "%d"
-                                          (mod_xs |> List.length),
-                                        None ))]))
-                     in
-                     let self =
-                       coerce class_instance_ptr.plain Self.godot_typ instance
-                     in
-                     let ret'' =
-                       [%e
-                         pexp_apply
-                           (pexp_ident { txt = lident f_name; loc })
-                           (call_es @ [ (Nolabel, [%expr self]) ])]
-                     in
-                     ignore ret'';
-                     [%e
-                       if not is_void_returning then
-                         [%expr
-                           variant_new_copy
-                             (coerce variant_ptr.plain variant_ptr.uninit ret)
-                             (coerce_ptr variant_ptr.const
-                             @@ Ret.ocaml_to_variant ret'')]
-                       else [%expr ignore self]]];
-               [%stri
-                 let ptrcall_func :
-                     Godotcaml_base.Godotcaml.C.ClassMethodPtrCall.fn =
-                   let open Godotcaml_base.Godotcaml.C in
-                   let open Godotcaml_apis.Gdforeign in
-                   let open Living.Living_core.Default.Let_syntax in
-                   fun _method_userdata instance args ret ->
-                     let self =
-                       coerce class_instance_ptr.plain Self.godot_typ instance
-                     in
-                     let ret'' =
-                       [%e
-                         pexp_apply
-                           (pexp_ident { txt = lident f_name; loc })
-                           (ptrcall_es @ [ (Nolabel, [%expr self]) ])]
-                     in
-                     ignore ret'';
-                     let final_ret =
-                       [%e
-                         if not is_void_returning then
-                           [%expr
-                             let ret' =
-                               Living.Living_core.Default.return
-                                 (coerce_ptr Ret.typ ret)
-                             in
-                             let* ret_ptr = !@(Ret.of_ocaml ret'') in
-                             ret' <-@ ret_ptr]
-                         else [%expr Living.Living_core.Default.return ()]]
-                     in
-                     Living.Living_core.Default.unsafe_free final_ret];
-               [%stri
-                 let call_func_ptr =
-                   Ctypes.Root.get
-                     (Ctypes.Root.create
-                        (Godotcaml_base.Godotcaml.C.ClassMethodCall.of_fun
-                           call_func))];
-               [%stri
-                 let ptrcall_func_ptr =
-                   Ctypes.Root.get
-                     (Ctypes.Root.create
-                        (Godotcaml_base.Godotcaml.C.ClassMethodPtrCall.of_fun
-                           ptrcall_func))];
-               [%stri
-                 let () =
-                   let open Living in
-                   let open Living_core.Default.Let_syntax in
-                   let count =
-                     [%e
-                       pexp_constant
-                         (Pconst_integer
-                            (Printf.sprintf "%d" (mod_xs |> List.length), None))]
-                   in
-                   let old_methods_loader = !_godot_methods_loader in
-                   let mkstrnamep s =
-                     let open Godotcaml_base.Godotcaml.C in
-                     let open Godotcaml_apis.Gdforeign in
-                     Living_core.Default.map
-                       (coerce string_name_ptr.const string_name_ptr.plain)
-                       (string_name_of_string s)
-                   in
-                   let new_methods_loader () =
-                     let final_ret =
-                       let open Godotcaml_base.Godotcaml.C in
-                       let open Godotcaml_apis.Gdforeign in
-                       let* arguments_info = gc_alloc ~count PropertyInfo.s in
-                       let* arguments_metadata = gc_alloc ~count int in
-                       let* callable = mkstrnamep "Callable" in
-                       let$ hint_str =
-                         Godotcaml_apis.Api_builtins.BuiltinClass0.String
-                         .of_ocaml "??"
-                         |> coerce_ptr string_ptr.plain
-                       in
-                       let zero = Unsigned.UInt32.of_int 0 in
-                       let six = Unsigned.UInt32.of_int 6 in
-                       let* argument_infos =
-                         [%e pexp_array arg_enums_and_names]
-                         |> Base.Array.map ~f:(fun (te, tn) ->
-                                let* tn = mkstrnamep tn in
-                                PropertyInfo.make
-                                  (gc_alloc ~count:1 ?finalise:None)
-                                  te tn tn zero hint_str six)
-                         |> Base.Array.to_list
-                         |> Living_core.Default.sequence_list
-                       in
-                       (* FIXME: Make not O(n^2)! *)
-                       for i = 0 to count - 1 do
-                         let ret =
-                           let* ai = !@(List.nth_exn argument_infos i) in
-                           let* () = arguments_info +@ i <-@ ai in
-                           arguments_metadata +@ i
-                           <-@ ClassMethodArgumentMetadata.none
-                         in
-                         Living_core.Default.unsafe_free ret
-                       done;
-                       let ret_enum, ret_name = [%e ret_enum_and_name] in
-                       let* ret_name = mkstrnamep ret_name in
-                       let* ret_info =
-                         PropertyInfo.make
-                           (gc_alloc ~count:1 ?finalise:None)
-                           ret_enum ret_name ret_name zero hint_str six
-                       in
-                       let flags =
-                         [%e pexp_array class_method_flags]
-                         |> Base.Array.fold ~init:(Unsigned.UInt32.of_int 0)
-                              ~f:Unsigned.UInt32.add
-                       in
-                       let* function_name =
-                         mkstrnamep
-                           [%e
-                             pexp_constant (Pconst_string (f_name, loc, None))]
-                       in
-                       let count' = Unsigned.UInt32.of_int count in
-                       let* method_info =
-                         let open Godotcaml_base.Godotcaml.C in
-                         ClassMethodInfo.make ~return_value_info:ret_info
-                           ~return_value_metadata:
-                             ClassMethodArgumentMetadata.none
-                           ~method_flags:flags
-                           (gc_alloc ~count:1 ?finalise:None)
-                           function_name true count' arguments_info
-                           arguments_metadata call_func_ptr ptrcall_func_ptr
-                       in
-                       let* class_name =
-                         string_name_of_string _godot_class_name
-                       in
-                       classdb_register_extension_class_method
-                         !Godotcaml_apis.Gdforeign.library
-                         class_name method_info;
-                       Living_core.Default.return (old_methods_loader ())
-                       (* Tail "recursion" *)
-                     in
-                     Living_core.Default.unsafe_free final_ret
-                   in
-                   _godot_methods_loader := new_methods_loader];
-             ])
+           (pmod_structure
+           @@ module_defs is_void_returning ~ctxt rec_flag f_name
+                class_method_flags args)
 
   let pattern =
     Ast_pattern.(
@@ -578,6 +590,90 @@ module Func = struct
   let () = Driver.register_transformation ~rules:[ non_void_rule ] "gfunc"
   let void_rule = Context_free.Rule.extension void_extender
   let () = Driver.register_transformation ~rules:[ void_rule ] "gfunc_void"
+end
+
+module Override = struct
+  let expander is_void_returning ~ctxt rec_flag f_name class_method_flags args =
+    let loc = Expansion_context.Extension.extension_point_loc ctxt in
+    let (module M) = Ast_builder.make loc in
+    let open M in
+    let xs, _, _, _ = Func.parse_args args in
+    let xs = xs |> List.mapi ~f:(fun i arg -> (Printf.sprintf "X%d" i, arg)) in
+    let _mod_xs =
+      xs
+      |> List.map ~f:(fun (name, mod_expr) ->
+             pstr_module
+             @@ module_binding ~name:{ txt = Some name; loc } ~expr:mod_expr)
+    in
+    let function_name_expr =
+      pexp_constant @@ Pconst_string (f_name, loc, None)
+    in
+    let function_expr = pexp_ident { txt = lident f_name; loc } in
+    pstr_module
+    @@ module_binding
+         ~name:{ txt = Some ("Goverride_" ^ f_name); loc }
+         ~expr:
+           (pmod_structure
+           @@ Func.module_defs is_void_returning ~ctxt rec_flag f_name
+                class_method_flags args
+           @ [
+               [%stri
+                 let () =
+                   let _call_virtual_func :
+                       Godotcaml_base.Godotcaml.C.ClassCallVirtual.t =
+                     Godotcaml_base.Godotcaml.C.ClassCallVirtual.of_fun
+                       (fun self args ret ->
+                         let open Living in
+                         let open Living_core.Default.Let_syntax in
+                         let open Living_ctypes.Default in
+                         let open Godotcaml_apis.Gdforeign in
+                         Living_core.Default.unsafe_free
+                         @@
+                         let* arg0 = !@(coerce_ptr (ptr X0.godot_typ) args) in
+                         let x0 = X0.to_ocaml arg0 in
+                         let self =
+                           Self.to_ocaml (coerce_ptr Self.godot_typ self)
+                         in
+                         [%e
+                           if is_void_returning then
+                             [%expr
+                               Living_core.Default.return
+                                 ([%e function_expr] x0 self)]
+                           else
+                             [%expr
+                               let ret' =
+                                 Ret.of_ocaml ([%e function_expr] x0 self)
+                               in
+                               Living_core.Default.return ret <-@ ret']])
+                   in
+                   let _res =
+                     _godot_virtual_function_add [%e function_name_expr]
+                       _call_virtual_func
+                   in
+                   ()];
+             ])
+
+  let pattern =
+    Ast_pattern.(
+      pstr
+        (pstr_value __
+           (value_binding ~pat:(ppat_var __)
+              ~expr:(pexp_apply (pexp_array __) __)
+           ^:: nil)
+        ^:: nil))
+
+  let non_void_extender =
+    Extension.V3.declare "goverride" Extension.Context.structure_item pattern
+      (expander false)
+
+  let void_extender =
+    Extension.V3.declare "goverride_void" Extension.Context.structure_item
+      pattern (expander true)
+
+  let non_void_rule = Context_free.Rule.extension non_void_extender
+  let () = Driver.register_transformation ~rules:[ non_void_rule ] "goverride"
+  let void_rule = Context_free.Rule.extension void_extender
+  let () = Driver.register_transformation ~rules:[ void_rule ] "goverride_void"
 end
 
 module Callable = struct
