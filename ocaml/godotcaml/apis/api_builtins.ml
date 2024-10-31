@@ -14014,6 +14014,7 @@ If either [param begin] or [param end] are negative, they will be relative to th
 
   module Nil = struct
     include M.Nil
+    include BuiltinClass0.Nil
 
     let not x0 =
       foreign_builtin_operator1 GlobalEnum.VariantType._TYPE_NIL None
@@ -14038,6 +14039,7 @@ If either [param begin] or [param end] are negative, they will be relative to th
 
   module Bool = struct
     include M.Bool
+    include BuiltinClass0.Bool
 
     let not x0 =
       foreign_builtin_operator1 GlobalEnum.VariantType._TYPE_BOOL None
@@ -14115,6 +14117,7 @@ If either [param begin] or [param end] are negative, they will be relative to th
 
   module Int = struct
     include M.Int
+    include BuiltinClass0.Int
 
     (** Returns the negated value of the [int]. If positive, turns the number negative. If negative, turns the number positive. If zero, does nothing. *)
     let ( ~- ) x0 =
@@ -14402,6 +14405,7 @@ print(0b1100 ^ 0b1010) # Prints 6 (binary 110)
 
   module Float = struct
     include M.Float
+    include BuiltinClass0.Float
 
     (** Returns the negative value of the [float]. If positive, turns the number negative. If negative, turns the number positive. With floats, the number zero can be either positive or negative. *)
     let ( ~- ) x0 =
@@ -14604,6 +14608,7 @@ print(39.0625 *  * 0.25) # 2.5
 
   module String = struct
     include M.String
+    include BuiltinClass0.String
 
     (** Performs a case-sensitive comparison to another string. Returns [code]-1[/code] if less than, [code]1[/code] if greater than, or [code]0[/code] if equal. ""Less than"" and ""greater than"" are determined by the [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode code points[/url] of each string, which roughly matches the alphabetical order.
 With different string lengths, returns [code]1[/code] if this string is longer than the [param to] string, or [code]-1[/code] if shorter. Note that the length of empty strings is [i]always[/i] [code]0[/code].
@@ -15808,6 +15813,7 @@ The result is in [url=https://en.wikipedia.org/wiki/Binary_prefix#IEC_prefixes]I
 
   module Vector2 = struct
     include M.Vector2
+    include BuiltinClass0.Vector2
 
     (** Returns this vector's angle with respect to the positive X axis, or [code](1, 0)[/code] vector, in radians.
 For example, [code]Vector2.RIGHT.angle()[/code] will return zero, [code]Vector2.DOWN.angle()[/code] will return [code]PI / 2[/code] (a quarter turn, or 90 degrees), and [code]Vector2(1, -1).angle()[/code] will return [code]-PI / 4[/code] (a negative eighth turn, or -45 degrees).
@@ -16302,6 +16308,7 @@ print(Vector2(10, 20) / Vector2(2, 5)) # Prints ""(5, 4)""
 
   module Vector2i = struct
     include M.Vector2i
+    include BuiltinClass0.Vector2i
 
     (** Returns the aspect ratio of this vector, the ratio of [member x] to [member y]. *)
     let aspect x0 =
@@ -16537,6 +16544,7 @@ print(Vector2i(10, -20) % Vector2i(7, 8)) # Prints ""(3, -4)""
 
   module Rect2 = struct
     include M.Rect2
+    include BuiltinClass0.Rect2
 
     (** Returns the center point of the rectangle. This is the same as [code]position + (size / 2.0)[/code]. *)
     let get_center x0 =
@@ -16736,6 +16744,7 @@ var absolute = rect.Abs(); // absolute is Rect2(-75, -25, 100, 50)
 
   module Rect2i = struct
     include M.Rect2i
+    include BuiltinClass0.Rect2i
 
     (** Returns the center point of the rectangle. This is the same as [code]position + (size / 2)[/code].
 [b]Note:[/b] If the [member size] is odd, the result will be rounded towards [member position]. *)
@@ -16922,6 +16931,7 @@ var absolute = rect.Abs(); // absolute is Rect2I(-75, -25, 100, 50)
 
   module Vector3 = struct
     include M.Vector3
+    include BuiltinClass0.Vector3
 
     (** Returns the axis of the vector's lowest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_Z]. *)
     let min_axis_index x0 =
@@ -17409,6 +17419,7 @@ print(Vector3(10, 20, 30) / Vector3(2, 5, 3)) # Prints ""(5, 4, 10)""
 
   module Vector3i = struct
     include M.Vector3i
+    include BuiltinClass0.Vector3i
 
     (** Returns the axis of the vector's lowest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_Z]. *)
     let min_axis_index x0 =
@@ -17640,6 +17651,7 @@ print(Vector3i(10, -20, 30) % Vector3i(7, 8, 9)) # Prints ""(3, -4, 3)""
 
   module Transform2D = struct
     include M.Transform2D
+    include BuiltinClass0.Transform2D
 
     (** Returns the inverse of the transform, under the assumption that the transformation basis is orthonormal (i.e. rotation/reflection is fine, scaling/skew is not). Use [method affine_inverse] for non-orthonormal transforms (e.g. with scaling). *)
     let inverse x0 =
@@ -17864,6 +17876,7 @@ Operations take place in global space. *)
 
   module Vector4 = struct
     include M.Vector4
+    include BuiltinClass0.Vector4
 
     (** Returns the axis of the vector's lowest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_W]. *)
     let min_axis_index x0 =
@@ -18224,6 +18237,7 @@ print(Vector4(10, 20, 30, 40) / Vector4(2, 5, 3, 4)) # Prints ""(5, 4, 10, 10)""
 
   module Vector4i = struct
     include M.Vector4i
+    include BuiltinClass0.Vector4i
 
     (** Returns the axis of the vector's lowest value. See [code]AXIS_ * [/code] constants. If all components are equal, this method returns [constant AXIS_W]. *)
     let min_axis_index x0 =
@@ -18458,6 +18472,7 @@ print(Vector4i(10, -20, 30, -40) % Vector4i(7, 8, 9, 10))  # Prints ""(3, -4, 3,
 
   module Plane = struct
     include M.Plane
+    include BuiltinClass0.Plane
 
     (** Returns a copy of the plane, with normalized [member normal] (so it's a unit vector). Returns [code]Plane(0, 0, 0, 0)[/code] if [member normal] can't be normalized (it has zero length). *)
     let normalized x0 =
@@ -18591,6 +18606,7 @@ print(Vector4i(10, -20, 30, -40) % Vector4i(7, 8, 9, 10))  # Prints ""(3, -4, 3,
 
   module Quaternion = struct
     include M.Quaternion
+    include BuiltinClass0.Quaternion
 
     (** Returns this quaternion's length, also called magnitude. *)
     let length x0 =
@@ -18831,6 +18847,7 @@ This operation is not meaningful on its own, but it can be used as a part of a l
 
   module AABB = struct
     include M.AABB
+    include BuiltinClass0.AABB
 
     (** Returns an [AABB] equivalent to this bounding box, with its width, height, and depth modified to be non-negative values.
 [codeblocks]
@@ -19187,6 +19204,7 @@ The ray begin at [param from], faces [param dir] and extends towards infinity. *
 
   module Basis = struct
     include M.Basis
+    include BuiltinClass0.Basis
 
     (** Returns the [url=https://en.wikipedia.org/wiki/Invertible_matrix]inverse of this basis's matrix[/url]. *)
     let inverse x0 =
@@ -19552,6 +19570,7 @@ This is the operation performed between parent and child [Node3D]s. *)
 
   module Transform3D = struct
     include M.Transform3D
+    include BuiltinClass0.Transform3D
 
     (** Returns the inverted version of this transform. See also [method Basis.inverse].
 [b]Note:[/b] For this method to return correctly, the transform's [member basis] needs to be [i]orthonormal[/i] (see [method Basis.orthonormalized]). That means, the basis should only represent a rotation. If it does not, use [method affine_inverse] instead. *)
@@ -19729,6 +19748,7 @@ This is the operation performed between parent and child [Node3D]s.
 
   module Projection = struct
     include M.Projection
+    include BuiltinClass0.Projection
 
     (** Creates a new [Projection] that projects positions from a depth range of [code]-1[/code] to [code]1[/code] to one that ranges from [code]0[/code] to [code]1[/code], and flips the projected positions vertically, according to [param flip_y]. *)
     let create_depth_correction x0 =
@@ -20009,6 +20029,7 @@ The determinant can be used to calculate the invertibility of a matrix or solve 
 
   module Color = struct
     include M.Color
+    include BuiltinClass0.Color
 
     (** Returns the color converted to a 32-bit integer in ARGB format (each component is 8 bits). ARGB is more compatible with DirectX.
 [codeblocks]
@@ -20485,6 +20506,7 @@ var color = Color.FromOkHsl(0.58f, 0.5f, 0.79f, 0.8f);
 
   module StringName = struct
     include M.StringName
+    include BuiltinClass0.StringName
 
     (** Performs a case-sensitive comparison to another string. Returns [code]-1[/code] if less than, [code]1[/code] if greater than, or [code]0[/code] if equal. ""Less than"" and ""greater than"" are determined by the [url=https://en.wikipedia.org/wiki/List_of_Unicode_characters]Unicode code points[/url] of each string, which roughly matches the alphabetical order.
 With different string lengths, returns [code]1[/code] if this string is longer than the [param to] string, or [code]-1[/code] if shorter. Note that the length of empty strings is [i]always[/i] [code]0[/code].
@@ -21613,6 +21635,7 @@ GD.Print(buf.HexDecode().GetStringFromUtf8());
 
   module NodePath = struct
     include M.NodePath
+    include BuiltinClass0.NodePath
 
     (** Returns [code]true[/code] if the node path is absolute (as opposed to relative), which means that it starts with a slash character ([code]/[/code]). Absolute node paths can be used to access the root node ([code]""/root""[/code]) or autoloads (e.g. [code]""/global""[/code] if a ""global"" autoload was registered). *)
     let is_absolute x0 =
@@ -21780,6 +21803,7 @@ GD.Print(propertyPath); // :position:x
 
   module RID = struct
     include M.RID
+    include BuiltinClass0.RID
 
     (** Returns [code]true[/code] if the [RID] is not [code]0[/code]. *)
     let is_valid x0 =
@@ -21852,6 +21876,7 @@ GD.Print(propertyPath); // :position:x
 
   module Callable = struct
     include M.Callable
+    include BuiltinClass0.Callable
 
     (** Calls the method represented by this [Callable]. Unlike [method call], this method expects all arguments to be contained inside the [param arguments] [Array]. *)
     let callv x0 x1 =
@@ -22036,6 +22061,7 @@ See also [method Object.call_deferred]. *)
 
   module Signal = struct
     include M.Signal
+    include BuiltinClass0.Signal
 
     (** Returns [code]true[/code] if the signal's name does not exist in its object, or the object is not valid. *)
     let is_null x0 =
@@ -22152,6 +22178,7 @@ func _on_pressed(button):
 
   module Dictionary = struct
     include M.Dictionary
+    include BuiltinClass0.Dictionary
 
     (** Returns the number of entries in the dictionary. Empty dictionaries ([code]{ }[/code]) always return [code]0[/code]. See also [method is_empty]. *)
     let size x0 =
@@ -22392,6 +22419,7 @@ GD.Print(GD.Hash(dict1) == GD.Hash(dict2)); // Prints true
 
   module Array = struct
     include M.Array
+    include BuiltinClass0.Array
 
     (** Returns the number of elements in the array. *)
     let size x0 =
@@ -23003,6 +23031,7 @@ See also [method max] for an example of using a custom comparator. *)
 
   module PackedByteArray = struct
     include M.PackedByteArray
+    include BuiltinClass0.PackedByteArray
 
     (** Returns the number of elements in the array. *)
     let size x0 =
@@ -23507,6 +23536,7 @@ If the original data can't be converted to 64-bit floats, the resulting data is 
 
   module PackedInt32Array = struct
     include M.PackedInt32Array
+    include BuiltinClass0.PackedInt32Array
 
     (** Returns the number of elements in the array. *)
     let size x0 =
@@ -23720,6 +23750,7 @@ The size of the new array will be [code]int32_array.size()  *  4[/code]. *)
 
   module PackedInt64Array = struct
     include M.PackedInt64Array
+    include BuiltinClass0.PackedInt64Array
 
     (** Returns the number of elements in the array. *)
     let size x0 =
@@ -23933,6 +23964,7 @@ The size of the new array will be [code]int64_array.size()  *  8[/code]. *)
 
   module PackedFloat32Array = struct
     include M.PackedFloat32Array
+    include BuiltinClass0.PackedFloat32Array
 
     (** Returns the number of elements in the array. *)
     let size x0 =
@@ -24160,6 +24192,7 @@ The size of the new array will be [code]float32_array.size()  *  4[/code]. *)
 
   module PackedFloat64Array = struct
     include M.PackedFloat64Array
+    include BuiltinClass0.PackedFloat64Array
 
     (** Returns the number of elements in the array. *)
     let size x0 =
@@ -24387,6 +24420,7 @@ The size of the new array will be [code]float64_array.size()  *  8[/code]. *)
 
   module PackedStringArray = struct
     include M.PackedStringArray
+    include BuiltinClass0.PackedStringArray
 
     (** Returns the number of elements in the array. *)
     let size x0 =
@@ -24599,6 +24633,7 @@ If either [param begin] or [param end] are negative, they will be relative to th
 
   module PackedVector2Array = struct
     include M.PackedVector2Array
+    include BuiltinClass0.PackedVector2Array
 
     (** Returns the number of elements in the array. *)
     let size x0 =
@@ -24830,6 +24865,7 @@ If either [param begin] or [param end] are negative, they will be relative to th
 
   module PackedVector3Array = struct
     include M.PackedVector3Array
+    include BuiltinClass0.PackedVector3Array
 
     (** Returns the number of elements in the array. *)
     let size x0 =
@@ -25061,6 +25097,7 @@ If either [param begin] or [param end] are negative, they will be relative to th
 
   module PackedColorArray = struct
     include M.PackedColorArray
+    include BuiltinClass0.PackedColorArray
 
     (** Returns the number of elements in the array. *)
     let size x0 =

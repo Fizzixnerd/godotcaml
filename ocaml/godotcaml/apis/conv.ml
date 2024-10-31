@@ -732,6 +732,11 @@ module StringName = struct
 
   let to_ocaml (x : godot_t) : ocaml_t = x
   let of_ocaml (x : ocaml_t) : godot_t = x
+
+  let of_string (x : string) : godot_t Living_core.Default.t =
+    let* sn = string_name_of_string x in
+    Living_core.Default.named_return "StringName.of_string"
+    @@ coerce_ptr StringName.typ sn
 end
 
 module NodePath = struct

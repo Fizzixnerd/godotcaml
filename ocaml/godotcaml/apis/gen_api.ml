@@ -949,7 +949,10 @@ module Gen = struct
           ]
       in
       module_ bic.name
-        (string (sprintf "include M.%s\n" (mod_var_str bic.name)) :: defs)
+        (string
+           (sprintf "include M.%s\ninclude BuiltinClass0.%s"
+              (mod_var_str bic.name) (mod_var_str bic.name))
+        :: defs)
 
     let t_to_mli : t -> ocaml =
      fun bic ->

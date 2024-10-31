@@ -23,7 +23,7 @@ module Class = struct
           Living_core.Default.unsafe_free
           @@ InstanceBindingCallbacks.make (gc_alloc ~count:1 ?finalise:None)
 
-        let new_ _ =
+        let _godot_create _ =
           let open Godotcaml_base.Godotcaml.C in
           let open Godotcaml_apis.Gdforeign in
           let open Living in
@@ -43,19 +43,19 @@ module Class = struct
             (coerce_ptr (ptr void) !library)
             (coerce_ptr (ptr void) null)
             instance_binding_callbacks;
-          Living_core.Default.return (init ret)
+          init ret
+
+        let new_ () = Living_core.Default.return @@ _godot_create ()
 
         let new_ptr =
           let open Godotcaml_base.Godotcaml.C in
           let open Godotcaml_apis.Gdforeign in
-          ClassCreateInstance.of_fun new_
-
-        let finalizer _ _ = Stdio.print_endline "collecting"
+          ClassCreateInstance.of_fun _godot_create
 
         let finalizer_ptr =
           let open Godotcaml_base.Godotcaml.C in
           let open Godotcaml_apis.Gdforeign in
-          ClassFreeInstance.of_fun finalizer
+          ClassFreeInstance.of_fun _godot_finalizer
 
         let _godot_class_info =
           let open Godotcaml_base.Godotcaml.C in
@@ -104,6 +104,7 @@ module Class = struct
         let _godot_signals_loader = ref (fun () -> ())
         let _godot_vars_loader = ref (fun () -> ())
         let _godot_virtual_function_table = Hashtbl.create (module String)
+        let _godot_finalizer _ _ = ()
 
         let _godot_virtual_function_add function_name
             (f : Godotcaml_base.Godotcaml.C.ClassCallVirtual.t) =
@@ -129,7 +130,6 @@ module Class = struct
         let _godot_inherits : string =
           [%e Ast_builder.Default.estring ~loc "RefCounted"]]
     in
-
     Ast_builder.Default.(
       pstr_module ~loc
         (module_binding ~loc
