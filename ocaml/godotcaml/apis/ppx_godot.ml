@@ -612,17 +612,58 @@ module Override = struct
     let (module M) = Ast_builder.make loc in
     let open M in
     let xs, _, _, _ = Func.parse_args args in
+    let ys = xs |> List.mapi ~f:(fun i _ -> Printf.sprintf "y%d" i) in
     let xs = xs |> List.mapi ~f:(fun i arg -> (Printf.sprintf "X%d" i, arg)) in
-    let _mod_xs =
-      xs
-      |> List.map ~f:(fun (name, mod_expr) ->
-             pstr_module
-             @@ module_binding ~name:{ txt = Some name; loc } ~expr:mod_expr)
-    in
     let function_name_expr =
       pexp_constant @@ Pconst_string (f_name, loc, None)
     in
-    let function_expr = pexp_ident { txt = lident f_name; loc } in
+    let count = List.length xs in
+    let lets (n : int) : (expression -> expression) list =
+      let rec lets (k : int) acc =
+        if k = -1 then acc
+        else
+          let new_let body =
+            [%expr
+              let* loc_k =
+                args
+                +@ [%e
+                     pexp_constant
+                       (Pconst_integer (Printf.sprintf "%d" k, None))]
+              in
+              let* arg_k = !@loc_k in
+              let [%p ppat_var { txt = Printf.sprintf "y%d" k; loc }] =
+                [%e
+                  pexp_ident
+                    {
+                      txt = Ldot (lident (Printf.sprintf "X%d" k), "to_ocaml");
+                      loc;
+                    }]
+                  (coerce_ptr
+                     [%e
+                       pexp_ident
+                         {
+                           txt =
+                             Ldot (lident (Printf.sprintf "X%d" k), "godot_typ");
+                           loc;
+                         }]
+                     arg_k)
+              in
+              [%e body]]
+          in
+          lets (k - 1) (new_let :: acc)
+      in
+      lets (n - 1) []
+    in
+    let composed_lets body =
+      lets count |> List.fold ~init:body ~f:(fun acc let_i -> let_i acc)
+    in
+    let function_expr args =
+      pexp_apply
+        (pexp_ident { txt = lident f_name; loc })
+        (args
+        |> List.map ~f:(fun arg ->
+               (Nolabel, pexp_ident { txt = lident arg; loc })))
+    in
     pstr_module
     @@ module_binding
          ~name:{ txt = Some ("Goverride_" ^ f_name); loc }
@@ -643,19 +684,19 @@ module Override = struct
                          let open Godotcaml_apis.Gdforeign in
                          Living_core.Default.unsafe_free
                          @@
-                         let* arg0 = !@args in
-                         let x0 = X0.to_ocaml (coerce_ptr X0.godot_typ arg0) in
                          let self = coerce_ptr Self.godot_typ self in
                          let self = Self.to_ocaml self in
                          [%e
+                           composed_lets
+                           @@
                            if is_void_returning then
                              [%expr
                                Living_core.Default.return
-                                 ([%e function_expr] x0 self)]
+                                 ([%e function_expr ys] self)]
                            else
                              [%expr
                                let ret' =
-                                 Ret.of_ocaml ([%e function_expr] x0 self)
+                                 Ret.of_ocaml ([%e function_expr ys] self)
                                in
                                Living_core.Default.return
                                  (coerce_ptr Ret.godot_t ret)
