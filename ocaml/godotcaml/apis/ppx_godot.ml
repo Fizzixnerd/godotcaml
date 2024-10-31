@@ -43,7 +43,7 @@ module Class = struct
             (coerce_ptr (ptr void) !library)
             (coerce_ptr (ptr void) null)
             instance_binding_callbacks;
-          Living_core.Default.return ret
+          Living_core.Default.return (init ret)
 
         let new_ptr =
           let open Godotcaml_base.Godotcaml.C in
@@ -129,6 +129,7 @@ module Class = struct
         let _godot_inherits : string =
           [%e Ast_builder.Default.estring ~loc "RefCounted"]]
     in
+
     Ast_builder.Default.(
       pstr_module ~loc
         (module_binding ~loc
