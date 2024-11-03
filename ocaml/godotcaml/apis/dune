@@ -11,7 +11,7 @@
  (modules Godotcaml Bootstrap)
  (public_name godotcaml_base)
  (name godotcaml_base)
- (libraries core ctypes ctypes.foreign living)
+ (libraries core ctypes ctypes.foreign living memo)
  (preprocess
   (pps ppx_jane))
  (flags

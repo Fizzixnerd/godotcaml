@@ -1,4 +1,7 @@
 module GlobalEnum0 = struct
+  let to_ocaml (x : int) = x
+  let of_ocaml (x : int) = x
+
   module Side = struct
     let is_bitfield = false
 

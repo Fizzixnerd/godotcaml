@@ -62,6 +62,8 @@ module Void = struct
 
   let s = void
   let typ = void
+  let to_ocaml () = ()
+  let of_ocaml () = ()
 
   let ocaml_to_variant : unit -> variant_ptr structure ptr =
    fun _ -> coerce_ptr variant_ptr.plain null
@@ -134,8 +136,11 @@ let string_name_new_with_utf8_chars str_name_ptr str =
   get_fun "string_name_new_with_utf8_chars"
     interface_string_name_new_with_utf8_chars.typ str_name_ptr str
 
+module String_memo = Memo.Make (Base.String)
+
 (** Call the destructor at some point! *)
-let string_name_of_string str =
+let string_name_of_string =
+  String_memo.memo @@ fun _ str ->
   let open Living_core.Default.Let_syntax in
   let* ptr = gc_alloc ~count:1 StringName.s in
   let string_name = coerce StringName.typ string_name_ptr.uninit ptr in
@@ -179,9 +184,9 @@ let variant_call () variant_ptr method_name args count ret call_error =
   get_fun "variant_call" variant_call.typ variant_ptr method_name args count ret
     call_error
 
-let variant_call_static () hash method_name args count ret call_error =
-  get_fun "variant_call_static" variant_call_static.typ hash method_name args
-    count ret call_error
+let variant_call_static () variant_type method_name args count ret call_error =
+  get_fun "variant_call_static" variant_call_static.typ variant_type method_name
+    args count ret call_error
 
 let get_variant_from_type_constructor variant_type =
   let getter =
@@ -213,6 +218,10 @@ let object_cast_to obj_ptr class_tag =
 let object_get_instance_id obj_ptr =
   get_fun "object_get_instance_id" interface_object_get_instance_id.typ obj_ptr
 
+let object_method_bind_ptrcall mb_ptr obj_ptr args ret =
+  get_fun "object_method_bind_ptrcall" interface_object_method_bind_ptrcall.typ
+    mb_ptr obj_ptr args ret
+
 let callable_custom_create callable_ptr callable_custom_info =
   get_fun "callable_custom_create" interface_callable_custom_create.typ
     callable_ptr callable_custom_info
@@ -240,6 +249,10 @@ let classdb_register_extension_class_signal library class_name signal_name
 
 let classdb_get_class_tag class_name =
   get_fun "classdb_get_class_tag" interface_get_class_tag.typ class_name
+
+let classdb_get_method_bind class_name method_name hash =
+  get_fun "classdb_get_method_bind" interface_classdb_get_method_bind.typ
+    class_name method_name hash
 
 let foreign_builtin_operator2 variant_type arg_type_opt operator typ ret_typ
     lhs_of_ocaml rhs_of_ocaml ret_to_ocaml lhs rhs =

@@ -9,2545 +9,2218 @@ module Godotcaml = Godotcaml
 open Foreign_base
 open Foreign_arrays
 
-let foreign_method0 method_name _fn ret_typ ret_to_variant ret_of_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = Int64.of_int 0 in
-  fun base ->
-    let open Living_core.Default.Let_syntax in
-    let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
-    in
-    let* arr =
-      Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
-        foreign_array0
-    in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
-
-let foreign_method0_void_static method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = Int64.of_int 0 in
+let foreign_method0_void_static class_name method_name hash _fn _ret_typ
+    _ret_to_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun () ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let* arr =
-      Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
-        foreign_array0
+    let ret = coerce_ptr type_ptr.plain null in
+    let* args =
+      Living_core.Default.map (coerce_ptr (ptr type_ptr.const)) foreign_array0
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ())
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method0v method_name _fn ret_typ ret_to_variant ret_of_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun vs base ->
+let foreign_method1v_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x0_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 vs self ->
     let open Living_core.Default.Let_syntax in
-    let count = Int64.of_int (List.length vs) in
-    let* ret =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
-    in
-    let* arr =
-      Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
-        (foreign_arrayv vs)
-    in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
-
-let foreign_method0_static method_name _fn ret_typ ret_to_variant ret_of_variant
-    _x_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = Int64.of_int 0 in
-  fun () ->
-    let open Living_core.Default.Let_syntax in
-    let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
-    in
-    let* arr =
-      Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
-        foreign_array0
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
-
-let foreign_method0_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = Int64.of_int 0 in
-  fun base ->
-    let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let* arr =
-      Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
-        foreign_array0
-    in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ())
-
-let foreign_method1v_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x vs base ->
-    let open Living_core.Default.Let_syntax in
-    let count = Int64.of_int (1 + VariadicVariants.length vs) in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x' = x_to_variant x in
-    let* arr =
-      Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
-        (foreign_arrayv (coerce_ptr variant_ptr.const x' :: vs))
-    in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ())
-
-let foreign_method1_void_static method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = Int64.of_int 1 in
-  fun x ->
-    let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x' = x_to_variant x in
-    let* arr =
-      Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
-        (foreign_array1 x')
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ())
-
-let foreign_method2_void_static method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x_to_variant y_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = Int64.of_int 2 in
-  fun x y ->
-    let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x' = x_to_variant x in
-    let y' = y_to_variant y in
-    let* arr =
-      Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
-        (foreign_array2 x' y')
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ())
-
-let foreign_method2v_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x_to_variant y_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x y vs base ->
-    let open Living_core.Default.Let_syntax in
-    let count = Int64.of_int (2 + VariadicVariants.length vs) in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x' = x_to_variant x in
-    let y' = y_to_variant y in
-    let* arr =
-      Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
-        (foreign_arrayv
-           (coerce_ptr variant_ptr.const x'
-           :: coerce_ptr variant_ptr.const y'
-           :: vs))
-    in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ())
-
-let foreign_method3v_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x_to_variant y_to_variant z_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x y z vs base ->
-    let open Living_core.Default.Let_syntax in
-    let count = Int64.of_int (3 + VariadicVariants.length vs) in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x' = x_to_variant x in
-    let y' = y_to_variant y in
-    let z' = z_to_variant z in
-    let* arr =
-      Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
-        (foreign_arrayv
-           (coerce_ptr variant_ptr.const x'
-           :: coerce_ptr variant_ptr.const y'
-           :: coerce_ptr variant_ptr.const z'
-           :: vs))
-    in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ())
-
-let foreign_method1 method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 1L in
-  fun x0 base ->
-    let open Living_core.Default.Let_syntax in
-    let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
-    in
-    let x0' = x0_to_variant x0 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
-      Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
-        (foreign_array1 x0')
-    in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
-
-let foreign_method1v method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x0 vs base ->
-    let open Living_core.Default.Let_syntax in
-    let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
-    in
-    let count = Int64.of_int (1 + VariadicVariants.length vs) in
-    let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
-    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-    let* arr =
-      Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_arrayv (x0' :: vs))
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method1_static method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
-  let err = global_call_error in
-  let count = 1L in
+let foreign_method1_void_static class_name method_name hash _fn _ret_typ
+    _ret_to_ocaml x0_typ x0_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 ->
+    let open Living_core.Default.Let_syntax in
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let* args =
+      Living_core.Default.map
+        (coerce_ptr (ptr type_ptr.const))
+        (foreign_array1 x0')
+    in
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
+
+let foreign_method2_void_static class_name method_name hash _fn _ret_typ
+    _ret_to_ocaml x0_typ x1_typ x0_of_ocaml x1_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 ->
+    let open Living_core.Default.Let_syntax in
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let* args =
+      Living_core.Default.map
+        (coerce_ptr (ptr type_ptr.const))
+        (foreign_array2 x0' x1')
+    in
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
+
+let foreign_method2v_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x0_of_ocaml x1_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 vs self ->
+    let open Living_core.Default.Let_syntax in
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let* args =
+      Living_core.Default.map
+        (coerce_ptr (ptr type_ptr.const))
+        (foreign_arrayv (x0' :: x1' :: vs))
+    in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
+
+let foreign_method3v_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x2_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 vs self ->
+    let open Living_core.Default.Let_syntax in
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let* args =
+      Living_core.Default.map
+        (coerce_ptr (ptr type_ptr.const))
+        (foreign_arrayv (x0' :: x1' :: x2' :: vs))
+    in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
+
+let foreign_method0 class_name method_name hash _fn ret_typ ret_to_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun self ->
+    let open Living_core.Default.Let_syntax in
+    let* ret =
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
+    in
+
+    let* args =
+      Living_core.Default.map (coerce_ptr (ptr type_ptr.const)) foreign_array0
+    in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
+
+let foreign_method0v class_name method_name hash _fn ret_typ ret_to_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun vs self ->
+    let open Living_core.Default.Let_syntax in
+    let* ret =
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
+    in
+
+    let* args =
+      Living_core.Default.map
+        (coerce_ptr (ptr type_ptr.const))
+        (foreign_arrayv vs)
+    in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
+
+let foreign_method0_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun () ->
+    let open Living_core.Default.Let_syntax in
+    let* ret =
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
+    in
+
+    let* args =
+      Living_core.Default.map (coerce_ptr (ptr type_ptr.const)) foreign_array0
+    in
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
+
+let foreign_method0_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun self ->
+    let open Living_core.Default.Let_syntax in
+    let ret = coerce_ptr type_ptr.plain null in
+
+    let* args =
+      Living_core.Default.map (coerce_ptr (ptr type_ptr.const)) foreign_array0
+    in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
+
+let foreign_method1 class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x0_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 self ->
+    let open Living_core.Default.Let_syntax in
+    let* ret =
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
+    in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let* args =
+      Living_core.Default.map
+        (coerce_ptr (ptr type_ptr.const))
+        (foreign_array1 x0')
+    in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
+
+let foreign_method1v class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x0_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 vs self ->
+    let open Living_core.Default.Let_syntax in
+    let* ret =
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
+    in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let* args =
+      Living_core.Default.map
+        (coerce_ptr (ptr type_ptr.const))
+        (foreign_arrayv (x0' :: vs))
+    in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
+
+let foreign_method1_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x0_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun x0 ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (fun r ->
-             coerce_ptr variant_ptr.uninit (ret_to_variant r))
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array1 x0')
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method1_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x0_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 1L in
-  fun x0 base ->
+let foreign_method1_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x0_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x0' = x0_to_variant x0 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array1 x0')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name ()
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method2 method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 2L in
-  fun x0 x1 base ->
+let foreign_method2 class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x0_of_ocaml x1_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array2 x0' x1')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method2v method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x0 x1 vs base ->
+let foreign_method2v class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x0_of_ocaml x1_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 vs self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let count = Int64.of_int (2 + VariadicVariants.length vs) in
-    let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
-    let x1' = coerce_ptr variant_ptr.const (x1_to_variant x1) in
-    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_arrayv (x0' :: x1' :: vs))
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
     Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method2_static method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
-  let err = global_call_error in
-  let count = 2L in
+let foreign_method2_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x0_of_ocaml x1_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun x0 x1 ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (fun r ->
-             coerce_ptr variant_ptr.uninit (ret_to_variant r))
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array2 x0' x1')
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method2_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x0_to_variant x1_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 2L in
-  fun x0 x1 base ->
+let foreign_method2_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x0_of_ocaml x1_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array2 x0' x1')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name ()
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method3 method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 3L in
-  fun x0 x1 x2 base ->
+let foreign_method3 class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array3 x0' x1' x2')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method3v method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x0 x1 x2 vs base ->
+let foreign_method3v class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 vs self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let count = Int64.of_int (3 + VariadicVariants.length vs) in
-    let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
-    let x1' = coerce_ptr variant_ptr.const (x1_to_variant x1) in
-    let x2' = coerce_ptr variant_ptr.const (x2_to_variant x2) in
-    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_arrayv (x0' :: x1' :: x2' :: vs))
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
     Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method3_static method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
-  let err = global_call_error in
-  let count = 3L in
+let foreign_method3_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun x0 x1 x2 ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (fun r ->
-             coerce_ptr variant_ptr.uninit (ret_to_variant r))
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array3 x0' x1' x2')
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method3_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x0_to_variant x1_to_variant x2_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 3L in
-  fun x0 x1 x2 base ->
+let foreign_method3_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x2_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array3 x0' x1' x2')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name ()
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method4 method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 4L in
-  fun x0 x1 x2 x3 base ->
+let foreign_method4 class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array4 x0' x1' x2' x3')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method4v method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x0 x1 x2 x3 vs base ->
+let foreign_method4v class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 vs self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let count = Int64.of_int (4 + VariadicVariants.length vs) in
-    let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
-    let x1' = coerce_ptr variant_ptr.const (x1_to_variant x1) in
-    let x2' = coerce_ptr variant_ptr.const (x2_to_variant x2) in
-    let x3' = coerce_ptr variant_ptr.const (x3_to_variant x3) in
-    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_arrayv (x0' :: x1' :: x2' :: x3' :: vs))
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
     Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method4_static method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
-  let err = global_call_error in
-  let count = 4L in
+let foreign_method4_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml
+    =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun x0 x1 x2 x3 ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (fun r ->
-             coerce_ptr variant_ptr.uninit (ret_to_variant r))
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array4 x0' x1' x2' x3')
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method4_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 4L in
-  fun x0 x1 x2 x3 base ->
+let foreign_method4_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml
+    =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array4 x0' x1' x2' x3')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name ()
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method5 method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 5L in
-  fun x0 x1 x2 x3 x4 base ->
+let foreign_method5 class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml
+    x4_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array5 x0' x1' x2' x3' x4')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method5v method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x0 x1 x2 x3 x4 vs base ->
+let foreign_method5v class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml
+    x4_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 vs self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let count = Int64.of_int (5 + VariadicVariants.length vs) in
-    let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
-    let x1' = coerce_ptr variant_ptr.const (x1_to_variant x1) in
-    let x2' = coerce_ptr variant_ptr.const (x2_to_variant x2) in
-    let x3' = coerce_ptr variant_ptr.const (x3_to_variant x3) in
-    let x4' = coerce_ptr variant_ptr.const (x4_to_variant x4) in
-    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_arrayv (x0' :: x1' :: x2' :: x3' :: x4' :: vs))
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
     Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method5_static method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
-  let err = global_call_error in
-  let count = 5L in
+let foreign_method5_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml
+    x3_of_ocaml x4_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun x0 x1 x2 x3 x4 ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (fun r ->
-             coerce_ptr variant_ptr.uninit (ret_to_variant r))
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array5 x0' x1' x2' x3' x4')
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method5_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 5L in
-  fun x0 x1 x2 x3 x4 base ->
+let foreign_method5_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml
+    x3_of_ocaml x4_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array5 x0' x1' x2' x3' x4')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name ()
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method6 method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 6L in
-  fun x0 x1 x2 x3 x4 x5 base ->
+let foreign_method6 class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x5_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml
+    x3_of_ocaml x4_of_ocaml x5_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array6 x0' x1' x2' x3' x4' x5')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method6v method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x0 x1 x2 x3 x4 x5 vs base ->
+let foreign_method6v class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x5_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml
+    x3_of_ocaml x4_of_ocaml x5_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 vs self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let count = Int64.of_int (6 + VariadicVariants.length vs) in
-    let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
-    let x1' = coerce_ptr variant_ptr.const (x1_to_variant x1) in
-    let x2' = coerce_ptr variant_ptr.const (x2_to_variant x2) in
-    let x3' = coerce_ptr variant_ptr.const (x3_to_variant x3) in
-    let x4' = coerce_ptr variant_ptr.const (x4_to_variant x4) in
-    let x5' = coerce_ptr variant_ptr.const (x5_to_variant x5) in
-    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_arrayv (x0' :: x1' :: x2' :: x3' :: x4' :: x5' :: vs))
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
     Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method6_static method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
-  let err = global_call_error in
-  let count = 6L in
+let foreign_method6_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x0_of_ocaml x1_of_ocaml
+    x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun x0 x1 x2 x3 x4 x5 ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (fun r ->
-             coerce_ptr variant_ptr.uninit (ret_to_variant r))
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array6 x0' x1' x2' x3' x4' x5')
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method6_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant x5_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 6L in
-  fun x0 x1 x2 x3 x4 x5 base ->
+let foreign_method6_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x0_of_ocaml x1_of_ocaml
+    x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array6 x0' x1' x2' x3' x4' x5')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name ()
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method7 method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 7L in
-  fun x0 x1 x2 x3 x4 x5 x6 base ->
+let foreign_method7 class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x0_of_ocaml x1_of_ocaml
+    x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array7 x0' x1' x2' x3' x4' x5' x6')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method7v method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x0 x1 x2 x3 x4 x5 x6 vs base ->
+let foreign_method7v class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x0_of_ocaml x1_of_ocaml
+    x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 vs self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let count = Int64.of_int (7 + VariadicVariants.length vs) in
-    let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
-    let x1' = coerce_ptr variant_ptr.const (x1_to_variant x1) in
-    let x2' = coerce_ptr variant_ptr.const (x2_to_variant x2) in
-    let x3' = coerce_ptr variant_ptr.const (x3_to_variant x3) in
-    let x4' = coerce_ptr variant_ptr.const (x4_to_variant x4) in
-    let x5' = coerce_ptr variant_ptr.const (x5_to_variant x5) in
-    let x6' = coerce_ptr variant_ptr.const (x6_to_variant x6) in
-    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_arrayv (x0' :: x1' :: x2' :: x3' :: x4' :: x5' :: x6' :: vs))
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
     Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method7_static method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
-  let err = global_call_error in
-  let count = 7L in
+let foreign_method7_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x0_of_ocaml x1_of_ocaml
+    x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun x0 x1 x2 x3 x4 x5 x6 ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (fun r ->
-             coerce_ptr variant_ptr.uninit (ret_to_variant r))
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array7 x0' x1' x2' x3' x4' x5' x6')
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method7_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant x5_to_variant x6_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 7L in
-  fun x0 x1 x2 x3 x4 x5 x6 base ->
+let foreign_method7_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x0_of_ocaml x1_of_ocaml
+    x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array7 x0' x1' x2' x3' x4' x5' x6')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name ()
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method8 method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 8L in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 base ->
+let foreign_method8 class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x0_of_ocaml x1_of_ocaml
+    x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array8 x0' x1' x2' x3' x4' x5' x6' x7')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method8v method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 vs base ->
+let foreign_method8v class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x0_of_ocaml x1_of_ocaml
+    x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 vs self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let count = Int64.of_int (8 + VariadicVariants.length vs) in
-    let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
-    let x1' = coerce_ptr variant_ptr.const (x1_to_variant x1) in
-    let x2' = coerce_ptr variant_ptr.const (x2_to_variant x2) in
-    let x3' = coerce_ptr variant_ptr.const (x3_to_variant x3) in
-    let x4' = coerce_ptr variant_ptr.const (x4_to_variant x4) in
-    let x5' = coerce_ptr variant_ptr.const (x5_to_variant x5) in
-    let x6' = coerce_ptr variant_ptr.const (x6_to_variant x6) in
-    let x7' = coerce_ptr variant_ptr.const (x7_to_variant x7) in
-    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_arrayv
            (x0' :: x1' :: x2' :: x3' :: x4' :: x5' :: x6' :: x7' :: vs))
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
     Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method8_static method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
-  let err = global_call_error in
-  let count = 8L in
+let foreign_method8_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x0_of_ocaml
+    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
+    x7_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun x0 x1 x2 x3 x4 x5 x6 x7 ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (fun r ->
-             coerce_ptr variant_ptr.uninit (ret_to_variant r))
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array8 x0' x1' x2' x3' x4' x5' x6' x7')
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method8_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant x5_to_variant x6_to_variant x7_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 8L in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 base ->
+let foreign_method8_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x0_of_ocaml
+    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
+    x7_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array8 x0' x1' x2' x3' x4' x5' x6' x7')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name ()
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method9 method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant x8_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 9L in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 base ->
+let foreign_method9 class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x0_of_ocaml
+    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
+    x7_of_ocaml x8_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array9 x0' x1' x2' x3' x4' x5' x6' x7' x8')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method9v method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant x8_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 vs base ->
+let foreign_method9v class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x0_of_ocaml
+    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
+    x7_of_ocaml x8_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 vs self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let count = Int64.of_int (9 + VariadicVariants.length vs) in
-    let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
-    let x1' = coerce_ptr variant_ptr.const (x1_to_variant x1) in
-    let x2' = coerce_ptr variant_ptr.const (x2_to_variant x2) in
-    let x3' = coerce_ptr variant_ptr.const (x3_to_variant x3) in
-    let x4' = coerce_ptr variant_ptr.const (x4_to_variant x4) in
-    let x5' = coerce_ptr variant_ptr.const (x5_to_variant x5) in
-    let x6' = coerce_ptr variant_ptr.const (x6_to_variant x6) in
-    let x7' = coerce_ptr variant_ptr.const (x7_to_variant x7) in
-    let x8' = coerce_ptr variant_ptr.const (x8_to_variant x8) in
-    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_arrayv
            (x0' :: x1' :: x2' :: x3' :: x4' :: x5' :: x6' :: x7' :: x8' :: vs))
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
     Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method9_static method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant x8_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
-  let err = global_call_error in
-  let count = 9L in
+let foreign_method9_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x0_of_ocaml
+    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
+    x7_of_ocaml x8_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (fun r ->
-             coerce_ptr variant_ptr.uninit (ret_to_variant r))
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array9 x0' x1' x2' x3' x4' x5' x6' x7' x8')
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method9_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant x5_to_variant x6_to_variant x7_to_variant x8_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 9L in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 base ->
+let foreign_method9_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x0_of_ocaml
+    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
+    x7_of_ocaml x8_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array9 x0' x1' x2' x3' x4' x5' x6' x7' x8')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name ()
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method10 method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant x8_to_variant x9_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 10L in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 base ->
+let foreign_method10 class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ x0_of_ocaml
+    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
+    x7_of_ocaml x8_of_ocaml x9_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array10 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method10v method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant x8_to_variant x9_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 vs base ->
+let foreign_method10v class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml
+    x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 vs self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let count = Int64.of_int (10 + VariadicVariants.length vs) in
-    let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
-    let x1' = coerce_ptr variant_ptr.const (x1_to_variant x1) in
-    let x2' = coerce_ptr variant_ptr.const (x2_to_variant x2) in
-    let x3' = coerce_ptr variant_ptr.const (x3_to_variant x3) in
-    let x4' = coerce_ptr variant_ptr.const (x4_to_variant x4) in
-    let x5' = coerce_ptr variant_ptr.const (x5_to_variant x5) in
-    let x6' = coerce_ptr variant_ptr.const (x6_to_variant x6) in
-    let x7' = coerce_ptr variant_ptr.const (x7_to_variant x7) in
-    let x8' = coerce_ptr variant_ptr.const (x8_to_variant x8) in
-    let x9' = coerce_ptr variant_ptr.const (x9_to_variant x9) in
-    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_arrayv
            (x0' :: x1' :: x2' :: x3' :: x4' :: x5' :: x6' :: x7' :: x8' :: x9'
           :: vs))
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
     Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method10_static method_name _fn ret_typ ret_to_variant
-    ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant x5_to_variant x6_to_variant x7_to_variant x8_to_variant
-    x9_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
-  let err = global_call_error in
-  let count = 10L in
+let foreign_method10_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml
+    x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (fun r ->
-             coerce_ptr variant_ptr.uninit (ret_to_variant r))
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array10 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9')
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method10_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant x5_to_variant x6_to_variant x7_to_variant x8_to_variant
-    x9_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 10L in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 base ->
+let foreign_method10_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml
+    x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array10 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name ()
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method11 method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant x8_to_variant x9_to_variant
-    x10_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 11L in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 base ->
+let foreign_method11 class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ x10_typ
+    x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml
+    x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    let x10' = x10_to_variant x10 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array11 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9' x10')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method11v method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant x8_to_variant x9_to_variant
-    x10_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 vs base ->
+let foreign_method11v class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x10_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml
+    x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 vs self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let count = Int64.of_int (11 + VariadicVariants.length vs) in
-    let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
-    let x1' = coerce_ptr variant_ptr.const (x1_to_variant x1) in
-    let x2' = coerce_ptr variant_ptr.const (x2_to_variant x2) in
-    let x3' = coerce_ptr variant_ptr.const (x3_to_variant x3) in
-    let x4' = coerce_ptr variant_ptr.const (x4_to_variant x4) in
-    let x5' = coerce_ptr variant_ptr.const (x5_to_variant x5) in
-    let x6' = coerce_ptr variant_ptr.const (x6_to_variant x6) in
-    let x7' = coerce_ptr variant_ptr.const (x7_to_variant x7) in
-    let x8' = coerce_ptr variant_ptr.const (x8_to_variant x8) in
-    let x9' = coerce_ptr variant_ptr.const (x9_to_variant x9) in
-    let x10' = coerce_ptr variant_ptr.const (x10_to_variant x10) in
-    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_arrayv
            (x0' :: x1' :: x2' :: x3' :: x4' :: x5' :: x6' :: x7' :: x8' :: x9'
           :: x10' :: vs))
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
     Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method11_static method_name _fn ret_typ ret_to_variant
-    ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant x5_to_variant x6_to_variant x7_to_variant x8_to_variant
-    x9_to_variant x10_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
-  let err = global_call_error in
-  let count = 11L in
+let foreign_method11_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x10_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml
+    x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (fun r ->
-             coerce_ptr variant_ptr.uninit (ret_to_variant r))
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    let x10' = x10_to_variant x10 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array11 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9' x10')
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method11_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant x5_to_variant x6_to_variant x7_to_variant x8_to_variant
-    x9_to_variant x10_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 11L in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 base ->
+let foreign_method11_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x10_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml
+    x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    let x10' = x10_to_variant x10 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array11 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9' x10')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name ()
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method12 method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant x8_to_variant x9_to_variant
-    x10_to_variant x11_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 12L in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 base ->
+let foreign_method12 class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ x10_typ
+    x11_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml
+    x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml
+    x11_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    let x10' = x10_to_variant x10 in
-    let x11' = x11_to_variant x11 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let x11' = coerce x11_typ type_ptr.const (x11_of_ocaml x11) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array12 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9' x10' x11')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method12v method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant x8_to_variant x9_to_variant
-    x10_to_variant x11_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 vs base ->
+let foreign_method12v class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x10_typ x11_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml
+    x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml
+    x11_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 vs self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let count = Int64.of_int (12 + VariadicVariants.length vs) in
-    let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
-    let x1' = coerce_ptr variant_ptr.const (x1_to_variant x1) in
-    let x2' = coerce_ptr variant_ptr.const (x2_to_variant x2) in
-    let x3' = coerce_ptr variant_ptr.const (x3_to_variant x3) in
-    let x4' = coerce_ptr variant_ptr.const (x4_to_variant x4) in
-    let x5' = coerce_ptr variant_ptr.const (x5_to_variant x5) in
-    let x6' = coerce_ptr variant_ptr.const (x6_to_variant x6) in
-    let x7' = coerce_ptr variant_ptr.const (x7_to_variant x7) in
-    let x8' = coerce_ptr variant_ptr.const (x8_to_variant x8) in
-    let x9' = coerce_ptr variant_ptr.const (x9_to_variant x9) in
-    let x10' = coerce_ptr variant_ptr.const (x10_to_variant x10) in
-    let x11' = coerce_ptr variant_ptr.const (x11_to_variant x11) in
-    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let x11' = coerce x11_typ type_ptr.const (x11_of_ocaml x11) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_arrayv
            (x0' :: x1' :: x2' :: x3' :: x4' :: x5' :: x6' :: x7' :: x8' :: x9'
           :: x10' :: x11' :: vs))
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
     Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method12_static method_name _fn ret_typ ret_to_variant
-    ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant x5_to_variant x6_to_variant x7_to_variant x8_to_variant
-    x9_to_variant x10_to_variant x11_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
-  let err = global_call_error in
-  let count = 12L in
+let foreign_method12_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x10_typ x11_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml
+    x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml
+    x11_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (fun r ->
-             coerce_ptr variant_ptr.uninit (ret_to_variant r))
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    let x10' = x10_to_variant x10 in
-    let x11' = x11_to_variant x11 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let x11' = coerce x11_typ type_ptr.const (x11_of_ocaml x11) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array12 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9' x10' x11')
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method12_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant x5_to_variant x6_to_variant x7_to_variant x8_to_variant
-    x9_to_variant x10_to_variant x11_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 12L in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 base ->
+let foreign_method12_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x10_typ x11_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml
+    x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml
+    x11_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    let x10' = x10_to_variant x10 in
-    let x11' = x11_to_variant x11 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let x11' = coerce x11_typ type_ptr.const (x11_of_ocaml x11) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array12 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9' x10' x11')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name ()
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method13 method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant x8_to_variant x9_to_variant
-    x10_to_variant x11_to_variant x12_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 13L in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 base ->
+let foreign_method13 class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ x10_typ
+    x11_typ x12_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml
+    x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml
+    x11_of_ocaml x12_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    let x10' = x10_to_variant x10 in
-    let x11' = x11_to_variant x11 in
-    let x12' = x12_to_variant x12 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let x11' = coerce x11_typ type_ptr.const (x11_of_ocaml x11) in
+    let x12' = coerce x12_typ type_ptr.const (x12_of_ocaml x12) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array13 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9' x10' x11' x12')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method13v method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant x8_to_variant x9_to_variant
-    x10_to_variant x11_to_variant x12_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 vs base ->
+let foreign_method13v class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x10_typ x11_typ x12_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml
+    x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml
+    x10_of_ocaml x11_of_ocaml x12_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 vs self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let count = Int64.of_int (13 + VariadicVariants.length vs) in
-    let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
-    let x1' = coerce_ptr variant_ptr.const (x1_to_variant x1) in
-    let x2' = coerce_ptr variant_ptr.const (x2_to_variant x2) in
-    let x3' = coerce_ptr variant_ptr.const (x3_to_variant x3) in
-    let x4' = coerce_ptr variant_ptr.const (x4_to_variant x4) in
-    let x5' = coerce_ptr variant_ptr.const (x5_to_variant x5) in
-    let x6' = coerce_ptr variant_ptr.const (x6_to_variant x6) in
-    let x7' = coerce_ptr variant_ptr.const (x7_to_variant x7) in
-    let x8' = coerce_ptr variant_ptr.const (x8_to_variant x8) in
-    let x9' = coerce_ptr variant_ptr.const (x9_to_variant x9) in
-    let x10' = coerce_ptr variant_ptr.const (x10_to_variant x10) in
-    let x11' = coerce_ptr variant_ptr.const (x11_to_variant x11) in
-    let x12' = coerce_ptr variant_ptr.const (x12_to_variant x12) in
-    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let x11' = coerce x11_typ type_ptr.const (x11_of_ocaml x11) in
+    let x12' = coerce x12_typ type_ptr.const (x12_of_ocaml x12) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_arrayv
            (x0' :: x1' :: x2' :: x3' :: x4' :: x5' :: x6' :: x7' :: x8' :: x9'
           :: x10' :: x11' :: x12' :: vs))
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
     Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method13_static method_name _fn ret_typ ret_to_variant
-    ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant x5_to_variant x6_to_variant x7_to_variant x8_to_variant
-    x9_to_variant x10_to_variant x11_to_variant x12_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
-  let err = global_call_error in
-  let count = 13L in
+let foreign_method13_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x10_typ x11_typ x12_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml
+    x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml
+    x10_of_ocaml x11_of_ocaml x12_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (fun r ->
-             coerce_ptr variant_ptr.uninit (ret_to_variant r))
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    let x10' = x10_to_variant x10 in
-    let x11' = x11_to_variant x11 in
-    let x12' = x12_to_variant x12 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let x11' = coerce x11_typ type_ptr.const (x11_of_ocaml x11) in
+    let x12' = coerce x12_typ type_ptr.const (x12_of_ocaml x12) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array13 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9' x10' x11' x12')
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method13_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant x5_to_variant x6_to_variant x7_to_variant x8_to_variant
-    x9_to_variant x10_to_variant x11_to_variant x12_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 13L in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 base ->
+let foreign_method13_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x10_typ x11_typ x12_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml
+    x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml
+    x10_of_ocaml x11_of_ocaml x12_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    let x10' = x10_to_variant x10 in
-    let x11' = x11_to_variant x11 in
-    let x12' = x12_to_variant x12 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let x11' = coerce x11_typ type_ptr.const (x11_of_ocaml x11) in
+    let x12' = coerce x12_typ type_ptr.const (x12_of_ocaml x12) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array13 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9' x10' x11' x12')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name ()
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()
 
-let foreign_method14 method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant x8_to_variant x9_to_variant
-    x10_to_variant x11_to_variant x12_to_variant x13_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 14L in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 base ->
+let foreign_method14 class_name method_name hash _fn ret_typ ret_to_ocaml x0_typ
+    x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ x10_typ
+    x11_typ x12_typ x13_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml x3_of_ocaml
+    x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml x9_of_ocaml
+    x10_of_ocaml x11_of_ocaml x12_of_ocaml x13_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    let x10' = x10_to_variant x10 in
-    let x11' = x11_to_variant x11 in
-    let x12' = x12_to_variant x12 in
-    let x13' = x13_to_variant x13 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let x11' = coerce x11_typ type_ptr.const (x11_of_ocaml x11) in
+    let x12' = coerce x12_typ type_ptr.const (x12_of_ocaml x12) in
+    let x13' = coerce x13_typ type_ptr.const (x13_of_ocaml x13) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array14 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9' x10' x11' x12'
            x13')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method14v method_name _fn ret_typ ret_to_variant ret_of_variant
-    x0_to_variant x1_to_variant x2_to_variant x3_to_variant x4_to_variant
-    x5_to_variant x6_to_variant x7_to_variant x8_to_variant x9_to_variant
-    x10_to_variant x11_to_variant x12_to_variant x13_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 vs base ->
+let foreign_method14v class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x10_typ x11_typ x12_typ x13_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml
+    x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml
+    x9_of_ocaml x10_of_ocaml x11_of_ocaml x12_of_ocaml x13_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 vs self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.uninit)
-        (Living_core.Default.map ret_to_variant (gc_alloc ret_typ ~count:1))
+      gc_alloc ret_typ ~count:1
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let count = Int64.of_int (14 + VariadicVariants.length vs) in
-    let x0' = coerce_ptr variant_ptr.const (x0_to_variant x0) in
-    let x1' = coerce_ptr variant_ptr.const (x1_to_variant x1) in
-    let x2' = coerce_ptr variant_ptr.const (x2_to_variant x2) in
-    let x3' = coerce_ptr variant_ptr.const (x3_to_variant x3) in
-    let x4' = coerce_ptr variant_ptr.const (x4_to_variant x4) in
-    let x5' = coerce_ptr variant_ptr.const (x5_to_variant x5) in
-    let x6' = coerce_ptr variant_ptr.const (x6_to_variant x6) in
-    let x7' = coerce_ptr variant_ptr.const (x7_to_variant x7) in
-    let x8' = coerce_ptr variant_ptr.const (x8_to_variant x8) in
-    let x9' = coerce_ptr variant_ptr.const (x9_to_variant x9) in
-    let x10' = coerce_ptr variant_ptr.const (x10_to_variant x10) in
-    let x11' = coerce_ptr variant_ptr.const (x11_to_variant x11) in
-    let x12' = coerce_ptr variant_ptr.const (x12_to_variant x12) in
-    let x13' = coerce_ptr variant_ptr.const (x13_to_variant x13) in
-    (* let x' = coerce_ptr variant_ptr.const (x_to_variant x) in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let x11' = coerce x11_typ type_ptr.const (x11_of_ocaml x11) in
+    let x12' = coerce x12_typ type_ptr.const (x12_of_ocaml x12) in
+    let x13' = coerce x13_typ type_ptr.const (x13_of_ocaml x13) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_arrayv
            (x0' :: x1' :: x2' :: x3' :: x4' :: x5' :: x6' :: x7' :: x8' :: x9'
           :: x10' :: x11' :: x12' :: x13' :: vs))
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
     Living_core.Default.named_return method_name
-      (if is_error err then raise (to_exn err) else ret_of_variant ret)
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method14_static method_name _fn ret_typ ret_to_variant
-    ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant x5_to_variant x6_to_variant x7_to_variant x8_to_variant
-    x9_to_variant x10_to_variant x11_to_variant x12_to_variant x13_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? (Make it thread local?) *)
-  let err = global_call_error in
-  let count = 14L in
+let foreign_method14_static class_name method_name hash _fn ret_typ ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x10_typ x11_typ x12_typ x13_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml
+    x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml
+    x9_of_ocaml x10_of_ocaml x11_of_ocaml x12_of_ocaml x13_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
   fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 ->
     let open Living_core.Default.Let_syntax in
     let* ret =
       gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (fun r ->
-             coerce_ptr variant_ptr.uninit (ret_to_variant r))
+      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    let x10' = x10_to_variant x10 in
-    let x11' = x11_to_variant x11 in
-    let x12' = x12_to_variant x12 in
-    let x13' = x13_to_variant x13 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let x11' = coerce x11_typ type_ptr.const (x11_of_ocaml x11) in
+    let x12' = coerce x12_typ type_ptr.const (x12_of_ocaml x12) in
+    let x13' = coerce x13_typ type_ptr.const (x13_of_ocaml x13) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array14 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9' x10' x11' x12'
            x13')
     in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call_static () VariantType.object_ sn arr count ret err)
-    in
-    let ret = coerce_ptr variant_ptr.plain ret in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name (ret_of_variant ret)
+    let self = coerce_ptr object_ptr.plain null in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name
+      (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
 
-let foreign_method14_void method_name _fn _ret_typ _ret_to_variant
-    _ret_of_variant x0_to_variant x1_to_variant x2_to_variant x3_to_variant
-    x4_to_variant x5_to_variant x6_to_variant x7_to_variant x8_to_variant
-    x9_to_variant x10_to_variant x11_to_variant x12_to_variant x13_to_variant =
-  (* DO NOT FREE! CAPTURED BY THE BELOW LAMBDA! *)
-  let string_name = string_name_of_string method_name in
-  (* Is this evil?  Yes.  But I can fix it later... Maybe? *)
-  let err = global_call_error in
-  let count = 14L in
-  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 base ->
+let foreign_method14_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
+    x0_typ x1_typ x2_typ x3_typ x4_typ x5_typ x6_typ x7_typ x8_typ x9_typ
+    x10_typ x11_typ x12_typ x13_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml
+    x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml
+    x9_of_ocaml x10_of_ocaml x11_of_ocaml x12_of_ocaml x13_of_ocaml =
+  let method_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string method_name
+  in
+  let class_string_name =
+    Living_core.Default.unsafe_free @@ string_name_of_string class_name
+  in
+  let method_bind =
+    classdb_get_method_bind class_string_name method_string_name hash
+  in
+  fun x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr variant_ptr.uninit null in
-    let x0' = x0_to_variant x0 in
-    let x1' = x1_to_variant x1 in
-    let x2' = x2_to_variant x2 in
-    let x3' = x3_to_variant x3 in
-    let x4' = x4_to_variant x4 in
-    let x5' = x5_to_variant x5 in
-    let x6' = x6_to_variant x6 in
-    let x7' = x7_to_variant x7 in
-    let x8' = x8_to_variant x8 in
-    let x9' = x9_to_variant x9 in
-    let x10' = x10_to_variant x10 in
-    let x11' = x11_to_variant x11 in
-    let x12' = x12_to_variant x12 in
-    let x13' = x13_to_variant x13 in
-    (* let x' = x_to_variant x in *)
-    let* arr =
+    let ret = coerce_ptr type_ptr.plain null in
+    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
+    let x3' = coerce x3_typ type_ptr.const (x3_of_ocaml x3) in
+    let x4' = coerce x4_typ type_ptr.const (x4_of_ocaml x4) in
+    let x5' = coerce x5_typ type_ptr.const (x5_of_ocaml x5) in
+    let x6' = coerce x6_typ type_ptr.const (x6_of_ocaml x6) in
+    let x7' = coerce x7_typ type_ptr.const (x7_of_ocaml x7) in
+    let x8' = coerce x8_typ type_ptr.const (x8_of_ocaml x8) in
+    let x9' = coerce x9_typ type_ptr.const (x9_of_ocaml x9) in
+    let x10' = coerce x10_typ type_ptr.const (x10_of_ocaml x10) in
+    let x11' = coerce x11_typ type_ptr.const (x11_of_ocaml x11) in
+    let x12' = coerce x12_typ type_ptr.const (x12_of_ocaml x12) in
+    let x13' = coerce x13_typ type_ptr.const (x13_of_ocaml x13) in
+    let* args =
       Living_core.Default.map
-        (coerce_ptr (ptr variant_ptr.const))
+        (coerce_ptr (ptr type_ptr.const))
         (foreign_array14 x0' x1' x2' x3' x4' x5' x6' x7' x8' x9' x10' x11' x12'
            x13')
     in
-    let* base =
-      Living_core.Default.map
-        (coerce_ptr variant_ptr.plain)
-        (foreign_array1 base)
-    in
-    let* () =
-      string_name
-      |> Living_core.Default.map (fun sn ->
-             variant_call () base sn arr count ret err)
-    in
-    if is_error err then raise (to_exn err)
-    else Living_core.Default.named_return method_name ()
+    let self = coerce_ptr object_ptr.plain self in
+    let () = object_method_bind_ptrcall method_bind self args ret in
+    Living_core.Default.named_return method_name ()

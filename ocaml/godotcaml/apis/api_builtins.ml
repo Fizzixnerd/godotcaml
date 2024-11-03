@@ -1713,6 +1713,9 @@ module ApiTypes = struct
 end
 
 module GlobalEnum0 = struct
+  let to_ocaml (x : int) = x
+  let of_ocaml (x : int) = x
+
   module Side = struct
     let is_bitfield = false
 
@@ -3436,6 +3439,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3450,6 +3455,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3464,6 +3471,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3478,6 +3487,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3492,6 +3503,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3506,6 +3519,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3520,6 +3535,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3534,6 +3551,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3548,6 +3567,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3562,6 +3583,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3576,6 +3599,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3590,6 +3615,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3604,6 +3631,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3618,6 +3647,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3632,6 +3663,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3646,6 +3679,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3660,6 +3695,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3674,6 +3711,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3688,6 +3727,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3702,6 +3743,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 
@@ -3716,6 +3759,8 @@ module GlobalEnum = struct
     let ocaml_to_variant = ApiTypes.Int.ocaml_to_variant
     let godot_of_variant = ApiTypes.Int.godot_of_variant
     let ocaml_of_variant = ApiTypes.Int.ocaml_of_variant
+    let to_ocaml = ApiTypes.Int.to_ocaml
+    let of_ocaml = ApiTypes.Int.of_ocaml
 
     type t = ApiTypes.Int.t structure ptr
 

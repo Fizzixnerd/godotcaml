@@ -875,6 +875,8 @@ module ApiTypes = struct
       field s "_Variant_dummy_do_not_touch" (array ClassSizes._Variant uint8_t)
 
     let () = seal s
+    let to_ocaml (x : t structure ptr) = x
+    let of_ocaml (x : t structure ptr) = x
     let of_voidp = coerce (ptr void) (ptr s)
     let to_voidp = coerce (ptr s) (ptr void)
     let to_type_ptr = coerce (ptr s) type_ptr.plain

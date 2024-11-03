@@ -1027,10 +1027,15 @@ module C = struct
   let interface_object_get_instance_id =
     fn_suite "" (object_ptr.const @-> returning instance_id)
 
-  let interface_get_method_bind =
+  let interface_object_method_bind_ptrcall =
     fn_suite ""
-      (string_name_ptr.const @-> string_name_ptr.const @-> gint
-      @-> (*FIXME*) returning (ptr void))
+      (method_bind_ptr.const @-> object_ptr.plain @-> ptr type_ptr.const
+     @-> type_ptr.plain @-> returning void)
+
+  let interface_classdb_get_method_bind =
+    fn_suite ""
+      (string_name_ptr.const @-> string_name_ptr.const @-> gint (* hash *)
+      @-> returning method_bind_ptr.const)
 
   let interface_get_class_tag =
     fn_suite "" (string_name_ptr.const @-> returning (ptr void))
