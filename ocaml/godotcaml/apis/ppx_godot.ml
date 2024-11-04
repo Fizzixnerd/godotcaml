@@ -83,15 +83,15 @@ module Class = struct
               string_name_of_string _godot_inherits
             in
             let* godot_class_name_strname =
-              string_name_of_string _godot_class_name
-            in
+              string_name_of_string _godot_class_name in
+            let () = on_load_func () in
             classdb_register_extension_class2
               !Godotcaml_apis.Gdforeign.library
               godot_class_name_strname godot_inherits_strname _godot_class_info;
             !_godot_vars_loader ();
             !_godot_signals_loader ();
             !_godot_methods_loader ();
-            Living_core.Default.return (on_load_func ())
+            Living_core.Default.return ()
           in
           on_load := new_on_load_func]
     in

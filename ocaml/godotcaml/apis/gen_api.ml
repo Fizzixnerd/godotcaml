@@ -40,7 +40,7 @@ module Api = struct
   module GlobalEnum = struct
     type value = {
       name : string;
-      value : int;
+      value : int64;
       description : string option; [@yojson.option]
     }
     [@@deriving yojson]
@@ -586,7 +586,7 @@ module Gen = struct
      fun value ->
       let dc = optional doc_comment value.description in
       let int_value = value.value in
-      dc ^/^ let_ value.name (OCaml.int int_value)
+      dc ^/^ let_ value.name (OCaml.int64 int_value)
 
     let t_to_ocaml : t -> ocaml =
      fun ge ->
@@ -594,7 +594,7 @@ module Gen = struct
       let is_bitfield = OCaml.bool ge.is_bitfield in
       let defs = ge.values |> List.map ~f:value_to_ocaml in
       let defs =
-        let_ "is_bitfield" is_bitfield :: string "type t = int" :: defs
+        let_ "is_bitfield" is_bitfield :: string "type t = int64" :: defs
       in
       module_ module_name defs
 
@@ -602,8 +602,8 @@ module Gen = struct
      fun ges ->
       let module_name = "GlobalEnum0" in
       let defs = ges |> List.map ~f:t_to_ocaml in
-      let to_ocaml_def = string "let to_ocaml (x: int) = x" in
-      let of_ocaml_def = string "let of_ocaml (x: int) = x" in
+      let to_ocaml_def = string "let to_ocaml (x: int64) = x" in
+      let of_ocaml_def = string "let of_ocaml (x: int64) = x" in
       module_ module_name (to_ocaml_def :: of_ocaml_def :: defs)
   end
 

@@ -1713,13 +1713,13 @@ module ApiTypes = struct
 end
 
 module GlobalEnum0 = struct
-  let to_ocaml (x : int) = x
-  let of_ocaml (x : int) = x
+  let to_ocaml (x : int64) = x
+  let of_ocaml (x : int64) = x
 
   module Side = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** Left side, usually used for [Control] or [StyleBox]-derived classes. *)
     let _SIDE_LEFT = 0
@@ -1737,7 +1737,7 @@ module GlobalEnum0 = struct
   module Corner = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** Top-left corner. *)
     let _CORNER_TOP_LEFT = 0
@@ -1755,7 +1755,7 @@ module GlobalEnum0 = struct
   module Orientation = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** General vertical alignment, usually used for [Separator], [ScrollBar], [Slider], etc. *)
     let _VERTICAL = 1
@@ -1767,7 +1767,7 @@ module GlobalEnum0 = struct
   module ClockDirection = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** Clockwise rotation. Used by some methods (e.g. [method Image.rotate_90]). *)
     let _CLOCKWISE = 0
@@ -1779,7 +1779,7 @@ module GlobalEnum0 = struct
   module HorizontalAlignment = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** Horizontal left alignment, usually for text-derived classes. *)
     let _HORIZONTAL_ALIGNMENT_LEFT = 0
@@ -1797,7 +1797,7 @@ module GlobalEnum0 = struct
   module VerticalAlignment = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** Vertical top alignment, usually for text-derived classes. *)
     let _VERTICAL_ALIGNMENT_TOP = 0
@@ -1815,7 +1815,7 @@ module GlobalEnum0 = struct
   module InlineAlignment = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** Aligns the top of the inline object (e.g. image, table) to the position of the text specified by [code]INLINE_ALIGNMENT_TO_ * [/code] constant. *)
     let _INLINE_ALIGNMENT_TOP_TO = 0
@@ -1860,7 +1860,7 @@ module GlobalEnum0 = struct
   module EulerOrder = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** Specifies that Euler angles should be in XYZ order. When composing, the order is X, Y, Z. When decomposing, the order is reversed, first Z, then Y, and X last. *)
     let _EULER_ORDER_XYZ = 0
@@ -1884,7 +1884,7 @@ module GlobalEnum0 = struct
   module Key = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** Enum value which doesn't correspond to any key. This is used to initialize [enum Key] properties with a generic state. *)
     let _KEY_NONE = 0
@@ -2469,7 +2469,7 @@ module GlobalEnum0 = struct
   module KeyModifierMask = struct
     let is_bitfield = true
 
-    type t = int
+    type t = int64
 
     (** Key Code mask. *)
     let _KEY_CODE_MASK = 8388607
@@ -2502,7 +2502,7 @@ module GlobalEnum0 = struct
   module MouseButton = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** Enum value which doesn't correspond to any mouse button. This is used to initialize [enum MouseButton] properties with a generic state. *)
     let _MOUSE_BUTTON_NONE = 0
@@ -2538,7 +2538,7 @@ module GlobalEnum0 = struct
   module MouseButtonMask = struct
     let is_bitfield = true
 
-    type t = int
+    type t = int64
 
     (** Primary mouse button mask, usually for the left button. *)
     let _MOUSE_BUTTON_MASK_LEFT = 1
@@ -2559,7 +2559,7 @@ module GlobalEnum0 = struct
   module JoyButton = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** An invalid game controller button. *)
     let _JOY_BUTTON_INVALID = -1
@@ -2640,7 +2640,7 @@ module GlobalEnum0 = struct
   module JoyAxis = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** An invalid game controller axis. *)
     let _JOY_AXIS_INVALID = -1
@@ -2673,7 +2673,7 @@ module GlobalEnum0 = struct
   module MIDIMessage = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** Does not correspond to any MIDI message. This is the default value of [member InputEventMIDI.message]. *)
     let _MIDI_MESSAGE_NONE = 0
@@ -2741,7 +2741,7 @@ module GlobalEnum0 = struct
   module Error = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** Methods that return [enum Error] return [constant OK] when no error occurred.
 Since [constant OK] has value 0, and all other error constants are positive integers, it can also be used in boolean checks.
@@ -2907,7 +2907,7 @@ if error:
   module PropertyHint = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** The property has no hint for the editor. *)
     let _PROPERTY_HINT_NONE = 0
@@ -3092,7 +3092,7 @@ hintString = $""{Variant.Type.Array:D}:{Variant.Type.Object:D}/{PropertyHint.Res
   module PropertyUsageFlags = struct
     let is_bitfield = true
 
-    type t = int
+    type t = int64
 
     (** The property is not stored, and does not display in the editor. This is the default for non-exported properties. *)
     let _PROPERTY_USAGE_NONE = 0
@@ -3196,7 +3196,7 @@ hintString = $""{Variant.Type.Array:D}:{Variant.Type.Object:D}/{PropertyHint.Res
   module MethodFlags = struct
     let is_bitfield = true
 
-    type t = int
+    type t = int64
 
     (** Flag for a normal method. *)
     let _METHOD_FLAG_NORMAL = 1
@@ -3226,7 +3226,7 @@ hintString = $""{Variant.Type.Array:D}:{Variant.Type.Object:D}/{PropertyHint.Res
   module VariantType = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** Variable is [code]null[/code]. *)
     let _TYPE_NIL = 0
@@ -3349,7 +3349,7 @@ hintString = $""{Variant.Type.Array:D}:{Variant.Type.Object:D}/{PropertyHint.Res
   module VariantOperator = struct
     let is_bitfield = false
 
-    type t = int
+    type t = int64
 
     (** Equality operator ([code]==[/code]). *)
     let _OP_EQUAL = 0
