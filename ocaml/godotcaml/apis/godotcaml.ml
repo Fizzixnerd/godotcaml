@@ -1009,6 +1009,10 @@ module C = struct
 
   module ClassDBConstructObject = (val interface_classdb_construct_object.dyn)
 
+  let interface_global_get_singleton =
+    fn_suite ""
+    (string_name_ptr.const @-> returning object_ptr.plain)
+
   let interface_object_set_instance =
     fn_suite ""
       (object_ptr.plain @-> string_name_ptr.const @-> class_instance_ptr.plain
