@@ -38,10 +38,10 @@ module Class = struct
           in
           let* class_name = string_name_of_string _godot_class_name in
           object_set_instance ret class_name
-            (coerce_ptr class_instance_ptr.plain null);
+            (coerce_ptr class_instance_ptr.plain ret);
           object_set_instance_binding ret
             (coerce_ptr (ptr void) !library)
-            (coerce_ptr (ptr void) null)
+            (coerce_ptr (ptr void) ret)
             instance_binding_callbacks;
           init ret
 
@@ -83,7 +83,8 @@ module Class = struct
               string_name_of_string _godot_inherits
             in
             let* godot_class_name_strname =
-              string_name_of_string _godot_class_name in
+              string_name_of_string _godot_class_name
+            in
             let () = on_load_func () in
             classdb_register_extension_class2
               !Godotcaml_apis.Gdforeign.library

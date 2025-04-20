@@ -209,7 +209,8 @@ let object_set_instance obj_ptr class_name instance =
     class_name instance
 
 let global_get_singleton singleton_name =
-  get_fun "global_get_singleton" interface_global_get_singleton.typ singleton_name
+  get_fun "global_get_singleton" interface_global_get_singleton.typ
+    singleton_name
 
 let object_set_instance_binding obj_ptr lib instance callbacks =
   get_fun "object_set_instance_binding"
@@ -285,4 +286,5 @@ let foreign_builtin_operator1 variant_type arg_type_opt operator typ ret_typ lhs
   let () = op lhs ret in
   Living_core.Default.named_return "foreign_builtin_operator1" ret
 
-let godot_get_singleton singleton_name singleton_typ = coerce_ptr singleton_typ (global_get_singleton singleton_name)
+let godot_get_singleton singleton_name singleton_typ =
+  coerce_ptr singleton_typ (global_get_singleton singleton_name)

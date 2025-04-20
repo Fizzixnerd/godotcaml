@@ -1,6 +1,7 @@
 open Gg
 open! Base
 open Living
+module LCore = Living_core.Default
 open Living_ctypes.Default
 open Living_core.Default.Let_syntax
 open Foreign_base
@@ -31,9 +32,9 @@ module Bool = struct
     let open Unsigned.UInt8 in
     let ret =
       let* p = !@(coerce_ptr (ptr uint8_t) x) in
-      Living_core.Default.return (not (equal p (of_int 0)))
+      LCore.return (not (equal p (of_int 0)))
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : bool -> Bool.t structure ptr =
    fun x ->
@@ -41,10 +42,10 @@ module Bool = struct
     let ret =
       let ret = gc_alloc ~count:1 Bool.s in
       let x' = if x then of_int 1 else of_int 0 in
-      let* () = Living_core.Default.map (coerce_ptr (ptr uint8_t)) ret <-@ x' in
+      let* () = LCore.map (coerce_ptr (ptr uint8_t)) ret <-@ x' in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Int = struct
@@ -52,16 +53,16 @@ module Int = struct
   type ocaml_t = int64
 
   let to_ocaml : Int.t structure ptr -> int64 =
-   fun x -> Living_core.Default.unsafe_free !@(coerce_ptr (ptr int64_t) x)
+   fun x -> LCore.unsafe_free !@(coerce_ptr (ptr int64_t) x)
 
   let of_ocaml : int64 -> Int.t structure ptr =
    fun x ->
     let ret =
       let ret = gc_alloc ~count:1 Int.s in
-      let* () = Living_core.Default.map (coerce_ptr (ptr int64_t)) ret <-@ x in
+      let* () = LCore.map (coerce_ptr (ptr int64_t)) ret <-@ x in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Float = struct
@@ -69,16 +70,16 @@ module Float = struct
   type ocaml_t = float
 
   let to_ocaml : Float.t structure ptr -> float =
-   fun x -> Living_core.Default.unsafe_free !@(coerce_ptr (ptr double) x)
+   fun x -> LCore.unsafe_free !@(coerce_ptr (ptr double) x)
 
   let of_ocaml : float -> Float.t structure ptr =
    fun x ->
     let ret =
       let ret = gc_alloc ~count:1 Float.s in
-      let* () = Living_core.Default.map (coerce_ptr (ptr double)) ret <-@ x in
+      let* () = LCore.map (coerce_ptr (ptr double)) ret <-@ x in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module String = struct
@@ -87,38 +88,41 @@ module String = struct
   type godot_t = String.t structure ptr
   type ocaml_t = string
 
+  let _of_string_name_constructor = lazy (variant_get_ptr_constructor String.type_enum 2l)
+
   let to_ocaml : String.t structure ptr -> string =
    fun str_ptr ->
-    let ret =
-      let const_str = coerce_ptr string_ptr.const str_ptr in
-      let len =
-        Int64.to_int_exn
-        @@ string_to_utf8_chars const_str (coerce_ptr (ptr char) null) 0L
-      in
-      let char_buf = gc_alloc ~count:(len + 1) char in
-      let _ =
-        Living_core.Default.map
-          (fun cb ->
-            string_to_utf8_chars const_str cb (Int64.of_int @@ (len + 1)))
-          char_buf
-      in
-      Living_core.Default.map (string_from_ptr ~length:len) char_buf
+    LCore.unsafe_free @@
+    let const_str = coerce_ptr string_ptr.const str_ptr in
+    let len =
+      Int64.to_int_exn
+      @@ string_to_utf8_chars const_str (coerce_ptr (ptr char) null) 0L
     in
-    Living_core.Default.unsafe_free ret
+    let char_buf = gc_alloc ~count:(len + 1) char in
+    let _ =
+      LCore.map
+        (fun cb ->
+          string_to_utf8_chars const_str cb (Int64.of_int @@ len))
+        char_buf
+    in
+    LCore.map (string_from_ptr ~length:(len)) char_buf
 
   let of_ocaml : string -> String.t structure ptr =
    fun s ->
-    let ret =
-      let str_ptr = gc_alloc ~count:1 String.s in
-      let* () =
-        Living_core.Default.map
-          (fun sp ->
-            string_new_with_utf8_chars (coerce_ptr string_ptr.uninit sp) s)
-          str_ptr
-      in
-      str_ptr
-    in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free @@
+    let* str_ptr = gc_alloc ~count:1 String.s in
+    string_new_with_utf8_chars (coerce_ptr string_ptr.uninit str_ptr) s;
+    LCore.return str_ptr
+
+  let of_string_name : StringName.t structure ptr -> string =
+    fun str_name_ptr  ->
+      LCore.unsafe_free @@
+      let open Godotcaml_base.Godotcaml.C in
+      let s = coerce_ptr type_ptr.uninit @@ String.new_uninit () in
+      let* args = Gdforeign.foreign_array1 str_name_ptr in
+      let () = Lazy.force _of_string_name_constructor s args in 
+      LCore.named_return "String.of_string_name"
+      @@ to_ocaml (coerce_ptr String.typ s)
 end
 
 module Vector2 = struct
@@ -127,29 +131,26 @@ module Vector2 = struct
 
   let to_ocaml : Vector2.t structure ptr -> v2 =
    fun x ->
-    let ret =
-      let float_ptr = coerce_ptr (ptr double) x in
-      let pv1 = float_ptr in
-      let* pv2 = float_ptr +@ 1 in
-      let* v1 = !@pv1 in
-      let* v2 = !@pv2 in
-      Living_core.Default.return (V2.v v1 v2)
-    in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free
+    @@
+    let float_ptr = coerce_ptr (ptr float) x in
+    let pv1 = float_ptr in
+    let* pv2 = float_ptr +@ 1 in
+    let* v1 = !@pv1 in
+    let* v2 = !@pv2 in
+    LCore.return (V2.v v1 v2)
 
   let of_ocaml : v2 -> Vector2.t structure ptr =
    fun v ->
-    let ret =
-      let ret = gc_alloc ~count:1 Vector2.s in
-      let float_ptr = Living_core.Default.map (coerce_ptr (ptr double)) ret in
-      let pv1 = float_ptr in
-      let pv2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
-
-      let* () = pv1 <-@ V2.x v in
-      let* () = pv2 <-@ V2.y v in
-      ret
-    in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free
+    @@
+    let ret = gc_alloc ~count:1 Vector2.s in
+    let float_ptr = LCore.map (coerce_ptr (ptr float)) ret in
+    let pv1 = float_ptr in
+    let pv2 = float_ptr |> LCore.bind (fun x -> x +@ 1) in
+    let* () = pv1 <-@ V2.x v in
+    let* () = pv2 <-@ V2.y v in
+    ret
 end
 
 module Vector2i = struct
@@ -161,22 +162,22 @@ module Vector2i = struct
     let ret =
       let int32_ptr = coerce_ptr (ptr int32_t) x in
       let* v1 = !@int32_ptr in
-      let* v2 = int32_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return (v1, v2)
+      let* v2 = int32_ptr +@ 1 |> LCore.bind ( !@ ) in
+      LCore.return (v1, v2)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : int32 * int32 -> Vector2i.t structure ptr =
    fun (x, y) ->
     let ret =
       let ret = gc_alloc ~count:1 Vector2i.s in
-      let int32_ptr = Living_core.Default.map (coerce_ptr (ptr int32_t)) ret in
+      let int32_ptr = LCore.map (coerce_ptr (ptr int32_t)) ret in
       let* () = int32_ptr <-@ x in
-      let* pv2 = Living_core.Default.map (fun x -> x +@ 1) int32_ptr in
+      let* pv2 = LCore.map (fun x -> x +@ 1) int32_ptr in
       let* () = pv2 <-@ y in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Rect2 = struct
@@ -188,28 +189,28 @@ module Rect2 = struct
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
       let* v1 = !@float_ptr in
-      let* v2 = float_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      let* s1 = float_ptr +@ 2 |> Living_core.Default.bind ( !@ ) in
-      let* s2 = float_ptr +@ 3 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return (V2.v v1 v2, Size2.v s1 s2)
+      let* v2 = float_ptr +@ 1 |> LCore.bind ( !@ ) in
+      let* s1 = float_ptr +@ 2 |> LCore.bind ( !@ ) in
+      let* s2 = float_ptr +@ 3 |> LCore.bind ( !@ ) in
+      LCore.return (V2.v v1 v2, Size2.v s1 s2)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : v2 * size2 -> Rect2.t structure ptr =
    fun (v, s) ->
     let ret =
       let ret = gc_alloc ~count:1 Rect2.s in
-      let float_ptr = Living_core.Default.map (coerce_ptr (ptr double)) ret in
+      let float_ptr = LCore.map (coerce_ptr (ptr double)) ret in
       let* () = float_ptr <-@ V2.x v in
-      let pv2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
+      let pv2 = float_ptr |> LCore.bind (fun x -> x +@ 1) in
       let* () = pv2 <-@ V2.y v in
-      let ps1 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 2) in
+      let ps1 = float_ptr |> LCore.bind (fun x -> x +@ 2) in
       let* () = ps1 <-@ V2.x s in
-      let ps2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 3) in
+      let ps2 = float_ptr |> LCore.bind (fun x -> x +@ 3) in
       let* () = ps2 <-@ V2.y s in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Rect2i = struct
@@ -221,29 +222,29 @@ module Rect2i = struct
     let ret =
       let int32_ptr = coerce_ptr (ptr int32_t) x in
       let* v1 = !@int32_ptr in
-      let* v2 = int32_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      let* s1 = int32_ptr +@ 2 |> Living_core.Default.bind ( !@ ) in
-      let* s2 = int32_ptr +@ 3 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return ((v1, v2), (s1, s2))
+      let* v2 = int32_ptr +@ 1 |> LCore.bind ( !@ ) in
+      let* s1 = int32_ptr +@ 2 |> LCore.bind ( !@ ) in
+      let* s2 = int32_ptr +@ 3 |> LCore.bind ( !@ ) in
+      LCore.return ((v1, v2), (s1, s2))
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : (int32 * int32) * (int32 * int32) -> Rect2i.t structure ptr =
    fun ((x, y), (sx, sy)) ->
     let ret =
       let ret = gc_alloc ~count:1 Rect2i.s in
-      let int32_ptr = Living_core.Default.map (coerce_ptr (ptr int32_t)) ret in
+      let int32_ptr = LCore.map (coerce_ptr (ptr int32_t)) ret in
       let pv1 = int32_ptr in
-      let pv2 = int32_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
-      let ps1 = int32_ptr |> Living_core.Default.bind (fun x -> x +@ 2) in
-      let ps2 = int32_ptr |> Living_core.Default.bind (fun x -> x +@ 3) in
+      let pv2 = int32_ptr |> LCore.bind (fun x -> x +@ 1) in
+      let ps1 = int32_ptr |> LCore.bind (fun x -> x +@ 2) in
+      let ps2 = int32_ptr |> LCore.bind (fun x -> x +@ 3) in
       let* () = pv1 <-@ x in
       let* () = pv2 <-@ y in
       let* () = ps1 <-@ sx in
       let* () = ps2 <-@ sy in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Vector3 = struct
@@ -255,25 +256,25 @@ module Vector3 = struct
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
       let* v1 = !@float_ptr in
-      let* v2 = float_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      let* v3 = float_ptr +@ 2 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return (V3.v v1 v2 v3)
+      let* v2 = float_ptr +@ 1 |> LCore.bind ( !@ ) in
+      let* v3 = float_ptr +@ 2 |> LCore.bind ( !@ ) in
+      LCore.return (V3.v v1 v2 v3)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : v3 -> Vector3.t structure ptr =
    fun v ->
     let ret =
       let ret = gc_alloc ~count:1 Vector3.s in
-      let float_ptr = Living_core.Default.map (coerce_ptr (ptr double)) ret in
-      let pv2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
-      let pv3 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 2) in
+      let float_ptr = LCore.map (coerce_ptr (ptr double)) ret in
+      let pv2 = float_ptr |> LCore.bind (fun x -> x +@ 1) in
+      let pv3 = float_ptr |> LCore.bind (fun x -> x +@ 2) in
       let* () = float_ptr <-@ V3.x v in
       let* () = pv2 <-@ V3.y v in
       let* () = pv3 <-@ V3.z v in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Vector3i = struct
@@ -285,25 +286,25 @@ module Vector3i = struct
     let ret =
       let int32_ptr = coerce_ptr (ptr int32_t) x in
       let* v1 = !@int32_ptr in
-      let* v2 = int32_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      let* v3 = int32_ptr +@ 2 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return (v1, v2, v3)
+      let* v2 = int32_ptr +@ 1 |> LCore.bind ( !@ ) in
+      let* v3 = int32_ptr +@ 2 |> LCore.bind ( !@ ) in
+      LCore.return (v1, v2, v3)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : int32 * int32 * int32 -> Vector3i.t structure ptr =
    fun (x, y, z) ->
     let ret =
       let ret = gc_alloc ~count:1 Vector3i.s in
-      let int32_ptr = Living_core.Default.map (coerce_ptr (ptr int32_t)) ret in
-      let pv2 = int32_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
-      let pv3 = int32_ptr |> Living_core.Default.bind (fun x -> x +@ 2) in
+      let int32_ptr = LCore.map (coerce_ptr (ptr int32_t)) ret in
+      let pv2 = int32_ptr |> LCore.bind (fun x -> x +@ 1) in
+      let pv3 = int32_ptr |> LCore.bind (fun x -> x +@ 2) in
       let* () = int32_ptr <-@ x in
       let* () = pv2 <-@ y in
       let* () = pv3 <-@ z in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Transform2D = struct
@@ -315,25 +316,25 @@ module Transform2D = struct
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
       let* m1 = !@float_ptr in
-      let* m2 = float_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      let* m3 = float_ptr +@ 2 |> Living_core.Default.bind ( !@ ) in
-      let* m4 = float_ptr +@ 3 |> Living_core.Default.bind ( !@ ) in
-      let* v1 = float_ptr +@ 4 |> Living_core.Default.bind ( !@ ) in
-      let* v2 = float_ptr +@ 5 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return (M2.v m1 m2 m3 m4, V2.v v1 v2)
+      let* m2 = float_ptr +@ 1 |> LCore.bind ( !@ ) in
+      let* m3 = float_ptr +@ 2 |> LCore.bind ( !@ ) in
+      let* m4 = float_ptr +@ 3 |> LCore.bind ( !@ ) in
+      let* v1 = float_ptr +@ 4 |> LCore.bind ( !@ ) in
+      let* v2 = float_ptr +@ 5 |> LCore.bind ( !@ ) in
+      LCore.return (M2.v m1 m2 m3 m4, V2.v v1 v2)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : ocaml_t -> Transform2D.t structure ptr =
    fun (m, o) ->
     let ret =
       let ret = gc_alloc ~count:1 Transform2D.s in
-      let float_ptr = Living_core.Default.map (coerce_ptr (ptr double)) ret in
-      let pm2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
-      let pm3 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 2) in
-      let pm4 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 3) in
-      let pv1 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 4) in
-      let pv2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 5) in
+      let float_ptr = LCore.map (coerce_ptr (ptr double)) ret in
+      let pm2 = float_ptr |> LCore.bind (fun x -> x +@ 1) in
+      let pm3 = float_ptr |> LCore.bind (fun x -> x +@ 2) in
+      let pm4 = float_ptr |> LCore.bind (fun x -> x +@ 3) in
+      let pv1 = float_ptr |> LCore.bind (fun x -> x +@ 4) in
+      let pv2 = float_ptr |> LCore.bind (fun x -> x +@ 5) in
       let* () = float_ptr <-@ M2.e00 m in
       let* () = pm2 <-@ M2.e01 m in
       let* () = pm3 <-@ M2.e10 m in
@@ -342,7 +343,7 @@ module Transform2D = struct
       let* () = pv2 <-@ V2.y o in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Vector4 = struct
@@ -354,28 +355,28 @@ module Vector4 = struct
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
       let* v1 = !@float_ptr in
-      let* v2 = float_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      let* v3 = float_ptr +@ 2 |> Living_core.Default.bind ( !@ ) in
-      let* v4 = float_ptr +@ 3 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return (V4.v v1 v2 v3 v4)
+      let* v2 = float_ptr +@ 1 |> LCore.bind ( !@ ) in
+      let* v3 = float_ptr +@ 2 |> LCore.bind ( !@ ) in
+      let* v4 = float_ptr +@ 3 |> LCore.bind ( !@ ) in
+      LCore.return (V4.v v1 v2 v3 v4)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : v4 -> Vector4.t structure ptr =
    fun v ->
     let ret =
       let ret = gc_alloc ~count:1 Vector4.s in
-      let float_ptr = Living_core.Default.map (coerce_ptr (ptr double)) ret in
-      let pv2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
-      let pv3 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 2) in
-      let pv4 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 3) in
+      let float_ptr = LCore.map (coerce_ptr (ptr double)) ret in
+      let pv2 = float_ptr |> LCore.bind (fun x -> x +@ 1) in
+      let pv3 = float_ptr |> LCore.bind (fun x -> x +@ 2) in
+      let pv4 = float_ptr |> LCore.bind (fun x -> x +@ 3) in
       let* () = float_ptr <-@ V4.x v in
       let* () = pv2 <-@ V4.y v in
       let* () = pv3 <-@ V4.z v in
       let* () = pv4 <-@ V4.w v in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Vector4i = struct
@@ -387,21 +388,21 @@ module Vector4i = struct
     let ret =
       let int32_ptr = coerce_ptr (ptr int32_t) x in
       let* v1 = !@int32_ptr in
-      let* v2 = int32_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      let* v3 = int32_ptr +@ 2 |> Living_core.Default.bind ( !@ ) in
-      let* v4 = int32_ptr +@ 3 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return (v1, v2, v3, v4)
+      let* v2 = int32_ptr +@ 1 |> LCore.bind ( !@ ) in
+      let* v3 = int32_ptr +@ 2 |> LCore.bind ( !@ ) in
+      let* v4 = int32_ptr +@ 3 |> LCore.bind ( !@ ) in
+      LCore.return (v1, v2, v3, v4)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : int32 * int32 * int32 * int32 -> Vector4i.t structure ptr =
    fun (x, y, z, w) ->
     let ret =
       let ret = gc_alloc ~count:1 Vector4i.s in
-      let int32_ptr = Living_core.Default.map (coerce_ptr (ptr int32_t)) ret in
-      let pv2 = int32_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
-      let pv3 = int32_ptr |> Living_core.Default.bind (fun x -> x +@ 2) in
-      let pv4 = int32_ptr |> Living_core.Default.bind (fun x -> x +@ 3) in
+      let int32_ptr = LCore.map (coerce_ptr (ptr int32_t)) ret in
+      let pv2 = int32_ptr |> LCore.bind (fun x -> x +@ 1) in
+      let pv3 = int32_ptr |> LCore.bind (fun x -> x +@ 2) in
+      let pv4 = int32_ptr |> LCore.bind (fun x -> x +@ 3) in
 
       let* () = int32_ptr <-@ x in
       let* () = pv2 <-@ y in
@@ -409,7 +410,7 @@ module Vector4i = struct
       let* () = pv4 <-@ w in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Plane = struct
@@ -421,28 +422,28 @@ module Plane = struct
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
       let* v1 = !@float_ptr in
-      let* v2 = float_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      let* v3 = float_ptr +@ 2 |> Living_core.Default.bind ( !@ ) in
-      let* d = float_ptr +@ 3 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return (V3.v v1 v2 v3, d)
+      let* v2 = float_ptr +@ 1 |> LCore.bind ( !@ ) in
+      let* v3 = float_ptr +@ 2 |> LCore.bind ( !@ ) in
+      let* d = float_ptr +@ 3 |> LCore.bind ( !@ ) in
+      LCore.return (V3.v v1 v2 v3, d)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : v3 * float -> Plane.t structure ptr =
    fun (v, d) ->
     let ret =
       let ret = gc_alloc ~count:1 Plane.s in
-      let float_ptr = Living_core.Default.map (coerce_ptr (ptr double)) ret in
-      let pv2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
-      let pv3 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 2) in
-      let pd = float_ptr |> Living_core.Default.bind (fun x -> x +@ 3) in
+      let float_ptr = LCore.map (coerce_ptr (ptr double)) ret in
+      let pv2 = float_ptr |> LCore.bind (fun x -> x +@ 1) in
+      let pv3 = float_ptr |> LCore.bind (fun x -> x +@ 2) in
+      let pd = float_ptr |> LCore.bind (fun x -> x +@ 3) in
       let* () = float_ptr <-@ V3.x v in
       let* () = pv2 <-@ V3.y v in
       let* () = pv3 <-@ V3.z v in
       let* () = pd <-@ d in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Quaternion = struct
@@ -454,28 +455,28 @@ module Quaternion = struct
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
       let* v1 = !@float_ptr in
-      let* v2 = float_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      let* v3 = float_ptr +@ 2 |> Living_core.Default.bind ( !@ ) in
-      let* v4 = float_ptr +@ 3 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return (Quat.v v1 v2 v3 v4)
+      let* v2 = float_ptr +@ 1 |> LCore.bind ( !@ ) in
+      let* v3 = float_ptr +@ 2 |> LCore.bind ( !@ ) in
+      let* v4 = float_ptr +@ 3 |> LCore.bind ( !@ ) in
+      LCore.return (Quat.v v1 v2 v3 v4)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : quat -> Quaternion.t structure ptr =
    fun q ->
     let ret =
       let ret = gc_alloc ~count:1 Quaternion.s in
-      let float_ptr = Living_core.Default.map (coerce_ptr (ptr double)) ret in
-      let pv2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
-      let pv3 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 2) in
-      let pv4 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 3) in
+      let float_ptr = LCore.map (coerce_ptr (ptr double)) ret in
+      let pv2 = float_ptr |> LCore.bind (fun x -> x +@ 1) in
+      let pv3 = float_ptr |> LCore.bind (fun x -> x +@ 2) in
+      let pv4 = float_ptr |> LCore.bind (fun x -> x +@ 3) in
       let* () = float_ptr <-@ V4.x q in
       let* () = pv2 <-@ V4.y q in
       let* () = pv3 <-@ V4.z q in
       let* () = pv4 <-@ V4.w q in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module AABB = struct
@@ -487,25 +488,25 @@ module AABB = struct
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
       let* v1 = !@float_ptr in
-      let* v2 = float_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      let* v3 = float_ptr +@ 2 |> Living_core.Default.bind ( !@ ) in
-      let* s1 = float_ptr +@ 3 |> Living_core.Default.bind ( !@ ) in
-      let* s2 = float_ptr +@ 4 |> Living_core.Default.bind ( !@ ) in
-      let* s3 = float_ptr +@ 5 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return (V3.v v1 v2 v3, Size3.v s1 s2 s3)
+      let* v2 = float_ptr +@ 1 |> LCore.bind ( !@ ) in
+      let* v3 = float_ptr +@ 2 |> LCore.bind ( !@ ) in
+      let* s1 = float_ptr +@ 3 |> LCore.bind ( !@ ) in
+      let* s2 = float_ptr +@ 4 |> LCore.bind ( !@ ) in
+      let* s3 = float_ptr +@ 5 |> LCore.bind ( !@ ) in
+      LCore.return (V3.v v1 v2 v3, Size3.v s1 s2 s3)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : v3 * size3 -> AABB.t structure ptr =
    fun (v, s) ->
     let ret =
       let ret = gc_alloc ~count:1 AABB.s in
-      let float_ptr = Living_core.Default.map (coerce_ptr (ptr double)) ret in
-      let pv2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
-      let pv3 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 2) in
-      let ps1 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 3) in
-      let ps2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 4) in
-      let ps3 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 5) in
+      let float_ptr = LCore.map (coerce_ptr (ptr double)) ret in
+      let pv2 = float_ptr |> LCore.bind (fun x -> x +@ 1) in
+      let pv3 = float_ptr |> LCore.bind (fun x -> x +@ 2) in
+      let ps1 = float_ptr |> LCore.bind (fun x -> x +@ 3) in
+      let ps2 = float_ptr |> LCore.bind (fun x -> x +@ 4) in
+      let ps3 = float_ptr |> LCore.bind (fun x -> x +@ 5) in
       let* () = float_ptr <-@ V3.x v in
       let* () = pv2 <-@ V3.y v in
       let* () = pv3 <-@ V3.z v in
@@ -514,7 +515,7 @@ module AABB = struct
       let* () = ps3 <-@ V3.z s in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Basis = struct
@@ -526,31 +527,31 @@ module Basis = struct
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
       let* m1 = !@float_ptr in
-      let* m2 = float_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      let* m3 = float_ptr +@ 2 |> Living_core.Default.bind ( !@ ) in
-      let* m4 = float_ptr +@ 3 |> Living_core.Default.bind ( !@ ) in
-      let* m5 = float_ptr +@ 4 |> Living_core.Default.bind ( !@ ) in
-      let* m6 = float_ptr +@ 5 |> Living_core.Default.bind ( !@ ) in
-      let* m7 = float_ptr +@ 6 |> Living_core.Default.bind ( !@ ) in
-      let* m8 = float_ptr +@ 7 |> Living_core.Default.bind ( !@ ) in
-      let* m9 = float_ptr +@ 8 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return (M3.v m1 m2 m3 m4 m5 m6 m7 m8 m9)
+      let* m2 = float_ptr +@ 1 |> LCore.bind ( !@ ) in
+      let* m3 = float_ptr +@ 2 |> LCore.bind ( !@ ) in
+      let* m4 = float_ptr +@ 3 |> LCore.bind ( !@ ) in
+      let* m5 = float_ptr +@ 4 |> LCore.bind ( !@ ) in
+      let* m6 = float_ptr +@ 5 |> LCore.bind ( !@ ) in
+      let* m7 = float_ptr +@ 6 |> LCore.bind ( !@ ) in
+      let* m8 = float_ptr +@ 7 |> LCore.bind ( !@ ) in
+      let* m9 = float_ptr +@ 8 |> LCore.bind ( !@ ) in
+      LCore.return (M3.v m1 m2 m3 m4 m5 m6 m7 m8 m9)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : m3 -> Basis.t structure ptr =
    fun m ->
     let ret =
       let ret = gc_alloc ~count:1 Basis.s in
-      let float_ptr = Living_core.Default.map (coerce_ptr (ptr double)) ret in
-      let pm2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
-      let pm3 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 2) in
-      let pm4 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 3) in
-      let pm5 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 4) in
-      let pm6 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 5) in
-      let pm7 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 6) in
-      let pm8 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 7) in
-      let pm9 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 8) in
+      let float_ptr = LCore.map (coerce_ptr (ptr double)) ret in
+      let pm2 = float_ptr |> LCore.bind (fun x -> x +@ 1) in
+      let pm3 = float_ptr |> LCore.bind (fun x -> x +@ 2) in
+      let pm4 = float_ptr |> LCore.bind (fun x -> x +@ 3) in
+      let pm5 = float_ptr |> LCore.bind (fun x -> x +@ 4) in
+      let pm6 = float_ptr |> LCore.bind (fun x -> x +@ 5) in
+      let pm7 = float_ptr |> LCore.bind (fun x -> x +@ 6) in
+      let pm8 = float_ptr |> LCore.bind (fun x -> x +@ 7) in
+      let pm9 = float_ptr |> LCore.bind (fun x -> x +@ 8) in
       let* () = float_ptr <-@ M3.e00 m in
       let* () = pm2 <-@ M3.e01 m in
       let* () = pm3 <-@ M3.e02 m in
@@ -562,7 +563,7 @@ module Basis = struct
       let* () = pm9 <-@ M3.e22 m in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Transform3D = struct
@@ -574,37 +575,37 @@ module Transform3D = struct
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
       let* m1 = !@float_ptr in
-      let* m2 = float_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      let* m3 = float_ptr +@ 2 |> Living_core.Default.bind ( !@ ) in
-      let* m4 = float_ptr +@ 3 |> Living_core.Default.bind ( !@ ) in
-      let* m5 = float_ptr +@ 4 |> Living_core.Default.bind ( !@ ) in
-      let* m6 = float_ptr +@ 5 |> Living_core.Default.bind ( !@ ) in
-      let* m7 = float_ptr +@ 6 |> Living_core.Default.bind ( !@ ) in
-      let* m8 = float_ptr +@ 7 |> Living_core.Default.bind ( !@ ) in
-      let* m9 = float_ptr +@ 8 |> Living_core.Default.bind ( !@ ) in
-      let* v1 = float_ptr +@ 9 |> Living_core.Default.bind ( !@ ) in
-      let* v2 = float_ptr +@ 10 |> Living_core.Default.bind ( !@ ) in
-      let* v3 = float_ptr +@ 11 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return (M3.v m1 m2 m3 m4 m5 m6 m7 m8 m9, V3.v v1 v2 v3)
+      let* m2 = float_ptr +@ 1 |> LCore.bind ( !@ ) in
+      let* m3 = float_ptr +@ 2 |> LCore.bind ( !@ ) in
+      let* m4 = float_ptr +@ 3 |> LCore.bind ( !@ ) in
+      let* m5 = float_ptr +@ 4 |> LCore.bind ( !@ ) in
+      let* m6 = float_ptr +@ 5 |> LCore.bind ( !@ ) in
+      let* m7 = float_ptr +@ 6 |> LCore.bind ( !@ ) in
+      let* m8 = float_ptr +@ 7 |> LCore.bind ( !@ ) in
+      let* m9 = float_ptr +@ 8 |> LCore.bind ( !@ ) in
+      let* v1 = float_ptr +@ 9 |> LCore.bind ( !@ ) in
+      let* v2 = float_ptr +@ 10 |> LCore.bind ( !@ ) in
+      let* v3 = float_ptr +@ 11 |> LCore.bind ( !@ ) in
+      LCore.return (M3.v m1 m2 m3 m4 m5 m6 m7 m8 m9, V3.v v1 v2 v3)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : m3 * v3 -> Transform3D.t structure ptr =
    fun (m, o) ->
     let ret =
       let ret = gc_alloc ~count:1 Transform3D.s in
-      let float_ptr = Living_core.Default.map (coerce_ptr (ptr double)) ret in
-      let pm2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
-      let pm3 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 2) in
-      let pm4 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 3) in
-      let pm5 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 4) in
-      let pm6 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 5) in
-      let pm7 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 6) in
-      let pm8 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 7) in
-      let pm9 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 8) in
-      let pv1 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 9) in
-      let pv2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 10) in
-      let pv3 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 11) in
+      let float_ptr = LCore.map (coerce_ptr (ptr double)) ret in
+      let pm2 = float_ptr |> LCore.bind (fun x -> x +@ 1) in
+      let pm3 = float_ptr |> LCore.bind (fun x -> x +@ 2) in
+      let pm4 = float_ptr |> LCore.bind (fun x -> x +@ 3) in
+      let pm5 = float_ptr |> LCore.bind (fun x -> x +@ 4) in
+      let pm6 = float_ptr |> LCore.bind (fun x -> x +@ 5) in
+      let pm7 = float_ptr |> LCore.bind (fun x -> x +@ 6) in
+      let pm8 = float_ptr |> LCore.bind (fun x -> x +@ 7) in
+      let pm9 = float_ptr |> LCore.bind (fun x -> x +@ 8) in
+      let pv1 = float_ptr |> LCore.bind (fun x -> x +@ 9) in
+      let pv2 = float_ptr |> LCore.bind (fun x -> x +@ 10) in
+      let pv3 = float_ptr |> LCore.bind (fun x -> x +@ 11) in
       let* () = float_ptr <-@ M3.e00 m in
       let* () = pm2 <-@ M3.e01 m in
       let* () = pm3 <-@ M3.e02 m in
@@ -619,7 +620,7 @@ module Transform3D = struct
       let* () = pv3 <-@ V3.z o in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Projection = struct
@@ -631,46 +632,46 @@ module Projection = struct
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
       let* m1 = !@float_ptr in
-      let* m2 = float_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      let* m3 = float_ptr +@ 2 |> Living_core.Default.bind ( !@ ) in
-      let* m4 = float_ptr +@ 3 |> Living_core.Default.bind ( !@ ) in
-      let* m5 = float_ptr +@ 4 |> Living_core.Default.bind ( !@ ) in
-      let* m6 = float_ptr +@ 5 |> Living_core.Default.bind ( !@ ) in
-      let* m7 = float_ptr +@ 6 |> Living_core.Default.bind ( !@ ) in
-      let* m8 = float_ptr +@ 7 |> Living_core.Default.bind ( !@ ) in
-      let* m9 = float_ptr +@ 8 |> Living_core.Default.bind ( !@ ) in
-      let* m10 = float_ptr +@ 9 |> Living_core.Default.bind ( !@ ) in
-      let* m11 = float_ptr +@ 10 |> Living_core.Default.bind ( !@ ) in
-      let* m12 = float_ptr +@ 11 |> Living_core.Default.bind ( !@ ) in
-      let* m13 = float_ptr +@ 12 |> Living_core.Default.bind ( !@ ) in
-      let* m14 = float_ptr +@ 13 |> Living_core.Default.bind ( !@ ) in
-      let* m15 = float_ptr +@ 14 |> Living_core.Default.bind ( !@ ) in
-      let* m16 = float_ptr +@ 15 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return
+      let* m2 = float_ptr +@ 1 |> LCore.bind ( !@ ) in
+      let* m3 = float_ptr +@ 2 |> LCore.bind ( !@ ) in
+      let* m4 = float_ptr +@ 3 |> LCore.bind ( !@ ) in
+      let* m5 = float_ptr +@ 4 |> LCore.bind ( !@ ) in
+      let* m6 = float_ptr +@ 5 |> LCore.bind ( !@ ) in
+      let* m7 = float_ptr +@ 6 |> LCore.bind ( !@ ) in
+      let* m8 = float_ptr +@ 7 |> LCore.bind ( !@ ) in
+      let* m9 = float_ptr +@ 8 |> LCore.bind ( !@ ) in
+      let* m10 = float_ptr +@ 9 |> LCore.bind ( !@ ) in
+      let* m11 = float_ptr +@ 10 |> LCore.bind ( !@ ) in
+      let* m12 = float_ptr +@ 11 |> LCore.bind ( !@ ) in
+      let* m13 = float_ptr +@ 12 |> LCore.bind ( !@ ) in
+      let* m14 = float_ptr +@ 13 |> LCore.bind ( !@ ) in
+      let* m15 = float_ptr +@ 14 |> LCore.bind ( !@ ) in
+      let* m16 = float_ptr +@ 15 |> LCore.bind ( !@ ) in
+      LCore.return
         (M4.v m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12 m13 m14 m15 m16)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : m4 -> Projection.t structure ptr =
    fun m ->
     let ret =
       let ret = gc_alloc ~count:1 Projection.s in
-      let float_ptr = Living_core.Default.map (coerce_ptr (ptr double)) ret in
-      let pm2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
-      let pm3 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 2) in
-      let pm4 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 3) in
-      let pm5 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 4) in
-      let pm6 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 5) in
-      let pm7 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 6) in
-      let pm8 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 7) in
-      let pm9 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 8) in
-      let pm10 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 9) in
-      let pm11 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 10) in
-      let pm12 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 11) in
-      let pm13 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 12) in
-      let pm14 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 13) in
-      let pm15 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 14) in
-      let pm16 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 15) in
+      let float_ptr = LCore.map (coerce_ptr (ptr double)) ret in
+      let pm2 = float_ptr |> LCore.bind (fun x -> x +@ 1) in
+      let pm3 = float_ptr |> LCore.bind (fun x -> x +@ 2) in
+      let pm4 = float_ptr |> LCore.bind (fun x -> x +@ 3) in
+      let pm5 = float_ptr |> LCore.bind (fun x -> x +@ 4) in
+      let pm6 = float_ptr |> LCore.bind (fun x -> x +@ 5) in
+      let pm7 = float_ptr |> LCore.bind (fun x -> x +@ 6) in
+      let pm8 = float_ptr |> LCore.bind (fun x -> x +@ 7) in
+      let pm9 = float_ptr |> LCore.bind (fun x -> x +@ 8) in
+      let pm10 = float_ptr |> LCore.bind (fun x -> x +@ 9) in
+      let pm11 = float_ptr |> LCore.bind (fun x -> x +@ 10) in
+      let pm12 = float_ptr |> LCore.bind (fun x -> x +@ 11) in
+      let pm13 = float_ptr |> LCore.bind (fun x -> x +@ 12) in
+      let pm14 = float_ptr |> LCore.bind (fun x -> x +@ 13) in
+      let pm15 = float_ptr |> LCore.bind (fun x -> x +@ 14) in
+      let pm16 = float_ptr |> LCore.bind (fun x -> x +@ 15) in
       let* () = float_ptr <-@ M4.e00 m in
       let* () = pm2 <-@ M4.e01 m in
       let* () = pm3 <-@ M4.e02 m in
@@ -689,7 +690,7 @@ module Projection = struct
       let* () = pm16 <-@ M4.e33 m in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module Color = struct
@@ -701,21 +702,21 @@ module Color = struct
     let ret =
       let float_ptr = coerce_ptr (ptr float) x in
       let* c1 = !@float_ptr in
-      let* c2 = float_ptr +@ 1 |> Living_core.Default.bind ( !@ ) in
-      let* c3 = float_ptr +@ 2 |> Living_core.Default.bind ( !@ ) in
-      let* c4 = float_ptr +@ 3 |> Living_core.Default.bind ( !@ ) in
-      Living_core.Default.return (V4.v c1 c2 c3 c4)
+      let* c2 = float_ptr +@ 1 |> LCore.bind ( !@ ) in
+      let* c3 = float_ptr +@ 2 |> LCore.bind ( !@ ) in
+      let* c4 = float_ptr +@ 3 |> LCore.bind ( !@ ) in
+      LCore.return (V4.v c1 c2 c3 c4)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let of_ocaml : color -> Color.t structure ptr =
    fun c ->
     let ret =
       let ret = gc_alloc ~count:1 Color.s in
-      let float_ptr = Living_core.Default.map (coerce_ptr (ptr float)) ret in
-      let pc2 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 1) in
-      let pc3 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 2) in
-      let pc4 = float_ptr |> Living_core.Default.bind (fun x -> x +@ 3) in
+      let float_ptr = LCore.map (coerce_ptr (ptr float)) ret in
+      let pc2 = float_ptr |> LCore.bind (fun x -> x +@ 1) in
+      let pc3 = float_ptr |> LCore.bind (fun x -> x +@ 2) in
+      let pc4 = float_ptr |> LCore.bind (fun x -> x +@ 3) in
 
       let* () = float_ptr <-@ V4.x c in
       let* () = pc2 <-@ V4.y c in
@@ -723,7 +724,7 @@ module Color = struct
       let* () = pc4 <-@ V4.w c in
       ret
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 end
 
 module StringName = struct
@@ -733,10 +734,19 @@ module StringName = struct
   let to_ocaml (x : godot_t) : ocaml_t = x
   let of_ocaml (x : ocaml_t) : godot_t = x
 
-  let of_string (x : string) : godot_t Living_core.Default.t =
-    let* sn = string_name_of_string x in
-    Living_core.Default.named_return "StringName.of_string"
-    @@ coerce_ptr StringName.typ sn
+  let _of_string_constructor =
+    lazy (variant_get_ptr_constructor StringName.type_enum 2l)
+
+  let of_string = 
+    String_memo.memo @@ fun _ x ->
+    LCore.unsafe_free @@
+    let open Godotcaml_base.Godotcaml.C in
+    let sn = coerce_ptr type_ptr.uninit @@ StringName.new_uninit () in
+    let str = String.of_ocaml x in
+    let* args = Gdforeign.foreign_array1 str in
+    let () = Lazy.force _of_string_constructor sn args in
+    LCore.named_return "StringName.of_string"
+    @@ to_ocaml (coerce_ptr StringName.typ sn)
 end
 
 module NodePath = struct
@@ -745,6 +755,20 @@ module NodePath = struct
 
   let to_ocaml (x : godot_t) : ocaml_t = x
   let of_ocaml (x : ocaml_t) : godot_t = x
+
+  let _of_string_constructor =
+    lazy (variant_get_ptr_constructor NodePath.type_enum 2l)
+
+  let of_string =
+    String_memo.memo @@ fun _ x ->
+    LCore.unsafe_free @@
+    let open Godotcaml_base.Godotcaml.C in
+    let np = coerce_ptr type_ptr.uninit @@ NodePath.new_uninit () in
+    let str = String.of_ocaml x in
+    let* args = Gdforeign.foreign_array1 str in
+    let () = Lazy.force _of_string_constructor np args in
+    LCore.named_return "NodePath.of_string"
+    @@ to_ocaml (coerce_ptr NodePath.typ np)
 end
 
 module RID = struct
@@ -780,18 +804,18 @@ module Object = struct
   let _refcounted_string_name () = string_name_of_string "RefCounted"
 
   let _refcounted_class_tag () =
-    Living_core.Default.map classdb_get_class_tag (_refcounted_string_name ())
+    LCore.map classdb_get_class_tag (_refcounted_string_name ())
 
   let _reference_ocaml reference coerce_to_ref_counted
       (obj_ptr : Object.t structure ptr) =
     let ret =
       let* maybe_refcount_obj =
-        Living_core.Default.map
+        LCore.map
           (fun tag -> object_cast_to (coerce_ptr object_ptr.plain obj_ptr) tag)
           (_refcounted_class_tag ())
       in
       let const_obj_ptr = coerce_ptr object_ptr.const obj_ptr in
-      Living_core.Default.named_return "_reference_ocaml"
+      LCore.named_return "_reference_ocaml"
         (if
            (not (is_null maybe_refcount_obj))
            && not (is_referenced_by_ocaml const_obj_ptr)
@@ -799,18 +823,18 @@ module Object = struct
            let is_good = reference (coerce_to_ref_counted maybe_refcount_obj) in
            set_is_referenced_by_ocaml is_good const_obj_ptr)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
   let _unreference_ocaml unreference coerce_to_ref_counted
       (obj_ptr : Object.t structure ptr) =
     let ret =
       let* maybe_refcount_obj =
-        Living_core.Default.map
+        LCore.map
           (fun tag -> object_cast_to (coerce_ptr object_ptr.plain obj_ptr) tag)
           (_refcounted_class_tag ())
       in
       let const_obj_ptr = coerce_ptr object_ptr.const obj_ptr in
-      Living_core.Default.return
+      LCore.return
         (if
            (not (is_null maybe_refcount_obj))
            && is_referenced_by_ocaml const_obj_ptr
@@ -820,10 +844,10 @@ module Object = struct
            in
            set_is_referenced_by_ocaml (not is_good) const_obj_ptr)
     in
-    Living_core.Default.unsafe_free ret
+    LCore.unsafe_free ret
 
-  let reference _x = Living_core.Default.return false
-  let unreference _x = Living_core.Default.return true
+  let reference _x = LCore.return false
+  let unreference _x = LCore.return true
   let coerce_to_ref_counted x = x
   let to_ocaml (x : godot_t) : ocaml_t = x
   let of_ocaml (x : ocaml_t) : godot_t = x
