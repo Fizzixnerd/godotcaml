@@ -88,11 +88,13 @@ module String = struct
   type godot_t = String.t structure ptr
   type ocaml_t = string
 
-  let _of_string_name_constructor = lazy (variant_get_ptr_constructor String.type_enum 2l)
+  let _of_string_name_constructor =
+    lazy (variant_get_ptr_constructor String.type_enum 2l)
 
   let to_ocaml : String.t structure ptr -> string =
    fun str_ptr ->
-    LCore.unsafe_free @@
+    LCore.unsafe_free
+    @@
     let const_str = coerce_ptr string_ptr.const str_ptr in
     let len =
       Int64.to_int_exn
@@ -101,28 +103,29 @@ module String = struct
     let char_buf = gc_alloc ~count:(len + 1) char in
     let _ =
       LCore.map
-        (fun cb ->
-          string_to_utf8_chars const_str cb (Int64.of_int @@ len))
+        (fun cb -> string_to_utf8_chars const_str cb (Int64.of_int @@ len))
         char_buf
     in
-    LCore.map (string_from_ptr ~length:(len)) char_buf
+    LCore.map (string_from_ptr ~length:len) char_buf
 
   let of_ocaml : string -> String.t structure ptr =
    fun s ->
-    LCore.unsafe_free @@
+    LCore.unsafe_free
+    @@
     let* str_ptr = gc_alloc ~count:1 String.s in
     string_new_with_utf8_chars (coerce_ptr string_ptr.uninit str_ptr) s;
     LCore.return str_ptr
 
   let of_string_name : StringName.t structure ptr -> string =
-    fun str_name_ptr  ->
-      LCore.unsafe_free @@
-      let open Godotcaml_base.Godotcaml.C in
-      let s = coerce_ptr type_ptr.uninit @@ String.new_uninit () in
-      let* args = Gdforeign.foreign_array1 str_name_ptr in
-      let () = Lazy.force _of_string_name_constructor s args in 
-      LCore.named_return "String.of_string_name"
-      @@ to_ocaml (coerce_ptr String.typ s)
+   fun str_name_ptr ->
+    LCore.unsafe_free
+    @@
+    let open Godotcaml_base.Godotcaml.C in
+    let s = coerce_ptr type_ptr.uninit @@ String.new_uninit () in
+    let* args = Gdforeign.foreign_array1 str_name_ptr in
+    let () = Lazy.force _of_string_name_constructor s args in
+    LCore.named_return "String.of_string_name"
+    @@ to_ocaml (coerce_ptr String.typ s)
 end
 
 module Vector2 = struct
@@ -647,8 +650,7 @@ module Projection = struct
       let* m14 = float_ptr +@ 13 |> LCore.bind ( !@ ) in
       let* m15 = float_ptr +@ 14 |> LCore.bind ( !@ ) in
       let* m16 = float_ptr +@ 15 |> LCore.bind ( !@ ) in
-      LCore.return
-        (M4.v m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12 m13 m14 m15 m16)
+      LCore.return (M4.v m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12 m13 m14 m15 m16)
     in
     LCore.unsafe_free ret
 
@@ -737,9 +739,10 @@ module StringName = struct
   let _of_string_constructor =
     lazy (variant_get_ptr_constructor StringName.type_enum 2l)
 
-  let of_string = 
+  let of_string =
     String_memo.memo @@ fun _ x ->
-    LCore.unsafe_free @@
+    LCore.unsafe_free
+    @@
     let open Godotcaml_base.Godotcaml.C in
     let sn = coerce_ptr type_ptr.uninit @@ StringName.new_uninit () in
     let str = String.of_ocaml x in
@@ -761,7 +764,8 @@ module NodePath = struct
 
   let of_string =
     String_memo.memo @@ fun _ x ->
-    LCore.unsafe_free @@
+    LCore.unsafe_free
+    @@
     let open Godotcaml_base.Godotcaml.C in
     let np = coerce_ptr type_ptr.uninit @@ NodePath.new_uninit () in
     let str = String.of_ocaml x in

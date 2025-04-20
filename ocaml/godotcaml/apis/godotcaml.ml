@@ -341,15 +341,15 @@ module C = struct
 
     let create_callback_f =
       field instance_binding_callbacks_struct "create_callback"
-        InstanceBindingCreateCallback.t_opt
+        InstanceBindingCreateCallback.t
 
     let free_callback_f =
       field instance_binding_callbacks_struct "free_callback"
-        InstanceBindingFreeCallback.t_opt
+        InstanceBindingFreeCallback.t
 
     let reference_callback_f =
       field instance_binding_callbacks_struct "reference_callback"
-        InstanceBindingReferenceCallback.t_opt
+        InstanceBindingReferenceCallback.t
 
     let () = seal instance_binding_callbacks_struct
 
@@ -357,11 +357,31 @@ module C = struct
       typedef instance_binding_callbacks_struct
         (M.typedef_name "InstanceBindingCallbacks")
 
+    let default_create_callback =
+      InstanceBindingCreateCallback.of_fun (fun _ _ -> null)
+
+    let default_free_callback =
+      InstanceBindingFreeCallback.of_fun (fun _ _ _ -> ())
+
+    let default_reference_callback =
+      InstanceBindingReferenceCallback.of_fun (fun _ _ _ ->
+          Unsigned.UInt8.of_int 1)
+
     let make ?create_callback ?free_callback ?reference_callback allocator =
       let* ret = allocator s in
-      let* () = ret |-> create_callback_f <-@ create_callback in
-      let* () = ret |-> free_callback_f <-@ free_callback in
-      let* () = ret |-> reference_callback_f <-@ reference_callback in
+      let* () =
+        ret |-> create_callback_f
+        <-@ (create_callback |> Option.value ~default:default_create_callback)
+      in
+      let* () =
+        ret |-> free_callback_f
+        <-@ (free_callback |> Option.value ~default:default_free_callback)
+      in
+      let* () =
+        ret |-> reference_callback_f
+        <-@ (reference_callback
+            |> Option.value ~default:default_reference_callback)
+      in
       Living_core.Default.named_return "InstanceBindingCallbacks.make" ret
   end
 
@@ -1010,8 +1030,7 @@ module C = struct
   module ClassDBConstructObject = (val interface_classdb_construct_object.dyn)
 
   let interface_global_get_singleton =
-    fn_suite ""
-    (string_name_ptr.const @-> returning object_ptr.plain)
+    fn_suite "" (string_name_ptr.const @-> returning object_ptr.plain)
 
   let interface_object_set_instance =
     fn_suite ""

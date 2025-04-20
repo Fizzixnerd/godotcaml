@@ -99,10 +99,9 @@ module%gclass Player = struct
         let open Godotcaml_apis.Gdforeign in
         Lcore.unsafe_free
         @@
-
-(*         let back_and_forth = BuiltinClass.String.of_string_name (BuiltinClass.StringName.of_string "Hello!") in
-        Stdio.prerr_endline back_and_forth;
- *)
+        (* let back_and_forth = BuiltinClass.String.of_string_name (BuiltinClass.StringName.of_string "Hello!") in
+           Stdio.prerr_endline back_and_forth;
+        *)
         let* input_name = string_name_of_string "Input" in
         let input = godot_get_singleton input_name Class.Input.typ in
 
@@ -138,7 +137,10 @@ module%gclass Player = struct
         let sprite_path = BuiltinClass.NodePath.of_string "PlayerSprite" in
         let* sprite = self |> get_node sprite_path in
 
-        let animation_name = BuiltinClass.String.of_string_name (BuiltinClass.StringName.of_string "Rawr") in
+        let animation_name =
+          BuiltinClass.String.of_string_name
+            (BuiltinClass.StringName.of_string "Rawr")
+        in
         Stdio.prerr_endline animation_name;
         let animation_name = BuiltinClass.StringName.of_string animation_name in
         let* () =
