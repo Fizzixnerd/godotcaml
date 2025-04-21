@@ -177,7 +177,10 @@ let variant_get_ptr_utility_function utility_function_name function_hash =
     get_fun "variant_get_ptr_utility_function"
       interface_variant_get_ptr_utility_function.typ string_name function_hash
   in
-  let () = () (* call destructor for string_name here. *) in
+  let () =
+    ()
+    (* call destructor for string_name here. *)
+  in
   Living_core.Default.named_return "variant_get_ptr_utility_function" ret
 
 let variant_call () variant_ptr method_name args count ret call_error =

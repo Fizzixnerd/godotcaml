@@ -94,7 +94,8 @@ let foreign_utility_functionv_void :
     in
     Living_core.Default.named_return name ()
 
-let foreign_utility_function1 name hash ret_typ ret_to_ocaml x0_of_ocaml =
+let foreign_utility_function1 =
+ fun name hash ret_typ ret_to_ocaml x0_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -116,7 +117,8 @@ let foreign_utility_function1 name hash ret_typ ret_to_ocaml x0_of_ocaml =
     Living_core.Default.named_return name
       (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
 
-let foreign_utility_function1_void name hash ret_typ _ret_to_ocaml x0_of_ocaml =
+let foreign_utility_function1_void =
+ fun name hash ret_typ _ret_to_ocaml x0_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -133,8 +135,8 @@ let foreign_utility_function1_void name hash ret_typ _ret_to_ocaml x0_of_ocaml =
     in
     Living_core.Default.named_return name ()
 
-let foreign_utility_function2 name hash ret_typ ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml =
+let foreign_utility_function2 =
+ fun name hash ret_typ ret_to_ocaml x0_of_ocaml x1_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -157,8 +159,8 @@ let foreign_utility_function2 name hash ret_typ ret_to_ocaml x0_of_ocaml
     Living_core.Default.named_return name
       (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
 
-let foreign_utility_function2_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml =
+let foreign_utility_function2_void =
+ fun name hash ret_typ _ret_to_ocaml x0_of_ocaml x1_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -176,8 +178,8 @@ let foreign_utility_function2_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
     in
     Living_core.Default.named_return name ()
 
-let foreign_utility_function3 name hash ret_typ ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml =
+let foreign_utility_function3 =
+ fun name hash ret_typ ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -201,8 +203,8 @@ let foreign_utility_function3 name hash ret_typ ret_to_ocaml x0_of_ocaml
     Living_core.Default.named_return name
       (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
 
-let foreign_utility_function3_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml =
+let foreign_utility_function3_void =
+ fun name hash ret_typ _ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -221,8 +223,9 @@ let foreign_utility_function3_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
     in
     Living_core.Default.named_return name ()
 
-let foreign_utility_function4 name hash ret_typ ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml =
+let foreign_utility_function4 =
+ fun name hash ret_typ ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -247,8 +250,9 @@ let foreign_utility_function4 name hash ret_typ ret_to_ocaml x0_of_ocaml
     Living_core.Default.named_return name
       (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
 
-let foreign_utility_function4_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml =
+let foreign_utility_function4_void =
+ fun name hash ret_typ _ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -268,8 +272,9 @@ let foreign_utility_function4_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
     in
     Living_core.Default.named_return name ()
 
-let foreign_utility_function5 name hash ret_typ ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml =
+let foreign_utility_function5 =
+ fun name hash ret_typ ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -295,8 +300,9 @@ let foreign_utility_function5 name hash ret_typ ret_to_ocaml x0_of_ocaml
     Living_core.Default.named_return name
       (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
 
-let foreign_utility_function5_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml =
+let foreign_utility_function5_void =
+ fun name hash ret_typ _ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -317,8 +323,9 @@ let foreign_utility_function5_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
     in
     Living_core.Default.named_return name ()
 
-let foreign_utility_function6 name hash ret_typ ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml =
+let foreign_utility_function6 =
+ fun name hash ret_typ ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -345,8 +352,9 @@ let foreign_utility_function6 name hash ret_typ ret_to_ocaml x0_of_ocaml
     Living_core.Default.named_return name
       (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
 
-let foreign_utility_function6_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml =
+let foreign_utility_function6_void =
+ fun name hash ret_typ _ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -368,8 +376,9 @@ let foreign_utility_function6_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
     in
     Living_core.Default.named_return name ()
 
-let foreign_utility_function7 name hash ret_typ ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml =
+let foreign_utility_function7 =
+ fun name hash ret_typ ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -397,8 +406,9 @@ let foreign_utility_function7 name hash ret_typ ret_to_ocaml x0_of_ocaml
     Living_core.Default.named_return name
       (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
 
-let foreign_utility_function7_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml =
+let foreign_utility_function7_void =
+ fun name hash ret_typ _ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -421,9 +431,9 @@ let foreign_utility_function7_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
     in
     Living_core.Default.named_return name ()
 
-let foreign_utility_function8 name hash ret_typ ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
-    x7_of_ocaml =
+let foreign_utility_function8 =
+ fun name hash ret_typ ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -452,9 +462,9 @@ let foreign_utility_function8 name hash ret_typ ret_to_ocaml x0_of_ocaml
     Living_core.Default.named_return name
       (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
 
-let foreign_utility_function8_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
-    x7_of_ocaml =
+let foreign_utility_function8_void =
+ fun name hash ret_typ _ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -478,9 +488,9 @@ let foreign_utility_function8_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
     in
     Living_core.Default.named_return name ()
 
-let foreign_utility_function9 name hash ret_typ ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
-    x7_of_ocaml x8_of_ocaml =
+let foreign_utility_function9 =
+ fun name hash ret_typ ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -510,9 +520,9 @@ let foreign_utility_function9 name hash ret_typ ret_to_ocaml x0_of_ocaml
     Living_core.Default.named_return name
       (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
 
-let foreign_utility_function9_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
-    x7_of_ocaml x8_of_ocaml =
+let foreign_utility_function9_void =
+ fun name hash ret_typ _ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -537,9 +547,10 @@ let foreign_utility_function9_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
     in
     Living_core.Default.named_return name ()
 
-let foreign_utility_function10 name hash ret_typ ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
-    x7_of_ocaml x8_of_ocaml x9_of_ocaml =
+let foreign_utility_function10 =
+ fun name hash ret_typ ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml
+     x9_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -570,9 +581,10 @@ let foreign_utility_function10 name hash ret_typ ret_to_ocaml x0_of_ocaml
     Living_core.Default.named_return name
       (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
 
-let foreign_utility_function10_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
-    x7_of_ocaml x8_of_ocaml x9_of_ocaml =
+let foreign_utility_function10_void =
+ fun name hash ret_typ _ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml
+     x9_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -598,9 +610,10 @@ let foreign_utility_function10_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
     in
     Living_core.Default.named_return name ()
 
-let foreign_utility_function11 name hash ret_typ ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
-    x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml =
+let foreign_utility_function11 =
+ fun name hash ret_typ ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml
+     x9_of_ocaml x10_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -632,9 +645,10 @@ let foreign_utility_function11 name hash ret_typ ret_to_ocaml x0_of_ocaml
     Living_core.Default.named_return name
       (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
 
-let foreign_utility_function11_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
-    x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml =
+let foreign_utility_function11_void =
+ fun name hash ret_typ _ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml
+     x9_of_ocaml x10_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -661,9 +675,10 @@ let foreign_utility_function11_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
     in
     Living_core.Default.named_return name ()
 
-let foreign_utility_function12 name hash ret_typ ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
-    x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml x11_of_ocaml =
+let foreign_utility_function12 =
+ fun name hash ret_typ ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml
+     x9_of_ocaml x10_of_ocaml x11_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -698,9 +713,10 @@ let foreign_utility_function12 name hash ret_typ ret_to_ocaml x0_of_ocaml
     Living_core.Default.named_return name
       (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
 
-let foreign_utility_function12_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
-    x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml x11_of_ocaml =
+let foreign_utility_function12_void =
+ fun name hash ret_typ _ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml
+     x9_of_ocaml x10_of_ocaml x11_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -730,9 +746,10 @@ let foreign_utility_function12_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
     in
     Living_core.Default.named_return name ()
 
-let foreign_utility_function13 name hash ret_typ ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
-    x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml x11_of_ocaml x12_of_ocaml =
+let foreign_utility_function13 =
+ fun name hash ret_typ ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml
+     x9_of_ocaml x10_of_ocaml x11_of_ocaml x12_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -768,9 +785,10 @@ let foreign_utility_function13 name hash ret_typ ret_to_ocaml x0_of_ocaml
     Living_core.Default.named_return name
       (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
 
-let foreign_utility_function13_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
-    x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml x11_of_ocaml x12_of_ocaml =
+let foreign_utility_function13_void =
+ fun name hash ret_typ _ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml
+     x9_of_ocaml x10_of_ocaml x11_of_ocaml x12_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -801,10 +819,10 @@ let foreign_utility_function13_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
     in
     Living_core.Default.named_return name ()
 
-let foreign_utility_function14 name hash ret_typ ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
-    x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml x11_of_ocaml x12_of_ocaml
-    x13_of_ocaml =
+let foreign_utility_function14 =
+ fun name hash ret_typ ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml
+     x9_of_ocaml x10_of_ocaml x11_of_ocaml x12_of_ocaml x13_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in
@@ -842,10 +860,10 @@ let foreign_utility_function14 name hash ret_typ ret_to_ocaml x0_of_ocaml
     Living_core.Default.named_return name
       (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
 
-let foreign_utility_function14_void name hash ret_typ _ret_to_ocaml x0_of_ocaml
-    x1_of_ocaml x2_of_ocaml x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml
-    x7_of_ocaml x8_of_ocaml x9_of_ocaml x10_of_ocaml x11_of_ocaml x12_of_ocaml
-    x13_of_ocaml =
+let foreign_utility_function14_void =
+ fun name hash ret_typ _ret_to_ocaml x0_of_ocaml x1_of_ocaml x2_of_ocaml
+     x3_of_ocaml x4_of_ocaml x5_of_ocaml x6_of_ocaml x7_of_ocaml x8_of_ocaml
+     x9_of_ocaml x10_of_ocaml x11_of_ocaml x12_of_ocaml x13_of_ocaml ->
   let utility_function =
     Living_core.Default.unsafe_free (variant_get_ptr_utility_function name hash)
   in

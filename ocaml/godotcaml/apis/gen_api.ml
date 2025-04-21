@@ -180,6 +180,7 @@ module Api = struct
       is_const : bool;
       is_vararg : bool;
       is_static : bool;
+      is_required : bool option; [@yojson.option]
       is_virtual : bool;
       hash : int64 option; [@yojson.option]
       hash_compatibility : int64 list option; [@yojson.option]
@@ -325,7 +326,16 @@ module Gen = struct
 
   let doc_comment contents =
     let escape c =
-      match c with '\"' -> "\"\"" | '*' -> " * " | _ as c -> String.of_char c
+      match c with
+      | '[' -> "\\["
+      | ']' -> "\\]"
+      | '{' -> "\\{!"
+      | '}' -> "\\}"
+      | '@' -> "\\@"
+      | '\'' -> "''"
+      | '\"' -> "\"\""
+      | '*' -> " * "
+      | _ as c -> String.of_char c
     in
     string "(** "
     ^^ string (String.concat_map ~f:escape contents)
@@ -373,6 +383,7 @@ module Gen = struct
       "PackedVector2Array";
       "PackedVector3Array";
       "PackedColorArray";
+      "PackedVector4Array";
       "Variant";
     ]
     |> NamesSet.of_list
@@ -413,23 +424,24 @@ module Gen = struct
 
   let qualify_nicely _this s' =
     s' |> String.split ~on:'.'
-    |> (function
-         | x :: xs
-           when String.(
-                  x = "Variadic" || x = "VariadicVariants" || x = "Void"
-                  || x = "void") ->
-             x :: xs
-         | x :: y :: zs when String.(x = "Variant") ->
-             "GlobalEnum" :: (x ^ y) :: zs
-         | x :: xs when x |> Set.mem ge_names -> "GlobalEnum" :: x :: xs
-         | x :: xs when x |> Set.mem bic_names ->
-             "BuiltinClass0" :: mod_var_str x :: xs
-         | x :: xs -> "Class0" :: mod_var_str x :: xs
-         | ys -> ys)
+    |> ( function
+    | x :: xs
+      when String.(
+             x = "Variadic" || x = "VariadicVariants" || x = "Void"
+             || x = "void") ->
+        x :: xs
+    | x :: y :: zs when String.(x = "Variant") -> "GlobalEnum" :: (x ^ y) :: zs
+    | x :: xs when x |> Set.mem ge_names -> "GlobalEnum" :: x :: xs
+    | x :: xs when x |> Set.mem bic_names ->
+        "BuiltinClass0" :: mod_var_str x :: xs
+    | x :: xs -> "Class0" :: mod_var_str x :: xs
+    | ys -> ys )
     |> String.concat ~sep:"."
 
-  (** Some explanation: This removes the weird `enum::` prefix and replaces it with either "GlobalEnum" if it is unqualified, or leaves it as the qualified enum it is...
-      Also, does the same stuff for `typedarray::` and `bitfield::`... *)
+  (** Some explanation: This removes the weird `enum::` prefix and replaces it
+      with either "GlobalEnum" if it is unqualified, or leaves it as the
+      qualified enum it is... Also, does the same stuff for `typedarray::` and
+      `bitfield::`... *)
   let remove_prefix this s =
     (if String.is_prefix ~prefix:"enum::" s then
        let s' = String.drop_prefix s 6 in

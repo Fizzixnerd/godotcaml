@@ -21,6 +21,10 @@ module Class0 = struct
     module SpeakerMode = struct
       include ApiTypes.Int
     end
+
+    module PlaybackType = struct
+      include ApiTypes.Int
+    end
   end
 
   module CameraServer = struct
@@ -33,6 +37,10 @@ module Class0 = struct
 
   module ClassDB = struct
     include ApiTypes.Object
+
+    module APIType = struct
+      include ApiTypes.Int
+    end
   end
 
   module DisplayServer = struct
@@ -71,6 +79,10 @@ module Class0 = struct
     end
 
     module WindowEvent = struct
+      include ApiTypes.Int
+    end
+
+    module WindowResizeEdge = struct
       include ApiTypes.Int
     end
 
@@ -128,6 +140,10 @@ module Class0 = struct
   end
 
   module EngineDebugger = struct
+    include ApiTypes.Object
+  end
+
+  module FramebufferCacheRD = struct
     include ApiTypes.Object
   end
 
@@ -219,6 +235,18 @@ module Class0 = struct
     include ApiTypes.Object
   end
 
+  module NativeMenu = struct
+    include ApiTypes.Object
+
+    module Feature = struct
+      include ApiTypes.Int
+    end
+
+    module SystemMenus = struct
+      include ApiTypes.Int
+    end
+  end
+
   module NavigationMeshGenerator = struct
     include ApiTypes.Object
   end
@@ -250,11 +278,19 @@ module Class0 = struct
       include ApiTypes.Int
     end
 
+    module PhysicsInterpolationMode = struct
+      include ApiTypes.Int
+    end
+
     module DuplicateFlags = struct
       include ApiTypes.Int
     end
 
     module InternalMode = struct
+      include ApiTypes.Int
+    end
+
+    module AutoTranslateMode = struct
       include ApiTypes.Int
     end
   end
@@ -267,6 +303,10 @@ module Class0 = struct
     end
 
     module AnimationCallbackModeMethod = struct
+      include ApiTypes.Int
+    end
+
+    module AnimationCallbackModeDiscrete = struct
       include ApiTypes.Int
     end
   end
@@ -439,6 +479,14 @@ module Class0 = struct
     include ApiTypes.Object
   end
 
+  module EditorToaster = struct
+    include ApiTypes.Object
+
+    module Severity = struct
+      include ApiTypes.Int
+    end
+  end
+
   module CenterContainer = struct
     include ApiTypes.Object
   end
@@ -453,6 +501,10 @@ module Class0 = struct
     module AlignmentMode = struct
       include ApiTypes.Int
     end
+
+    module LastWrapAlignmentMode = struct
+      include ApiTypes.Int
+    end
   end
 
   module HFlowContainer = struct
@@ -460,6 +512,10 @@ module Class0 = struct
   end
 
   module GraphElement = struct
+    include ApiTypes.Object
+  end
+
+  module GraphFrame = struct
     include ApiTypes.Object
   end
 
@@ -479,6 +535,10 @@ module Class0 = struct
     include ApiTypes.Object
 
     module PanningScheme = struct
+      include ApiTypes.Int
+    end
+
+    module GridPattern = struct
       include ApiTypes.Int
     end
   end
@@ -727,6 +787,10 @@ module Class0 = struct
     end
   end
 
+  module GridMapEditorPlugin = struct
+    include ApiTypes.Object
+  end
+
   module EditorResourcePreview = struct
     include ApiTypes.Object
   end
@@ -909,9 +973,25 @@ module Class0 = struct
     module SystemDir = struct
       include ApiTypes.Int
     end
+
+    module StdHandleType = struct
+      include ApiTypes.Int
+    end
   end
 
-  module OccluderInstance3D = struct
+  module OpenXRCompositionLayer = struct
+    include ApiTypes.Object
+  end
+
+  module OpenXRCompositionLayerCylinder = struct
+    include ApiTypes.Object
+  end
+
+  module OpenXRCompositionLayerEquirect = struct
+    include ApiTypes.Object
+  end
+
+  module OpenXRCompositionLayerQuad = struct
     include ApiTypes.Object
   end
 
@@ -929,6 +1009,22 @@ module Class0 = struct
     module MotionRange = struct
       include ApiTypes.Int
     end
+
+    module SkeletonRig = struct
+      include ApiTypes.Int
+    end
+
+    module BoneUpdate = struct
+      include ApiTypes.Int
+    end
+  end
+
+  module OpenXRInteractionProfileEditorBase = struct
+    include ApiTypes.Object
+  end
+
+  module OpenXRInteractionProfileEditor = struct
+    include ApiTypes.Object
   end
 
   module OpenXRInteractionProfileMetadata = struct
@@ -944,6 +1040,14 @@ module Class0 = struct
   end
 
   module PanelContainer = struct
+    include ApiTypes.Object
+  end
+
+  module OpenXRBindingModifierEditor = struct
+    include ApiTypes.Object
+  end
+
+  module Parallax2D = struct
     include ApiTypes.Object
   end
 
@@ -1305,6 +1409,10 @@ module Class0 = struct
     module DiagonalMode = struct
       include ApiTypes.Int
     end
+
+    module CellShape = struct
+      include ApiTypes.Int
+    end
   end
 
   module AudioEffectInstance = struct
@@ -1319,7 +1427,23 @@ module Class0 = struct
     end
   end
 
+  module AudioSample = struct
+    include ApiTypes.Object
+  end
+
+  module AudioSamplePlayback = struct
+    include ApiTypes.Object
+  end
+
   module AudioStreamPlayback = struct
+    include ApiTypes.Object
+  end
+
+  module AudioStreamPlaybackInteractive = struct
+    include ApiTypes.Object
+  end
+
+  module AudioStreamPlaybackPlaylist = struct
     include ApiTypes.Object
   end
 
@@ -1336,6 +1460,10 @@ module Class0 = struct
   end
 
   module AudioStreamPlaybackOggVorbis = struct
+    include ApiTypes.Object
+  end
+
+  module AudioStreamPlaybackSynchronized = struct
     include ApiTypes.Object
   end
 
@@ -1387,6 +1515,14 @@ module Class0 = struct
     end
   end
 
+  module EditorContextMenuPlugin = struct
+    include ApiTypes.Object
+
+    module ContextMenuSlot = struct
+      include ApiTypes.Int
+    end
+  end
+
   module EditorDebuggerPlugin = struct
     include ApiTypes.Object
   end
@@ -1397,9 +1533,21 @@ module Class0 = struct
 
   module EditorExportPlatform = struct
     include ApiTypes.Object
+
+    module ExportMessageType = struct
+      include ApiTypes.Int
+    end
+
+    module DebugFlags = struct
+      include ApiTypes.Int
+    end
   end
 
   module EditorExportPlatformAndroid = struct
+    include ApiTypes.Object
+  end
+
+  module EditorExportPlatformExtension = struct
     include ApiTypes.Object
   end
 
@@ -1429,6 +1577,22 @@ module Class0 = struct
 
   module EditorExportPlugin = struct
     include ApiTypes.Object
+  end
+
+  module EditorExportPreset = struct
+    include ApiTypes.Object
+
+    module ExportFilter = struct
+      include ApiTypes.Int
+    end
+
+    module FileExportMode = struct
+      include ApiTypes.Int
+    end
+
+    module ScriptExportMode = struct
+      include ApiTypes.Int
+    end
   end
 
   module EditorFeatureProfile = struct
@@ -1467,11 +1631,15 @@ module Class0 = struct
     include ApiTypes.Object
   end
 
-  module EditorSceneFormatImporterFBX = struct
+  module EditorSceneFormatImporterFBX2GLTF = struct
     include ApiTypes.Object
   end
 
   module EditorSceneFormatImporterGLTF = struct
+    include ApiTypes.Object
+  end
+
+  module EditorSceneFormatImporterUFBX = struct
     include ApiTypes.Object
   end
 
@@ -1523,6 +1691,14 @@ module Class0 = struct
     end
   end
 
+  module GLTFObjectModelProperty = struct
+    include ApiTypes.Object
+
+    module GLTFObjectModelType = struct
+      include ApiTypes.Int
+    end
+  end
+
   module HMACContext = struct
     include ApiTypes.Object
   end
@@ -1564,6 +1740,10 @@ module Class0 = struct
   end
 
   module JavaClass = struct
+    include ApiTypes.Object
+  end
+
+  module JavaObject = struct
     include ApiTypes.Object
   end
 
@@ -1677,6 +1857,10 @@ module Class0 = struct
 
   module OpenXRAPIExtension = struct
     include ApiTypes.Object
+
+    module OpenXRAlphaBlendModeSupport = struct
+      include ApiTypes.Int
+    end
   end
 
   module PCKPacker = struct
@@ -1867,6 +2051,18 @@ module Class0 = struct
     include ApiTypes.Object
   end
 
+  module RenderData = struct
+    include ApiTypes.Object
+  end
+
+  module RenderDataExtension = struct
+    include ApiTypes.Object
+  end
+
+  module RenderDataRD = struct
+    include ApiTypes.Object
+  end
+
   module RenderSceneBuffers = struct
     include ApiTypes.Object
   end
@@ -1880,6 +2076,18 @@ module Class0 = struct
   end
 
   module RenderSceneBuffersRD = struct
+    include ApiTypes.Object
+  end
+
+  module RenderSceneData = struct
+    include ApiTypes.Object
+  end
+
+  module RenderSceneDataExtension = struct
+    include ApiTypes.Object
+  end
+
+  module RenderSceneDataRD = struct
     include ApiTypes.Object
   end
 
@@ -1946,6 +2154,10 @@ module Class0 = struct
       include ApiTypes.Int
     end
 
+    module BufferCreationBits = struct
+      include ApiTypes.Int
+    end
+
     module UniformType = struct
       include ApiTypes.Int
     end
@@ -2006,6 +2218,10 @@ module Class0 = struct
       include ApiTypes.Int
     end
 
+    module Features = struct
+      include ApiTypes.Int
+    end
+
     module Limit = struct
       include ApiTypes.Int
     end
@@ -2013,10 +2229,22 @@ module Class0 = struct
     module MemoryType = struct
       include ApiTypes.Int
     end
+
+    module BreadcrumbMarker = struct
+      include ApiTypes.Int
+    end
+
+    module DrawFlags = struct
+      include ApiTypes.Int
+    end
   end
 
   module RenderingServer = struct
     include ApiTypes.Object
+
+    module TextureType = struct
+      include ApiTypes.Int
+    end
 
     module TextureLayeredType = struct
       include ApiTypes.Int
@@ -2051,6 +2279,10 @@ module Class0 = struct
     end
 
     module MultimeshTransformFormat = struct
+      include ApiTypes.Int
+    end
+
+    module MultimeshPhysicsInterpolationQuality = struct
       include ApiTypes.Int
     end
 
@@ -2158,6 +2390,10 @@ module Class0 = struct
       include ApiTypes.Int
     end
 
+    module ViewportAnisotropicFiltering = struct
+      include ApiTypes.Int
+    end
+
     module ViewportScreenSpaceAA = struct
       include ApiTypes.Int
     end
@@ -2182,7 +2418,19 @@ module Class0 = struct
       include ApiTypes.Int
     end
 
+    module ViewportVRSUpdateMode = struct
+      include ApiTypes.Int
+    end
+
     module SkyMode = struct
+      include ApiTypes.Int
+    end
+
+    module CompositorEffectFlags = struct
+      include ApiTypes.Int
+    end
+
+    module CompositorEffectCallbackType = struct
       include ApiTypes.Int
     end
 
@@ -2199,6 +2447,10 @@ module Class0 = struct
     end
 
     module EnvironmentGlowBlendMode = struct
+      include ApiTypes.Int
+    end
+
+    module EnvironmentFogMode = struct
       include ApiTypes.Int
     end
 
@@ -2310,6 +2562,10 @@ module Class0 = struct
       include ApiTypes.Int
     end
 
+    module PipelineSource = struct
+      include ApiTypes.Int
+    end
+
     module Features = struct
       include ApiTypes.Int
     end
@@ -2357,6 +2613,10 @@ module Class0 = struct
     module FilterAction = struct
       include ApiTypes.Int
     end
+  end
+
+  module AnimationNodeExtension = struct
+    include ApiTypes.Object
   end
 
   module AnimationNodeOutput = struct
@@ -2555,6 +2815,10 @@ module Class0 = struct
     include ApiTypes.Object
   end
 
+  module AudioEffectHardLimiter = struct
+    include ApiTypes.Object
+  end
+
   module AudioEffectLimiter = struct
     include ApiTypes.Object
   end
@@ -2601,6 +2865,30 @@ module Class0 = struct
 
   module AudioStreamGenerator = struct
     include ApiTypes.Object
+
+    module AudioStreamGeneratorMixRate = struct
+      include ApiTypes.Int
+    end
+  end
+
+  module AudioStreamInteractive = struct
+    include ApiTypes.Object
+
+    module TransitionFromTime = struct
+      include ApiTypes.Int
+    end
+
+    module TransitionToTime = struct
+      include ApiTypes.Int
+    end
+
+    module FadeMode = struct
+      include ApiTypes.Int
+    end
+
+    module AutoAdvanceMode = struct
+      include ApiTypes.Int
+    end
   end
 
   module AudioStreamMP3 = struct
@@ -2615,6 +2903,10 @@ module Class0 = struct
     include ApiTypes.Object
   end
 
+  module AudioStreamPlaylist = struct
+    include ApiTypes.Object
+  end
+
   module AudioStreamPolyphonic = struct
     include ApiTypes.Object
   end
@@ -2625,6 +2917,10 @@ module Class0 = struct
     module PlaybackMode = struct
       include ApiTypes.Int
     end
+  end
+
+  module AudioStreamSynchronized = struct
+    include ApiTypes.Object
   end
 
   module AudioStreamWAV = struct
@@ -2661,6 +2957,22 @@ module Class0 = struct
 
   module CameraAttributesPractical = struct
     include ApiTypes.Object
+  end
+
+  module ColorPalette = struct
+    include ApiTypes.Object
+  end
+
+  module Compositor = struct
+    include ApiTypes.Object
+  end
+
+  module CompositorEffect = struct
+    include ApiTypes.Object
+
+    module EffectCallbackType = struct
+      include ApiTypes.Int
+    end
   end
 
   module CryptoKey = struct
@@ -2714,6 +3026,10 @@ module Class0 = struct
       include ApiTypes.Int
     end
 
+    module FogMode = struct
+      include ApiTypes.Int
+    end
+
     module SDFGIYScale = struct
       include ApiTypes.Int
     end
@@ -2741,6 +3057,14 @@ module Class0 = struct
 
   module GLTFAccessor = struct
     include ApiTypes.Object
+
+    module GLTFAccessorType = struct
+      include ApiTypes.Int
+    end
+
+    module GLTFComponentType = struct
+      include ApiTypes.Int
+    end
   end
 
   module GLTFAnimation = struct
@@ -2761,6 +3085,10 @@ module Class0 = struct
     module RootNodeMode = struct
       include ApiTypes.Int
     end
+  end
+
+  module FBXDocument = struct
+    include ApiTypes.Object
   end
 
   module GLTFDocumentExtension = struct
@@ -2804,6 +3132,10 @@ module Class0 = struct
   end
 
   module GLTFState = struct
+    include ApiTypes.Object
+  end
+
+  module FBXState = struct
     include ApiTypes.Object
   end
 
@@ -2941,6 +3273,10 @@ module Class0 = struct
 
   module LightmapGIData = struct
     include ApiTypes.Object
+
+    module ShadowmaskMode = struct
+      include ApiTypes.Int
+    end
   end
 
   module Material = struct
@@ -3165,6 +3501,10 @@ module Class0 = struct
     module TransformFormat = struct
       include ApiTypes.Int
     end
+
+    module PhysicsInterpolationQuality = struct
+      include ApiTypes.Int
+    end
   end
 
   module NavigationMesh = struct
@@ -3193,6 +3533,10 @@ module Class0 = struct
 
   module NavigationPolygon = struct
     include ApiTypes.Object
+
+    module SamplePartitionType = struct
+      include ApiTypes.Int
+    end
 
     module ParsedGeometryType = struct
       include ApiTypes.Int
@@ -3280,6 +3624,34 @@ module Class0 = struct
   end
 
   module OpenXRActionSet = struct
+    include ApiTypes.Object
+  end
+
+  module OpenXRBindingModifier = struct
+    include ApiTypes.Object
+  end
+
+  module OpenXRActionBindingModifier = struct
+    include ApiTypes.Object
+  end
+
+  module OpenXRAnalogThresholdModifier = struct
+    include ApiTypes.Object
+  end
+
+  module OpenXRIPBindingModifier = struct
+    include ApiTypes.Object
+  end
+
+  module OpenXRDpadBindingModifier = struct
+    include ApiTypes.Object
+  end
+
+  module OpenXRHapticBase = struct
+    include ApiTypes.Object
+  end
+
+  module OpenXRHapticVibration = struct
     include ApiTypes.Object
   end
 
@@ -3454,6 +3826,10 @@ module Class0 = struct
       include ApiTypes.Int
     end
 
+    module MetaUnderline = struct
+      include ApiTypes.Int
+    end
+
     module ImageUpdateMask = struct
       include ApiTypes.Int
     end
@@ -3549,6 +3925,10 @@ module Class0 = struct
 
   module ScriptLanguage = struct
     include ApiTypes.Object
+
+    module ScriptNameCasing = struct
+      include ApiTypes.Int
+    end
   end
 
   module ScriptLanguageExtension = struct
@@ -3612,6 +3992,10 @@ module Class0 = struct
   end
 
   module ShaderInclude = struct
+    include ApiTypes.Object
+  end
+
+  module ShaderIncludeDB = struct
     include ApiTypes.Object
   end
 
@@ -3701,10 +4085,10 @@ module Class0 = struct
 
   module Skeleton3D = struct
     include ApiTypes.Object
-  end
 
-  module SkeletonIK3D = struct
-    include ApiTypes.Object
+    module ModifierCallbackModeProcess = struct
+      include ApiTypes.Int
+    end
   end
 
   module SkeletonModification2D = struct
@@ -3740,6 +4124,38 @@ module Class0 = struct
   end
 
   module SkeletonModificationStack2D = struct
+    include ApiTypes.Object
+  end
+
+  module SkeletonModifier3D = struct
+    include ApiTypes.Object
+
+    module BoneAxis = struct
+      include ApiTypes.Int
+    end
+  end
+
+  module LookAtModifier3D = struct
+    include ApiTypes.Object
+
+    module OriginFrom = struct
+      include ApiTypes.Int
+    end
+  end
+
+  module PhysicalBoneSimulator3D = struct
+    include ApiTypes.Object
+  end
+
+  module RetargetModifier3D = struct
+    include ApiTypes.Object
+
+    module TransformFlag = struct
+      include ApiTypes.Int
+    end
+  end
+
+  module SkeletonIK3D = struct
     include ApiTypes.Object
   end
 
@@ -3823,6 +4239,38 @@ module Class0 = struct
     include ApiTypes.Object
   end
 
+  module SpringBoneCollision3D = struct
+    include ApiTypes.Object
+  end
+
+  module SpringBoneCollisionCapsule3D = struct
+    include ApiTypes.Object
+  end
+
+  module SpringBoneCollisionPlane3D = struct
+    include ApiTypes.Object
+  end
+
+  module SpringBoneCollisionSphere3D = struct
+    include ApiTypes.Object
+  end
+
+  module SpringBoneSimulator3D = struct
+    include ApiTypes.Object
+
+    module BoneDirection = struct
+      include ApiTypes.Int
+    end
+
+    module CenterFrom = struct
+      include ApiTypes.Int
+    end
+
+    module RotationAxis = struct
+      include ApiTypes.Int
+    end
+  end
+
   module Sprite2D = struct
     include ApiTypes.Object
   end
@@ -3848,6 +4296,10 @@ module Class0 = struct
   end
 
   module AnimatableBody3D = struct
+    include ApiTypes.Object
+  end
+
+  module StatusIndicator = struct
     include ApiTypes.Object
   end
 
@@ -3935,6 +4387,10 @@ module Class0 = struct
     include ApiTypes.Object
   end
 
+  module GDScriptSyntaxHighlighter = struct
+    include ApiTypes.Object
+  end
+
   module SystemFont = struct
     include ApiTypes.Object
   end
@@ -3961,6 +4417,10 @@ module Class0 = struct
 
   module TabContainer = struct
     include ApiTypes.Object
+
+    module TabPosition = struct
+      include ApiTypes.Int
+    end
   end
 
   module TextEdit = struct
@@ -4152,6 +4612,10 @@ module Class0 = struct
   end
 
   module CurveXYZTexture = struct
+    include ApiTypes.Object
+  end
+
+  module ExternalTexture = struct
     include ApiTypes.Object
   end
 
@@ -4355,6 +4819,14 @@ module Class0 = struct
     end
   end
 
+  module TileMapLayer = struct
+    include ApiTypes.Object
+
+    module DebugVisibilityMode = struct
+      include ApiTypes.Int
+    end
+  end
+
   module TileMapPattern = struct
     include ApiTypes.Object
   end
@@ -4439,6 +4911,10 @@ module Class0 = struct
     include ApiTypes.Object
   end
 
+  module TranslationDomain = struct
+    include ApiTypes.Object
+  end
+
   module TranslationServer = struct
     include ApiTypes.Object
   end
@@ -4511,6 +4987,10 @@ module Class0 = struct
     include ApiTypes.Object
   end
 
+  module SubtweenTweener = struct
+    include ApiTypes.Object
+  end
+
   module UDPServer = struct
     include ApiTypes.Object
   end
@@ -4537,6 +5017,10 @@ module Class0 = struct
     module MergeMode = struct
       include ApiTypes.Int
     end
+  end
+
+  module UniformSetCacheRD = struct
+    include ApiTypes.Object
   end
 
   module VBoxContainer = struct
@@ -4622,6 +5106,10 @@ module Class0 = struct
       include ApiTypes.Int
     end
 
+    module AnisotropicFiltering = struct
+      include ApiTypes.Int
+    end
+
     module ScreenSpaceAA = struct
       include ApiTypes.Int
     end
@@ -4655,6 +5143,10 @@ module Class0 = struct
     end
 
     module VRSMode = struct
+      include ApiTypes.Int
+    end
+
+    module VRSUpdateMode = struct
       include ApiTypes.Int
     end
   end
@@ -4961,6 +5453,14 @@ module Class0 = struct
     module EnvironmentMode = struct
       include ApiTypes.Int
     end
+  end
+
+  module OccluderInstance3D = struct
+    include ApiTypes.Object
+  end
+
+  module OpenXRVisibilityMask = struct
+    include ApiTypes.Object
   end
 
   module ReflectionProbe = struct
@@ -5309,13 +5809,17 @@ module Class0 = struct
 
   module VisualShaderNodeRemap = struct
     include ApiTypes.Object
+
+    module OpType = struct
+      include ApiTypes.Int
+    end
   end
 
-  module VisualShaderNodeResizableBase = struct
+  module VisualShaderNodeReroute = struct
     include ApiTypes.Object
   end
 
-  module VisualShaderNodeComment = struct
+  module VisualShaderNodeResizableBase = struct
     include ApiTypes.Object
   end
 
@@ -5324,6 +5828,14 @@ module Class0 = struct
   end
 
   module VisualShaderNodeCurveXYZTexture = struct
+    include ApiTypes.Object
+  end
+
+  module VisualShaderNodeFrame = struct
+    include ApiTypes.Object
+  end
+
+  module VisualShaderNodeComment = struct
     include ApiTypes.Object
   end
 
@@ -5823,8 +6335,32 @@ module Class0 = struct
     end
   end
 
+  module XRBodyModifier3D = struct
+    include ApiTypes.Object
+
+    module BodyUpdate = struct
+      include ApiTypes.Int
+    end
+
+    module BoneUpdate = struct
+      include ApiTypes.Int
+    end
+  end
+
   module XRCamera3D = struct
     include ApiTypes.Object
+  end
+
+  module XRFaceModifier3D = struct
+    include ApiTypes.Object
+  end
+
+  module XRHandModifier3D = struct
+    include ApiTypes.Object
+
+    module BoneUpdate = struct
+      include ApiTypes.Int
+    end
   end
 
   module XRInterface = struct
@@ -5859,6 +6395,10 @@ module Class0 = struct
     end
 
     module HandMotionRange = struct
+      include ApiTypes.Int
+    end
+
+    module HandTrackedSource = struct
       include ApiTypes.Int
     end
 
@@ -5907,14 +6447,6 @@ module Class0 = struct
     end
   end
 
-  module XRPositionalTracker = struct
-    include ApiTypes.Object
-
-    module TrackerHand = struct
-      include ApiTypes.Int
-    end
-  end
-
   module XRServer = struct
     include ApiTypes.Object
 
@@ -5925,6 +6457,66 @@ module Class0 = struct
     module RotationMode = struct
       include ApiTypes.Int
     end
+  end
+
+  module XRTracker = struct
+    include ApiTypes.Object
+  end
+
+  module XRFaceTracker = struct
+    include ApiTypes.Object
+
+    module BlendShapeEntry = struct
+      include ApiTypes.Int
+    end
+  end
+
+  module XRPositionalTracker = struct
+    include ApiTypes.Object
+
+    module TrackerHand = struct
+      include ApiTypes.Int
+    end
+  end
+
+  module XRBodyTracker = struct
+    include ApiTypes.Object
+
+    module BodyFlags = struct
+      include ApiTypes.Int
+    end
+
+    module Joint = struct
+      include ApiTypes.Int
+    end
+
+    module JointFlags = struct
+      include ApiTypes.Int
+    end
+  end
+
+  module XRControllerTracker = struct
+    include ApiTypes.Object
+  end
+
+  module XRHandTracker = struct
+    include ApiTypes.Object
+
+    module HandTrackingSource = struct
+      include ApiTypes.Int
+    end
+
+    module HandJoint = struct
+      include ApiTypes.Int
+    end
+
+    module HandJointFlags = struct
+      include ApiTypes.Int
+    end
+  end
+
+  module XRVRS = struct
+    include ApiTypes.Object
   end
 
   module ZIPPacker = struct
@@ -5946,13 +6538,16 @@ module Class = struct
     include ApiTypes.OBJECT
 
     val _NOTIFICATION_POSTINITIALIZE : int
-    (** Notification received when the object is initialized, before its script is attached. Used internally. *)
+    (** Notification received when the object is initialized, before its script
+        is attached. Used internally. *)
 
     val _NOTIFICATION_PREDELETE : int
-    (** Notification received when the object is about to be deleted. Can act as the deconstructor of some programming languages. *)
+    (** Notification received when the object is about to be deleted. Can be
+        used like destructors in object-oriented programming languages. *)
 
     val _NOTIFICATION_EXTENSION_RELOADED : int
-    (** Notification received when the object finishes hot reloading. This notification is only sent for extensions classes and derived. *)
+    (** Notification received when the object finishes hot reloading. This
+        notification is only sent for extensions classes and derived. *)
 
     val get_class :
       BuiltinClass0.Object.t structure ptr ->
@@ -6062,6 +6657,11 @@ module Class = struct
       BuiltinClass0.Object.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val remove_user_signal :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Object.t structure ptr ->
+      unit
+
     val emit_signal :
       BuiltinClass0.StringName.t structure ptr ->
       VariadicVariants.t structure ptr ->
@@ -6096,6 +6696,11 @@ module Class = struct
       BuiltinClass0.StringName.t structure ptr ->
       BuiltinClass0.Object.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
+
+    val get_method_argument_count :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Object.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
 
     val has_signal :
       BuiltinClass0.StringName.t structure ptr ->
@@ -6134,6 +6739,11 @@ module Class = struct
       BuiltinClass0.Object.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val has_connections :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Object.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val set_block_signals :
       BuiltinClass0.Bool.t structure ptr ->
       BuiltinClass0.Object.t structure ptr ->
@@ -6166,6 +6776,15 @@ module Class = struct
       BuiltinClass0.StringName.t structure ptr ->
       BuiltinClass0.Object.t structure ptr ->
       BuiltinClass0.String.t structure ptr
+
+    val get_translation_domain :
+      BuiltinClass0.Object.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
+    val set_translation_domain :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Object.t structure ptr ->
+      unit
 
     val is_queued_for_deletion :
       BuiltinClass0.Object.t structure ptr -> BuiltinClass0.Bool.t structure ptr
@@ -6240,6 +6859,11 @@ module Class = struct
       Class0.ClassDB.t structure ptr ->
       BuiltinClass0.Variant.t structure ptr
 
+    val class_get_api_type :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.ClassDB.t structure ptr ->
+      Class0.ClassDB.APIType.t structure ptr
+
     val class_has_signal :
       BuiltinClass0.StringName.t structure ptr ->
       BuiltinClass0.StringName.t structure ptr ->
@@ -6264,6 +6888,18 @@ module Class = struct
       Class0.ClassDB.t structure ptr ->
       BuiltinClass0.Dictionary.t structure ptr
 
+    val class_get_property_getter :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.ClassDB.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
+    val class_get_property_setter :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.ClassDB.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
     val class_get_property :
       BuiltinClass0.Object.t structure ptr ->
       BuiltinClass0.StringName.t structure ptr ->
@@ -6277,6 +6913,12 @@ module Class = struct
       Class0.ClassDB.t structure ptr ->
       GlobalEnum.Error.t structure ptr
 
+    val class_get_property_default_value :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.ClassDB.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
+
     val class_has_method :
       BuiltinClass0.StringName.t structure ptr ->
       BuiltinClass0.StringName.t structure ptr ->
@@ -6284,11 +6926,25 @@ module Class = struct
       Class0.ClassDB.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val class_get_method_argument_count :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.ClassDB.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
     val class_get_method_list :
       BuiltinClass0.StringName.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
       Class0.ClassDB.t structure ptr ->
       BuiltinClass0.Dictionary.t structure ptr
+
+    val class_call_static :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      VariadicVariants.t structure ptr ->
+      Class0.ClassDB.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
 
     val class_get_integer_constant_list :
       BuiltinClass0.StringName.t structure ptr ->
@@ -6335,6 +6991,13 @@ module Class = struct
       Class0.ClassDB.t structure ptr ->
       BuiltinClass0.StringName.t structure ptr
 
+    val is_class_enum_bitfield :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.ClassDB.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val is_class_enabled :
       BuiltinClass0.StringName.t structure ptr ->
       Class0.ClassDB.t structure ptr ->
@@ -6347,22 +7010,35 @@ module Class = struct
     include OBJECT
 
     val _SCREEN_WITH_MOUSE_FOCUS : int
-    (** Represents the screen containing the mouse pointer. *)
+    (** Represents the screen containing the mouse pointer. \[b\]Note:\[/b\] On
+        Linux (Wayland), this constant always represents the screen at index
+        \[code\]0\[/code\]. *)
 
     val _SCREEN_WITH_KEYBOARD_FOCUS : int
-    (** Represents the screen containing the window with the keyboard focus. *)
+    (** Represents the screen containing the window with the keyboard focus.
+        \[b\]Note:\[/b\] On Linux (Wayland), this constant always represents the
+        screen at index \[code\]0\[/code\]. *)
 
     val _SCREEN_PRIMARY : int
-    (** Represents the primary screen. *)
+    (** Represents the primary screen. \[b\]Note:\[/b\] On Linux (Wayland), this
+        constant always represents the screen at index \[code\]0\[/code\]. *)
 
     val _SCREEN_OF_MAIN_WINDOW : int
-    (** Represents the screen where the main window is located. This is usually the default value in functions that allow specifying one of several screens. *)
+    (** Represents the screen where the main window is located. This is usually
+        the default value in functions that allow specifying one of several
+        screens. \[b\]Note:\[/b\] On Linux (Wayland), this constant always
+        represents the screen at index \[code\]0\[/code\]. *)
 
     val _MAIN_WINDOW_ID : int
-    (** The ID of the main window spawned by the engine, which can be passed to methods expecting a [code]window_id[/code]. *)
+    (** The ID of the main window spawned by the engine, which can be passed to
+        methods expecting a \[code\]window_id\[/code\]. *)
 
     val _INVALID_WINDOW_ID : int
-    (** The ID that refers to a nonexistent window. This is returned by some [DisplayServer] methods if no window matches the requested result. *)
+    (** The ID that refers to a nonexistent window. This is returned by some
+        \[DisplayServer\] methods if no window matches the requested result. *)
+
+    val _INVALID_INDICATOR_ID : int
+    (** The ID that refers to a nonexistent application status indicator. *)
 
     val has_feature :
       Class0.DisplayServer.Feature.t structure ptr ->
@@ -6372,6 +7048,12 @@ module Class = struct
     val get_name :
       Class0.DisplayServer.t structure ptr ->
       BuiltinClass0.String.t structure ptr
+
+    val help_set_search_callbacks :
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      unit
 
     val global_menu_set_popup_callbacks :
       BuiltinClass0.String.t structure ptr ->
@@ -6719,6 +7401,10 @@ module Class = struct
       Class0.DisplayServer.t structure ptr ->
       unit
 
+    val global_menu_get_system_menu_roots :
+      Class0.DisplayServer.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
     val tts_is_speaking :
       Class0.DisplayServer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
@@ -6764,6 +7450,15 @@ module Class = struct
     val get_accent_color :
       Class0.DisplayServer.t structure ptr ->
       BuiltinClass0.Color.t structure ptr
+
+    val get_base_color :
+      Class0.DisplayServer.t structure ptr ->
+      BuiltinClass0.Color.t structure ptr
+
+    val set_system_theme_change_callback :
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      unit
 
     val mouse_set_mode :
       Class0.DisplayServer.MouseMode.t structure ptr ->
@@ -6880,6 +7575,11 @@ module Class = struct
 
     val screen_get_image :
       BuiltinClass0.Int.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      Class0.Image.t structure ptr
+
+    val screen_get_image_rect :
+      BuiltinClass0.Rect2i.t structure ptr ->
       Class0.DisplayServer.t structure ptr ->
       Class0.Image.t structure ptr
 
@@ -7150,6 +7850,17 @@ module Class = struct
     val window_minimize_on_title_dbl_click :
       Class0.DisplayServer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
+    val window_start_drag :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      unit
+
+    val window_start_resize :
+      Class0.DisplayServer.WindowResizeEdge.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      unit
+
     val ime_get_selection :
       Class0.DisplayServer.t structure ptr ->
       BuiltinClass0.Vector2i.t structure ptr
@@ -7172,6 +7883,9 @@ module Class = struct
 
     val virtual_keyboard_get_height :
       Class0.DisplayServer.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val has_hardware_keyboard :
+      Class0.DisplayServer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val cursor_set_shape :
       Class0.DisplayServer.CursorShape.t structure ptr ->
@@ -7224,6 +7938,21 @@ module Class = struct
       Class0.DisplayServer.t structure ptr ->
       GlobalEnum.Error.t structure ptr
 
+    val file_dialog_with_options_show :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.DisplayServer.FileDialogMode.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
+
+    val beep : Class0.DisplayServer.t structure ptr -> unit
+
     val keyboard_get_layout_count :
       Class0.DisplayServer.t structure ptr -> BuiltinClass0.Int.t structure ptr
 
@@ -7255,6 +7984,9 @@ module Class = struct
       Class0.DisplayServer.t structure ptr ->
       GlobalEnum.Key.t structure ptr
 
+    val show_emoji_and_symbol_picker :
+      Class0.DisplayServer.t structure ptr -> unit
+
     val process_events : Class0.DisplayServer.t structure ptr -> unit
 
     val force_process_and_drop_events :
@@ -7267,6 +7999,47 @@ module Class = struct
 
     val set_icon :
       Class0.Image.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      unit
+
+    val create_status_indicator :
+      Class0.Texture2D.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val status_indicator_set_icon :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Texture2D.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      unit
+
+    val status_indicator_set_tooltip :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      unit
+
+    val status_indicator_set_menu :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      unit
+
+    val status_indicator_set_callback :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      unit
+
+    val status_indicator_get_rect :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      BuiltinClass0.Rect2.t structure ptr
+
+    val delete_status_indicator :
+      BuiltinClass0.Int.t structure ptr ->
       Class0.DisplayServer.t structure ptr ->
       unit
 
@@ -7286,6 +8059,22 @@ module Class = struct
       BuiltinClass0.String.t structure ptr ->
       Class0.DisplayServer.t structure ptr ->
       unit
+
+    val is_window_transparency_available :
+      Class0.DisplayServer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val register_additional_output :
+      BuiltinClass0.Object.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      unit
+
+    val unregister_additional_output :
+      BuiltinClass0.Object.t structure ptr ->
+      Class0.DisplayServer.t structure ptr ->
+      unit
+
+    val has_additional_outputs :
+      Class0.DisplayServer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
   end
 
   module type EDITORFILESYSTEMDIRECTORY = sig
@@ -7393,6 +8182,14 @@ module Class = struct
       Class0.EditorInterface.t structure ptr ->
       Class0.EditorSettings.t structure ptr
 
+    val get_editor_toaster :
+      Class0.EditorInterface.t structure ptr ->
+      Class0.EditorToaster.t structure ptr
+
+    val get_editor_undo_redo :
+      Class0.EditorInterface.t structure ptr ->
+      Class0.EditorUndoRedoManager.t structure ptr
+
     val make_mesh_previews :
       Class0.Mesh.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
@@ -7447,6 +8244,10 @@ module Class = struct
       Class0.EditorInterface.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val is_multi_window_enabled :
+      Class0.EditorInterface.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val get_editor_scale :
       Class0.EditorInterface.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
@@ -7482,6 +8283,43 @@ module Class = struct
 
     val set_current_feature_profile :
       BuiltinClass0.String.t structure ptr ->
+      Class0.EditorInterface.t structure ptr ->
+      unit
+
+    val popup_node_selector :
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.Node.t structure ptr ->
+      Class0.EditorInterface.t structure ptr ->
+      unit
+
+    val popup_property_selector :
+      BuiltinClass0.Object.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.PackedInt32Array.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorInterface.t structure ptr ->
+      unit
+
+    val popup_method_selector :
+      BuiltinClass0.Object.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorInterface.t structure ptr ->
+      unit
+
+    val popup_quick_open :
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.EditorInterface.t structure ptr ->
+      unit
+
+    val popup_create_dialog :
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
       Class0.EditorInterface.t structure ptr ->
       unit
 
@@ -7537,6 +8375,7 @@ module Class = struct
 
     val open_scene_from_path :
       BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.EditorInterface.t structure ptr ->
       unit
 
@@ -7661,6 +8500,9 @@ module Class = struct
       Class0.EditorUndoRedoManager.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val force_fixed_history :
+      Class0.EditorUndoRedoManager.t structure ptr -> unit
+
     val add_do_method :
       BuiltinClass0.Object.t structure ptr ->
       BuiltinClass0.StringName.t structure ptr ->
@@ -7708,6 +8550,12 @@ module Class = struct
       BuiltinClass0.Int.t structure ptr ->
       Class0.EditorUndoRedoManager.t structure ptr ->
       Class0.UndoRedo.t structure ptr
+
+    val clear_history :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.EditorUndoRedoManager.t structure ptr ->
+      unit
   end
 
   module type EDITORVCSINTERFACE = sig
@@ -8015,8 +8863,19 @@ module Class = struct
     val is_editor_hint :
       Class0.Engine.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
+    val is_embedded_in_editor :
+      Class0.Engine.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
     val get_write_movie_path :
       Class0.Engine.t structure ptr -> BuiltinClass0.String.t structure ptr
+
+    val set_print_to_stdout :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.Engine.t structure ptr ->
+      unit
+
+    val is_printing_to_stdout :
+      Class0.Engine.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val set_print_error_messages :
       BuiltinClass0.Bool.t structure ptr ->
@@ -8086,11 +8945,78 @@ module Class = struct
       Class0.EngineDebugger.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val line_poll : Class0.EngineDebugger.t structure ptr -> unit
+
     val send_message :
       BuiltinClass0.String.t structure ptr ->
       BuiltinClass0.Array.t structure ptr ->
       Class0.EngineDebugger.t structure ptr ->
       unit
+
+    val debug :
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.EngineDebugger.t structure ptr ->
+      unit
+
+    val script_debug :
+      Class0.ScriptLanguage.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.EngineDebugger.t structure ptr ->
+      unit
+
+    val set_lines_left :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EngineDebugger.t structure ptr ->
+      unit
+
+    val get_lines_left :
+      Class0.EngineDebugger.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val set_depth :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EngineDebugger.t structure ptr ->
+      unit
+
+    val get_depth :
+      Class0.EngineDebugger.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val is_breakpoint :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.EngineDebugger.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val is_skipping_breakpoints :
+      Class0.EngineDebugger.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val insert_breakpoint :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.EngineDebugger.t structure ptr ->
+      unit
+
+    val remove_breakpoint :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.EngineDebugger.t structure ptr ->
+      unit
+
+    val clear_breakpoints : Class0.EngineDebugger.t structure ptr -> unit
+  end
+
+  module type FRAMEBUFFERCACHERD = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include OBJECT
+
+    val get_cache_multipass :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RDFramebufferPass.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
   end
 
   module type GEOMETRY2D = sig
@@ -8245,6 +9171,12 @@ module Class = struct
       BuiltinClass0.PackedVector2Array.t structure ptr ->
       Class0.Geometry2D.t structure ptr ->
       BuiltinClass0.Dictionary.t structure ptr
+
+    val bresenham_line :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.Geometry2D.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr
   end
 
   module type GEOMETRY3D = sig
@@ -8355,6 +9287,11 @@ module Class = struct
       BuiltinClass0.Plane.t structure ptr ->
       Class0.Geometry3D.t structure ptr ->
       BuiltinClass0.PackedVector3Array.t structure ptr
+
+    val tetrahedralize_delaunay :
+      BuiltinClass0.PackedVector3Array.t structure ptr ->
+      Class0.Geometry3D.t structure ptr ->
+      BuiltinClass0.PackedInt32Array.t structure ptr
   end
 
   module type IP = sig
@@ -8363,10 +9300,12 @@ module Class = struct
     include OBJECT
 
     val _RESOLVER_MAX_QUERIES : int
-    (** Maximum number of concurrent DNS resolver queries allowed, [constant RESOLVER_INVALID_ID] is returned if exceeded. *)
+    (** Maximum number of concurrent DNS resolver queries allowed, \[constant
+        RESOLVER_INVALID_ID\] is returned if exceeded. *)
 
     val _RESOLVER_INVALID_ID : int
-    (** Invalid ID constant. Returned if [constant RESOLVER_MAX_QUERIES] is exceeded. *)
+    (** Invalid ID constant. Returned if \[constant RESOLVER_MAX_QUERIES\] is
+        exceeded. *)
 
     val resolve_hostname :
       BuiltinClass0.String.t structure ptr ->
@@ -8562,7 +9501,10 @@ module Class = struct
       BuiltinClass0.Int.t structure ptr -> Class0.Input.t structure ptr -> unit
 
     val vibrate_handheld :
-      BuiltinClass0.Int.t structure ptr -> Class0.Input.t structure ptr -> unit
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.Input.t structure ptr ->
+      unit
 
     val get_gravity :
       Class0.Input.t structure ptr -> BuiltinClass0.Vector3.t structure ptr
@@ -8597,6 +9539,9 @@ module Class = struct
       unit
 
     val get_last_mouse_velocity :
+      Class0.Input.t structure ptr -> BuiltinClass0.Vector2.t structure ptr
+
+    val get_last_mouse_screen_velocity :
       Class0.Input.t structure ptr -> BuiltinClass0.Vector2.t structure ptr
 
     val get_mouse_button_mask :
@@ -8651,6 +9596,18 @@ module Class = struct
       Class0.Input.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val flush_buffered_events : Class0.Input.t structure ptr -> unit
+
+    val set_emulate_mouse_from_touch :
+      BuiltinClass0.Bool.t structure ptr -> Class0.Input.t structure ptr -> unit
+
+    val is_emulating_mouse_from_touch :
+      Class0.Input.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_emulate_touch_from_mouse :
+      BuiltinClass0.Bool.t structure ptr -> Class0.Input.t structure ptr -> unit
+
+    val is_emulating_touch_from_mouse :
+      Class0.Input.t structure ptr -> BuiltinClass0.Bool.t structure ptr
   end
 
   module type INPUTMAP = sig
@@ -8791,6 +9748,10 @@ module Class = struct
       BuiltinClass0.String.t structure ptr ->
       Class0.JavaClassWrapper.t structure ptr ->
       Class0.JavaClass.t structure ptr
+
+    val get_exception :
+      Class0.JavaClassWrapper.t structure ptr ->
+      Class0.JavaObject.t structure ptr
   end
 
   module type JAVASCRIPTBRIDGE = sig
@@ -8813,6 +9774,16 @@ module Class = struct
       BuiltinClass0.Callable.t structure ptr ->
       Class0.JavaScriptBridge.t structure ptr ->
       Class0.JavaScriptObject.t structure ptr
+
+    val is_js_buffer :
+      Class0.JavaScriptObject.t structure ptr ->
+      Class0.JavaScriptBridge.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val js_buffer_to_packed_byte_array :
+      Class0.JavaScriptObject.t structure ptr ->
+      Class0.JavaScriptBridge.t structure ptr ->
+      BuiltinClass0.PackedByteArray.t structure ptr
 
     val create_object :
       BuiltinClass0.String.t structure ptr ->
@@ -8844,39 +9815,52 @@ module Class = struct
     include OBJECT
 
     val _NOTIFICATION_OS_MEMORY_WARNING : int
-    (** Notification received from the OS when the application is exceeding its allocated memory.
-Specific to the iOS platform. *)
+    (** Notification received from the OS when the application is exceeding its
+        allocated memory. Specific to the iOS platform. *)
 
     val _NOTIFICATION_TRANSLATION_CHANGED : int
-    (** Notification received when translations may have changed. Can be triggered by the user changing the locale. Can be used to respond to language changes, for example to change the UI strings on the fly. Useful when working with the built-in translation support, like [method Object.tr]. *)
+    (** Notification received when translations may have changed. Can be
+        triggered by the user changing the locale. Can be used to respond to
+        language changes, for example to change the UI strings on the fly.
+        Useful when working with the built-in translation support, like \[method
+        Object.tr\]. *)
 
     val _NOTIFICATION_WM_ABOUT : int
-    (** Notification received from the OS when a request for ""About"" information is sent.
-Specific to the macOS platform. *)
+    (** Notification received from the OS when a request for ""About""
+        information is sent. Specific to the macOS platform. *)
 
     val _NOTIFICATION_CRASH : int
-    (** Notification received from Godot's crash handler when the engine is about to crash.
-Implemented on desktop platforms if the crash handler is enabled. *)
+    (** Notification received from Godot''s crash handler when the engine is
+        about to crash. Implemented on desktop platforms if the crash handler is
+        enabled. *)
 
     val _NOTIFICATION_OS_IME_UPDATE : int
-    (** Notification received from the OS when an update of the Input Method Engine occurs (e.g. change of IME cursor position or composition string).
-Specific to the macOS platform. *)
+    (** Notification received from the OS when an update of the Input Method
+        Engine occurs (e.g. change of IME cursor position or composition
+        string). Specific to the macOS platform. *)
 
     val _NOTIFICATION_APPLICATION_RESUMED : int
     (** Notification received from the OS when the application is resumed.
-Specific to the Android platform. *)
+        Specific to the Android and iOS platforms. *)
 
     val _NOTIFICATION_APPLICATION_PAUSED : int
     (** Notification received from the OS when the application is paused.
-Specific to the Android platform. *)
+        Specific to the Android and iOS platforms. \[b\]Note:\[/b\] On iOS, you
+        only have approximately 5 seconds to finish a task started by this
+        signal. If you go over this allotment, iOS will kill the app instead of
+        pausing it. *)
 
     val _NOTIFICATION_APPLICATION_FOCUS_IN : int
-    (** Notification received from the OS when the application is focused, i.e. when changing the focus from the OS desktop or a thirdparty application to any open window of the Godot instance.
-Implemented on desktop platforms. *)
+    (** Notification received from the OS when the application is focused, i.e.
+        when changing the focus from the OS desktop or a thirdparty application
+        to any open window of the Godot instance. Implemented on desktop and
+        mobile platforms. *)
 
     val _NOTIFICATION_APPLICATION_FOCUS_OUT : int
-    (** Notification received from the OS when the application is defocused, i.e. when changing the focus from any open window of the Godot instance to the OS desktop or a thirdparty application.
-Implemented on desktop platforms. *)
+    (** Notification received from the OS when the application is defocused,
+        i.e. when changing the focus from any open window of the Godot instance
+        to the OS desktop or a thirdparty application. Implemented on desktop
+        and mobile platforms. *)
 
     val _NOTIFICATION_TEXT_SERVER_CHANGED : int
     (** Notification received when text server is changed. *)
@@ -8932,6 +9916,451 @@ Implemented on desktop platforms. *)
       BuiltinClass0.String.t structure ptr ->
       Class0.Marshalls.t structure ptr ->
       BuiltinClass0.String.t structure ptr
+  end
+
+  module type NATIVEMENU = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include OBJECT
+
+    val has_feature :
+      Class0.NativeMenu.Feature.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val has_system_menu :
+      Class0.NativeMenu.SystemMenus.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_system_menu :
+      Class0.NativeMenu.SystemMenus.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
+
+    val get_system_menu_name :
+      Class0.NativeMenu.SystemMenus.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val create_menu :
+      Class0.NativeMenu.t structure ptr -> BuiltinClass0.RID.t structure ptr
+
+    val has_menu :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val free_menu :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val get_size :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
+
+    val popup :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_interface_direction :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_popup_open_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val get_popup_open_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr
+
+    val set_popup_close_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val get_popup_close_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr
+
+    val set_minimum_width :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val get_minimum_width :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val is_opened :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val add_submenu_item :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val add_item :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      GlobalEnum.Key.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val add_check_item :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      GlobalEnum.Key.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val add_icon_item :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.Texture2D.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      GlobalEnum.Key.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val add_icon_check_item :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.Texture2D.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      GlobalEnum.Key.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val add_radio_check_item :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      GlobalEnum.Key.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val add_icon_radio_check_item :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.Texture2D.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      GlobalEnum.Key.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val add_multistate_item :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      GlobalEnum.Key.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val add_separator :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val find_item_index_with_text :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val find_item_index_with_tag :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val find_item_index_with_submenu :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val is_item_checked :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val is_item_checkable :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val is_item_radio_checkable :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_item_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr
+
+    val get_item_key_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr
+
+    val get_item_tag :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
+
+    val get_item_text :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_item_submenu :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
+
+    val get_item_accelerator :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      GlobalEnum.Key.t structure ptr
+
+    val is_item_disabled :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val is_item_hidden :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_item_tooltip :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_item_state :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_item_max_states :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_item_icon :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      Class0.Texture2D.t structure ptr
+
+    val get_item_indentation_level :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_item_checked :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_checkable :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_radio_checkable :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_hover_callbacks :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_key_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_tag :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_text :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_submenu :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_accelerator :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      GlobalEnum.Key.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_disabled :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_hidden :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_tooltip :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_state :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_max_states :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_icon :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Texture2D.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val set_item_indentation_level :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val get_item_count :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val is_system_menu :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val remove_item :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
+
+    val clear :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NativeMenu.t structure ptr ->
+      unit
   end
 
   module type NAVIGATIONMESHGENERATOR = sig
@@ -9080,9 +10509,33 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer2D.t structure ptr ->
       unit
 
+    val map_get_iteration_id :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val map_set_use_async_iterations :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      unit
+
+    val map_get_use_async_iterations :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val map_get_random_point :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
+
     val query_path :
       Class0.NavigationPathQueryParameters2D.t structure ptr ->
       Class0.NavigationPathQueryResult2D.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
       Class0.NavigationServer2D.t structure ptr ->
       unit
 
@@ -9179,6 +10632,11 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer2D.t structure ptr ->
       unit
 
+    val region_get_transform :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Transform2D.t structure ptr
+
     val region_set_navigation_polygon :
       BuiltinClass0.RID.t structure ptr ->
       Class0.NavigationPolygon.t structure ptr ->
@@ -9201,6 +10659,24 @@ Implemented on desktop platforms. *)
       BuiltinClass0.Int.t structure ptr ->
       Class0.NavigationServer2D.t structure ptr ->
       BuiltinClass0.Vector2.t structure ptr
+
+    val region_get_closest_point :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
+
+    val region_get_random_point :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
+
+    val region_get_bounds :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Rect2.t structure ptr
 
     val link_create :
       Class0.NavigationServer2D.t structure ptr ->
@@ -9348,11 +10824,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer2D.t structure ptr ->
       unit
 
+    val agent_get_neighbor_distance :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val agent_set_max_neighbors :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       Class0.NavigationServer2D.t structure ptr ->
       unit
+
+    val agent_get_max_neighbors :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
 
     val agent_set_time_horizon_agents :
       BuiltinClass0.RID.t structure ptr ->
@@ -9360,11 +10846,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer2D.t structure ptr ->
       unit
 
+    val agent_get_time_horizon_agents :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val agent_set_time_horizon_obstacles :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       Class0.NavigationServer2D.t structure ptr ->
       unit
+
+    val agent_get_time_horizon_obstacles :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
 
     val agent_set_radius :
       BuiltinClass0.RID.t structure ptr ->
@@ -9372,11 +10868,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer2D.t structure ptr ->
       unit
 
+    val agent_get_radius :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val agent_set_max_speed :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       Class0.NavigationServer2D.t structure ptr ->
       unit
+
+    val agent_get_max_speed :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
 
     val agent_set_velocity_forced :
       BuiltinClass0.RID.t structure ptr ->
@@ -9390,11 +10896,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer2D.t structure ptr ->
       unit
 
+    val agent_get_velocity :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
+
     val agent_set_position :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Vector2.t structure ptr ->
       Class0.NavigationServer2D.t structure ptr ->
       unit
+
+    val agent_get_position :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
 
     val agent_is_map_changed :
       BuiltinClass0.RID.t structure ptr ->
@@ -9407,11 +10923,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer2D.t structure ptr ->
       unit
 
+    val agent_has_avoidance_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val agent_set_avoidance_layers :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       Class0.NavigationServer2D.t structure ptr ->
       unit
+
+    val agent_get_avoidance_layers :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
 
     val agent_set_avoidance_mask :
       BuiltinClass0.RID.t structure ptr ->
@@ -9419,11 +10945,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer2D.t structure ptr ->
       unit
 
+    val agent_get_avoidance_mask :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
     val agent_set_avoidance_priority :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       Class0.NavigationServer2D.t structure ptr ->
       unit
+
+    val agent_get_avoidance_priority :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
 
     val obstacle_create :
       Class0.NavigationServer2D.t structure ptr ->
@@ -9468,11 +11004,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer2D.t structure ptr ->
       unit
 
+    val obstacle_get_radius :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val obstacle_set_velocity :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Vector2.t structure ptr ->
       Class0.NavigationServer2D.t structure ptr ->
       unit
+
+    val obstacle_get_velocity :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
 
     val obstacle_set_position :
       BuiltinClass0.RID.t structure ptr ->
@@ -9480,17 +11026,32 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer2D.t structure ptr ->
       unit
 
+    val obstacle_get_position :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
+
     val obstacle_set_vertices :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.PackedVector2Array.t structure ptr ->
       Class0.NavigationServer2D.t structure ptr ->
       unit
 
+    val obstacle_get_vertices :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.PackedVector2Array.t structure ptr
+
     val obstacle_set_avoidance_layers :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       Class0.NavigationServer2D.t structure ptr ->
       unit
+
+    val obstacle_get_avoidance_layers :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
 
     val parse_source_geometry_data :
       Class0.NavigationPolygon.t structure ptr ->
@@ -9513,6 +11074,27 @@ Implemented on desktop platforms. *)
       BuiltinClass0.Callable.t structure ptr ->
       Class0.NavigationServer2D.t structure ptr ->
       unit
+
+    val is_baking_navigation_polygon :
+      Class0.NavigationPolygon.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val source_geometry_parser_create :
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
+
+    val source_geometry_parser_set_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      unit
+
+    val simplify_path :
+      BuiltinClass0.PackedVector2Array.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.NavigationServer2D.t structure ptr ->
+      BuiltinClass0.PackedVector2Array.t structure ptr
 
     val free_rid :
       BuiltinClass0.RID.t structure ptr ->
@@ -9582,6 +11164,17 @@ Implemented on desktop platforms. *)
       unit
 
     val map_get_cell_height :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val map_set_merge_rasterizer_cell_scale :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      unit
+
+    val map_get_merge_rasterizer_cell_scale :
       BuiltinClass0.RID.t structure ptr ->
       Class0.NavigationServer3D.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
@@ -9679,9 +11272,33 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer3D.t structure ptr ->
       unit
 
+    val map_get_iteration_id :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val map_set_use_async_iterations :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      unit
+
+    val map_get_use_async_iterations :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val map_get_random_point :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
     val query_path :
       Class0.NavigationPathQueryParameters3D.t structure ptr ->
       Class0.NavigationPathQueryResult3D.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
       Class0.NavigationServer3D.t structure ptr ->
       unit
 
@@ -9778,6 +11395,11 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer3D.t structure ptr ->
       unit
 
+    val region_get_transform :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr
+
     val region_set_navigation_mesh :
       BuiltinClass0.RID.t structure ptr ->
       Class0.NavigationMesh.t structure ptr ->
@@ -9806,6 +11428,38 @@ Implemented on desktop platforms. *)
       BuiltinClass0.Int.t structure ptr ->
       Class0.NavigationServer3D.t structure ptr ->
       BuiltinClass0.Vector3.t structure ptr
+
+    val region_get_closest_point_to_segment :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
+    val region_get_closest_point :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
+    val region_get_closest_point_normal :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
+    val region_get_random_point :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
+    val region_get_bounds :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.AABB.t structure ptr
 
     val link_create :
       Class0.NavigationServer3D.t structure ptr ->
@@ -9964,11 +11618,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer3D.t structure ptr ->
       unit
 
+    val agent_get_neighbor_distance :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val agent_set_max_neighbors :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       Class0.NavigationServer3D.t structure ptr ->
       unit
+
+    val agent_get_max_neighbors :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
 
     val agent_set_time_horizon_agents :
       BuiltinClass0.RID.t structure ptr ->
@@ -9976,11 +11640,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer3D.t structure ptr ->
       unit
 
+    val agent_get_time_horizon_agents :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val agent_set_time_horizon_obstacles :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       Class0.NavigationServer3D.t structure ptr ->
       unit
+
+    val agent_get_time_horizon_obstacles :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
 
     val agent_set_radius :
       BuiltinClass0.RID.t structure ptr ->
@@ -9988,17 +11662,32 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer3D.t structure ptr ->
       unit
 
+    val agent_get_radius :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val agent_set_height :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       Class0.NavigationServer3D.t structure ptr ->
       unit
 
+    val agent_get_height :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val agent_set_max_speed :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       Class0.NavigationServer3D.t structure ptr ->
       unit
+
+    val agent_get_max_speed :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
 
     val agent_set_velocity_forced :
       BuiltinClass0.RID.t structure ptr ->
@@ -10012,11 +11701,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer3D.t structure ptr ->
       unit
 
+    val agent_get_velocity :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
     val agent_set_position :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Vector3.t structure ptr ->
       Class0.NavigationServer3D.t structure ptr ->
       unit
+
+    val agent_get_position :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
 
     val agent_is_map_changed :
       BuiltinClass0.RID.t structure ptr ->
@@ -10029,11 +11728,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer3D.t structure ptr ->
       unit
 
+    val agent_has_avoidance_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val agent_set_avoidance_layers :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       Class0.NavigationServer3D.t structure ptr ->
       unit
+
+    val agent_get_avoidance_layers :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
 
     val agent_set_avoidance_mask :
       BuiltinClass0.RID.t structure ptr ->
@@ -10041,11 +11750,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer3D.t structure ptr ->
       unit
 
+    val agent_get_avoidance_mask :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
     val agent_set_avoidance_priority :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       Class0.NavigationServer3D.t structure ptr ->
       unit
+
+    val agent_get_avoidance_priority :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
 
     val obstacle_create :
       Class0.NavigationServer3D.t structure ptr ->
@@ -10101,11 +11820,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer3D.t structure ptr ->
       unit
 
+    val obstacle_get_radius :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val obstacle_set_height :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       Class0.NavigationServer3D.t structure ptr ->
       unit
+
+    val obstacle_get_height :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
 
     val obstacle_set_velocity :
       BuiltinClass0.RID.t structure ptr ->
@@ -10113,11 +11842,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer3D.t structure ptr ->
       unit
 
+    val obstacle_get_velocity :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
     val obstacle_set_position :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Vector3.t structure ptr ->
       Class0.NavigationServer3D.t structure ptr ->
       unit
+
+    val obstacle_get_position :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
 
     val obstacle_set_vertices :
       BuiltinClass0.RID.t structure ptr ->
@@ -10125,11 +11864,21 @@ Implemented on desktop platforms. *)
       Class0.NavigationServer3D.t structure ptr ->
       unit
 
+    val obstacle_get_vertices :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.PackedVector3Array.t structure ptr
+
     val obstacle_set_avoidance_layers :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       Class0.NavigationServer3D.t structure ptr ->
       unit
+
+    val obstacle_get_avoidance_layers :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
 
     val parse_source_geometry_data :
       Class0.NavigationMesh.t structure ptr ->
@@ -10152,6 +11901,27 @@ Implemented on desktop platforms. *)
       BuiltinClass0.Callable.t structure ptr ->
       Class0.NavigationServer3D.t structure ptr ->
       unit
+
+    val is_baking_navigation_mesh :
+      Class0.NavigationMesh.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val source_geometry_parser_create :
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
+
+    val source_geometry_parser_set_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      unit
+
+    val simplify_path :
+      BuiltinClass0.PackedVector3Array.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.NavigationServer3D.t structure ptr ->
+      BuiltinClass0.PackedVector3Array.t structure ptr
 
     val free_rid :
       BuiltinClass0.RID.t structure ptr ->
@@ -10184,152 +11954,230 @@ Implemented on desktop platforms. *)
     include OBJECT
 
     val _NOTIFICATION_ENTER_TREE : int
-    (** Notification received when the node enters a [SceneTree]. See [method _enter_tree].
-This notification is received [i]before[/i] the related [signal tree_entered] signal. *)
+    (** Notification received when the node enters a \[SceneTree\]. See \[method
+        _enter_tree\]. This notification is received \[i\]before\[/i\] the
+        related \[signal tree_entered\] signal. *)
 
     val _NOTIFICATION_EXIT_TREE : int
-    (** Notification received when the node is about to exit a [SceneTree]. See [method _exit_tree].
-This notification is received [i]after[/i] the related [signal tree_exiting] signal. *)
+    (** Notification received when the node is about to exit a \[SceneTree\].
+        See \[method _exit_tree\]. This notification is received
+        \[i\]after\[/i\] the related \[signal tree_exiting\] signal. *)
 
     val _NOTIFICATION_MOVED_IN_PARENT : int
-    (** [i]Deprecated.[/i] This notification is no longer emitted. Use [constant NOTIFICATION_CHILD_ORDER_CHANGED] instead. *)
+    (**  *)
 
     val _NOTIFICATION_READY : int
-    (** Notification received when the node is ready. See [method _ready]. *)
+    (** Notification received when the node is ready. See \[method _ready\]. *)
 
     val _NOTIFICATION_PAUSED : int
-    (** Notification received when the node is paused. See [member process_mode]. *)
+    (** Notification received when the node is paused. See \[member
+        process_mode\]. *)
 
     val _NOTIFICATION_UNPAUSED : int
-    (** Notification received when the node is unpaused. See [member process_mode]. *)
+    (** Notification received when the node is unpaused. See \[member
+        process_mode\]. *)
 
     val _NOTIFICATION_PHYSICS_PROCESS : int
-    (** Notification received from the tree every physics frame when [method is_physics_processing] returns [code]true[/code]. See [method _physics_process]. *)
+    (** Notification received from the tree every physics frame when \[method
+        is_physics_processing\] returns \[code\]true\[/code\]. See \[method
+        _physics_process\]. *)
 
     val _NOTIFICATION_PROCESS : int
-    (** Notification received from the tree every rendered frame when [method is_processing] returns [code]true[/code]. See [method _process]. *)
+    (** Notification received from the tree every rendered frame when \[method
+        is_processing\] returns \[code\]true\[/code\]. See \[method _process\].
+    *)
 
     val _NOTIFICATION_PARENTED : int
-    (** Notification received when the node is set as a child of another node (see [method add_child] and [method add_sibling]).
-[b]Note:[/b] This does [i]not[/i] mean that the node entered the [SceneTree]. *)
+    (** Notification received when the node is set as a child of another node
+        (see \[method add_child\] and \[method add_sibling\]). \[b\]Note:\[/b\]
+        This does \[i\]not\[/i\] mean that the node entered the \[SceneTree\].
+    *)
 
     val _NOTIFICATION_UNPARENTED : int
-    (** Notification received when the parent node calls [method remove_child] on this node.
-[b]Note:[/b] This does [i]not[/i] mean that the node exited the [SceneTree]. *)
+    (** Notification received when the parent node calls \[method remove_child\]
+        on this node. \[b\]Note:\[/b\] This does \[i\]not\[/i\] mean that the
+        node exited the \[SceneTree\]. *)
 
     val _NOTIFICATION_SCENE_INSTANTIATED : int
-    (** Notification received [i]only[/i] by the newly instantiated scene root node, when [method PackedScene.instantiate] is completed. *)
+    (** Notification received \[i\]only\[/i\] by the newly instantiated scene
+        root node, when \[method PackedScene.instantiate\] is completed. *)
 
     val _NOTIFICATION_DRAG_BEGIN : int
-    (** Notification received when a drag operation begins. All nodes receive this notification, not only the dragged one.
-Can be triggered either by dragging a [Control] that provides drag data (see [method Control._get_drag_data]) or using [method Control.force_drag].
-Use [method Viewport.gui_get_drag_data] to get the dragged data. *)
+    (** Notification received when a drag operation begins. All nodes receive
+        this notification, not only the dragged one. Can be triggered either by
+        dragging a \[Control\] that provides drag data (see \[method
+        Control._get_drag_data\]) or using \[method Control.force_drag\]. Use
+        \[method Viewport.gui_get_drag_data\] to get the dragged data. *)
 
     val _NOTIFICATION_DRAG_END : int
-    (** Notification received when a drag operation ends.
-Use [method Viewport.gui_is_drag_successful] to check if the drag succeeded. *)
+    (** Notification received when a drag operation ends. Use \[method
+        Viewport.gui_is_drag_successful\] to check if the drag succeeded. *)
 
     val _NOTIFICATION_PATH_RENAMED : int
-    (** Notification received when the node's [member name] or one of its ancestors' [member name] is changed. This notification is [i]not[/i] received when the node is removed from the [SceneTree]. *)
+    (** Notification received when the node''s \[member name\] or one of its
+        ancestors'' \[member name\] is changed. This notification is
+        \[i\]not\[/i\] received when the node is removed from the \[SceneTree\].
+    *)
 
     val _NOTIFICATION_CHILD_ORDER_CHANGED : int
-    (** Notification received when the list of children is changed. This happens when child nodes are added, moved or removed. *)
+    (** Notification received when the list of children is changed. This happens
+        when child nodes are added, moved or removed. *)
 
     val _NOTIFICATION_INTERNAL_PROCESS : int
-    (** Notification received from the tree every rendered frame when [method is_processing_internal] returns [code]true[/code]. *)
+    (** Notification received from the tree every rendered frame when \[method
+        is_processing_internal\] returns \[code\]true\[/code\]. *)
 
     val _NOTIFICATION_INTERNAL_PHYSICS_PROCESS : int
-    (** Notification received from the tree every physics frame when [method is_physics_processing_internal] returns [code]true[/code]. *)
+    (** Notification received from the tree every physics frame when \[method
+        is_physics_processing_internal\] returns \[code\]true\[/code\]. *)
 
     val _NOTIFICATION_POST_ENTER_TREE : int
-    (** Notification received when the node enters the tree, just before [constant NOTIFICATION_READY] may be received. Unlike the latter, it is sent every time the node enters tree, not just once. *)
+    (** Notification received when the node enters the tree, just before
+        \[constant NOTIFICATION_READY\] may be received. Unlike the latter, it
+        is sent every time the node enters tree, not just once. *)
 
     val _NOTIFICATION_DISABLED : int
-    (** Notification received when the node is disabled. See [constant PROCESS_MODE_DISABLED]. *)
+    (** Notification received when the node is disabled. See \[constant
+        PROCESS_MODE_DISABLED\]. *)
 
     val _NOTIFICATION_ENABLED : int
-    (** Notification received when the node is enabled again after being disabled. See [constant PROCESS_MODE_DISABLED]. *)
+    (** Notification received when the node is enabled again after being
+        disabled. See \[constant PROCESS_MODE_DISABLED\]. *)
+
+    val _NOTIFICATION_RESET_PHYSICS_INTERPOLATION : int
+    (** Notification received when \[method reset_physics_interpolation\] is
+        called on the node or its ancestors. *)
 
     val _NOTIFICATION_EDITOR_PRE_SAVE : int
-    (** Notification received right before the scene with the node is saved in the editor. This notification is only sent in the Godot editor and will not occur in exported projects. *)
+    (** Notification received right before the scene with the node is saved in
+        the editor. This notification is only sent in the Godot editor and will
+        not occur in exported projects. *)
 
     val _NOTIFICATION_EDITOR_POST_SAVE : int
-    (** Notification received right after the scene with the node is saved in the editor. This notification is only sent in the Godot editor and will not occur in exported projects. *)
+    (** Notification received right after the scene with the node is saved in
+        the editor. This notification is only sent in the Godot editor and will
+        not occur in exported projects. *)
 
     val _NOTIFICATION_WM_MOUSE_ENTER : int
-    (** Notification received when the mouse enters the window.
-Implemented for embedded windows and on desktop and web platforms. *)
+    (** Notification received when the mouse enters the window. Implemented for
+        embedded windows and on desktop and web platforms. *)
 
     val _NOTIFICATION_WM_MOUSE_EXIT : int
-    (** Notification received when the mouse leaves the window.
-Implemented for embedded windows and on desktop and web platforms. *)
+    (** Notification received when the mouse leaves the window. Implemented for
+        embedded windows and on desktop and web platforms. *)
 
     val _NOTIFICATION_WM_WINDOW_FOCUS_IN : int
-    (** Notification received from the OS when the node's [Window] ancestor is focused. This may be a change of focus between two windows of the same engine instance, or from the OS desktop or a third-party application to a window of the game (in which case [constant NOTIFICATION_APPLICATION_FOCUS_IN] is also received).
-A [Window] node receives this notification when it is focused. *)
+    (** Notification received from the OS when the node''s \[Window\] ancestor
+        is focused. This may be a change of focus between two windows of the
+        same engine instance, or from the OS desktop or a third-party
+        application to a window of the game (in which case \[constant
+        NOTIFICATION_APPLICATION_FOCUS_IN\] is also received). A \[Window\] node
+        receives this notification when it is focused. *)
 
     val _NOTIFICATION_WM_WINDOW_FOCUS_OUT : int
-    (** Notification received from the OS when the node's [Window] ancestor is defocused. This may be a change of focus between two windows of the same engine instance, or from a window of the game to the OS desktop or a third-party application (in which case [constant NOTIFICATION_APPLICATION_FOCUS_OUT] is also received).
-A [Window] node receives this notification when it is defocused. *)
+    (** Notification received from the OS when the node''s \[Window\] ancestor
+        is defocused. This may be a change of focus between two windows of the
+        same engine instance, or from a window of the game to the OS desktop or
+        a third-party application (in which case \[constant
+        NOTIFICATION_APPLICATION_FOCUS_OUT\] is also received). A \[Window\]
+        node receives this notification when it is defocused. *)
 
     val _NOTIFICATION_WM_CLOSE_REQUEST : int
-    (** Notification received from the OS when a close request is sent (e.g. closing the window with a ""Close"" button or [kbd]Alt + F4[/kbd]).
-Implemented on desktop platforms. *)
+    (** Notification received from the OS when a close request is sent (e.g.
+        closing the window with a ""Close"" button or \[kbd\]Alt + F4\[/kbd\]).
+        Implemented on desktop platforms. *)
 
     val _NOTIFICATION_WM_GO_BACK_REQUEST : int
-    (** Notification received from the OS when a go back request is sent (e.g. pressing the ""Back"" button on Android).
-Implemented only on iOS. *)
+    (** Notification received from the OS when a go back request is sent (e.g.
+        pressing the ""Back"" button on Android). Implemented only on Android.
+    *)
 
     val _NOTIFICATION_WM_SIZE_CHANGED : int
-    (** Notification received when the window is resized.
-[b]Note:[/b] Only the resized [Window] node receives this notification, and it's not propagated to the child nodes. *)
+    (** Notification received when the window is resized. \[b\]Note:\[/b\] Only
+        the resized \[Window\] node receives this notification, and it''s not
+        propagated to the child nodes. *)
 
     val _NOTIFICATION_WM_DPI_CHANGE : int
-    (** Notification received from the OS when the screen's dots per inch (DPI) scale is changed. Only implemented on macOS. *)
+    (** Notification received from the OS when the screen''s dots per inch (DPI)
+        scale is changed. Only implemented on macOS. *)
 
     val _NOTIFICATION_VP_MOUSE_ENTER : int
-    (** Notification received when the mouse cursor enters the [Viewport]'s visible area, that is not occluded behind other [Control]s or [Window]s, provided its [member Viewport.gui_disable_input] is [code]false[/code] and regardless if it's currently focused or not. *)
+    (** Notification received when the mouse cursor enters the \[Viewport\]''s
+        visible area, that is not occluded behind other \[Control\]s or
+        \[Window\]s, provided its \[member Viewport.gui_disable_input\] is
+        \[code\]false\[/code\] and regardless if it''s currently focused or not.
+    *)
 
     val _NOTIFICATION_VP_MOUSE_EXIT : int
-    (** Notification received when the mouse cursor leaves the [Viewport]'s visible area, that is not occluded behind other [Control]s or [Window]s, provided its [member Viewport.gui_disable_input] is [code]false[/code] and regardless if it's currently focused or not. *)
+    (** Notification received when the mouse cursor leaves the \[Viewport\]''s
+        visible area, that is not occluded behind other \[Control\]s or
+        \[Window\]s, provided its \[member Viewport.gui_disable_input\] is
+        \[code\]false\[/code\] and regardless if it''s currently focused or not.
+    *)
+
+    val _NOTIFICATION_WM_POSITION_CHANGED : int
+    (** Notification received when the window is moved. *)
 
     val _NOTIFICATION_OS_MEMORY_WARNING : int
-    (** Notification received from the OS when the application is exceeding its allocated memory.
-Implemented only on iOS. *)
+    (** Notification received from the OS when the application is exceeding its
+        allocated memory. Implemented only on iOS. *)
 
     val _NOTIFICATION_TRANSLATION_CHANGED : int
-    (** Notification received when translations may have changed. Can be triggered by the user changing the locale. Can be used to respond to language changes, for example to change the UI strings on the fly. Useful when working with the built-in translation support, like [method Object.tr]. *)
+    (** Notification received when translations may have changed. Can be
+        triggered by the user changing the locale, changing \[member
+        auto_translate_mode\] or when the node enters the scene tree. Can be
+        used to respond to language changes, for example to change the UI
+        strings on the fly. Useful when working with the built-in translation
+        support, like \[method Object.tr\]. \[b\]Note:\[/b\] This notification
+        is received alongside \[constant NOTIFICATION_ENTER_TREE\], so if you
+        are instantiating a scene, the child nodes will not be initialized yet.
+        You can use it to setup translations for this node, child nodes created
+        from script, or if you want to access child nodes added in the editor,
+        make sure the node is ready using \[method is_node_ready\].
+        \[codeblock\] func _notification(what): if what ==
+        NOTIFICATION_TRANSLATION_CHANGED: if not is_node_ready(): await ready #
+        Wait until ready signal. $Label.text = atr(""%d Bananas"") %
+        banana_counter \[/codeblock\] *)
 
     val _NOTIFICATION_WM_ABOUT : int
-    (** Notification received from the OS when a request for ""About"" information is sent.
-Implemented only on macOS. *)
+    (** Notification received from the OS when a request for ""About""
+        information is sent. Implemented only on macOS. *)
 
     val _NOTIFICATION_CRASH : int
-    (** Notification received from Godot's crash handler when the engine is about to crash.
-Implemented on desktop platforms, if the crash handler is enabled. *)
+    (** Notification received from Godot''s crash handler when the engine is
+        about to crash. Implemented on desktop platforms, if the crash handler
+        is enabled. *)
 
     val _NOTIFICATION_OS_IME_UPDATE : int
-    (** Notification received from the OS when an update of the Input Method Engine occurs (e.g. change of IME cursor position or composition string).
-Implemented only on macOS. *)
+    (** Notification received from the OS when an update of the Input Method
+        Engine occurs (e.g. change of IME cursor position or composition
+        string). Implemented only on macOS. *)
 
     val _NOTIFICATION_APPLICATION_RESUMED : int
     (** Notification received from the OS when the application is resumed.
-Implemented only on Android. *)
+        Specific to the Android and iOS platforms. *)
 
     val _NOTIFICATION_APPLICATION_PAUSED : int
     (** Notification received from the OS when the application is paused.
-Implemented only on Android. *)
+        Specific to the Android and iOS platforms. \[b\]Note:\[/b\] On iOS, you
+        only have approximately 5 seconds to finish a task started by this
+        signal. If you go over this allotment, iOS will kill the app instead of
+        pausing it. *)
 
     val _NOTIFICATION_APPLICATION_FOCUS_IN : int
-    (** Notification received from the OS when the application is focused, i.e. when changing the focus from the OS desktop or a third-party application to any open window of the Godot instance.
-Implemented on desktop platforms. *)
+    (** Notification received from the OS when the application is focused, i.e.
+        when changing the focus from the OS desktop or a thirdparty application
+        to any open window of the Godot instance. Implemented on desktop and
+        mobile platforms. *)
 
     val _NOTIFICATION_APPLICATION_FOCUS_OUT : int
-    (** Notification received from the OS when the application is defocused, i.e. when changing the focus from any open window of the Godot instance to the OS desktop or a third-party application.
-Implemented on desktop platforms. *)
+    (** Notification received from the OS when the application is defocused,
+        i.e. when changing the focus from any open window of the Godot instance
+        to the OS desktop or a thirdparty application. Implemented on desktop
+        and mobile platforms. *)
 
     val _NOTIFICATION_TEXT_SERVER_CHANGED : int
-    (** Notification received when the [TextServer] is changed. *)
+    (** Notification received when the \[TextServer\] is changed. *)
 
     val ___process :
       BuiltinClass0.Float.t structure ptr -> Class0.Node.t structure ptr -> unit
@@ -10453,6 +12301,9 @@ Implemented on desktop platforms. *)
       BuiltinClass0.Array.t structure ptr
 
     val is_inside_tree :
+      Class0.Node.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val is_part_of_edited_scene :
       Class0.Node.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val is_ancestor_of :
@@ -10643,6 +12494,34 @@ Implemented on desktop platforms. *)
     val is_physics_processing_internal :
       Class0.Node.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
+    val set_physics_interpolation_mode :
+      Class0.Node.PhysicsInterpolationMode.t structure ptr ->
+      Class0.Node.t structure ptr ->
+      unit
+
+    val get_physics_interpolation_mode :
+      Class0.Node.t structure ptr ->
+      Class0.Node.PhysicsInterpolationMode.t structure ptr
+
+    val is_physics_interpolated :
+      Class0.Node.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val is_physics_interpolated_and_enabled :
+      Class0.Node.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val reset_physics_interpolation : Class0.Node.t structure ptr -> unit
+
+    val set_auto_translate_mode :
+      Class0.Node.AutoTranslateMode.t structure ptr ->
+      Class0.Node.t structure ptr ->
+      unit
+
+    val get_auto_translate_mode :
+      Class0.Node.t structure ptr ->
+      Class0.Node.AutoTranslateMode.t structure ptr
+
+    val set_translation_domain_inherited : Class0.Node.t structure ptr -> unit
+
     val get_window :
       Class0.Node.t structure ptr -> Class0.Window.t structure ptr
 
@@ -10713,6 +12592,9 @@ Implemented on desktop platforms. *)
       Class0.Node.t structure ptr ->
       unit
 
+    val get_rpc_config :
+      Class0.Node.t structure ptr -> BuiltinClass0.Variant.t structure ptr
+
     val set_editor_description :
       BuiltinClass0.String.t structure ptr ->
       Class0.Node.t structure ptr ->
@@ -10726,6 +12608,20 @@ Implemented on desktop platforms. *)
 
     val is_unique_name_in_owner :
       Class0.Node.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val atr :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.Node.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val atr_n :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.Node.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
 
     val rpc :
       BuiltinClass0.StringName.t structure ptr ->
@@ -10782,7 +12678,7 @@ Implemented on desktop platforms. *)
       Class0.Animation.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Variant.t structure ptr ->
-      BuiltinClass0.Object.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       Class0.AnimationMixer.t structure ptr ->
       BuiltinClass0.Variant.t structure ptr
@@ -10877,6 +12773,15 @@ Implemented on desktop platforms. *)
       Class0.AnimationMixer.t structure ptr ->
       Class0.AnimationMixer.AnimationCallbackModeMethod.t structure ptr
 
+    val set_callback_mode_discrete :
+      Class0.AnimationMixer.AnimationCallbackModeDiscrete.t structure ptr ->
+      Class0.AnimationMixer.t structure ptr ->
+      unit
+
+    val get_callback_mode_discrete :
+      Class0.AnimationMixer.t structure ptr ->
+      Class0.AnimationMixer.AnimationCallbackModeDiscrete.t structure ptr
+
     val set_audio_max_polyphony :
       BuiltinClass0.Int.t structure ptr ->
       Class0.AnimationMixer.t structure ptr ->
@@ -10893,6 +12798,15 @@ Implemented on desktop platforms. *)
     val get_root_motion_track :
       Class0.AnimationMixer.t structure ptr ->
       BuiltinClass0.NodePath.t structure ptr
+
+    val set_root_motion_local :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.AnimationMixer.t structure ptr ->
+      unit
+
+    val is_root_motion_local :
+      Class0.AnimationMixer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
 
     val get_root_motion_position :
       Class0.AnimationMixer.t structure ptr ->
@@ -10922,6 +12836,14 @@ Implemented on desktop platforms. *)
 
     val advance :
       BuiltinClass0.Float.t structure ptr ->
+      Class0.AnimationMixer.t structure ptr ->
+      unit
+
+    val capture :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.Tween.TransitionType.t structure ptr ->
+      Class0.Tween.EaseType.t structure ptr ->
       Class0.AnimationMixer.t structure ptr ->
       unit
 
@@ -10983,8 +12905,64 @@ Implemented on desktop platforms. *)
       Class0.AnimationPlayer.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
 
+    val set_auto_capture :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.AnimationPlayer.t structure ptr ->
+      unit
+
+    val is_auto_capture :
+      Class0.AnimationPlayer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_auto_capture_duration :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.AnimationPlayer.t structure ptr ->
+      unit
+
+    val get_auto_capture_duration :
+      Class0.AnimationPlayer.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_auto_capture_transition_type :
+      Class0.Tween.TransitionType.t structure ptr ->
+      Class0.AnimationPlayer.t structure ptr ->
+      unit
+
+    val get_auto_capture_transition_type :
+      Class0.AnimationPlayer.t structure ptr ->
+      Class0.Tween.TransitionType.t structure ptr
+
+    val set_auto_capture_ease_type :
+      Class0.Tween.EaseType.t structure ptr ->
+      Class0.AnimationPlayer.t structure ptr ->
+      unit
+
+    val get_auto_capture_ease_type :
+      Class0.AnimationPlayer.t structure ptr ->
+      Class0.Tween.EaseType.t structure ptr
+
     val play :
       BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.AnimationPlayer.t structure ptr ->
+      unit
+
+    val play_section_with_markers :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.AnimationPlayer.t structure ptr ->
+      unit
+
+    val play_section :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
@@ -10994,6 +12972,33 @@ Implemented on desktop platforms. *)
     val play_backwards :
       BuiltinClass0.StringName.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
+      Class0.AnimationPlayer.t structure ptr ->
+      unit
+
+    val play_section_with_markers_backwards :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.AnimationPlayer.t structure ptr ->
+      unit
+
+    val play_section_backwards :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.AnimationPlayer.t structure ptr ->
+      unit
+
+    val play_with_capture :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.Tween.TransitionType.t structure ptr ->
+      Class0.Tween.EaseType.t structure ptr ->
       Class0.AnimationPlayer.t structure ptr ->
       unit
 
@@ -11075,6 +13080,32 @@ Implemented on desktop platforms. *)
     val get_current_animation_length :
       Class0.AnimationPlayer.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
+
+    val set_section_with_markers :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.AnimationPlayer.t structure ptr ->
+      unit
+
+    val set_section :
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.AnimationPlayer.t structure ptr ->
+      unit
+
+    val reset_section : Class0.AnimationPlayer.t structure ptr -> unit
+
+    val get_section_start_time :
+      Class0.AnimationPlayer.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val get_section_end_time :
+      Class0.AnimationPlayer.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val has_section :
+      Class0.AnimationPlayer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
 
     val seek :
       BuiltinClass0.Float.t structure ptr ->
@@ -11159,25 +13190,27 @@ Implemented on desktop platforms. *)
     include NODE
 
     val _NOTIFICATION_TRANSFORM_CHANGED : int
-    (** The [CanvasItem]'s global transform has changed. This notification is only received if enabled by [method set_notify_transform]. *)
+    (** The \[CanvasItem\]''s global transform has changed. This notification is
+        only received if enabled by \[method set_notify_transform\]. *)
 
     val _NOTIFICATION_LOCAL_TRANSFORM_CHANGED : int
-    (** The [CanvasItem]'s local transform has changed. This notification is only received if enabled by [method set_notify_local_transform]. *)
+    (** The \[CanvasItem\]''s local transform has changed. This notification is
+        only received if enabled by \[method set_notify_local_transform\]. *)
 
     val _NOTIFICATION_DRAW : int
-    (** The [CanvasItem] is requested to draw (see [method _draw]). *)
+    (** The \[CanvasItem\] is requested to draw (see \[method _draw\]). *)
 
     val _NOTIFICATION_VISIBILITY_CHANGED : int
-    (** The [CanvasItem]'s visibility has changed. *)
+    (** The \[CanvasItem\]''s visibility has changed. *)
 
     val _NOTIFICATION_ENTER_CANVAS : int
-    (** The [CanvasItem] has entered the canvas. *)
+    (** The \[CanvasItem\] has entered the canvas. *)
 
     val _NOTIFICATION_EXIT_CANVAS : int
-    (** The [CanvasItem] has exited the canvas. *)
+    (** The \[CanvasItem\] has exited the canvas. *)
 
     val _NOTIFICATION_WORLD_2D_CHANGED : int
-    (** The [CanvasItem]'s active [World2D] changed. *)
+    (** The \[CanvasItem\]''s active \[World2D\] changed. *)
 
     val ___draw : Class0.CanvasItem.t structure ptr -> unit
 
@@ -11280,6 +13313,7 @@ Implemented on desktop platforms. *)
       BuiltinClass0.Float.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.CanvasItem.t structure ptr ->
       unit
 
@@ -11315,6 +13349,7 @@ Implemented on desktop platforms. *)
       BuiltinClass0.PackedVector2Array.t structure ptr ->
       BuiltinClass0.Color.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.CanvasItem.t structure ptr ->
       unit
 
@@ -11322,6 +13357,7 @@ Implemented on desktop platforms. *)
       BuiltinClass0.PackedVector2Array.t structure ptr ->
       BuiltinClass0.PackedColorArray.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.CanvasItem.t structure ptr ->
       unit
 
@@ -11330,6 +13366,7 @@ Implemented on desktop platforms. *)
       BuiltinClass0.Color.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.CanvasItem.t structure ptr ->
       unit
 
@@ -11337,6 +13374,9 @@ Implemented on desktop platforms. *)
       BuiltinClass0.Vector2.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       BuiltinClass0.Color.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.CanvasItem.t structure ptr ->
       unit
 
@@ -11568,6 +13608,9 @@ Implemented on desktop platforms. *)
     val get_canvas :
       Class0.CanvasItem.t structure ptr -> BuiltinClass0.RID.t structure ptr
 
+    val get_canvas_layer_node :
+      Class0.CanvasItem.t structure ptr -> Class0.CanvasLayer.t structure ptr
+
     val get_world_2d :
       Class0.CanvasItem.t structure ptr -> Class0.World2D.t structure ptr
 
@@ -11578,6 +13621,17 @@ Implemented on desktop platforms. *)
 
     val get_material :
       Class0.CanvasItem.t structure ptr -> Class0.Material.t structure ptr
+
+    val set_instance_shader_parameter :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      Class0.CanvasItem.t structure ptr ->
+      unit
+
+    val get_instance_shader_parameter :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.CanvasItem.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
 
     val set_use_parent_material :
       BuiltinClass0.Bool.t structure ptr ->
@@ -11668,27 +13722,40 @@ Implemented on desktop platforms. *)
     include CANVASITEM
 
     val _NOTIFICATION_RESIZED : int
-    (** Sent when the node changes size. Use [member size] to get the new size. *)
+    (** Sent when the node changes size. Use \[member size\] to get the new
+        size. *)
 
     val _NOTIFICATION_MOUSE_ENTER : int
-    (** Sent when the mouse cursor enters the control's (or any child control's) visible area, that is not occluded behind other Controls or Windows, provided its [member mouse_filter] lets the event reach it and regardless if it's currently focused or not.
-[b]Note:[/b] [member CanvasItem.z_index] doesn't affect which Control receives the notification.
-See also [constant NOTIFICATION_MOUSE_ENTER_SELF]. *)
+    (** Sent when the mouse cursor enters the control''s (or any child
+        control''s) visible area, that is not occluded behind other Controls or
+        Windows, provided its \[member mouse_filter\] lets the event reach it
+        and regardless if it''s currently focused or not. \[b\]Note:\[/b\]
+        \[member CanvasItem.z_index\] doesn''t affect which Control receives the
+        notification. See also \[constant NOTIFICATION_MOUSE_ENTER_SELF\]. *)
 
     val _NOTIFICATION_MOUSE_EXIT : int
-    (** Sent when the mouse cursor leaves the control's (and all child control's) visible area, that is not occluded behind other Controls or Windows, provided its [member mouse_filter] lets the event reach it and regardless if it's currently focused or not.
-[b]Note:[/b] [member CanvasItem.z_index] doesn't affect which Control receives the notification.
-See also [constant NOTIFICATION_MOUSE_EXIT_SELF]. *)
+    (** Sent when the mouse cursor leaves the control''s (and all child
+        control''s) visible area, that is not occluded behind other Controls or
+        Windows, provided its \[member mouse_filter\] lets the event reach it
+        and regardless if it''s currently focused or not. \[b\]Note:\[/b\]
+        \[member CanvasItem.z_index\] doesn''t affect which Control receives the
+        notification. See also \[constant NOTIFICATION_MOUSE_EXIT_SELF\]. *)
 
     val _NOTIFICATION_MOUSE_ENTER_SELF : int
-    (** Sent when the mouse cursor enters the control's visible area, that is not occluded behind other Controls or Windows, provided its [member mouse_filter] lets the event reach it and regardless if it's currently focused or not.
-[b]Note:[/b] [member CanvasItem.z_index] doesn't affect which Control receives the notification.
-See also [constant NOTIFICATION_MOUSE_ENTER]. *)
+    (** Sent when the mouse cursor enters the control''s visible area, that is
+        not occluded behind other Controls or Windows, provided its \[member
+        mouse_filter\] lets the event reach it and regardless if it''s currently
+        focused or not. \[b\]Note:\[/b\] \[member CanvasItem.z_index\] doesn''t
+        affect which Control receives the notification. See also \[constant
+        NOTIFICATION_MOUSE_ENTER\]. *)
 
     val _NOTIFICATION_MOUSE_EXIT_SELF : int
-    (** Sent when the mouse cursor leaves the control's visible area, that is not occluded behind other Controls or Windows, provided its [member mouse_filter] lets the event reach it and regardless if it's currently focused or not.
-[b]Note:[/b] [member CanvasItem.z_index] doesn't affect which Control receives the notification.
-See also [constant NOTIFICATION_MOUSE_EXIT]. *)
+    (** Sent when the mouse cursor leaves the control''s visible area, that is
+        not occluded behind other Controls or Windows, provided its \[member
+        mouse_filter\] lets the event reach it and regardless if it''s currently
+        focused or not. \[b\]Note:\[/b\] \[member CanvasItem.z_index\] doesn''t
+        affect which Control receives the notification. See also \[constant
+        NOTIFICATION_MOUSE_EXIT\]. *)
 
     val _NOTIFICATION_FOCUS_ENTER : int
     (** Sent when the node grabs focus. *)
@@ -11697,23 +13764,51 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     (** Sent when the node loses focus. *)
 
     val _NOTIFICATION_THEME_CHANGED : int
-    (** Sent when the node needs to refresh its theme items. This happens in one of the following cases:
-- The [member theme] property is changed on this node or any of its ancestors.
-- The [member theme_type_variation] property is changed on this node.
-- One of the node's theme property overrides is changed.
-- The node enters the scene tree.
-[b]Note:[/b] As an optimization, this notification won't be sent from changes that occur while this node is outside of the scene tree. Instead, all of the theme item updates can be applied at once when the node enters the scene tree. *)
+    (** Sent when the node needs to refresh its theme items. This happens in one
+        of the following cases:
+        - The \[member theme\] property is changed on this node or any of its
+          ancestors.
+        - The \[member theme_type_variation\] property is changed on this node.
+        - One of the node''s theme property overrides is changed.
+        - The node enters the scene tree. \[b\]Note:\[/b\] As an optimization,
+          this notification won''t be sent from changes that occur while this
+          node is outside of the scene tree. Instead, all of the theme item
+          updates can be applied at once when the node enters the scene tree.
+          \[b\]Note:\[/b\] This notification is received alongside \[constant
+          Node.NOTIFICATION_ENTER_TREE\], so if you are instantiating a scene,
+          the child nodes will not be initialized yet. You can use it to setup
+          theming for this node, child nodes created from script, or if you want
+          to access child nodes added in the editor, make sure the node is ready
+          using \[method Node.is_node_ready\]. \[codeblock\] func
+          _notification(what): if what == NOTIFICATION_THEME_CHANGED: if not
+          is_node_ready(): await ready # Wait until ready signal.
+          $Label.add_theme_color_override(""font_color"", Color.YELLOW)
+          \[/codeblock\] *)
 
     val _NOTIFICATION_SCROLL_BEGIN : int
-    (** Sent when this node is inside a [ScrollContainer] which has begun being scrolled when dragging the scrollable area [i]with a touch event[/i]. This notification is [i]not[/i] sent when scrolling by dragging the scrollbar, scrolling with the mouse wheel or scrolling with keyboard/gamepad events.
-[b]Note:[/b] This signal is only emitted on Android or iOS, or on desktop/web platforms when [member ProjectSettings.input_devices/pointing/emulate_touch_from_mouse] is enabled. *)
+    (** Sent when this node is inside a \[ScrollContainer\] which has begun
+        being scrolled when dragging the scrollable area \[i\]with a touch
+        event\[/i\]. This notification is \[i\]not\[/i\] sent when scrolling by
+        dragging the scrollbar, scrolling with the mouse wheel or scrolling with
+        keyboard/gamepad events. \[b\]Note:\[/b\] This signal is only emitted on
+        Android or iOS, or on desktop/web platforms when \[member
+        ProjectSettings.input_devices/pointing/emulate_touch_from_mouse\] is
+        enabled. *)
 
     val _NOTIFICATION_SCROLL_END : int
-    (** Sent when this node is inside a [ScrollContainer] which has stopped being scrolled when dragging the scrollable area [i]with a touch event[/i]. This notification is [i]not[/i] sent when scrolling by dragging the scrollbar, scrolling with the mouse wheel or scrolling with keyboard/gamepad events.
-[b]Note:[/b] This signal is only emitted on Android or iOS, or on desktop/web platforms when [member ProjectSettings.input_devices/pointing/emulate_touch_from_mouse] is enabled. *)
+    (** Sent when this node is inside a \[ScrollContainer\] which has stopped
+        being scrolled when dragging the scrollable area \[i\]with a touch
+        event\[/i\]. This notification is \[i\]not\[/i\] sent when scrolling by
+        dragging the scrollbar, scrolling with the mouse wheel or scrolling with
+        keyboard/gamepad events. \[b\]Note:\[/b\] This signal is only emitted on
+        Android or iOS, or on desktop/web platforms when \[member
+        ProjectSettings.input_devices/pointing/emulate_touch_from_mouse\] is
+        enabled. *)
 
     val _NOTIFICATION_LAYOUT_DIRECTION_CHANGED : int
-    (** Sent when control layout direction is changed. *)
+    (** Sent when the control layout direction is changed from LTR or RTL or
+        vice versa. This notification is propagated to child Control nodes as
+        result of a change to \[member layout_direction\]. *)
 
     val ___has_point :
       BuiltinClass0.Vector2.t structure ptr ->
@@ -12182,6 +14277,15 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.Control.t structure ptr ->
       Class0.Control.GrowDirection.t structure ptr
 
+    val set_tooltip_auto_translate_mode :
+      Class0.Node.AutoTranslateMode.t structure ptr ->
+      Class0.Control.t structure ptr ->
+      unit
+
+    val get_tooltip_auto_translate_mode :
+      Class0.Control.t structure ptr ->
+      Class0.Node.AutoTranslateMode.t structure ptr
+
     val set_tooltip_text :
       BuiltinClass0.String.t structure ptr ->
       Class0.Control.t structure ptr ->
@@ -12453,6 +14557,15 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.Button.t structure ptr ->
       Class0.TextServer.OverrunBehavior.t structure ptr
 
+    val set_autowrap_mode :
+      Class0.TextServer.AutowrapMode.t structure ptr ->
+      Class0.Button.t structure ptr ->
+      unit
+
+    val get_autowrap_mode :
+      Class0.Button.t structure ptr ->
+      Class0.TextServer.AutowrapMode.t structure ptr
+
     val set_text_direction :
       Class0.Control.TextDirection.t structure ptr ->
       Class0.Button.t structure ptr ->
@@ -12689,10 +14802,12 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     include CONTROL
 
     val _NOTIFICATION_PRE_SORT_CHILDREN : int
-    (** Notification just before children are going to be sorted, in case there's something to process beforehand. *)
+    (** Notification just before children are going to be sorted, in case
+        there''s something to process beforehand. *)
 
     val _NOTIFICATION_SORT_CHILDREN : int
-    (** Notification for when sorting the children, it must be obeyed immediately. *)
+    (** Notification for when sorting the children, it must be obeyed
+        immediately. *)
 
     val ___get_allowed_size_flags_horizontal :
       Class0.Container.t structure ptr ->
@@ -12862,6 +14977,19 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.EditorScriptPicker.t structure ptr -> Class0.Node.t structure ptr
   end
 
+  module type EDITORTOASTER = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include HBOXCONTAINER
+
+    val push_toast :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorToaster.Severity.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorToaster.t structure ptr ->
+      unit
+  end
+
   module type CENTERCONTAINER = sig
     open! ApiTypes
     include ApiTypes.OBJECT
@@ -12904,6 +15032,24 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       unit
 
     val is_read_only :
+      Class0.EditorProperty.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_draw_label :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.EditorProperty.t structure ptr ->
+      unit
+
+    val is_draw_label :
+      Class0.EditorProperty.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_draw_background :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.EditorProperty.t structure ptr ->
+      unit
+
+    val is_draw_background :
       Class0.EditorProperty.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
@@ -12972,6 +15118,55 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.EditorProperty.t structure ptr ->
       unit
 
+    val set_selectable :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.EditorProperty.t structure ptr ->
+      unit
+
+    val is_selectable :
+      Class0.EditorProperty.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_use_folding :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.EditorProperty.t structure ptr ->
+      unit
+
+    val is_using_folding :
+      Class0.EditorProperty.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_name_split_ratio :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.EditorProperty.t structure ptr ->
+      unit
+
+    val get_name_split_ratio :
+      Class0.EditorProperty.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val deselect : Class0.EditorProperty.t structure ptr -> unit
+
+    val is_selected :
+      Class0.EditorProperty.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val select :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EditorProperty.t structure ptr ->
+      unit
+
+    val set_object_and_property :
+      BuiltinClass0.Object.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.EditorProperty.t structure ptr ->
+      unit
+
+    val set_label_reference :
+      Class0.Control.t structure ptr ->
+      Class0.EditorProperty.t structure ptr ->
+      unit
+
     val emit_changed :
       BuiltinClass0.StringName.t structure ptr ->
       BuiltinClass0.Variant.t structure ptr ->
@@ -12998,12 +15193,29 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.FlowContainer.t structure ptr ->
       Class0.FlowContainer.AlignmentMode.t structure ptr
 
+    val set_last_wrap_alignment :
+      Class0.FlowContainer.LastWrapAlignmentMode.t structure ptr ->
+      Class0.FlowContainer.t structure ptr ->
+      unit
+
+    val get_last_wrap_alignment :
+      Class0.FlowContainer.t structure ptr ->
+      Class0.FlowContainer.LastWrapAlignmentMode.t structure ptr
+
     val set_vertical :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.FlowContainer.t structure ptr ->
       unit
 
     val is_vertical :
+      Class0.FlowContainer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_reverse_fill :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.FlowContainer.t structure ptr ->
+      unit
+
+    val is_reverse_fill :
       Class0.FlowContainer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
   end
 
@@ -13058,6 +15270,63 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     val get_position_offset :
       Class0.GraphElement.t structure ptr ->
       BuiltinClass0.Vector2.t structure ptr
+  end
+
+  module type GRAPHFRAME = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include GRAPHELEMENT
+
+    val set_title :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.GraphFrame.t structure ptr ->
+      unit
+
+    val get_title :
+      Class0.GraphFrame.t structure ptr -> BuiltinClass0.String.t structure ptr
+
+    val get_titlebar_hbox :
+      Class0.GraphFrame.t structure ptr -> Class0.HBoxContainer.t structure ptr
+
+    val set_autoshrink_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.GraphFrame.t structure ptr ->
+      unit
+
+    val is_autoshrink_enabled :
+      Class0.GraphFrame.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_autoshrink_margin :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.GraphFrame.t structure ptr ->
+      unit
+
+    val get_autoshrink_margin :
+      Class0.GraphFrame.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val set_drag_margin :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.GraphFrame.t structure ptr ->
+      unit
+
+    val get_drag_margin :
+      Class0.GraphFrame.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val set_tint_color_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.GraphFrame.t structure ptr ->
+      unit
+
+    val is_tint_color_enabled :
+      Class0.GraphFrame.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_tint_color :
+      BuiltinClass0.Color.t structure ptr ->
+      Class0.GraphFrame.t structure ptr ->
+      unit
+
+    val get_tint_color :
+      Class0.GraphFrame.t structure ptr -> BuiltinClass0.Color.t structure ptr
   end
 
   module type GRAPHNODE = sig
@@ -13138,6 +15407,17 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.GraphNode.t structure ptr ->
       BuiltinClass0.Color.t structure ptr
 
+    val set_slot_custom_icon_left :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Texture2D.t structure ptr ->
+      Class0.GraphNode.t structure ptr ->
+      unit
+
+    val get_slot_custom_icon_left :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.GraphNode.t structure ptr ->
+      Class0.Texture2D.t structure ptr
+
     val is_slot_enabled_right :
       BuiltinClass0.Int.t structure ptr ->
       Class0.GraphNode.t structure ptr ->
@@ -13171,6 +15451,17 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.GraphNode.t structure ptr ->
       BuiltinClass0.Color.t structure ptr
 
+    val set_slot_custom_icon_right :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Texture2D.t structure ptr ->
+      Class0.GraphNode.t structure ptr ->
+      unit
+
+    val get_slot_custom_icon_right :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.GraphNode.t structure ptr ->
+      Class0.Texture2D.t structure ptr
+
     val is_slot_draw_stylebox :
       BuiltinClass0.Int.t structure ptr ->
       Class0.GraphNode.t structure ptr ->
@@ -13181,6 +15472,14 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       BuiltinClass0.Bool.t structure ptr ->
       Class0.GraphNode.t structure ptr ->
       unit
+
+    val set_ignore_invalid_connection_type :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.GraphNode.t structure ptr ->
+      unit
+
+    val is_ignoring_valid_connection_type :
+      Class0.GraphNode.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val get_input_port_count :
       Class0.GraphNode.t structure ptr -> BuiltinClass0.Int.t structure ptr
@@ -13287,6 +15586,7 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.StringName.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.GraphEdit.t structure ptr ->
       GlobalEnum.Error.t structure ptr
 
@@ -13315,7 +15615,29 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.GraphEdit.t structure ptr ->
       unit
 
+    val set_connections :
+      BuiltinClass0.Dictionary.t structure ptr ->
+      Class0.GraphEdit.t structure ptr ->
+      unit
+
     val get_connection_list :
+      Class0.GraphEdit.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
+    val get_connection_count :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.GraphEdit.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_closest_connection_at_point :
+      BuiltinClass0.Vector2.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.GraphEdit.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
+    val get_connections_intersecting_with_rect :
+      BuiltinClass0.Rect2.t structure ptr ->
       Class0.GraphEdit.t structure ptr ->
       BuiltinClass0.Dictionary.t structure ptr
 
@@ -13374,6 +15696,27 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.GraphEdit.t structure ptr ->
       BuiltinClass0.PackedVector2Array.t structure ptr
 
+    val attach_graph_element_to_frame :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.GraphEdit.t structure ptr ->
+      unit
+
+    val detach_graph_element_from_frame :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.GraphEdit.t structure ptr ->
+      unit
+
+    val get_element_frame :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.GraphEdit.t structure ptr ->
+      Class0.GraphFrame.t structure ptr
+
+    val get_attached_nodes_of_frame :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.GraphEdit.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
     val set_panning_scheme :
       Class0.GraphEdit.PanningScheme.t structure ptr ->
       Class0.GraphEdit.t structure ptr ->
@@ -13422,6 +15765,15 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
 
     val is_showing_grid :
       Class0.GraphEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_grid_pattern :
+      Class0.GraphEdit.GridPattern.t structure ptr ->
+      Class0.GraphEdit.t structure ptr ->
+      unit
+
+    val get_grid_pattern :
+      Class0.GraphEdit.t structure ptr ->
+      Class0.GraphEdit.GridPattern.t structure ptr
 
     val set_snapping_enabled :
       BuiltinClass0.Bool.t structure ptr ->
@@ -13613,6 +15965,17 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       BuiltinClass0.Int.t structure ptr ->
       Class0.ItemList.t structure ptr ->
       BuiltinClass0.String.t structure ptr
+
+    val set_item_auto_translate_mode :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Node.AutoTranslateMode.t structure ptr ->
+      Class0.ItemList.t structure ptr ->
+      unit
+
+    val get_item_auto_translate_mode :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.ItemList.t structure ptr ->
+      Class0.Node.AutoTranslateMode.t structure ptr
 
     val set_item_icon_transposed :
       BuiltinClass0.Int.t structure ptr ->
@@ -13864,6 +16227,14 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     val get_allow_search :
       Class0.ItemList.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
+    val set_auto_width :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.ItemList.t structure ptr ->
+      unit
+
+    val has_auto_width :
+      Class0.ItemList.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
     val set_auto_height :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.ItemList.t structure ptr ->
@@ -13886,6 +16257,9 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     val get_v_scroll_bar :
       Class0.ItemList.t structure ptr -> Class0.VScrollBar.t structure ptr
 
+    val get_h_scroll_bar :
+      Class0.ItemList.t structure ptr -> Class0.HScrollBar.t structure ptr
+
     val set_text_overrun_behavior :
       Class0.TextServer.OverrunBehavior.t structure ptr ->
       Class0.ItemList.t structure ptr ->
@@ -13894,6 +16268,14 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     val get_text_overrun_behavior :
       Class0.ItemList.t structure ptr ->
       Class0.TextServer.OverrunBehavior.t structure ptr
+
+    val set_wraparound_items :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.ItemList.t structure ptr ->
+      unit
+
+    val has_wraparound_items :
+      Class0.ItemList.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val force_update_list_size : Class0.ItemList.t structure ptr -> unit
   end
@@ -13954,6 +16336,14 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     val get_language :
       Class0.Label.t structure ptr -> BuiltinClass0.String.t structure ptr
 
+    val set_paragraph_separator :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.Label.t structure ptr ->
+      unit
+
+    val get_paragraph_separator :
+      Class0.Label.t structure ptr -> BuiltinClass0.String.t structure ptr
+
     val set_autowrap_mode :
       Class0.TextServer.AutowrapMode.t structure ptr ->
       Class0.Label.t structure ptr ->
@@ -13995,6 +16385,14 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     val get_text_overrun_behavior :
       Class0.Label.t structure ptr ->
       Class0.TextServer.OverrunBehavior.t structure ptr
+
+    val set_ellipsis_char :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.Label.t structure ptr ->
+      unit
+
+    val get_ellipsis_char :
+      Class0.Label.t structure ptr -> BuiltinClass0.String.t structure ptr
 
     val set_uppercase :
       BuiltinClass0.Bool.t structure ptr -> Class0.Label.t structure ptr -> unit
@@ -14067,12 +16465,23 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
 
     val get_structured_text_bidi_override_options :
       Class0.Label.t structure ptr -> BuiltinClass0.Array.t structure ptr
+
+    val get_character_bounds :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Label.t structure ptr ->
+      BuiltinClass0.Rect2.t structure ptr
   end
 
   module type LINEEDIT = sig
     open! ApiTypes
     include ApiTypes.OBJECT
     include CONTROL
+
+    val has_ime_text :
+      Class0.LineEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val cancel_ime : Class0.LineEdit.t structure ptr -> unit
+    val apply_ime : Class0.LineEdit.t structure ptr -> unit
 
     val set_horizontal_alignment :
       GlobalEnum.HorizontalAlignment.t structure ptr ->
@@ -14082,6 +16491,20 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     val get_horizontal_alignment :
       Class0.LineEdit.t structure ptr ->
       GlobalEnum.HorizontalAlignment.t structure ptr
+
+    val edit : Class0.LineEdit.t structure ptr -> unit
+    val unedit : Class0.LineEdit.t structure ptr -> unit
+
+    val is_editing :
+      Class0.LineEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_keep_editing_on_text_submit :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.LineEdit.t structure ptr ->
+      unit
+
+    val is_editing_kept_on_text_submit :
+      Class0.LineEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val clear : Class0.LineEdit.t structure ptr -> unit
 
@@ -14093,6 +16516,12 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
 
     val select_all : Class0.LineEdit.t structure ptr -> unit
     val deselect : Class0.LineEdit.t structure ptr -> unit
+
+    val has_undo :
+      Class0.LineEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val has_redo :
+      Class0.LineEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val has_selection :
       Class0.LineEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
@@ -14277,6 +16706,14 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       unit
 
     val is_context_menu_enabled :
+      Class0.LineEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_emoji_menu_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.LineEdit.t structure ptr ->
+      unit
+
+    val is_emoji_menu_enabled :
       Class0.LineEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val set_virtual_keyboard_enabled :
@@ -14957,6 +17394,11 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.CPUParticles2D.t structure ptr ->
       unit
 
+    val request_particles_process :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.CPUParticles2D.t structure ptr ->
+      unit
+
     val is_emitting :
       Class0.CPUParticles2D.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
@@ -15003,6 +17445,23 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.CPUParticles2D.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
 
+    val set_use_fixed_seed :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.CPUParticles2D.t structure ptr ->
+      unit
+
+    val get_use_fixed_seed :
+      Class0.CPUParticles2D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_seed :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.CPUParticles2D.t structure ptr ->
+      unit
+
+    val get_seed :
+      Class0.CPUParticles2D.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
     val set_draw_order :
       Class0.CPUParticles2D.DrawOrder.t structure ptr ->
       Class0.CPUParticles2D.t structure ptr ->
@@ -15020,7 +17479,10 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     val get_texture :
       Class0.CPUParticles2D.t structure ptr -> Class0.Texture2D.t structure ptr
 
-    val restart : Class0.CPUParticles2D.t structure ptr -> unit
+    val restart :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.CPUParticles2D.t structure ptr ->
+      unit
 
     val set_direction :
       BuiltinClass0.Vector2.t structure ptr ->
@@ -15977,6 +18439,11 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.GPUParticles2D.t structure ptr ->
       unit
 
+    val request_particles_process :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.GPUParticles2D.t structure ptr ->
+      unit
+
     val is_emitting :
       Class0.GPUParticles2D.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
@@ -16059,7 +18526,10 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.GPUParticles2D.t structure ptr ->
       BuiltinClass0.Rect2.t structure ptr
 
-    val restart : Class0.GPUParticles2D.t structure ptr -> unit
+    val restart :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.GPUParticles2D.t structure ptr ->
+      unit
 
     val set_sub_emitter :
       BuiltinClass0.NodePath.t structure ptr ->
@@ -16126,6 +18596,23 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     val get_amount_ratio :
       Class0.GPUParticles2D.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
+
+    val set_use_fixed_seed :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.GPUParticles2D.t structure ptr ->
+      unit
+
+    val get_use_fixed_seed :
+      Class0.GPUParticles2D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_seed :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.GPUParticles2D.t structure ptr ->
+      unit
+
+    val get_seed :
+      Class0.GPUParticles2D.t structure ptr -> BuiltinClass0.Int.t structure ptr
   end
 
   module type JOINT2D = sig
@@ -16634,6 +19121,15 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.NavigationLink2D.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val set_navigation_map :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationLink2D.t structure ptr ->
+      unit
+
+    val get_navigation_map :
+      Class0.NavigationLink2D.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
+
     val set_bidirectional :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.NavigationLink2D.t structure ptr ->
@@ -16791,6 +19287,24 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       BuiltinClass0.Int.t structure ptr ->
       Class0.NavigationObstacle2D.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
+
+    val set_affect_navigation_mesh :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationObstacle2D.t structure ptr ->
+      unit
+
+    val get_affect_navigation_mesh :
+      Class0.NavigationObstacle2D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_carve_navigation_mesh :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationObstacle2D.t structure ptr ->
+      unit
+
+    val get_carve_navigation_mesh :
+      Class0.NavigationObstacle2D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
   end
 
   module type NAVIGATIONREGION2D = sig
@@ -16858,35 +19372,6 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.NavigationRegion2D.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
-    val set_constrain_avoidance :
-      BuiltinClass0.Bool.t structure ptr ->
-      Class0.NavigationRegion2D.t structure ptr ->
-      unit
-
-    val get_constrain_avoidance :
-      Class0.NavigationRegion2D.t structure ptr ->
-      BuiltinClass0.Bool.t structure ptr
-
-    val set_avoidance_layers :
-      BuiltinClass0.Int.t structure ptr ->
-      Class0.NavigationRegion2D.t structure ptr ->
-      unit
-
-    val get_avoidance_layers :
-      Class0.NavigationRegion2D.t structure ptr ->
-      BuiltinClass0.Int.t structure ptr
-
-    val set_avoidance_layer_value :
-      BuiltinClass0.Int.t structure ptr ->
-      BuiltinClass0.Bool.t structure ptr ->
-      Class0.NavigationRegion2D.t structure ptr ->
-      unit
-
-    val get_avoidance_layer_value :
-      BuiltinClass0.Int.t structure ptr ->
-      Class0.NavigationRegion2D.t structure ptr ->
-      BuiltinClass0.Bool.t structure ptr
-
     val get_region_rid :
       Class0.NavigationRegion2D.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
@@ -16913,6 +19398,14 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       BuiltinClass0.Bool.t structure ptr ->
       Class0.NavigationRegion2D.t structure ptr ->
       unit
+
+    val is_baking :
+      Class0.NavigationRegion2D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_bounds :
+      Class0.NavigationRegion2D.t structure ptr ->
+      BuiltinClass0.Rect2.t structure ptr
   end
 
   module type CANVASLAYER = sig
@@ -17154,12 +19647,14 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     val add_control_to_bottom_panel :
       Class0.Control.t structure ptr ->
       BuiltinClass0.String.t structure ptr ->
+      Class0.Shortcut.t structure ptr ->
       Class0.EditorPlugin.t structure ptr ->
       Class0.Button.t structure ptr
 
     val add_control_to_dock :
       Class0.EditorPlugin.DockSlot.t structure ptr ->
       Class0.Control.t structure ptr ->
+      Class0.Shortcut.t structure ptr ->
       Class0.EditorPlugin.t structure ptr ->
       unit
 
@@ -17176,6 +19671,12 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     val remove_control_from_container :
       Class0.EditorPlugin.CustomControlContainer.t structure ptr ->
       Class0.Control.t structure ptr ->
+      Class0.EditorPlugin.t structure ptr ->
+      unit
+
+    val set_dock_tab_icon :
+      Class0.Control.t structure ptr ->
+      Class0.Texture2D.t structure ptr ->
       Class0.EditorPlugin.t structure ptr ->
       unit
 
@@ -17302,6 +19803,16 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.EditorPlugin.t structure ptr ->
       unit
 
+    val add_export_platform :
+      Class0.EditorExportPlatform.t structure ptr ->
+      Class0.EditorPlugin.t structure ptr ->
+      unit
+
+    val remove_export_platform :
+      Class0.EditorExportPlatform.t structure ptr ->
+      Class0.EditorPlugin.t structure ptr ->
+      unit
+
     val add_node_3d_gizmo_plugin :
       Class0.EditorNode3DGizmoPlugin.t structure ptr ->
       Class0.EditorPlugin.t structure ptr ->
@@ -17338,6 +19849,17 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     val set_force_draw_over_forwarding_enabled :
       Class0.EditorPlugin.t structure ptr -> unit
 
+    val add_context_menu_plugin :
+      Class0.EditorContextMenuPlugin.ContextMenuSlot.t structure ptr ->
+      Class0.EditorContextMenuPlugin.t structure ptr ->
+      Class0.EditorPlugin.t structure ptr ->
+      unit
+
+    val remove_context_menu_plugin :
+      Class0.EditorContextMenuPlugin.t structure ptr ->
+      Class0.EditorPlugin.t structure ptr ->
+      unit
+
     val get_editor_interface :
       Class0.EditorPlugin.t structure ptr ->
       Class0.EditorInterface.t structure ptr
@@ -17359,6 +19881,45 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     val get_plugin_version :
       Class0.EditorPlugin.t structure ptr ->
       BuiltinClass0.String.t structure ptr
+  end
+
+  module type GRIDMAPEDITORPLUGIN = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include EDITORPLUGIN
+
+    val get_current_grid_map :
+      Class0.GridMapEditorPlugin.t structure ptr ->
+      Class0.GridMap.t structure ptr
+
+    val set_selection :
+      BuiltinClass0.Vector3i.t structure ptr ->
+      BuiltinClass0.Vector3i.t structure ptr ->
+      Class0.GridMapEditorPlugin.t structure ptr ->
+      unit
+
+    val clear_selection : Class0.GridMapEditorPlugin.t structure ptr -> unit
+
+    val get_selection :
+      Class0.GridMapEditorPlugin.t structure ptr ->
+      BuiltinClass0.AABB.t structure ptr
+
+    val has_selection :
+      Class0.GridMapEditorPlugin.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_selected_cells :
+      Class0.GridMapEditorPlugin.t structure ptr ->
+      BuiltinClass0.Array.t structure ptr
+
+    val set_selected_palette_item :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.GridMapEditorPlugin.t structure ptr ->
+      unit
+
+    val get_selected_palette_item :
+      Class0.GridMapEditorPlugin.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
   end
 
   module type EDITORRESOURCEPREVIEW = sig
@@ -17537,6 +20098,14 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       unit
 
     val get_original_class :
+      Class0.MissingNode.t structure ptr -> BuiltinClass0.String.t structure ptr
+
+    val set_original_scene :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.MissingNode.t structure ptr ->
+      unit
+
+    val get_original_scene :
       Class0.MissingNode.t structure ptr -> BuiltinClass0.String.t structure ptr
 
     val set_recording_properties :
@@ -17854,6 +20423,24 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     val get_target_position :
       Class0.NavigationAgent2D.t structure ptr ->
       BuiltinClass0.Vector2.t structure ptr
+
+    val set_simplify_path :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationAgent2D.t structure ptr ->
+      unit
+
+    val get_simplify_path :
+      Class0.NavigationAgent2D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_simplify_epsilon :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.NavigationAgent2D.t structure ptr ->
+      unit
+
+    val get_simplify_epsilon :
+      Class0.NavigationAgent2D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
 
     val get_next_path_position :
       Class0.NavigationAgent2D.t structure ptr ->
@@ -18202,6 +20789,24 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
       Class0.NavigationAgent3D.t structure ptr ->
       BuiltinClass0.Vector3.t structure ptr
 
+    val set_simplify_path :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationAgent3D.t structure ptr ->
+      unit
+
+    val get_simplify_path :
+      Class0.NavigationAgent3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_simplify_epsilon :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.NavigationAgent3D.t structure ptr ->
+      unit
+
+    val get_simplify_epsilon :
+      Class0.NavigationAgent3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val get_next_path_position :
       Class0.NavigationAgent3D.t structure ptr ->
       BuiltinClass0.Vector3.t structure ptr
@@ -18344,21 +20949,31 @@ See also [constant NOTIFICATION_MOUSE_EXIT]. *)
     include NODE
 
     val _NOTIFICATION_TRANSFORM_CHANGED : int
-    (** [Node3D] nodes receive this notification when their global transform changes. This means that either the current or a parent node changed its transform.
-In order for [constant NOTIFICATION_TRANSFORM_CHANGED] to work, users first need to ask for it, with [method set_notify_transform]. The notification is also sent if the node is in the editor context and it has at least one valid gizmo. *)
+    (** \[Node3D\] nodes receive this notification when their global transform
+        changes. This means that either the current or a parent node changed its
+        transform. In order for \[constant NOTIFICATION_TRANSFORM_CHANGED\] to
+        work, users first need to ask for it, with \[method
+        set_notify_transform\]. The notification is also sent if the node is in
+        the editor context and it has at least one valid gizmo. *)
 
     val _NOTIFICATION_ENTER_WORLD : int
-    (** [Node3D] nodes receive this notification when they are registered to new [World3D] resource. *)
+    (** \[Node3D\] nodes receive this notification when they are registered to
+        new \[World3D\] resource. *)
 
     val _NOTIFICATION_EXIT_WORLD : int
-    (** [Node3D] nodes receive this notification when they are unregistered from current [World3D] resource. *)
+    (** \[Node3D\] nodes receive this notification when they are unregistered
+        from current \[World3D\] resource. *)
 
     val _NOTIFICATION_VISIBILITY_CHANGED : int
-    (** [Node3D] nodes receive this notification when their visibility changes. *)
+    (** \[Node3D\] nodes receive this notification when their visibility
+        changes. *)
 
     val _NOTIFICATION_LOCAL_TRANSFORM_CHANGED : int
-    (** [Node3D] nodes receive this notification when their local transform changes. This is not received when the transform of a parent node is changed.
-In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users first need to ask for it, with [method set_notify_local_transform]. *)
+    (** \[Node3D\] nodes receive this notification when their local transform
+        changes. This is not received when the transform of a parent node is
+        changed. In order for \[constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED\]
+        to work, users first need to ask for it, with \[method
+        set_notify_local_transform\]. *)
 
     val set_transform :
       BuiltinClass0.Transform3D.t structure ptr ->
@@ -18439,6 +21054,9 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       unit
 
     val get_global_transform :
+      Class0.Node3D.t structure ptr -> BuiltinClass0.Transform3D.t structure ptr
+
+    val get_global_transform_interpolated :
       Class0.Node3D.t structure ptr -> BuiltinClass0.Transform3D.t structure ptr
 
     val set_global_position :
@@ -18653,6 +21271,10 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     include ApiTypes.OBJECT
     include NODE3D
 
+    val get_skeleton :
+      Class0.BoneAttachment3D.t structure ptr ->
+      Class0.Skeleton3D.t structure ptr
+
     val set_bone_name :
       BuiltinClass0.String.t structure ptr ->
       Class0.BoneAttachment3D.t structure ptr ->
@@ -18671,10 +21293,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.BoneAttachment3D.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
 
-    val on_bone_pose_update :
-      BuiltinClass0.Int.t structure ptr ->
-      Class0.BoneAttachment3D.t structure ptr ->
-      unit
+    val on_skeleton_update : Class0.BoneAttachment3D.t structure ptr -> unit
 
     val set_override_pose :
       BuiltinClass0.Bool.t structure ptr ->
@@ -18873,6 +21492,14 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val get_attributes :
       Class0.Camera3D.t structure ptr -> Class0.CameraAttributes.t structure ptr
+
+    val set_compositor :
+      Class0.Compositor.t structure ptr ->
+      Class0.Camera3D.t structure ptr ->
+      unit
+
+    val get_compositor :
+      Class0.Camera3D.t structure ptr -> Class0.Compositor.t structure ptr
 
     val set_keep_aspect_mode :
       Class0.Camera3D.KeepAspect.t structure ptr ->
@@ -19333,6 +21960,24 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.CollisionPolygon3D.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val set_debug_color :
+      BuiltinClass0.Color.t structure ptr ->
+      Class0.CollisionPolygon3D.t structure ptr ->
+      unit
+
+    val get_debug_color :
+      Class0.CollisionPolygon3D.t structure ptr ->
+      BuiltinClass0.Color.t structure ptr
+
+    val set_enable_debug_fill :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.CollisionPolygon3D.t structure ptr ->
+      unit
+
+    val get_enable_debug_fill :
+      Class0.CollisionPolygon3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val set_margin :
       BuiltinClass0.Float.t structure ptr ->
       Class0.CollisionPolygon3D.t structure ptr ->
@@ -19372,6 +22017,24 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val make_convex_from_siblings :
       Class0.CollisionShape3D.t structure ptr -> unit
+
+    val set_debug_color :
+      BuiltinClass0.Color.t structure ptr ->
+      Class0.CollisionShape3D.t structure ptr ->
+      unit
+
+    val get_debug_color :
+      Class0.CollisionShape3D.t structure ptr ->
+      BuiltinClass0.Color.t structure ptr
+
+    val set_enable_debug_fill :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.CollisionShape3D.t structure ptr ->
+      unit
+
+    val get_enable_debug_fill :
+      Class0.CollisionShape3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
   end
 
   module type GRIDMAP = sig
@@ -19380,7 +22043,8 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     include NODE3D
 
     val _INVALID_CELL_ITEM : int
-    (** Invalid cell item that can be used in [method set_cell_item] to clear cells (or represent an empty cell in [method get_cell_item]). *)
+    (** Invalid cell item that can be used in \[method set_cell_item\] to clear
+        cells (or represent an empty cell in \[method get_cell_item\]). *)
 
     val set_collision_layer :
       BuiltinClass0.Int.t structure ptr ->
@@ -19875,6 +22539,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.NavigationLink3D.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val set_navigation_map :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.NavigationLink3D.t structure ptr ->
+      unit
+
+    val get_navigation_map :
+      Class0.NavigationLink3D.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
+
     val set_bidirectional :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.NavigationLink3D.t structure ptr ->
@@ -20050,6 +22723,24 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_use_3d_avoidance :
       Class0.NavigationObstacle3D.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
+
+    val set_affect_navigation_mesh :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationObstacle3D.t structure ptr ->
+      unit
+
+    val get_affect_navigation_mesh :
+      Class0.NavigationObstacle3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_carve_navigation_mesh :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationObstacle3D.t structure ptr ->
+      unit
+
+    val get_carve_navigation_mesh :
+      Class0.NavigationObstacle3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
   end
 
   module type NAVIGATIONREGION3D = sig
@@ -20143,12 +22834,28 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Bool.t structure ptr ->
       Class0.NavigationRegion3D.t structure ptr ->
       unit
+
+    val is_baking :
+      Class0.NavigationRegion3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_bounds :
+      Class0.NavigationRegion3D.t structure ptr ->
+      BuiltinClass0.AABB.t structure ptr
   end
 
   module type OS = sig
     open! ApiTypes
     include ApiTypes.OBJECT
     include OBJECT
+
+    val get_entropy :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.OS.t structure ptr ->
+      BuiltinClass0.PackedByteArray.t structure ptr
+
+    val get_system_ca_certificates :
+      Class0.OS.t structure ptr -> BuiltinClass0.String.t structure ptr
 
     val get_connected_midi_inputs :
       Class0.OS.t structure ptr ->
@@ -20217,7 +22924,23 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.OS.t structure ptr -> BuiltinClass0.String.t structure ptr
 
     val read_string_from_stdin :
-      Class0.OS.t structure ptr -> BuiltinClass0.String.t structure ptr
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.OS.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val read_buffer_from_stdin :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.OS.t structure ptr ->
+      BuiltinClass0.PackedByteArray.t structure ptr
+
+    val get_stdin_type :
+      Class0.OS.t structure ptr -> Class0.OS.StdHandleType.t structure ptr
+
+    val get_stdout_type :
+      Class0.OS.t structure ptr -> Class0.OS.StdHandleType.t structure ptr
+
+    val get_stderr_type :
+      Class0.OS.t structure ptr -> Class0.OS.StdHandleType.t structure ptr
 
     val execute :
       BuiltinClass0.String.t structure ptr ->
@@ -20227,6 +22950,13 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Bool.t structure ptr ->
       Class0.OS.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
+
+    val execute_with_pipe :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.OS.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
 
     val create_process :
       BuiltinClass0.String.t structure ptr ->
@@ -20261,6 +22991,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.OS.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val get_process_exit_code :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.OS.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
     val get_process_id :
       Class0.OS.t structure ptr -> BuiltinClass0.Int.t structure ptr
 
@@ -20290,6 +23025,9 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.OS.t structure ptr -> BuiltinClass0.String.t structure ptr
 
     val get_version :
+      Class0.OS.t structure ptr -> BuiltinClass0.String.t structure ptr
+
+    val get_version_alias :
       Class0.OS.t structure ptr -> BuiltinClass0.String.t structure ptr
 
     val get_cmdline_args :
@@ -20373,6 +23111,9 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_cache_dir :
       Class0.OS.t structure ptr -> BuiltinClass0.String.t structure ptr
 
+    val get_temp_dir :
+      Class0.OS.t structure ptr -> BuiltinClass0.String.t structure ptr
+
     val get_unique_id :
       Class0.OS.t structure ptr -> BuiltinClass0.String.t structure ptr
 
@@ -20426,50 +23167,6 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.PackedStringArray.t structure ptr
 
     val revoke_granted_permissions : Class0.OS.t structure ptr -> unit
-  end
-
-  module type OCCLUDERINSTANCE3D = sig
-    open! ApiTypes
-    include ApiTypes.OBJECT
-    include NODE3D
-
-    val set_bake_mask :
-      BuiltinClass0.Int.t structure ptr ->
-      Class0.OccluderInstance3D.t structure ptr ->
-      unit
-
-    val get_bake_mask :
-      Class0.OccluderInstance3D.t structure ptr ->
-      BuiltinClass0.Int.t structure ptr
-
-    val set_bake_mask_value :
-      BuiltinClass0.Int.t structure ptr ->
-      BuiltinClass0.Bool.t structure ptr ->
-      Class0.OccluderInstance3D.t structure ptr ->
-      unit
-
-    val get_bake_mask_value :
-      BuiltinClass0.Int.t structure ptr ->
-      Class0.OccluderInstance3D.t structure ptr ->
-      BuiltinClass0.Bool.t structure ptr
-
-    val set_bake_simplification_distance :
-      BuiltinClass0.Float.t structure ptr ->
-      Class0.OccluderInstance3D.t structure ptr ->
-      unit
-
-    val get_bake_simplification_distance :
-      Class0.OccluderInstance3D.t structure ptr ->
-      BuiltinClass0.Float.t structure ptr
-
-    val set_occluder :
-      Class0.Occluder3D.t structure ptr ->
-      Class0.OccluderInstance3D.t structure ptr ->
-      unit
-
-    val get_occluder :
-      Class0.OccluderInstance3D.t structure ptr ->
-      Class0.Occluder3D.t structure ptr
   end
 
   module type OPTIONBUTTON = sig
@@ -20646,6 +23343,92 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     open! ApiTypes
     include ApiTypes.OBJECT
     include CONTAINER
+  end
+
+  module type PARALLAX2D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include NODE2D
+
+    val set_scroll_scale :
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.Parallax2D.t structure ptr ->
+      unit
+
+    val get_scroll_scale :
+      Class0.Parallax2D.t structure ptr -> BuiltinClass0.Vector2.t structure ptr
+
+    val set_repeat_size :
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.Parallax2D.t structure ptr ->
+      unit
+
+    val get_repeat_size :
+      Class0.Parallax2D.t structure ptr -> BuiltinClass0.Vector2.t structure ptr
+
+    val set_repeat_times :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Parallax2D.t structure ptr ->
+      unit
+
+    val get_repeat_times :
+      Class0.Parallax2D.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val set_autoscroll :
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.Parallax2D.t structure ptr ->
+      unit
+
+    val get_autoscroll :
+      Class0.Parallax2D.t structure ptr -> BuiltinClass0.Vector2.t structure ptr
+
+    val set_scroll_offset :
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.Parallax2D.t structure ptr ->
+      unit
+
+    val get_scroll_offset :
+      Class0.Parallax2D.t structure ptr -> BuiltinClass0.Vector2.t structure ptr
+
+    val set_screen_offset :
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.Parallax2D.t structure ptr ->
+      unit
+
+    val get_screen_offset :
+      Class0.Parallax2D.t structure ptr -> BuiltinClass0.Vector2.t structure ptr
+
+    val set_limit_begin :
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.Parallax2D.t structure ptr ->
+      unit
+
+    val get_limit_begin :
+      Class0.Parallax2D.t structure ptr -> BuiltinClass0.Vector2.t structure ptr
+
+    val set_limit_end :
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.Parallax2D.t structure ptr ->
+      unit
+
+    val get_limit_end :
+      Class0.Parallax2D.t structure ptr -> BuiltinClass0.Vector2.t structure ptr
+
+    val set_follow_viewport :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.Parallax2D.t structure ptr ->
+      unit
+
+    val get_follow_viewport :
+      Class0.Parallax2D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_ignore_camera_scroll :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.Parallax2D.t structure ptr ->
+      unit
+
+    val is_ignore_camera_scroll :
+      Class0.Parallax2D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
   end
 
   module type PARALLAXBACKGROUND = sig
@@ -20973,6 +23756,10 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.PhysicsBody2D.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val get_gravity :
+      Class0.PhysicsBody2D.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
+
     val get_collision_exceptions :
       Class0.PhysicsBody2D.t structure ptr ->
       Class0.PhysicsBody2D.t structure ptr
@@ -21224,6 +24011,10 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr ->
       Class0.PhysicsBody3D.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
+
+    val get_gravity :
+      Class0.PhysicsBody3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
 
     val set_axis_lock :
       Class0.PhysicsServer3D.BodyAxis.t structure ptr ->
@@ -22704,6 +25495,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.PhysicsServer2D.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val body_set_state_sync_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.PhysicsServer2D.t structure ptr ->
+      unit
+
     val body_set_force_integration_callback :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Callable.t structure ptr ->
@@ -22912,6 +25709,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.PhysicsServer3D.t structure ptr ->
       unit
 
+    val shape_set_margin :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
     val shape_get_type :
       BuiltinClass0.RID.t structure ptr ->
       Class0.PhysicsServer3D.t structure ptr ->
@@ -22921,6 +25724,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.RID.t structure ptr ->
       Class0.PhysicsServer3D.t structure ptr ->
       BuiltinClass0.Variant.t structure ptr
+
+    val shape_get_margin :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
 
     val space_create :
       Class0.PhysicsServer3D.t structure ptr ->
@@ -23409,6 +26217,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.PhysicsServer3D.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val body_set_state_sync_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
     val body_set_force_integration_callback :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Callable.t structure ptr ->
@@ -23434,10 +26248,193 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.PhysicsServer3D.t structure ptr ->
       Class0.PhysicsDirectBodyState3D.t structure ptr
 
+    val soft_body_create :
+      Class0.PhysicsServer3D.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
+
+    val soft_body_update_rendering_server :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3DRenderingServerHandler.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_set_space :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_get_space :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
+
+    val soft_body_set_mesh :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
     val soft_body_get_bounds :
       BuiltinClass0.RID.t structure ptr ->
       Class0.PhysicsServer3D.t structure ptr ->
       BuiltinClass0.AABB.t structure ptr
+
+    val soft_body_set_collision_layer :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_get_collision_layer :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val soft_body_set_collision_mask :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_get_collision_mask :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val soft_body_add_collision_exception :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_remove_collision_exception :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_set_state :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.BodyState.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_get_state :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.BodyState.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
+
+    val soft_body_set_transform :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_set_ray_pickable :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_set_simulation_precision :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_get_simulation_precision :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val soft_body_set_total_mass :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_get_total_mass :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val soft_body_set_linear_stiffness :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_get_linear_stiffness :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val soft_body_set_pressure_coefficient :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_get_pressure_coefficient :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val soft_body_set_damping_coefficient :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_get_damping_coefficient :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val soft_body_set_drag_coefficient :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_get_drag_coefficient :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val soft_body_move_point :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_get_point_global_position :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
+    val soft_body_remove_all_pinned_points :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_pin_point :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      unit
+
+    val soft_body_is_point_pinned :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.PhysicsServer3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
 
     val joint_create :
       Class0.PhysicsServer3D.t structure ptr ->
@@ -24224,6 +27221,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val is_hiding_slider :
       Class0.EditorSpinSlider.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
+
+    val set_editing_integer :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.EditorSpinSlider.t structure ptr ->
+      unit
+
+    val is_editing_integer :
+      Class0.EditorSpinSlider.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
   end
 
   module type PROGRESSBAR = sig
@@ -24245,6 +27251,22 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       unit
 
     val is_percentage_shown :
+      Class0.ProgressBar.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_indeterminate :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.ProgressBar.t structure ptr ->
+      unit
+
+    val is_indeterminate :
+      Class0.ProgressBar.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_editor_preview_indeterminate :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.ProgressBar.t structure ptr ->
+      unit
+
+    val is_editor_preview_indeterminate_enabled :
       Class0.ProgressBar.t structure ptr -> BuiltinClass0.Bool.t structure ptr
   end
 
@@ -24674,12 +27696,14 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_point_path :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.AStar2D.t structure ptr ->
       BuiltinClass0.PackedVector2Array.t structure ptr
 
     val get_id_path :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.AStar2D.t structure ptr ->
       BuiltinClass0.PackedInt64Array.t structure ptr
   end
@@ -24811,12 +27835,14 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_point_path :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.AStar3D.t structure ptr ->
       BuiltinClass0.PackedVector3Array.t structure ptr
 
     val get_id_path :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.AStar3D.t structure ptr ->
       BuiltinClass0.PackedInt64Array.t structure ptr
   end
@@ -24872,6 +27898,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_cell_size :
       Class0.AStarGrid2D.t structure ptr ->
       BuiltinClass0.Vector2.t structure ptr
+
+    val set_cell_shape :
+      Class0.AStarGrid2D.CellShape.t structure ptr ->
+      Class0.AStarGrid2D.t structure ptr ->
+      unit
+
+    val get_cell_shape :
+      Class0.AStarGrid2D.t structure ptr ->
+      Class0.AStarGrid2D.CellShape.t structure ptr
 
     val is_in_bounds :
       BuiltinClass0.Int.t structure ptr ->
@@ -24965,15 +28000,22 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.AStarGrid2D.t structure ptr ->
       BuiltinClass0.Vector2.t structure ptr
 
+    val get_point_data_in_region :
+      BuiltinClass0.Rect2i.t structure ptr ->
+      Class0.AStarGrid2D.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
     val get_point_path :
       BuiltinClass0.Vector2i.t structure ptr ->
       BuiltinClass0.Vector2i.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.AStarGrid2D.t structure ptr ->
       BuiltinClass0.PackedVector2Array.t structure ptr
 
     val get_id_path :
       BuiltinClass0.Vector2i.t structure ptr ->
       BuiltinClass0.Vector2i.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.AStarGrid2D.t structure ptr ->
       BuiltinClass0.Vector2i.t structure ptr
   end
@@ -24982,6 +28024,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     open! ApiTypes
     include ApiTypes.OBJECT
     include REFCOUNTED
+
+    val ___activate_feed :
+      Class0.CameraFeed.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val ___deactivate_feed : Class0.CameraFeed.t structure ptr -> unit
 
     val get_id :
       Class0.CameraFeed.t structure ptr -> BuiltinClass0.Int.t structure ptr
@@ -24997,9 +28044,19 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_name :
       Class0.CameraFeed.t structure ptr -> BuiltinClass0.String.t structure ptr
 
+    val set_name :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.CameraFeed.t structure ptr ->
+      unit
+
     val get_position :
       Class0.CameraFeed.t structure ptr ->
       Class0.CameraFeed.FeedPosition.t structure ptr
+
+    val set_position :
+      Class0.CameraFeed.FeedPosition.t structure ptr ->
+      Class0.CameraFeed.t structure ptr ->
+      unit
 
     val get_transform :
       Class0.CameraFeed.t structure ptr ->
@@ -25010,9 +28067,35 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.CameraFeed.t structure ptr ->
       unit
 
+    val set_rgb_image :
+      Class0.Image.t structure ptr -> Class0.CameraFeed.t structure ptr -> unit
+
+    val set_ycbcr_image :
+      Class0.Image.t structure ptr -> Class0.CameraFeed.t structure ptr -> unit
+
+    val set_external :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.CameraFeed.t structure ptr ->
+      unit
+
+    val get_texture_tex_id :
+      Class0.CameraServer.FeedImage.t structure ptr ->
+      Class0.CameraFeed.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
     val get_datatype :
       Class0.CameraFeed.t structure ptr ->
       Class0.CameraFeed.FeedDataType.t structure ptr
+
+    val get_formats :
+      Class0.CameraFeed.t structure ptr -> BuiltinClass0.Array.t structure ptr
+
+    val set_format :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr ->
+      Class0.CameraFeed.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
   end
 
   module type CHARFXTRANSFORM = sig
@@ -25323,6 +28406,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val get_open_error : unit -> GlobalEnum.Error.t structure ptr
 
+    val create_temp :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.DirAccess.t structure ptr
+
     val list_dir_begin :
       Class0.DirAccess.t structure ptr -> GlobalEnum.Error.t structure ptr
 
@@ -25431,6 +28519,27 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val remove_absolute :
       BuiltinClass0.String.t structure ptr -> GlobalEnum.Error.t structure ptr
+
+    val is_link :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.DirAccess.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val read_link :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.DirAccess.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val create_link :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.DirAccess.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
+
+    val is_bundle :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.DirAccess.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
 
     val set_include_navigational :
       BuiltinClass0.Bool.t structure ptr ->
@@ -25556,6 +28665,44 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       unit
   end
 
+  module type EDITORCONTEXTMENUPLUGIN = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include REFCOUNTED
+
+    val ___popup_menu :
+      BuiltinClass0.PackedStringArray.t structure ptr ->
+      Class0.EditorContextMenuPlugin.t structure ptr ->
+      unit
+
+    val add_menu_shortcut :
+      Class0.Shortcut.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.EditorContextMenuPlugin.t structure ptr ->
+      unit
+
+    val add_context_menu_item :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.Texture2D.t structure ptr ->
+      Class0.EditorContextMenuPlugin.t structure ptr ->
+      unit
+
+    val add_context_menu_item_from_shortcut :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.Shortcut.t structure ptr ->
+      Class0.Texture2D.t structure ptr ->
+      Class0.EditorContextMenuPlugin.t structure ptr ->
+      unit
+
+    val add_context_submenu_item :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.PopupMenu.t structure ptr ->
+      Class0.Texture2D.t structure ptr ->
+      Class0.EditorContextMenuPlugin.t structure ptr ->
+      unit
+  end
+
   module type EDITORDEBUGGERPLUGIN = sig
     open! ApiTypes
     include ApiTypes.OBJECT
@@ -25577,6 +28724,22 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr ->
       Class0.EditorDebuggerPlugin.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
+
+    val ___goto_script_line :
+      Class0.Script.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EditorDebuggerPlugin.t structure ptr ->
+      unit
+
+    val ___breakpoints_cleared_in_tree :
+      Class0.EditorDebuggerPlugin.t structure ptr -> unit
+
+    val ___breakpoint_set_in_tree :
+      Class0.Script.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.EditorDebuggerPlugin.t structure ptr ->
+      unit
 
     val get_session :
       BuiltinClass0.Int.t structure ptr ->
@@ -25627,6 +28790,13 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.Control.t structure ptr ->
       Class0.EditorDebuggerSession.t structure ptr ->
       unit
+
+    val set_breakpoint :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.EditorDebuggerSession.t structure ptr ->
+      unit
   end
 
   module type EDITOREXPORTPLATFORM = sig
@@ -25637,6 +28807,172 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_os_name :
       Class0.EditorExportPlatform.t structure ptr ->
       BuiltinClass0.String.t structure ptr
+
+    val create_preset :
+      Class0.EditorExportPlatform.t structure ptr ->
+      Class0.EditorExportPreset.t structure ptr
+
+    val find_export_template :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
+    val get_current_presets :
+      Class0.EditorExportPlatform.t structure ptr ->
+      BuiltinClass0.Array.t structure ptr
+
+    val save_pack :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
+    val save_zip :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
+    val save_pack_patch :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
+    val save_zip_patch :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
+    val gen_export_flags :
+      Class0.EditorExportPlatform.DebugFlags.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr
+
+    val export_project_files :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
+
+    val export_project :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorExportPlatform.DebugFlags.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
+
+    val export_pack :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorExportPlatform.DebugFlags.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
+
+    val export_zip :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorExportPlatform.DebugFlags.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
+
+    val export_pack_patch :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr ->
+      Class0.EditorExportPlatform.DebugFlags.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
+
+    val export_zip_patch :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr ->
+      Class0.EditorExportPlatform.DebugFlags.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
+
+    val clear_messages : Class0.EditorExportPlatform.t structure ptr -> unit
+
+    val add_message :
+      Class0.EditorExportPlatform.ExportMessageType.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      unit
+
+    val get_message_count :
+      Class0.EditorExportPlatform.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_message_type :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      Class0.EditorExportPlatform.ExportMessageType.t structure ptr
+
+    val get_message_category :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_message_text :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_worst_message_type :
+      Class0.EditorExportPlatform.t structure ptr ->
+      Class0.EditorExportPlatform.ExportMessageType.t structure ptr
+
+    val ssh_run_on_remote :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Array.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
+
+    val ssh_run_on_remote_no_wait :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val ssh_push_to_remote :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
+
+    val get_internal_export_files :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
+    val get_forced_export_files :
+      unit -> BuiltinClass0.PackedStringArray.t structure ptr
   end
 
   module type EDITOREXPORTPLATFORMANDROID = sig
@@ -25742,8 +29078,19 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.EditorExportPlugin.t structure ptr ->
       BuiltinClass0.Dictionary.t structure ptr
 
+    val ___get_export_options_overrides :
+      Class0.EditorExportPlatform.t structure ptr ->
+      Class0.EditorExportPlugin.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
     val ___should_update_export_options :
       Class0.EditorExportPlatform.t structure ptr ->
+      Class0.EditorExportPlugin.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val ___get_export_option_visibility :
+      Class0.EditorExportPlatform.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
       Class0.EditorExportPlugin.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
@@ -25864,6 +29211,124 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.StringName.t structure ptr ->
       Class0.EditorExportPlugin.t structure ptr ->
       BuiltinClass0.Variant.t structure ptr
+
+    val get_export_preset :
+      Class0.EditorExportPlugin.t structure ptr ->
+      Class0.EditorExportPreset.t structure ptr
+
+    val get_export_platform :
+      Class0.EditorExportPlugin.t structure ptr ->
+      Class0.EditorExportPlatform.t structure ptr
+  end
+
+  module type EDITOREXPORTPRESET = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include REFCOUNTED
+
+    val has :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_files_to_export :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr
+
+    val get_customized_files :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
+    val get_customized_files_count :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val has_export_file :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_file_export_mode :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorExportPreset.FileExportMode.t structure ptr ->
+      Class0.EditorExportPreset.t structure ptr ->
+      Class0.EditorExportPreset.FileExportMode.t structure ptr
+
+    val get_preset_name :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val is_runnable :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val are_advanced_options_enabled :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val is_dedicated_server :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_export_filter :
+      Class0.EditorExportPreset.t structure ptr ->
+      Class0.EditorExportPreset.ExportFilter.t structure ptr
+
+    val get_include_filter :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_exclude_filter :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_custom_features :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_patches :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr
+
+    val get_export_path :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_encryption_in_filter :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_encryption_ex_filter :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_encrypt_pck :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_encrypt_directory :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_encryption_key :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_script_export_mode :
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_or_env :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
+
+    val get_version :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.EditorExportPreset.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
   end
 
   module type EDITORFEATUREPROFILE = sig
@@ -26003,6 +29468,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.String.t structure ptr ->
       Class0.Control.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
       Class0.EditorInspectorPlugin.t structure ptr ->
       unit
 
@@ -26117,10 +29583,6 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val _IMPORT_FORCE_DISABLE_MESH_COMPRESSION : int
     (**  *)
 
-    val ___get_import_flags :
-      Class0.EditorSceneFormatImporter.t structure ptr ->
-      BuiltinClass0.Int.t structure ptr
-
     val ___get_extensions :
       Class0.EditorSceneFormatImporter.t structure ptr ->
       BuiltinClass0.PackedStringArray.t structure ptr
@@ -26143,6 +29605,22 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.String.t structure ptr ->
       Class0.EditorSceneFormatImporter.t structure ptr ->
       BuiltinClass0.Variant.t structure ptr
+
+    val add_import_option :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      Class0.EditorSceneFormatImporter.t structure ptr ->
+      unit
+
+    val add_import_option_advanced :
+      GlobalEnum.VariantType.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      GlobalEnum.PropertyHint.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EditorSceneFormatImporter.t structure ptr ->
+      unit
   end
 
   module type EDITORSCENEFORMATIMPORTERBLEND = sig
@@ -26151,13 +29629,19 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     include EDITORSCENEFORMATIMPORTER
   end
 
-  module type EDITORSCENEFORMATIMPORTERFBX = sig
+  module type EDITORSCENEFORMATIMPORTERFBX2GLTF = sig
     open! ApiTypes
     include ApiTypes.OBJECT
     include EDITORSCENEFORMATIMPORTER
   end
 
   module type EDITORSCENEFORMATIMPORTERGLTF = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include EDITORSCENEFORMATIMPORTER
+  end
+
+  module type EDITORSCENEFORMATIMPORTERUFBX = sig
     open! ApiTypes
     include ApiTypes.OBJECT
     include EDITORSCENEFORMATIMPORTER
@@ -26278,10 +29762,8 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val ___parse_file :
       BuiltinClass0.String.t structure ptr ->
-      BuiltinClass0.String.t structure ptr ->
-      BuiltinClass0.Array.t structure ptr ->
       Class0.EditorTranslationParserPlugin.t structure ptr ->
-      unit
+      BuiltinClass0.PackedStringArray.t structure ptr
 
     val ___get_recognized_extensions :
       Class0.EditorTranslationParserPlugin.t structure ptr ->
@@ -26368,6 +29850,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.String.t structure ptr ->
       Class0.FileAccess.ModeFlags.t structure ptr ->
       BuiltinClass0.PackedByteArray.t structure ptr ->
+      BuiltinClass0.PackedByteArray.t structure ptr ->
       Class0.FileAccess.t structure ptr
 
     val open_encrypted_with_pass :
@@ -26384,6 +29867,13 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val get_open_error : unit -> GlobalEnum.Error.t structure ptr
 
+    val create_temp :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.FileAccess.t structure ptr
+
     val get_file_as_bytes :
       BuiltinClass0.String.t structure ptr ->
       BuiltinClass0.PackedByteArray.t structure ptr
@@ -26391,6 +29881,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_file_as_string :
       BuiltinClass0.String.t structure ptr ->
       BuiltinClass0.String.t structure ptr
+
+    val resize :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.FileAccess.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
 
     val flush : Class0.FileAccess.t structure ptr -> unit
 
@@ -26433,6 +29928,9 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val get_64 :
       Class0.FileAccess.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val get_half :
+      Class0.FileAccess.t structure ptr -> BuiltinClass0.Float.t structure ptr
 
     val get_float :
       Class0.FileAccess.t structure ptr -> BuiltinClass0.Float.t structure ptr
@@ -26488,69 +29986,74 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val store_8 :
       BuiltinClass0.Int.t structure ptr ->
       Class0.FileAccess.t structure ptr ->
-      unit
+      BuiltinClass0.Bool.t structure ptr
 
     val store_16 :
       BuiltinClass0.Int.t structure ptr ->
       Class0.FileAccess.t structure ptr ->
-      unit
+      BuiltinClass0.Bool.t structure ptr
 
     val store_32 :
       BuiltinClass0.Int.t structure ptr ->
       Class0.FileAccess.t structure ptr ->
-      unit
+      BuiltinClass0.Bool.t structure ptr
 
     val store_64 :
       BuiltinClass0.Int.t structure ptr ->
       Class0.FileAccess.t structure ptr ->
-      unit
+      BuiltinClass0.Bool.t structure ptr
+
+    val store_half :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.FileAccess.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
 
     val store_float :
       BuiltinClass0.Float.t structure ptr ->
       Class0.FileAccess.t structure ptr ->
-      unit
+      BuiltinClass0.Bool.t structure ptr
 
     val store_double :
       BuiltinClass0.Float.t structure ptr ->
       Class0.FileAccess.t structure ptr ->
-      unit
+      BuiltinClass0.Bool.t structure ptr
 
     val store_real :
       BuiltinClass0.Float.t structure ptr ->
       Class0.FileAccess.t structure ptr ->
-      unit
+      BuiltinClass0.Bool.t structure ptr
 
     val store_buffer :
       BuiltinClass0.PackedByteArray.t structure ptr ->
       Class0.FileAccess.t structure ptr ->
-      unit
+      BuiltinClass0.Bool.t structure ptr
 
     val store_line :
       BuiltinClass0.String.t structure ptr ->
       Class0.FileAccess.t structure ptr ->
-      unit
+      BuiltinClass0.Bool.t structure ptr
 
     val store_csv_line :
       BuiltinClass0.PackedStringArray.t structure ptr ->
       BuiltinClass0.String.t structure ptr ->
       Class0.FileAccess.t structure ptr ->
-      unit
+      BuiltinClass0.Bool.t structure ptr
 
     val store_string :
       BuiltinClass0.String.t structure ptr ->
       Class0.FileAccess.t structure ptr ->
-      unit
+      BuiltinClass0.Bool.t structure ptr
 
     val store_var :
       BuiltinClass0.Variant.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
       Class0.FileAccess.t structure ptr ->
-      unit
+      BuiltinClass0.Bool.t structure ptr
 
     val store_pascal_string :
       BuiltinClass0.String.t structure ptr ->
       Class0.FileAccess.t structure ptr ->
-      unit
+      BuiltinClass0.Bool.t structure ptr
 
     val get_pascal_string :
       Class0.FileAccess.t structure ptr -> BuiltinClass0.String.t structure ptr
@@ -26587,6 +30090,95 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val get_read_only_attribute :
       BuiltinClass0.String.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+  end
+
+  module type GLTFOBJECTMODELPROPERTY = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include REFCOUNTED
+
+    val append_node_path :
+      BuiltinClass0.NodePath.t structure ptr ->
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      unit
+
+    val append_path_to_property :
+      BuiltinClass0.NodePath.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      unit
+
+    val get_accessor_type :
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      Class0.GLTFAccessor.GLTFAccessorType.t structure ptr
+
+    val get_gltf_to_godot_expression :
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      Class0.Expression.t structure ptr
+
+    val set_gltf_to_godot_expression :
+      Class0.Expression.t structure ptr ->
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      unit
+
+    val get_godot_to_gltf_expression :
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      Class0.Expression.t structure ptr
+
+    val set_godot_to_gltf_expression :
+      Class0.Expression.t structure ptr ->
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      unit
+
+    val get_node_paths :
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      BuiltinClass0.NodePath.t structure ptr
+
+    val has_node_paths :
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_node_paths :
+      BuiltinClass0.NodePath.t structure ptr ->
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      unit
+
+    val get_object_model_type :
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      Class0.GLTFObjectModelProperty.GLTFObjectModelType.t structure ptr
+
+    val set_object_model_type :
+      Class0.GLTFObjectModelProperty.GLTFObjectModelType.t structure ptr ->
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      unit
+
+    val get_json_pointers :
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr
+
+    val has_json_pointers :
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_json_pointers :
+      BuiltinClass0.PackedStringArray.t structure ptr ->
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      unit
+
+    val get_variant_type :
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      GlobalEnum.VariantType.t structure ptr
+
+    val set_variant_type :
+      GlobalEnum.VariantType.t structure ptr ->
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      unit
+
+    val set_types :
+      GlobalEnum.VariantType.t structure ptr ->
+      Class0.GLTFObjectModelProperty.GLTFObjectModelType.t structure ptr ->
+      Class0.GLTFObjectModelProperty.t structure ptr ->
+      unit
   end
 
   module type HMACCONTEXT = sig
@@ -26743,6 +30335,25 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     open! ApiTypes
     include ApiTypes.OBJECT
     include REFCOUNTED
+
+    val get_java_class_name :
+      Class0.JavaClass.t structure ptr -> BuiltinClass0.String.t structure ptr
+
+    val get_java_method_list :
+      Class0.JavaClass.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
+    val get_java_parent_class :
+      Class0.JavaClass.t structure ptr -> Class0.JavaClass.t structure ptr
+  end
+
+  module type JAVAOBJECT = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include REFCOUNTED
+
+    val get_java_class :
+      Class0.JavaObject.t structure ptr -> Class0.JavaClass.t structure ptr
   end
 
   module type JAVASCRIPTOBJECT = sig
@@ -27359,6 +30970,24 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_metadata_flags :
       Class0.NavigationPathQueryParameters2D.t structure ptr ->
       Class0.NavigationPathQueryParameters2D.PathMetadataFlags.t structure ptr
+
+    val set_simplify_path :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationPathQueryParameters2D.t structure ptr ->
+      unit
+
+    val get_simplify_path :
+      Class0.NavigationPathQueryParameters2D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_simplify_epsilon :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.NavigationPathQueryParameters2D.t structure ptr ->
+      unit
+
+    val get_simplify_epsilon :
+      Class0.NavigationPathQueryParameters2D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
   end
 
   module type NAVIGATIONPATHQUERYPARAMETERS3D = sig
@@ -27430,6 +31059,24 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_metadata_flags :
       Class0.NavigationPathQueryParameters3D.t structure ptr ->
       Class0.NavigationPathQueryParameters3D.PathMetadataFlags.t structure ptr
+
+    val set_simplify_path :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationPathQueryParameters3D.t structure ptr ->
+      unit
+
+    val get_simplify_path :
+      Class0.NavigationPathQueryParameters3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_simplify_epsilon :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.NavigationPathQueryParameters3D.t structure ptr ->
+      unit
+
+    val get_simplify_epsilon :
+      Class0.NavigationPathQueryParameters3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
   end
 
   module type NAVIGATIONPATHQUERYRESULT2D = sig
@@ -27700,6 +31347,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.PCKPacker.t structure ptr ->
       GlobalEnum.Error.t structure ptr
 
+    val add_file_removal :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.PCKPacker.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
+
     val flush :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.PCKPacker.t structure ptr ->
@@ -27762,10 +31414,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     include PACKETPEER
 
     val _PACKET_LOSS_SCALE : int
-    (** The reference scale for packet loss. See [method get_statistic] and [constant PEER_PACKET_LOSS]. *)
+    (** The reference scale for packet loss. See \[method get_statistic\] and
+        \[constant PEER_PACKET_LOSS\]. *)
 
     val _PACKET_THROTTLE_SCALE : int
-    (** The reference value for throttle configuration. The default value is [code]32[/code]. See [method throttle_configure]. *)
+    (** The reference value for throttle configuration. The default value is
+        \[code\]32\[/code\]. See \[method throttle_configure\]. *)
 
     val _FLAG_RELIABLE : int
     (** Mark the packet to be sent as reliable. *)
@@ -27774,7 +31428,8 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     (** Mark the packet to be sent unsequenced (unreliable). *)
 
     val _FLAG_UNRELIABLE_FRAGMENT : int
-    (** Mark the packet to be sent unreliable even if the packet is too big and needs fragmentation (increasing the chance of it being dropped). *)
+    (** Mark the packet to be sent unreliable even if the packet is too big and
+        needs fragmentation (increasing the chance of it being dropped). *)
 
     val peer_disconnect :
       BuiltinClass0.Int.t structure ptr ->
@@ -27820,6 +31475,9 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr ->
       Class0.ENetPacketPeer.t structure ptr ->
       unit
+
+    val get_packet_flags :
+      Class0.ENetPacketPeer.t structure ptr -> BuiltinClass0.Int.t structure ptr
 
     val get_remote_address :
       Class0.ENetPacketPeer.t structure ptr ->
@@ -29695,6 +33353,24 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RDTextureFormat.t structure ptr ->
       Class0.RenderingDevice.TextureUsageBits.t structure ptr
 
+    val set_is_resolve_buffer :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RDTextureFormat.t structure ptr ->
+      unit
+
+    val get_is_resolve_buffer :
+      Class0.RDTextureFormat.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_is_discardable :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RDTextureFormat.t structure ptr ->
+      unit
+
+    val get_is_discardable :
+      Class0.RDTextureFormat.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val add_shareable_format :
       Class0.RenderingDevice.DataFormat.t structure ptr ->
       Class0.RDTextureFormat.t structure ptr ->
@@ -29890,6 +33566,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RandomNumberGenerator.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
 
+    val rand_weighted :
+      BuiltinClass0.PackedFloat32Array.t structure ptr ->
+      Class0.RandomNumberGenerator.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
     val randomize : Class0.RandomNumberGenerator.t structure ptr -> unit
   end
 
@@ -29931,12 +33612,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     include REFCOUNTED
 
     val create_from_string :
-      BuiltinClass0.String.t structure ptr -> Class0.RegEx.t structure ptr
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RegEx.t structure ptr
 
     val clear : Class0.RegEx.t structure ptr -> unit
 
     val compile :
       BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.RegEx.t structure ptr ->
       GlobalEnum.Error.t structure ptr
 
@@ -30118,6 +33802,32 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Bool.t structure ptr
   end
 
+  module type RENDERDATA = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include OBJECT
+
+    val get_render_scene_buffers :
+      Class0.RenderData.t structure ptr ->
+      Class0.RenderSceneBuffers.t structure ptr
+
+    val get_render_scene_data :
+      Class0.RenderData.t structure ptr ->
+      Class0.RenderSceneData.t structure ptr
+
+    val get_environment :
+      Class0.RenderData.t structure ptr -> BuiltinClass0.RID.t structure ptr
+
+    val get_camera_attributes :
+      Class0.RenderData.t structure ptr -> BuiltinClass0.RID.t structure ptr
+  end
+
+  module type RENDERDATARD = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include RENDERDATA
+  end
+
   module type RENDERSCENEBUFFERS = sig
     open! ApiTypes
     include ApiTypes.OBJECT
@@ -30214,6 +33924,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Float.t structure ptr ->
       Class0.RenderSceneBuffersConfiguration.t structure ptr ->
       unit
+
+    val get_anisotropic_filtering_level :
+      Class0.RenderSceneBuffersConfiguration.t structure ptr ->
+      Class0.RenderingServer.ViewportAnisotropicFiltering.t structure ptr
+
+    val set_anisotropic_filtering_level :
+      Class0.RenderingServer.ViewportAnisotropicFiltering.t structure ptr ->
+      Class0.RenderSceneBuffersConfiguration.t structure ptr ->
+      unit
   end
 
   module type RENDERSCENEBUFFERSRD = sig
@@ -30236,6 +33955,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Vector2i.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
       Class0.RenderSceneBuffersRD.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
@@ -30303,29 +34023,35 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       unit
 
     val get_color_texture :
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.RenderSceneBuffersRD.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
 
     val get_color_layer :
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.RenderSceneBuffersRD.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
 
     val get_depth_texture :
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.RenderSceneBuffersRD.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
 
     val get_depth_layer :
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.RenderSceneBuffersRD.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
 
     val get_velocity_texture :
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.RenderSceneBuffersRD.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
 
     val get_velocity_layer :
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.RenderSceneBuffersRD.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
 
@@ -30341,9 +34067,75 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderSceneBuffersRD.t structure ptr ->
       BuiltinClass0.Vector2i.t structure ptr
 
+    val get_target_size :
+      Class0.RenderSceneBuffersRD.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr
+
+    val get_scaling_3d_mode :
+      Class0.RenderSceneBuffersRD.t structure ptr ->
+      Class0.RenderingServer.ViewportScaling3DMode.t structure ptr
+
+    val get_fsr_sharpness :
+      Class0.RenderSceneBuffersRD.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val get_msaa_3d :
+      Class0.RenderSceneBuffersRD.t structure ptr ->
+      Class0.RenderingServer.ViewportMSAA.t structure ptr
+
+    val get_texture_samples :
+      Class0.RenderSceneBuffersRD.t structure ptr ->
+      Class0.RenderingDevice.TextureSamples.t structure ptr
+
+    val get_screen_space_aa :
+      Class0.RenderSceneBuffersRD.t structure ptr ->
+      Class0.RenderingServer.ViewportScreenSpaceAA.t structure ptr
+
     val get_use_taa :
       Class0.RenderSceneBuffersRD.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
+
+    val get_use_debanding :
+      Class0.RenderSceneBuffersRD.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+  end
+
+  module type RENDERSCENEDATA = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include OBJECT
+
+    val get_cam_transform :
+      Class0.RenderSceneData.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr
+
+    val get_cam_projection :
+      Class0.RenderSceneData.t structure ptr ->
+      BuiltinClass0.Projection.t structure ptr
+
+    val get_view_count :
+      Class0.RenderSceneData.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_view_eye_offset :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderSceneData.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
+    val get_view_projection :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderSceneData.t structure ptr ->
+      BuiltinClass0.Projection.t structure ptr
+
+    val get_uniform_buffer :
+      Class0.RenderSceneData.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
+  end
+
+  module type RENDERSCENEDATARD = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include RENDERSCENEDATA
   end
 
   module type RENDERINGDEVICE = sig
@@ -30397,7 +34189,6 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.PackedByteArray.t structure ptr ->
-      Class0.RenderingDevice.BarrierMask.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       GlobalEnum.Error.t structure ptr
 
@@ -30406,6 +34197,13 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       BuiltinClass0.PackedByteArray.t structure ptr
+
+    val texture_get_data_async :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.RenderingDevice.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
 
     val texture_is_format_supported_for_usage :
       Class0.RenderingDevice.DataFormat.t structure ptr ->
@@ -30423,6 +34221,17 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingDevice.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val texture_set_discardable :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RenderingDevice.t structure ptr ->
+      unit
+
+    val texture_is_discardable :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val texture_copy :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.RID.t structure ptr ->
@@ -30433,7 +34242,6 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
-      Class0.RenderingDevice.BarrierMask.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       GlobalEnum.Error.t structure ptr
 
@@ -30444,14 +34252,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
-      Class0.RenderingDevice.BarrierMask.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       GlobalEnum.Error.t structure ptr
 
     val texture_resolve_multisample :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.RID.t structure ptr ->
-      Class0.RenderingDevice.BarrierMask.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       GlobalEnum.Error.t structure ptr
 
@@ -30535,7 +34341,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val vertex_buffer_create :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.PackedByteArray.t structure ptr ->
-      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RenderingDevice.BufferCreationBits.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
 
@@ -30557,6 +34363,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingDevice.IndexBufferFormat.t structure ptr ->
       BuiltinClass0.PackedByteArray.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
+      Class0.RenderingDevice.BufferCreationBits.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
 
@@ -30603,6 +34410,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val uniform_buffer_create :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.PackedByteArray.t structure ptr ->
+      Class0.RenderingDevice.BufferCreationBits.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
 
@@ -30610,6 +34418,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.PackedByteArray.t structure ptr ->
       Class0.RenderingDevice.StorageBufferUsage.t structure ptr ->
+      Class0.RenderingDevice.BufferCreationBits.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
 
@@ -30632,12 +34441,20 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingDevice.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val buffer_copy :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingDevice.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
+
     val buffer_update :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.PackedByteArray.t structure ptr ->
-      Class0.RenderingDevice.BarrierMask.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       GlobalEnum.Error.t structure ptr
 
@@ -30645,7 +34462,6 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
-      Class0.RenderingDevice.BarrierMask.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       GlobalEnum.Error.t structure ptr
 
@@ -30655,6 +34471,19 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       BuiltinClass0.PackedByteArray.t structure ptr
+
+    val buffer_get_data_async :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingDevice.t structure ptr ->
+      GlobalEnum.Error.t structure ptr
+
+    val buffer_get_device_address :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
 
     val render_pipeline_create :
       BuiltinClass0.RID.t structure ptr ->
@@ -30698,6 +34527,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr
 
     val screen_get_framebuffer_format :
+      BuiltinClass0.Int.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
 
@@ -30709,15 +34539,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val draw_list_begin :
       BuiltinClass0.RID.t structure ptr ->
-      Class0.RenderingDevice.InitialAction.t structure ptr ->
-      Class0.RenderingDevice.FinalAction.t structure ptr ->
-      Class0.RenderingDevice.InitialAction.t structure ptr ->
-      Class0.RenderingDevice.FinalAction.t structure ptr ->
+      Class0.RenderingDevice.DrawFlags.t structure ptr ->
       BuiltinClass0.PackedColorArray.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Rect2.t structure ptr ->
-      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
 
@@ -30782,6 +34609,16 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingDevice.t structure ptr ->
       unit
 
+    val draw_list_draw_indirect :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingDevice.t structure ptr ->
+      unit
+
     val draw_list_enable_scissor :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Rect2.t structure ptr ->
@@ -30802,13 +34639,9 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingDevice.t structure ptr ->
       BuiltinClass0.PackedInt64Array.t structure ptr
 
-    val draw_list_end :
-      Class0.RenderingDevice.BarrierMask.t structure ptr ->
-      Class0.RenderingDevice.t structure ptr ->
-      unit
+    val draw_list_end : Class0.RenderingDevice.t structure ptr -> unit
 
     val compute_list_begin :
-      BuiltinClass0.Bool.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
 
@@ -30840,15 +34673,19 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingDevice.t structure ptr ->
       unit
 
+    val compute_list_dispatch_indirect :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingDevice.t structure ptr ->
+      unit
+
     val compute_list_add_barrier :
       BuiltinClass0.Int.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       unit
 
-    val compute_list_end :
-      Class0.RenderingDevice.BarrierMask.t structure ptr ->
-      Class0.RenderingDevice.t structure ptr ->
-      unit
+    val compute_list_end : Class0.RenderingDevice.t structure ptr -> unit
 
     val free_rid :
       BuiltinClass0.RID.t structure ptr ->
@@ -30882,6 +34719,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       BuiltinClass0.String.t structure ptr
+
+    val has_feature :
+      Class0.RenderingDevice.Features.t structure ptr ->
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
 
     val limit_get :
       Class0.RenderingDevice.Limit.t structure ptr ->
@@ -30950,6 +34792,59 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr ->
       Class0.RenderingDevice.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
+
+    val get_perf_report :
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_driver_and_device_memory_report :
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_tracked_object_name :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_tracked_object_type_count :
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_driver_total_memory :
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_driver_allocation_count :
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_driver_memory_by_object_type :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_driver_allocs_by_object_type :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_device_total_memory :
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_device_allocation_count :
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_device_memory_by_object_type :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_device_allocs_by_object_type :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingDevice.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
   end
 
   module type RENDERINGSERVER = sig
@@ -30970,13 +34865,18 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     (** The maximum Z-layer for canvas items. *)
 
     val _MAX_GLOW_LEVELS : int
-    (** The maximum number of glow levels that can be used with the glow post-processing effect. *)
+    (** The maximum number of glow levels that can be used with the glow
+        post-processing effect. *)
 
     val _MAX_CURSORS : int
-    (** [i]Deprecated.[/i] This constant is unused internally. *)
+    (**  *)
 
     val _MAX_2D_DIRECTIONAL_LIGHTS : int
-    (** The maximum number of directional lights that can be rendered at a given time in 2D. *)
+    (** The maximum number of directional lights that can be rendered at a given
+        time in 2D. *)
+
+    val _MAX_MESH_SURFACES : int
+    (** The maximum number of surfaces a mesh can have. *)
 
     val _MATERIAL_RENDER_PRIORITY_MIN : int
     (** The minimum renderpriority of all materials. *)
@@ -30985,7 +34885,9 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     (** The maximum renderpriority of all materials. *)
 
     val _ARRAY_CUSTOM_COUNT : int
-    (** The number of custom data arrays available ([constant ARRAY_CUSTOM0], [constant ARRAY_CUSTOM1], [constant ARRAY_CUSTOM2], [constant ARRAY_CUSTOM3]). *)
+    (** The number of custom data arrays available (\[constant ARRAY_CUSTOM0\],
+        \[constant ARRAY_CUSTOM1\], \[constant ARRAY_CUSTOM2\], \[constant
+        ARRAY_CUSTOM3\]). *)
 
     val _PARTICLES_EMIT_FLAG_POSITION : int
     (**  *)
@@ -31025,6 +34927,18 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val texture_proxy_create :
       BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
+
+    val texture_create_from_native_handle :
+      Class0.RenderingServer.TextureType.t structure ptr ->
+      Class0.Image.Format.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingServer.TextureLayeredType.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
 
@@ -31331,6 +35245,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       BuiltinClass0.AABB.t structure ptr
 
+    val mesh_surface_remove :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
     val mesh_clear :
       BuiltinClass0.RID.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
@@ -31374,6 +35294,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       Class0.RenderingServer.MultimeshTransformFormat.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
@@ -31428,6 +35349,17 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       BuiltinClass0.AABB.t structure ptr
 
+    val multimesh_set_custom_aabb :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.AABB.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val multimesh_get_custom_aabb :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      BuiltinClass0.AABB.t structure ptr
+
     val multimesh_instance_get_transform :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
@@ -31469,10 +35401,46 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       unit
 
+    val multimesh_get_command_buffer_rd_rid :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
+
+    val multimesh_get_buffer_rd_rid :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
+
     val multimesh_get_buffer :
       BuiltinClass0.RID.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
       BuiltinClass0.PackedFloat32Array.t structure ptr
+
+    val multimesh_set_buffer_interpolated :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.PackedFloat32Array.t structure ptr ->
+      BuiltinClass0.PackedFloat32Array.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val multimesh_set_physics_interpolated :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val multimesh_set_physics_interpolation_quality :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.MultimeshPhysicsInterpolationQuality.t structure
+      ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val multimesh_instance_reset_physics_interpolation :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
 
     val skeleton_create :
       Class0.RenderingServer.t structure ptr ->
@@ -31586,6 +35554,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       unit
 
+    val light_set_shadow_caster_mask :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
     val light_set_bake_mode :
       BuiltinClass0.RID.t structure ptr ->
       Class0.RenderingServer.LightBakeMode.t structure ptr ->
@@ -31627,6 +35601,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       unit
 
+    val lightmaps_set_bicubic_filter :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
     val positional_soft_shadow_filter_set_quality :
       Class0.RenderingServer.ShadowQuality.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
@@ -31654,6 +35633,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       unit
 
     val reflection_probe_set_intensity :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val reflection_probe_set_blend_distance :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
@@ -31714,6 +35699,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       unit
 
     val reflection_probe_set_cull_mask :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val reflection_probe_set_reflection_mask :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
@@ -32016,6 +36007,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       unit
 
+    val particles_request_process_time :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
     val particles_set_explosiveness_ratio :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
@@ -32232,6 +36229,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       unit
 
+    val particles_collision_set_height_field_mask :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
     val fog_volume_create :
       Class0.RenderingServer.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
@@ -32335,6 +36338,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       unit
 
+    val camera_set_compositor :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
     val camera_set_use_vertical_aspect :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
@@ -32413,11 +36422,22 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       unit
 
+    val viewport_set_anisotropic_filtering_level :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.ViewportAnisotropicFiltering.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
     val viewport_set_update_mode :
       BuiltinClass0.RID.t structure ptr ->
       Class0.RenderingServer.ViewportUpdateMode.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
       unit
+
+    val viewport_get_update_mode :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      Class0.RenderingServer.ViewportUpdateMode.t structure ptr
 
     val viewport_set_clear_mode :
       BuiltinClass0.RID.t structure ptr ->
@@ -32637,6 +36657,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       unit
 
+    val viewport_set_vrs_update_mode :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.ViewportVRSUpdateMode.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
     val viewport_set_vrs_texture :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.RID.t structure ptr ->
@@ -32673,6 +36699,40 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       Class0.Image.t structure ptr
 
+    val compositor_effect_create :
+      Class0.RenderingServer.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
+
+    val compositor_effect_set_enabled :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val compositor_effect_set_callback :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.CompositorEffectCallbackType.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val compositor_effect_set_flag :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.CompositorEffectFlags.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val compositor_create :
+      Class0.RenderingServer.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
+
+    val compositor_set_compositor_effects :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
     val environment_create :
       Class0.RenderingServer.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
@@ -32680,6 +36740,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val environment_set_background :
       BuiltinClass0.RID.t structure ptr ->
       Class0.RenderingServer.EnvironmentBG.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val environment_set_camera_id :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
       unit
 
@@ -32801,6 +36867,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Float.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
+      Class0.RenderingServer.EnvironmentFogMode.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
       unit
 
@@ -32984,6 +37051,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       unit
 
+    val scenario_set_compositor :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
     val instance_create2 :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.RID.t structure ptr ->
@@ -33022,6 +37095,17 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val instance_set_transform :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Transform3D.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val instance_set_interpolated :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val instance_reset_physics_interpolation :
+      BuiltinClass0.RID.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
       unit
 
@@ -33197,6 +37281,13 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       unit
 
+    val canvas_set_item_repeat :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
     val canvas_set_modulate :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Color.t structure ptr ->
@@ -33321,6 +37412,23 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       unit
 
+    val canvas_item_set_interpolated :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val canvas_item_reset_physics_interpolation :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val canvas_item_transform_physics_interpolation :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Transform2D.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
     val canvas_item_add_line :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Vector2.t structure ptr ->
@@ -33345,6 +37453,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.PackedVector2Array.t structure ptr ->
       BuiltinClass0.PackedColorArray.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
       unit
 
@@ -33352,6 +37461,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Rect2.t structure ptr ->
       BuiltinClass0.Color.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
       unit
 
@@ -33360,6 +37470,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Vector2.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       BuiltinClass0.Color.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
       unit
 
@@ -33519,6 +37630,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       unit
 
+    val canvas_item_attach_skeleton :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
     val canvas_item_clear :
       BuiltinClass0.RID.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
@@ -33541,6 +37658,30 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Bool.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
       unit
+
+    val canvas_item_set_instance_shader_parameter :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val canvas_item_get_instance_shader_parameter :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
+
+    val canvas_item_get_instance_shader_parameter_default_value :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
+
+    val canvas_item_get_instance_shader_parameter_list :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
 
     val canvas_item_set_visibility_notifier :
       BuiltinClass0.RID.t structure ptr ->
@@ -33686,6 +37827,23 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       unit
 
+    val canvas_light_set_interpolated :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val canvas_light_reset_physics_interpolation :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val canvas_light_transform_physics_interpolation :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Transform2D.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
     val canvas_light_occluder_create :
       Class0.RenderingServer.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
@@ -33723,6 +37881,23 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val canvas_light_occluder_set_light_mask :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val canvas_light_occluder_set_interpolated :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val canvas_light_occluder_reset_physics_interpolation :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      unit
+
+    val canvas_light_occluder_transform_physics_interpolation :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Transform2D.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
       unit
 
@@ -33821,6 +37996,14 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       BuiltinClass0.String.t structure ptr
 
+    val get_current_rendering_driver_name :
+      Class0.RenderingServer.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_current_rendering_method :
+      Class0.RenderingServer.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
     val make_sphere_mesh :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
@@ -33856,11 +38039,6 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Color.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
       unit
-
-    val has_feature :
-      Class0.RenderingServer.Features.t structure ptr ->
-      Class0.RenderingServer.t structure ptr ->
-      BuiltinClass0.Bool.t structure ptr
 
     val has_os_feature :
       BuiltinClass0.String.t structure ptr ->
@@ -33901,10 +38079,19 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.RenderingServer.t structure ptr ->
       Class0.RenderingDevice.t structure ptr
 
+    val is_on_render_thread :
+      Class0.RenderingServer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val call_on_render_thread :
       BuiltinClass0.Callable.t structure ptr ->
       Class0.RenderingServer.t structure ptr ->
       unit
+
+    val has_feature :
+      Class0.RenderingServer.Features.t structure ptr ->
+      Class0.RenderingServer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
   end
 
   module type RESOURCE = sig
@@ -33913,6 +38100,16 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     include REFCOUNTED
 
     val ___setup_local_to_scene : Class0.Resource.t structure ptr -> unit
+
+    val ___get_rid :
+      Class0.Resource.t structure ptr -> BuiltinClass0.RID.t structure ptr
+
+    val ___reset_state : Class0.Resource.t structure ptr -> unit
+
+    val ___set_path_cache :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.Resource.t structure ptr ->
+      unit
 
     val set_path :
       BuiltinClass0.String.t structure ptr ->
@@ -33926,6 +38123,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val get_path :
       Class0.Resource.t structure ptr -> BuiltinClass0.String.t structure ptr
+
+    val set_path_cache :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.Resource.t structure ptr ->
+      unit
 
     val set_name :
       BuiltinClass0.String.t structure ptr ->
@@ -33950,6 +38152,32 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.Resource.t structure ptr -> Class0.Node.t structure ptr
 
     val setup_local_to_scene : Class0.Resource.t structure ptr -> unit
+    val reset_state : Class0.Resource.t structure ptr -> unit
+
+    val set_id_for_path :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.Resource.t structure ptr ->
+      unit
+
+    val get_id_for_path :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.Resource.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val is_built_in :
+      Class0.Resource.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val generate_scene_unique_id : unit -> BuiltinClass0.String.t structure ptr
+
+    val set_scene_unique_id :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.Resource.t structure ptr ->
+      unit
+
+    val get_scene_unique_id :
+      Class0.Resource.t structure ptr -> BuiltinClass0.String.t structure ptr
+
     val emit_changed : Class0.Resource.t structure ptr -> unit
 
     val duplicate :
@@ -34074,24 +38302,28 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val position_track_interpolate :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.Animation.t structure ptr ->
       BuiltinClass0.Vector3.t structure ptr
 
     val rotation_track_interpolate :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.Animation.t structure ptr ->
       BuiltinClass0.Quaternion.t structure ptr
 
     val scale_track_interpolate :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.Animation.t structure ptr ->
       BuiltinClass0.Vector3.t structure ptr
 
     val blend_shape_track_interpolate :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.Animation.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
 
@@ -34163,6 +38395,8 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       Class0.Animation.FindMode.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.Animation.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
 
@@ -34207,6 +38441,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val value_track_interpolate :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.Animation.t structure ptr ->
       BuiltinClass0.Variant.t structure ptr
 
@@ -34357,6 +38592,57 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.Animation.t structure ptr ->
       BuiltinClass0.StringName.t structure ptr
 
+    val add_marker :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.Animation.t structure ptr ->
+      unit
+
+    val remove_marker :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.Animation.t structure ptr ->
+      unit
+
+    val has_marker :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.Animation.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_marker_at_time :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.Animation.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
+    val get_next_marker :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.Animation.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
+    val get_prev_marker :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.Animation.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
+    val get_marker_time :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.Animation.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val get_marker_names :
+      Class0.Animation.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr
+
+    val get_marker_color :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.Animation.t structure ptr ->
+      BuiltinClass0.Color.t structure ptr
+
+    val set_marker_color :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Color.t structure ptr ->
+      Class0.Animation.t structure ptr ->
+      unit
+
     val set_length :
       BuiltinClass0.Float.t structure ptr ->
       Class0.Animation.t structure ptr ->
@@ -34390,12 +38676,22 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.Animation.t structure ptr ->
       unit
 
+    val optimize :
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Animation.t structure ptr ->
+      unit
+
     val compress :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
       Class0.Animation.t structure ptr ->
       unit
+
+    val is_capture_included :
+      Class0.Animation.t structure ptr -> BuiltinClass0.Bool.t structure ptr
   end
 
   module type ANIMATIONLIBRARY = sig
@@ -34433,6 +38729,10 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_animation_list :
       Class0.AnimationLibrary.t structure ptr ->
       BuiltinClass0.StringName.t structure ptr
+
+    val get_animation_list_size :
+      Class0.AnimationLibrary.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
   end
 
   module type ANIMATIONNODE = sig
@@ -34524,6 +38824,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       unit
 
     val is_filter_enabled :
+      Class0.AnimationNode.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val get_processing_animation_tree_instance_id :
+      Class0.AnimationNode.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val is_process_testing :
       Class0.AnimationNode.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val blend_animation :
@@ -34660,6 +38966,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.AnimationNodeOneShot.t structure ptr ->
       Class0.Curve.t structure ptr
 
+    val set_break_loop_at_end :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.AnimationNodeOneShot.t structure ptr ->
+      unit
+
+    val is_loop_broken_at_end :
+      Class0.AnimationNodeOneShot.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val set_autorestart :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.AnimationNodeOneShot.t structure ptr ->
@@ -34724,6 +39039,17 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.AnimationNodeTransition.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val set_input_break_loop_at_end :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.AnimationNodeTransition.t structure ptr ->
+      unit
+
+    val is_input_loop_broken_at_end :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.AnimationNodeTransition.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val set_input_reset :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
@@ -34773,6 +39099,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     open! ApiTypes
     include ApiTypes.OBJECT
     include ANIMATIONNODE
+
+    val set_explicit_elapse :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.AnimationNodeTimeSeek.t structure ptr ->
+      unit
+
+    val is_explicit_elapse :
+      Class0.AnimationNodeTimeSeek.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
   end
 
   module type ANIMATIONROOTNODE = sig
@@ -34803,6 +39138,60 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_play_mode :
       Class0.AnimationNodeAnimation.t structure ptr ->
       Class0.AnimationNodeAnimation.PlayMode.t structure ptr
+
+    val set_advance_on_start :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.AnimationNodeAnimation.t structure ptr ->
+      unit
+
+    val is_advance_on_start :
+      Class0.AnimationNodeAnimation.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_use_custom_timeline :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.AnimationNodeAnimation.t structure ptr ->
+      unit
+
+    val is_using_custom_timeline :
+      Class0.AnimationNodeAnimation.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_timeline_length :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.AnimationNodeAnimation.t structure ptr ->
+      unit
+
+    val get_timeline_length :
+      Class0.AnimationNodeAnimation.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_stretch_time_scale :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.AnimationNodeAnimation.t structure ptr ->
+      unit
+
+    val is_stretching_time_scale :
+      Class0.AnimationNodeAnimation.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_start_offset :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.AnimationNodeAnimation.t structure ptr ->
+      unit
+
+    val get_start_offset :
+      Class0.AnimationNodeAnimation.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_loop_mode :
+      Class0.Animation.LoopMode.t structure ptr ->
+      Class0.AnimationNodeAnimation.t structure ptr ->
+      unit
+
+    val get_loop_mode :
+      Class0.AnimationNodeAnimation.t structure ptr ->
+      Class0.Animation.LoopMode.t structure ptr
   end
 
   module type ANIMATIONNODEBLENDSPACE1D = sig
@@ -35051,13 +39440,13 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     (** The connection was successful. *)
 
     val _CONNECTION_ERROR_NO_INPUT : int
-    (** The input node is [code]null[/code]. *)
+    (** The input node is \[code\]null\[/code\]. *)
 
     val _CONNECTION_ERROR_NO_INPUT_INDEX : int
     (** The specified input port is out of range. *)
 
     val _CONNECTION_ERROR_NO_OUTPUT : int
-    (** The output node is [code]null[/code]. *)
+    (** The output node is \[code\]null\[/code\]. *)
 
     val _CONNECTION_ERROR_SAME_NODE : int
     (** Input and output nodes are the same. *)
@@ -35356,6 +39745,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_xfade_curve :
       Class0.AnimationNodeStateMachineTransition.t structure ptr ->
       Class0.Curve.t structure ptr
+
+    val set_break_loop_at_end :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.AnimationNodeStateMachineTransition.t structure ptr ->
+      unit
+
+    val is_loop_broken_at_end :
+      Class0.AnimationNodeStateMachineTransition.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
 
     val set_reset :
       BuiltinClass0.Bool.t structure ptr ->
@@ -35728,6 +40126,111 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Float.t structure ptr
   end
 
+  module type COLORPALETTE = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include RESOURCE
+
+    val set_colors :
+      BuiltinClass0.PackedColorArray.t structure ptr ->
+      Class0.ColorPalette.t structure ptr ->
+      unit
+
+    val get_colors :
+      Class0.ColorPalette.t structure ptr ->
+      BuiltinClass0.PackedColorArray.t structure ptr
+  end
+
+  module type COMPOSITOR = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include RESOURCE
+
+    val set_compositor_effects :
+      Class0.CompositorEffect.t structure ptr ->
+      Class0.Compositor.t structure ptr ->
+      unit
+
+    val get_compositor_effects :
+      Class0.Compositor.t structure ptr ->
+      Class0.CompositorEffect.t structure ptr
+  end
+
+  module type COMPOSITOREFFECT = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include RESOURCE
+
+    val ___render_callback :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderData.t structure ptr ->
+      Class0.CompositorEffect.t structure ptr ->
+      unit
+
+    val set_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.CompositorEffect.t structure ptr ->
+      unit
+
+    val get_enabled :
+      Class0.CompositorEffect.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_effect_callback_type :
+      Class0.CompositorEffect.EffectCallbackType.t structure ptr ->
+      Class0.CompositorEffect.t structure ptr ->
+      unit
+
+    val get_effect_callback_type :
+      Class0.CompositorEffect.t structure ptr ->
+      Class0.CompositorEffect.EffectCallbackType.t structure ptr
+
+    val set_access_resolved_color :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.CompositorEffect.t structure ptr ->
+      unit
+
+    val get_access_resolved_color :
+      Class0.CompositorEffect.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_access_resolved_depth :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.CompositorEffect.t structure ptr ->
+      unit
+
+    val get_access_resolved_depth :
+      Class0.CompositorEffect.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_needs_motion_vectors :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.CompositorEffect.t structure ptr ->
+      unit
+
+    val get_needs_motion_vectors :
+      Class0.CompositorEffect.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_needs_normal_roughness :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.CompositorEffect.t structure ptr ->
+      unit
+
+    val get_needs_normal_roughness :
+      Class0.CompositorEffect.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_needs_separate_specular :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.CompositorEffect.t structure ptr ->
+      unit
+
+    val get_needs_separate_specular :
+      Class0.CompositorEffect.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+  end
+
   module type CRYPTOKEY = sig
     open! ApiTypes
     include ApiTypes.OBJECT
@@ -35871,6 +40374,28 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Float.t structure ptr ->
       Class0.Curve.t structure ptr ->
       unit
+
+    val get_value_range :
+      Class0.Curve.t structure ptr -> BuiltinClass0.Float.t structure ptr
+
+    val get_min_domain :
+      Class0.Curve.t structure ptr -> BuiltinClass0.Float.t structure ptr
+
+    val set_min_domain :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.Curve.t structure ptr ->
+      unit
+
+    val get_max_domain :
+      Class0.Curve.t structure ptr -> BuiltinClass0.Float.t structure ptr
+
+    val set_max_domain :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.Curve.t structure ptr ->
+      unit
+
+    val get_domain_range :
+      Class0.Curve.t structure ptr -> BuiltinClass0.Float.t structure ptr
 
     val clean_dupes : Class0.Curve.t structure ptr -> unit
     val bake : Class0.Curve.t structure ptr -> unit
@@ -36086,6 +40611,14 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Float.t structure ptr ->
       Class0.Curve3D.t structure ptr ->
       BuiltinClass0.Vector3.t structure ptr
+
+    val set_closed :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.Curve3D.t structure ptr ->
+      unit
+
+    val is_closed :
+      Class0.Curve3D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val set_bake_interval :
       BuiltinClass0.Float.t structure ptr ->
@@ -36320,7 +40853,9 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     include RESOURCE
 
     val _NOTIFICATION_EDITOR_SETTINGS_CHANGED : int
-    (** Emitted after any editor setting has changed. It's used by various editor plugins to update their visuals on theme changes or logic on configuration changes. *)
+    (** Emitted after any editor setting has changed. It''s used by various
+        editor plugins to update their visuals on theme changes or logic on
+        configuration changes. *)
 
     val has_setting :
       BuiltinClass0.String.t structure ptr ->
@@ -36917,6 +41452,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val is_fog_enabled :
       Class0.Environment.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
+    val set_fog_mode :
+      Class0.Environment.FogMode.t structure ptr ->
+      Class0.Environment.t structure ptr ->
+      unit
+
+    val get_fog_mode :
+      Class0.Environment.t structure ptr ->
+      Class0.Environment.FogMode.t structure ptr
+
     val set_fog_light_color :
       BuiltinClass0.Color.t structure ptr ->
       Class0.Environment.t structure ptr ->
@@ -36979,6 +41523,30 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       unit
 
     val get_fog_sky_affect :
+      Class0.Environment.t structure ptr -> BuiltinClass0.Float.t structure ptr
+
+    val set_fog_depth_curve :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.Environment.t structure ptr ->
+      unit
+
+    val get_fog_depth_curve :
+      Class0.Environment.t structure ptr -> BuiltinClass0.Float.t structure ptr
+
+    val set_fog_depth_begin :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.Environment.t structure ptr ->
+      unit
+
+    val get_fog_depth_begin :
+      Class0.Environment.t structure ptr -> BuiltinClass0.Float.t structure ptr
+
+    val set_fog_depth_end :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.Environment.t structure ptr ->
+      unit
+
+    val get_fog_depth_end :
       Class0.Environment.t structure ptr -> BuiltinClass0.Float.t structure ptr
 
     val set_volumetric_fog_enabled :
@@ -37146,6 +41714,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
       Class0.Font.t structure ptr ->
       BuiltinClass0.RID.t structure ptr
 
@@ -37406,6 +41975,14 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.FontFile.t structure ptr ->
       Class0.TextServer.FontAntialiasing.t structure ptr
 
+    val set_disable_embedded_bitmaps :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.FontFile.t structure ptr ->
+      unit
+
+    val get_disable_embedded_bitmaps :
+      Class0.FontFile.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
     val set_generate_mipmaps :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.FontFile.t structure ptr ->
@@ -37489,6 +42066,14 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.FontFile.t structure ptr ->
       Class0.TextServer.SubpixelPositioning.t structure ptr
 
+    val set_keep_rounding_remainders :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.FontFile.t structure ptr ->
+      unit
+
+    val get_keep_rounding_remainders :
+      Class0.FontFile.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
     val set_oversampling :
       BuiltinClass0.Float.t structure ptr ->
       Class0.FontFile.t structure ptr ->
@@ -37568,6 +42153,17 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.TextServer.SpacingType.t structure ptr ->
       Class0.FontFile.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
+
+    val set_extra_baseline_offset :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.FontFile.t structure ptr ->
+      unit
+
+    val get_extra_baseline_offset :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.FontFile.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
 
     val set_face_index :
       BuiltinClass0.Int.t structure ptr ->
@@ -37958,6 +42554,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr ->
       Class0.FontVariation.t structure ptr ->
       unit
+
+    val set_baseline_offset :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.FontVariation.t structure ptr ->
+      unit
+
+    val get_baseline_offset :
+      Class0.FontVariation.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
   end
 
   module type GLTFACCESSOR = sig
@@ -38002,6 +42607,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val set_count :
       BuiltinClass0.Int.t structure ptr ->
+      Class0.GLTFAccessor.t structure ptr ->
+      unit
+
+    val get_accessor_type :
+      Class0.GLTFAccessor.t structure ptr ->
+      Class0.GLTFAccessor.GLTFAccessorType.t structure ptr
+
+    val set_accessor_type :
+      Class0.GLTFAccessor.GLTFAccessorType.t structure ptr ->
       Class0.GLTFAccessor.t structure ptr ->
       unit
 
@@ -38085,11 +42699,31 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     include ApiTypes.OBJECT
     include RESOURCE
 
+    val get_original_name :
+      Class0.GLTFAnimation.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val set_original_name :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.GLTFAnimation.t structure ptr ->
+      unit
+
     val get_loop :
       Class0.GLTFAnimation.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val set_loop :
       BuiltinClass0.Bool.t structure ptr ->
+      Class0.GLTFAnimation.t structure ptr ->
+      unit
+
+    val get_additional_data :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.GLTFAnimation.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
+
+    val set_additional_data :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
       Class0.GLTFAnimation.t structure ptr ->
       unit
   end
@@ -38098,6 +42732,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     open! ApiTypes
     include ApiTypes.OBJECT
     include RESOURCE
+
+    val load_buffer_view_data :
+      Class0.GLTFState.t structure ptr ->
+      Class0.GLTFBufferView.t structure ptr ->
+      BuiltinClass0.PackedByteArray.t structure ptr
 
     val get_buffer :
       Class0.GLTFBufferView.t structure ptr -> BuiltinClass0.Int.t structure ptr
@@ -38136,6 +42775,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Bool.t structure ptr
 
     val set_indices :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.GLTFBufferView.t structure ptr ->
+      unit
+
+    val get_vertex_attributes :
+      Class0.GLTFBufferView.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_vertex_attributes :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.GLTFBufferView.t structure ptr ->
       unit
@@ -38206,6 +42854,32 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     include ApiTypes.OBJECT
     include RESOURCE
 
+    val set_image_format :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.GLTFDocument.t structure ptr ->
+      unit
+
+    val get_image_format :
+      Class0.GLTFDocument.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val set_lossy_quality :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.GLTFDocument.t structure ptr ->
+      unit
+
+    val get_lossy_quality :
+      Class0.GLTFDocument.t structure ptr -> BuiltinClass0.Float.t structure ptr
+
+    val set_root_node_mode :
+      Class0.GLTFDocument.RootNodeMode.t structure ptr ->
+      Class0.GLTFDocument.t structure ptr ->
+      unit
+
+    val get_root_node_mode :
+      Class0.GLTFDocument.t structure ptr ->
+      Class0.GLTFDocument.RootNodeMode.t structure ptr
+
     val append_from_file :
       BuiltinClass0.String.t structure ptr ->
       Class0.GLTFState.t structure ptr ->
@@ -38248,31 +42922,17 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.GLTFDocument.t structure ptr ->
       GlobalEnum.Error.t structure ptr
 
-    val set_image_format :
+    val import_object_model_property :
+      Class0.GLTFState.t structure ptr ->
       BuiltinClass0.String.t structure ptr ->
-      Class0.GLTFDocument.t structure ptr ->
-      unit
+      Class0.GLTFObjectModelProperty.t structure ptr
 
-    val get_image_format :
-      Class0.GLTFDocument.t structure ptr ->
-      BuiltinClass0.String.t structure ptr
-
-    val set_lossy_quality :
-      BuiltinClass0.Float.t structure ptr ->
-      Class0.GLTFDocument.t structure ptr ->
-      unit
-
-    val get_lossy_quality :
-      Class0.GLTFDocument.t structure ptr -> BuiltinClass0.Float.t structure ptr
-
-    val set_root_node_mode :
-      Class0.GLTFDocument.RootNodeMode.t structure ptr ->
-      Class0.GLTFDocument.t structure ptr ->
-      unit
-
-    val get_root_node_mode :
-      Class0.GLTFDocument.t structure ptr ->
-      Class0.GLTFDocument.RootNodeMode.t structure ptr
+    val export_object_model_property :
+      Class0.GLTFState.t structure ptr ->
+      BuiltinClass0.NodePath.t structure ptr ->
+      Class0.Node.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.GLTFObjectModelProperty.t structure ptr
 
     val register_gltf_document_extension :
       Class0.GLTFDocumentExtension.t structure ptr ->
@@ -38281,6 +42941,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val unregister_gltf_document_extension :
       Class0.GLTFDocumentExtension.t structure ptr -> unit
+
+    val get_supported_gltf_extensions :
+      unit -> BuiltinClass0.PackedStringArray.t structure ptr
+  end
+
+  module type FBXDOCUMENT = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include GLTFDOCUMENT
   end
 
   module type GLTFLIGHT = sig
@@ -38349,12 +43018,31 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Float.t structure ptr ->
       Class0.GLTFLight.t structure ptr ->
       unit
+
+    val get_additional_data :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.GLTFLight.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
+
+    val set_additional_data :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      Class0.GLTFLight.t structure ptr ->
+      unit
   end
 
   module type GLTFMESH = sig
     open! ApiTypes
     include ApiTypes.OBJECT
     include RESOURCE
+
+    val get_original_name :
+      Class0.GLTFMesh.t structure ptr -> BuiltinClass0.String.t structure ptr
+
+    val set_original_name :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.GLTFMesh.t structure ptr ->
+      unit
 
     val get_mesh :
       Class0.GLTFMesh.t structure ptr -> Class0.ImporterMesh.t structure ptr
@@ -38378,12 +43066,31 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val set_instance_materials :
       Class0.Material.t structure ptr -> Class0.GLTFMesh.t structure ptr -> unit
+
+    val get_additional_data :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.GLTFMesh.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
+
+    val set_additional_data :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      Class0.GLTFMesh.t structure ptr ->
+      unit
   end
 
   module type GLTFNODE = sig
     open! ApiTypes
     include ApiTypes.OBJECT
     include RESOURCE
+
+    val get_original_name :
+      Class0.GLTFNode.t structure ptr -> BuiltinClass0.String.t structure ptr
+
+    val set_original_name :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.GLTFNode.t structure ptr ->
+      unit
 
     val get_parent :
       Class0.GLTFNode.t structure ptr -> BuiltinClass0.Int.t structure ptr
@@ -38476,6 +43183,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.GLTFNode.t structure ptr ->
       unit
 
+    val append_child_index :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.GLTFNode.t structure ptr ->
+      unit
+
     val get_light :
       Class0.GLTFNode.t structure ptr -> BuiltinClass0.Int.t structure ptr
 
@@ -38494,6 +43206,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Variant.t structure ptr ->
       Class0.GLTFNode.t structure ptr ->
       unit
+
+    val get_scene_node_path :
+      Class0.GLTFState.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.GLTFNode.t structure ptr ->
+      BuiltinClass0.NodePath.t structure ptr
   end
 
   module type GLTFPHYSICSBODY = sig
@@ -38562,6 +43280,24 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.GLTFPhysicsBody.t structure ptr ->
       unit
 
+    val get_inertia_diagonal :
+      Class0.GLTFPhysicsBody.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
+    val set_inertia_diagonal :
+      BuiltinClass0.Vector3.t structure ptr ->
+      Class0.GLTFPhysicsBody.t structure ptr ->
+      unit
+
+    val get_inertia_orientation :
+      Class0.GLTFPhysicsBody.t structure ptr ->
+      BuiltinClass0.Quaternion.t structure ptr
+
+    val set_inertia_orientation :
+      BuiltinClass0.Quaternion.t structure ptr ->
+      Class0.GLTFPhysicsBody.t structure ptr ->
+      unit
+
     val get_inertia_tensor :
       Class0.GLTFPhysicsBody.t structure ptr ->
       BuiltinClass0.Basis.t structure ptr
@@ -38585,6 +43321,14 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Bool.t structure ptr ->
       Class0.GLTFPhysicsShape.t structure ptr ->
       Class0.CollisionShape3D.t structure ptr
+
+    val from_resource :
+      Class0.Shape3D.t structure ptr -> Class0.GLTFPhysicsShape.t structure ptr
+
+    val to_resource :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.GLTFPhysicsShape.t structure ptr ->
+      Class0.Shape3D.t structure ptr
 
     val from_dictionary :
       BuiltinClass0.Dictionary.t structure ptr ->
@@ -38860,19 +43604,35 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     (** Discards all embedded textures and uses untextured materials. *)
 
     val _HANDLE_BINARY_EXTRACT_TEXTURES : int
-    (** Extracts embedded textures to be reimported and compressed. Editor only. Acts as uncompressed at runtime. *)
+    (** Extracts embedded textures to be reimported and compressed. Editor only.
+        Acts as uncompressed at runtime. *)
 
     val _HANDLE_BINARY_EMBED_AS_BASISU : int
-    (** Embeds textures VRAM compressed with Basis Universal into the generated scene. *)
+    (** Embeds textures VRAM compressed with Basis Universal into the generated
+        scene. *)
 
     val _HANDLE_BINARY_EMBED_AS_UNCOMPRESSED : int
-    (** Embeds textures compressed losslessly into the generated scene, matching old behavior. *)
+    (** Embeds textures compressed losslessly into the generated scene, matching
+        old behavior. *)
 
     val add_used_extension :
       BuiltinClass0.String.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
       Class0.GLTFState.t structure ptr ->
       unit
+
+    val append_data_to_buffers :
+      BuiltinClass0.PackedByteArray.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.GLTFState.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val append_gltf_node :
+      Class0.GLTFNode.t structure ptr ->
+      Class0.Node.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.GLTFState.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
 
     val get_json :
       Class0.GLTFState.t structure ptr ->
@@ -39097,6 +43857,14 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.GLTFState.t structure ptr ->
       unit
 
+    val get_import_as_skeleton_bones :
+      Class0.GLTFState.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_import_as_skeleton_bones :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.GLTFState.t structure ptr ->
+      unit
+
     val get_animations :
       Class0.GLTFState.t structure ptr -> Class0.GLTFAnimation.t structure ptr
 
@@ -39132,6 +43900,28 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val set_handle_binary_image :
       BuiltinClass0.Int.t structure ptr ->
       Class0.GLTFState.t structure ptr ->
+      unit
+
+    val set_bake_fps :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.GLTFState.t structure ptr ->
+      unit
+
+    val get_bake_fps :
+      Class0.GLTFState.t structure ptr -> BuiltinClass0.Float.t structure ptr
+  end
+
+  module type FBXSTATE = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include GLTFSTATE
+
+    val get_allow_geometry_helper_nodes :
+      Class0.FBXState.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_allow_geometry_helper_nodes :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.FBXState.t structure ptr ->
       unit
   end
 
@@ -39290,10 +44080,10 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     include RESOURCE
 
     val _MAX_WIDTH : int
-    (** The maximal width allowed for [Image] resources. *)
+    (** The maximal width allowed for \[Image\] resources. *)
 
     val _MAX_HEIGHT : int
-    (** The maximal height allowed for [Image] resources. *)
+    (** The maximal height allowed for \[Image\] resources. *)
 
     val get_width :
       Class0.Image.t structure ptr -> BuiltinClass0.Int.t structure ptr
@@ -39313,6 +44103,9 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_data :
       Class0.Image.t structure ptr ->
       BuiltinClass0.PackedByteArray.t structure ptr
+
+    val get_data_size :
+      Class0.Image.t structure ptr -> BuiltinClass0.Int.t structure ptr
 
     val convert :
       Class0.Image.Format.t structure ptr ->
@@ -39359,6 +44152,13 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val clear_mipmaps : Class0.Image.t structure ptr -> unit
 
     val create :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.Image.Format.t structure ptr ->
+      Class0.Image.t structure ptr
+
+    val create_empty :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
@@ -39477,6 +44277,7 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val fix_alpha_edges : Class0.Image.t structure ptr -> unit
     val premultiply_alpha : Class0.Image.t structure ptr -> unit
     val srgb_to_linear : Class0.Image.t structure ptr -> unit
+    val linear_to_srgb : Class0.Image.t structure ptr -> unit
     val normal_map_to_xy : Class0.Image.t structure ptr -> unit
 
     val rgbe_to_srgb :
@@ -39749,6 +44550,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     include ApiTypes.OBJECT
     include RESOURCE
 
+    val _DEVICE_ID_EMULATION : int
+    (** Device ID used for emulated mouse input from a touchscreen, or for
+        emulated touch input from a mouse. This can be used to distinguish
+        emulated mouse input from physical mouse input, or emulated touch input
+        from physical touch input. *)
+
     val set_device :
       BuiltinClass0.Int.t structure ptr ->
       Class0.InputEvent.t structure ptr ->
@@ -39845,6 +44652,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_strength :
       Class0.InputEventAction.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
+
+    val set_event_index :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.InputEventAction.t structure ptr ->
+      unit
+
+    val get_event_index :
+      Class0.InputEventAction.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
   end
 
   module type INPUTEVENTFROMWINDOW = sig
@@ -39921,12 +44737,30 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.InputEventScreenDrag.t structure ptr ->
       BuiltinClass0.Vector2.t structure ptr
 
+    val set_screen_relative :
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.InputEventScreenDrag.t structure ptr ->
+      unit
+
+    val get_screen_relative :
+      Class0.InputEventScreenDrag.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
+
     val set_velocity :
       BuiltinClass0.Vector2.t structure ptr ->
       Class0.InputEventScreenDrag.t structure ptr ->
       unit
 
     val get_velocity :
+      Class0.InputEventScreenDrag.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
+
+    val set_screen_velocity :
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.InputEventScreenDrag.t structure ptr ->
+      unit
+
+    val get_screen_velocity :
       Class0.InputEventScreenDrag.t structure ptr ->
       BuiltinClass0.Vector2.t structure ptr
   end
@@ -40120,6 +44954,14 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_unicode :
       Class0.InputEventKey.t structure ptr -> BuiltinClass0.Int.t structure ptr
 
+    val set_location :
+      Class0.KeyLocation.t structure ptr ->
+      Class0.InputEventKey.t structure ptr ->
+      unit
+
+    val get_location :
+      Class0.InputEventKey.t structure ptr -> Class0.KeyLocation.t structure ptr
+
     val set_echo :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.InputEventKey.t structure ptr ->
@@ -40143,6 +44985,10 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.String.t structure ptr
 
     val as_text_key_label :
+      Class0.InputEventKey.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val as_text_location :
       Class0.InputEventKey.t structure ptr ->
       BuiltinClass0.String.t structure ptr
   end
@@ -40264,12 +45110,30 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.InputEventMouseMotion.t structure ptr ->
       BuiltinClass0.Vector2.t structure ptr
 
+    val set_screen_relative :
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.InputEventMouseMotion.t structure ptr ->
+      unit
+
+    val get_screen_relative :
+      Class0.InputEventMouseMotion.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
+
     val set_velocity :
       BuiltinClass0.Vector2.t structure ptr ->
       Class0.InputEventMouseMotion.t structure ptr ->
       unit
 
     val get_velocity :
+      Class0.InputEventMouseMotion.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
+
+    val set_screen_velocity :
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.InputEventMouseMotion.t structure ptr ->
+      unit
+
+    val get_screen_velocity :
       Class0.InputEventMouseMotion.t structure ptr ->
       BuiltinClass0.Vector2.t structure ptr
   end
@@ -40451,6 +45315,16 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
 
     val get_error_message :
       Class0.JSON.t structure ptr -> BuiltinClass0.String.t structure ptr
+
+    val from_native :
+      BuiltinClass0.Variant.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
+
+    val to_native :
+      BuiltinClass0.Variant.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
   end
 
   module type LABELSETTINGS = sig
@@ -40464,6 +45338,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       unit
 
     val get_line_spacing :
+      Class0.LabelSettings.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_paragraph_spacing :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LabelSettings.t structure ptr ->
+      unit
+
+    val get_paragraph_spacing :
       Class0.LabelSettings.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
 
@@ -40550,6 +45433,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.LightmapGIData.t structure ptr ->
       Class0.TextureLayered.t structure ptr
 
+    val set_shadowmask_textures :
+      Class0.TextureLayered.t structure ptr ->
+      Class0.LightmapGIData.t structure ptr ->
+      unit
+
+    val get_shadowmask_textures :
+      Class0.LightmapGIData.t structure ptr ->
+      Class0.TextureLayered.t structure ptr
+
     val set_uses_spherical_harmonics :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.LightmapGIData.t structure ptr ->
@@ -40593,10 +45485,10 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     include RESOURCE
 
     val _RENDER_PRIORITY_MAX : int
-    (** Maximum value for the [member render_priority] parameter. *)
+    (** Maximum value for the \[member render_priority\] parameter. *)
 
     val _RENDER_PRIORITY_MIN : int
-    (** Minimum value for the [member render_priority] parameter. *)
+    (** Minimum value for the \[member render_priority\] parameter. *)
 
     val ___get_shader_rid :
       Class0.Material.t structure ptr -> BuiltinClass0.RID.t structure ptr
@@ -41392,6 +46284,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val is_filtering_enabled :
       Class0.PanoramaSkyMaterial.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
+
+    val set_energy_multiplier :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.PanoramaSkyMaterial.t structure ptr ->
+      unit
+
+    val get_energy_multiplier :
+      Class0.PanoramaSkyMaterial.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
   end
 
   module type PARTICLEPROCESSMATERIAL = sig
@@ -41434,6 +46335,17 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_flatness :
       Class0.ParticleProcessMaterial.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
+
+    val set_param :
+      Class0.ParticleProcessMaterial.Parameter.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.ParticleProcessMaterial.t structure ptr ->
+      unit
+
+    val get_param :
+      Class0.ParticleProcessMaterial.Parameter.t structure ptr ->
+      Class0.ParticleProcessMaterial.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
 
     val set_param_min :
       Class0.ParticleProcessMaterial.Parameter.t structure ptr ->
@@ -41641,6 +46553,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.ParticleProcessMaterial.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
 
+    val set_emission_ring_cone_angle :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.ParticleProcessMaterial.t structure ptr ->
+      unit
+
+    val get_emission_ring_cone_angle :
+      Class0.ParticleProcessMaterial.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val set_emission_shape_offset :
       BuiltinClass0.Vector3.t structure ptr ->
       Class0.ParticleProcessMaterial.t structure ptr ->
@@ -41754,6 +46675,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr
 
     val set_sub_emitter_amount_at_collision :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.ParticleProcessMaterial.t structure ptr ->
+      unit
+
+    val get_sub_emitter_amount_at_start :
+      Class0.ParticleProcessMaterial.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_sub_emitter_amount_at_start :
       BuiltinClass0.Int.t structure ptr ->
       Class0.ParticleProcessMaterial.t structure ptr ->
       unit
@@ -42045,6 +46975,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_use_debanding :
       Class0.ProceduralSkyMaterial.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
+
+    val set_energy_multiplier :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.ProceduralSkyMaterial.t structure ptr ->
+      unit
+
+    val get_energy_multiplier :
+      Class0.ProceduralSkyMaterial.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
   end
 
   module type MESH = sig
@@ -42224,6 +47163,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       unit
 
     val clear_surfaces : Class0.ArrayMesh.t structure ptr -> unit
+
+    val surface_remove :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.ArrayMesh.t structure ptr ->
+      unit
 
     val surface_update_vertex_region :
       BuiltinClass0.Int.t structure ptr ->
@@ -42421,6 +47365,8 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_uv2_padding :
       Class0.PrimitiveMesh.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
+
+    val request_update : Class0.PrimitiveMesh.t structure ptr -> unit
   end
 
   module type BOXMESH = sig
@@ -42694,6 +47640,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.MeshLibrary.t structure ptr ->
       unit
 
+    val set_item_mesh_cast_shadow :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RenderingServer.ShadowCastingSetting.t structure ptr ->
+      Class0.MeshLibrary.t structure ptr ->
+      unit
+
     val set_item_navigation_mesh :
       BuiltinClass0.Int.t structure ptr ->
       Class0.NavigationMesh.t structure ptr ->
@@ -42738,6 +47690,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Int.t structure ptr ->
       Class0.MeshLibrary.t structure ptr ->
       BuiltinClass0.Transform3D.t structure ptr
+
+    val get_item_mesh_cast_shadow :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.MeshLibrary.t structure ptr ->
+      Class0.RenderingServer.ShadowCastingSetting.t structure ptr
 
     val get_item_navigation_mesh :
       BuiltinClass0.Int.t structure ptr ->
@@ -42860,6 +47817,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_visible_instance_count :
       Class0.MultiMesh.t structure ptr -> BuiltinClass0.Int.t structure ptr
 
+    val set_physics_interpolation_quality :
+      Class0.MultiMesh.PhysicsInterpolationQuality.t structure ptr ->
+      Class0.MultiMesh.t structure ptr ->
+      unit
+
+    val get_physics_interpolation_quality :
+      Class0.MultiMesh.t structure ptr ->
+      Class0.MultiMesh.PhysicsInterpolationQuality.t structure ptr
+
     val set_instance_transform :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Transform3D.t structure ptr ->
@@ -42904,6 +47870,19 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.MultiMesh.t structure ptr ->
       BuiltinClass0.Color.t structure ptr
 
+    val reset_instance_physics_interpolation :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.MultiMesh.t structure ptr ->
+      unit
+
+    val set_custom_aabb :
+      BuiltinClass0.AABB.t structure ptr ->
+      Class0.MultiMesh.t structure ptr ->
+      unit
+
+    val get_custom_aabb :
+      Class0.MultiMesh.t structure ptr -> BuiltinClass0.AABB.t structure ptr
+
     val get_aabb :
       Class0.MultiMesh.t structure ptr -> BuiltinClass0.AABB.t structure ptr
 
@@ -42912,6 +47891,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.PackedFloat32Array.t structure ptr
 
     val set_buffer :
+      BuiltinClass0.PackedFloat32Array.t structure ptr ->
+      Class0.MultiMesh.t structure ptr ->
+      unit
+
+    val set_buffer_interpolated :
+      BuiltinClass0.PackedFloat32Array.t structure ptr ->
       BuiltinClass0.PackedFloat32Array.t structure ptr ->
       Class0.MultiMesh.t structure ptr ->
       unit
@@ -42992,6 +47977,15 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       unit
 
     val get_cell_height :
+      Class0.NavigationMesh.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_border_size :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.NavigationMesh.t structure ptr ->
+      unit
+
+    val get_border_size :
       Class0.NavigationMesh.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
 
@@ -43201,6 +48195,16 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.NavigationMeshSourceGeometryData2D.t structure ptr ->
       BuiltinClass0.PackedVector2Array.t structure ptr
 
+    val append_traversable_outlines :
+      BuiltinClass0.PackedVector2Array.t structure ptr ->
+      Class0.NavigationMeshSourceGeometryData2D.t structure ptr ->
+      unit
+
+    val append_obstruction_outlines :
+      BuiltinClass0.PackedVector2Array.t structure ptr ->
+      Class0.NavigationMeshSourceGeometryData2D.t structure ptr ->
+      unit
+
     val add_traversable_outline :
       BuiltinClass0.PackedVector2Array.t structure ptr ->
       Class0.NavigationMeshSourceGeometryData2D.t structure ptr ->
@@ -43210,6 +48214,33 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.PackedVector2Array.t structure ptr ->
       Class0.NavigationMeshSourceGeometryData2D.t structure ptr ->
       unit
+
+    val merge :
+      Class0.NavigationMeshSourceGeometryData2D.t structure ptr ->
+      Class0.NavigationMeshSourceGeometryData2D.t structure ptr ->
+      unit
+
+    val add_projected_obstruction :
+      BuiltinClass0.PackedVector2Array.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationMeshSourceGeometryData2D.t structure ptr ->
+      unit
+
+    val clear_projected_obstructions :
+      Class0.NavigationMeshSourceGeometryData2D.t structure ptr -> unit
+
+    val set_projected_obstructions :
+      BuiltinClass0.Array.t structure ptr ->
+      Class0.NavigationMeshSourceGeometryData2D.t structure ptr ->
+      unit
+
+    val get_projected_obstructions :
+      Class0.NavigationMeshSourceGeometryData2D.t structure ptr ->
+      BuiltinClass0.Array.t structure ptr
+
+    val get_bounds :
+      Class0.NavigationMeshSourceGeometryData2D.t structure ptr ->
+      BuiltinClass0.Rect2.t structure ptr
   end
 
   module type NAVIGATIONMESHSOURCEGEOMETRYDATA3D = sig
@@ -43235,6 +48266,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.NavigationMeshSourceGeometryData3D.t structure ptr ->
       BuiltinClass0.PackedInt32Array.t structure ptr
 
+    val append_arrays :
+      BuiltinClass0.PackedFloat32Array.t structure ptr ->
+      BuiltinClass0.PackedInt32Array.t structure ptr ->
+      Class0.NavigationMeshSourceGeometryData3D.t structure ptr ->
+      unit
+
     val clear :
       Class0.NavigationMeshSourceGeometryData3D.t structure ptr -> unit
 
@@ -43259,6 +48296,35 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.Transform3D.t structure ptr ->
       Class0.NavigationMeshSourceGeometryData3D.t structure ptr ->
       unit
+
+    val merge :
+      Class0.NavigationMeshSourceGeometryData3D.t structure ptr ->
+      Class0.NavigationMeshSourceGeometryData3D.t structure ptr ->
+      unit
+
+    val add_projected_obstruction :
+      BuiltinClass0.PackedVector3Array.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.NavigationMeshSourceGeometryData3D.t structure ptr ->
+      unit
+
+    val clear_projected_obstructions :
+      Class0.NavigationMeshSourceGeometryData3D.t structure ptr -> unit
+
+    val set_projected_obstructions :
+      BuiltinClass0.Array.t structure ptr ->
+      Class0.NavigationMeshSourceGeometryData3D.t structure ptr ->
+      unit
+
+    val get_projected_obstructions :
+      Class0.NavigationMeshSourceGeometryData3D.t structure ptr ->
+      BuiltinClass0.Array.t structure ptr
+
+    val get_bounds :
+      Class0.NavigationMeshSourceGeometryData3D.t structure ptr ->
+      BuiltinClass0.AABB.t structure ptr
   end
 
   module type NAVIGATIONPOLYGON = sig
@@ -43340,6 +48406,24 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.NavigationPolygon.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
 
+    val set_border_size :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.NavigationPolygon.t structure ptr ->
+      unit
+
+    val get_border_size :
+      Class0.NavigationPolygon.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_sample_partition_type :
+      Class0.NavigationPolygon.SamplePartitionType.t structure ptr ->
+      Class0.NavigationPolygon.t structure ptr ->
+      unit
+
+    val get_sample_partition_type :
+      Class0.NavigationPolygon.t structure ptr ->
+      Class0.NavigationPolygon.SamplePartitionType.t structure ptr
+
     val set_parsed_geometry_type :
       Class0.NavigationPolygon.ParsedGeometryType.t structure ptr ->
       Class0.NavigationPolygon.t structure ptr ->
@@ -43395,6 +48479,24 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     val get_agent_radius :
       Class0.NavigationPolygon.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
+
+    val set_baking_rect :
+      BuiltinClass0.Rect2.t structure ptr ->
+      Class0.NavigationPolygon.t structure ptr ->
+      unit
+
+    val get_baking_rect :
+      Class0.NavigationPolygon.t structure ptr ->
+      BuiltinClass0.Rect2.t structure ptr
+
+    val set_baking_rect_offset :
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.NavigationPolygon.t structure ptr ->
+      unit
+
+    val get_baking_rect_offset :
+      Class0.NavigationPolygon.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
 
     val clear : Class0.NavigationPolygon.t structure ptr -> unit
   end
@@ -44154,6 +49256,10 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.EditorImportPlugin.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
 
+    val ___get_format_version :
+      Class0.EditorImportPlugin.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
     val ___get_option_visibility :
       BuiltinClass0.String.t structure ptr ->
       BuiltinClass0.StringName.t structure ptr ->
@@ -44169,6 +49275,10 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.String.t structure ptr ->
       Class0.EditorImportPlugin.t structure ptr ->
       GlobalEnum.Error.t structure ptr
+
+    val ___can_import_threaded :
+      Class0.EditorImportPlugin.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
 
     val append_import_external_resource :
       BuiltinClass0.String.t structure ptr ->
@@ -44339,6 +49449,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.ResourceLoader.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val get_cached_ref :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.ResourceLoader.t structure ptr ->
+      Class0.Resource.t structure ptr
+
     val exists :
       BuiltinClass0.String.t structure ptr ->
       BuiltinClass0.String.t structure ptr ->
@@ -44349,6 +49464,11 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       BuiltinClass0.String.t structure ptr ->
       Class0.ResourceLoader.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
+
+    val list_directory :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.ResourceLoader.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr
   end
 
   module type RESOURCEPRELOADER = sig
@@ -44415,6 +49535,12 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
       Class0.ResourceFormatSaver.t structure ptr ->
       Class0.ResourceSaver.t structure ptr ->
       unit
+
+    val get_resource_id_for_path :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.ResourceSaver.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
   end
 
   module type RESOURCEUID = sig
@@ -44423,8 +49549,9 @@ In order for [constant NOTIFICATION_LOCAL_TRANSFORM_CHANGED] to work, users firs
     include OBJECT
 
     val _INVALID_ID : int
-    (** The value to use for an invalid UID, for example if the resource could not be loaded.
-Its text representation is [code]uid://<invalid>[/code]. *)
+    (** The value to use for an invalid UID, for example if the resource could
+        not be loaded. Its text representation is
+        \[code\]uid://<invalid>\[/code\]. *)
 
     val id_to_text :
       BuiltinClass0.Int.t structure ptr ->
@@ -44589,6 +49716,12 @@ Its text representation is [code]uid://<invalid>[/code]. *)
 
     val remove_paragraph :
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RichTextLabel.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val invalidate_paragraph :
+      BuiltinClass0.Int.t structure ptr ->
       Class0.RichTextLabel.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
@@ -44649,6 +49782,8 @@ Its text representation is [code]uid://<invalid>[/code]. *)
 
     val push_meta :
       BuiltinClass0.Variant.t structure ptr ->
+      Class0.RichTextLabel.MetaUnderline.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
       Class0.RichTextLabel.t structure ptr ->
       unit
 
@@ -44687,6 +49822,7 @@ Its text representation is [code]uid://<invalid>[/code]. *)
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.RichTextLabel.t structure ptr ->
       unit
 
@@ -44771,6 +49907,42 @@ Its text representation is [code]uid://<invalid>[/code]. *)
     val get_language :
       Class0.RichTextLabel.t structure ptr ->
       BuiltinClass0.String.t structure ptr
+
+    val set_horizontal_alignment :
+      GlobalEnum.HorizontalAlignment.t structure ptr ->
+      Class0.RichTextLabel.t structure ptr ->
+      unit
+
+    val get_horizontal_alignment :
+      Class0.RichTextLabel.t structure ptr ->
+      GlobalEnum.HorizontalAlignment.t structure ptr
+
+    val set_vertical_alignment :
+      GlobalEnum.VerticalAlignment.t structure ptr ->
+      Class0.RichTextLabel.t structure ptr ->
+      unit
+
+    val get_vertical_alignment :
+      Class0.RichTextLabel.t structure ptr ->
+      GlobalEnum.VerticalAlignment.t structure ptr
+
+    val set_justification_flags :
+      Class0.TextServer.JustificationFlag.t structure ptr ->
+      Class0.RichTextLabel.t structure ptr ->
+      unit
+
+    val get_justification_flags :
+      Class0.RichTextLabel.t structure ptr ->
+      Class0.TextServer.JustificationFlag.t structure ptr
+
+    val set_tab_stops :
+      BuiltinClass0.PackedFloat32Array.t structure ptr ->
+      Class0.RichTextLabel.t structure ptr ->
+      unit
+
+    val get_tab_stops :
+      Class0.RichTextLabel.t structure ptr ->
+      BuiltinClass0.PackedFloat32Array.t structure ptr
 
     val set_autowrap_mode :
       Class0.TextServer.AutowrapMode.t structure ptr ->
@@ -44890,6 +50062,10 @@ Its text representation is [code]uid://<invalid>[/code]. *)
     val get_selection_to :
       Class0.RichTextLabel.t structure ptr -> BuiltinClass0.Int.t structure ptr
 
+    val get_selection_line_offset :
+      Class0.RichTextLabel.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val select_all : Class0.RichTextLabel.t structure ptr -> unit
 
     val get_selected_text :
@@ -44913,6 +50089,9 @@ Its text representation is [code]uid://<invalid>[/code]. *)
       BuiltinClass0.String.t structure ptr
 
     val is_ready :
+      Class0.RichTextLabel.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val is_finished :
       Class0.RichTextLabel.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val set_threaded :
@@ -44980,6 +50159,11 @@ Its text representation is [code]uid://<invalid>[/code]. *)
 
     val get_line_count :
       Class0.RichTextLabel.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val get_line_range :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RichTextLabel.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr
 
     val get_visible_line_count :
       Class0.RichTextLabel.t structure ptr -> BuiltinClass0.Int.t structure ptr
@@ -46010,6 +51194,14 @@ Its text representation is [code]uid://<invalid>[/code]. *)
       Class0.SceneTree.t structure ptr ->
       unit
 
+    val set_physics_interpolation_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SceneTree.t structure ptr ->
+      unit
+
+    val is_physics_interpolation_enabled :
+      Class0.SceneTree.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
     val queue_delete :
       BuiltinClass0.Object.t structure ptr ->
       Class0.SceneTree.t structure ptr ->
@@ -46067,6 +51259,11 @@ Its text representation is [code]uid://<invalid>[/code]. *)
       BuiltinClass0.StringName.t structure ptr ->
       Class0.SceneTree.t structure ptr ->
       Class0.Node.t structure ptr
+
+    val get_node_count_in_group :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.SceneTree.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
 
     val set_current_scene :
       Class0.Node.t structure ptr -> Class0.SceneTree.t structure ptr -> unit
@@ -46159,6 +51356,9 @@ Its text representation is [code]uid://<invalid>[/code]. *)
     val get_instance_base_type :
       Class0.Script.t structure ptr -> BuiltinClass0.StringName.t structure ptr
 
+    val get_global_name :
+      Class0.Script.t structure ptr -> BuiltinClass0.StringName.t structure ptr
+
     val has_script_signal :
       BuiltinClass0.StringName.t structure ptr ->
       Class0.Script.t structure ptr ->
@@ -46186,6 +51386,9 @@ Its text representation is [code]uid://<invalid>[/code]. *)
 
     val is_abstract :
       Class0.Script.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val get_rpc_config :
+      Class0.Script.t structure ptr -> BuiltinClass0.Variant.t structure ptr
   end
 
   module type GDSCRIPT = sig
@@ -46212,6 +51415,10 @@ Its text representation is [code]uid://<invalid>[/code]. *)
       Class0.ScriptEditor.t structure ptr ->
       Class0.ScriptEditorBase.t structure ptr
 
+    val get_breakpoints :
+      Class0.ScriptEditor.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr
+
     val register_syntax_highlighter :
       Class0.EditorSyntaxHighlighter.t structure ptr ->
       Class0.ScriptEditor.t structure ptr ->
@@ -46236,6 +51443,16 @@ Its text representation is [code]uid://<invalid>[/code]. *)
     val open_script_create_dialog :
       BuiltinClass0.String.t structure ptr ->
       BuiltinClass0.String.t structure ptr ->
+      Class0.ScriptEditor.t structure ptr ->
+      unit
+
+    val goto_help :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.ScriptEditor.t structure ptr ->
+      unit
+
+    val update_docs_from_script :
+      Class0.Script.t structure ptr ->
       Class0.ScriptEditor.t structure ptr ->
       unit
   end
@@ -46355,12 +51572,26 @@ Its text representation is [code]uid://<invalid>[/code]. *)
       Class0.Control.t structure ptr ->
       Class0.ScrollContainer.t structure ptr ->
       unit
+
+    val set_draw_focus_border :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.ScrollContainer.t structure ptr ->
+      unit
+
+    val get_draw_focus_border :
+      Class0.ScrollContainer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
   end
 
   module type EDITORINSPECTOR = sig
     open! ApiTypes
     include ApiTypes.OBJECT
     include SCROLLCONTAINER
+
+    val edit :
+      BuiltinClass0.Object.t structure ptr ->
+      Class0.EditorInspector.t structure ptr ->
+      unit
 
     val get_selected_path :
       Class0.EditorInspector.t structure ptr ->
@@ -46369,6 +51600,16 @@ Its text representation is [code]uid://<invalid>[/code]. *)
     val get_edited_object :
       Class0.EditorInspector.t structure ptr ->
       BuiltinClass0.Object.t structure ptr
+
+    val instantiate_property_editor :
+      BuiltinClass0.Object.t structure ptr ->
+      GlobalEnum.VariantType.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      GlobalEnum.PropertyHint.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.EditorProperty.t structure ptr
   end
 
   module type SEMAPHORE = sig
@@ -46381,7 +51622,10 @@ Its text representation is [code]uid://<invalid>[/code]. *)
     val try_wait :
       Class0.Semaphore.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
-    val post : Class0.Semaphore.t structure ptr -> unit
+    val post :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Semaphore.t structure ptr ->
+      unit
   end
 
   module type SEPARATOR = sig
@@ -46414,7 +51658,7 @@ Its text representation is [code]uid://<invalid>[/code]. *)
 
     val set_default_texture_parameter :
       BuiltinClass0.StringName.t structure ptr ->
-      Class0.Texture2D.t structure ptr ->
+      Class0.Texture.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       Class0.Shader.t structure ptr ->
       unit
@@ -46423,12 +51667,14 @@ Its text representation is [code]uid://<invalid>[/code]. *)
       BuiltinClass0.StringName.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       Class0.Shader.t structure ptr ->
-      Class0.Texture2D.t structure ptr
+      Class0.Texture.t structure ptr
 
     val get_shader_uniform_list :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.Shader.t structure ptr ->
       BuiltinClass0.Array.t structure ptr
+
+    val inspect_native_shader_code : Class0.Shader.t structure ptr -> unit
   end
 
   module type SHADERGLOBALSOVERRIDE = sig
@@ -46449,6 +51695,22 @@ Its text representation is [code]uid://<invalid>[/code]. *)
 
     val get_code :
       Class0.ShaderInclude.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+  end
+
+  module type SHADERINCLUDEDB = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include OBJECT
+
+    val list_built_in_include_files :
+      unit -> BuiltinClass0.PackedStringArray.t structure ptr
+
+    val has_built_in_include_file :
+      BuiltinClass0.String.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val get_built_in_include_file :
+      BuiltinClass0.String.t structure ptr ->
       BuiltinClass0.String.t structure ptr
   end
 
@@ -46826,6 +52088,21 @@ Its text representation is [code]uid://<invalid>[/code]. *)
     val get_map_data :
       Class0.HeightMapShape3D.t structure ptr ->
       BuiltinClass0.PackedFloat32Array.t structure ptr
+
+    val get_min_height :
+      Class0.HeightMapShape3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val get_max_height :
+      Class0.HeightMapShape3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val update_map_data_from_image :
+      Class0.Image.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.HeightMapShape3D.t structure ptr ->
+      unit
   end
 
   module type SEPARATIONRAYSHAPE3D = sig
@@ -47001,6 +52278,9 @@ Its text representation is [code]uid://<invalid>[/code]. *)
 
     val is_collide_with_bodies_enabled :
       Class0.ShapeCast2D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val get_collision_result :
+      Class0.ShapeCast2D.t structure ptr -> BuiltinClass0.Array.t structure ptr
   end
 
   module type SHAPECAST3D = sig
@@ -47158,6 +52438,9 @@ Its text representation is [code]uid://<invalid>[/code]. *)
     val is_collide_with_bodies_enabled :
       Class0.ShapeCast3D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
+    val get_collision_result :
+      Class0.ShapeCast3D.t structure ptr -> BuiltinClass0.Array.t structure ptr
+
     val set_debug_shape_custom_color :
       BuiltinClass0.Color.t structure ptr ->
       Class0.ShapeCast3D.t structure ptr ->
@@ -47243,13 +52526,13 @@ Its text representation is [code]uid://<invalid>[/code]. *)
     include NODE3D
 
     val _NOTIFICATION_UPDATE_SKELETON : int
-    (** Notification received when this skeleton's pose needs to be updated.
-This notification is received [i]before[/i] the related [signal pose_updated] signal. *)
+    (** Notification received when this skeleton''s pose needs to be updated. In
+        that case, this is called only once per frame in a deferred process. *)
 
     val add_bone :
       BuiltinClass0.String.t structure ptr ->
       Class0.Skeleton3D.t structure ptr ->
-      unit
+      BuiltinClass0.Int.t structure ptr
 
     val find_bone :
       BuiltinClass0.String.t structure ptr ->
@@ -47266,6 +52549,34 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       BuiltinClass0.String.t structure ptr ->
       Class0.Skeleton3D.t structure ptr ->
       unit
+
+    val get_bone_meta :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.Skeleton3D.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
+
+    val get_bone_meta_list :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Skeleton3D.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
+    val has_bone_meta :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.Skeleton3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_bone_meta :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      Class0.Skeleton3D.t structure ptr ->
+      unit
+
+    val get_concatenated_bone_names :
+      Class0.Skeleton3D.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
 
     val get_bone_parent :
       BuiltinClass0.Int.t structure ptr ->
@@ -47330,6 +52641,12 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.Skeleton3D.t structure ptr ->
       BuiltinClass0.Transform3D.t structure ptr
 
+    val set_bone_pose :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr ->
+      Class0.Skeleton3D.t structure ptr ->
+      unit
+
     val set_bone_pose_position :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Vector3.t structure ptr ->
@@ -47381,31 +52698,16 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.Skeleton3D.t structure ptr ->
       unit
 
-    val clear_bones_global_pose_override :
-      Class0.Skeleton3D.t structure ptr -> unit
-
-    val set_bone_global_pose_override :
-      BuiltinClass0.Int.t structure ptr ->
-      BuiltinClass0.Transform3D.t structure ptr ->
-      BuiltinClass0.Float.t structure ptr ->
-      BuiltinClass0.Bool.t structure ptr ->
-      Class0.Skeleton3D.t structure ptr ->
-      unit
-
-    val get_bone_global_pose_override :
-      BuiltinClass0.Int.t structure ptr ->
-      Class0.Skeleton3D.t structure ptr ->
-      BuiltinClass0.Transform3D.t structure ptr
-
     val get_bone_global_pose :
       BuiltinClass0.Int.t structure ptr ->
       Class0.Skeleton3D.t structure ptr ->
       BuiltinClass0.Transform3D.t structure ptr
 
-    val get_bone_global_pose_no_override :
+    val set_bone_global_pose :
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr ->
       Class0.Skeleton3D.t structure ptr ->
-      BuiltinClass0.Transform3D.t structure ptr
+      unit
 
     val force_update_all_bone_transforms :
       Class0.Skeleton3D.t structure ptr -> unit
@@ -47430,6 +52732,36 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
 
     val is_show_rest_only :
       Class0.Skeleton3D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_modifier_callback_mode_process :
+      Class0.Skeleton3D.ModifierCallbackModeProcess.t structure ptr ->
+      Class0.Skeleton3D.t structure ptr ->
+      unit
+
+    val get_modifier_callback_mode_process :
+      Class0.Skeleton3D.t structure ptr ->
+      Class0.Skeleton3D.ModifierCallbackModeProcess.t structure ptr
+
+    val clear_bones_global_pose_override :
+      Class0.Skeleton3D.t structure ptr -> unit
+
+    val set_bone_global_pose_override :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.Skeleton3D.t structure ptr ->
+      unit
+
+    val get_bone_global_pose_override :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Skeleton3D.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr
+
+    val get_bone_global_pose_no_override :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Skeleton3D.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr
 
     val set_animate_physical_bones :
       BuiltinClass0.Bool.t structure ptr ->
@@ -47456,110 +52788,6 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       BuiltinClass0.RID.t structure ptr ->
       Class0.Skeleton3D.t structure ptr ->
       unit
-  end
-
-  module type SKELETONIK3D = sig
-    open! ApiTypes
-    include ApiTypes.OBJECT
-    include NODE
-
-    val set_root_bone :
-      BuiltinClass0.StringName.t structure ptr ->
-      Class0.SkeletonIK3D.t structure ptr ->
-      unit
-
-    val get_root_bone :
-      Class0.SkeletonIK3D.t structure ptr ->
-      BuiltinClass0.StringName.t structure ptr
-
-    val set_tip_bone :
-      BuiltinClass0.StringName.t structure ptr ->
-      Class0.SkeletonIK3D.t structure ptr ->
-      unit
-
-    val get_tip_bone :
-      Class0.SkeletonIK3D.t structure ptr ->
-      BuiltinClass0.StringName.t structure ptr
-
-    val set_interpolation :
-      BuiltinClass0.Float.t structure ptr ->
-      Class0.SkeletonIK3D.t structure ptr ->
-      unit
-
-    val get_interpolation :
-      Class0.SkeletonIK3D.t structure ptr -> BuiltinClass0.Float.t structure ptr
-
-    val set_target_transform :
-      BuiltinClass0.Transform3D.t structure ptr ->
-      Class0.SkeletonIK3D.t structure ptr ->
-      unit
-
-    val get_target_transform :
-      Class0.SkeletonIK3D.t structure ptr ->
-      BuiltinClass0.Transform3D.t structure ptr
-
-    val set_target_node :
-      BuiltinClass0.NodePath.t structure ptr ->
-      Class0.SkeletonIK3D.t structure ptr ->
-      unit
-
-    val get_target_node :
-      Class0.SkeletonIK3D.t structure ptr ->
-      BuiltinClass0.NodePath.t structure ptr
-
-    val set_override_tip_basis :
-      BuiltinClass0.Bool.t structure ptr ->
-      Class0.SkeletonIK3D.t structure ptr ->
-      unit
-
-    val is_override_tip_basis :
-      Class0.SkeletonIK3D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
-
-    val set_use_magnet :
-      BuiltinClass0.Bool.t structure ptr ->
-      Class0.SkeletonIK3D.t structure ptr ->
-      unit
-
-    val is_using_magnet :
-      Class0.SkeletonIK3D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
-
-    val set_magnet_position :
-      BuiltinClass0.Vector3.t structure ptr ->
-      Class0.SkeletonIK3D.t structure ptr ->
-      unit
-
-    val get_magnet_position :
-      Class0.SkeletonIK3D.t structure ptr ->
-      BuiltinClass0.Vector3.t structure ptr
-
-    val get_parent_skeleton :
-      Class0.SkeletonIK3D.t structure ptr -> Class0.Skeleton3D.t structure ptr
-
-    val is_running :
-      Class0.SkeletonIK3D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
-
-    val set_min_distance :
-      BuiltinClass0.Float.t structure ptr ->
-      Class0.SkeletonIK3D.t structure ptr ->
-      unit
-
-    val get_min_distance :
-      Class0.SkeletonIK3D.t structure ptr -> BuiltinClass0.Float.t structure ptr
-
-    val set_max_iterations :
-      BuiltinClass0.Int.t structure ptr ->
-      Class0.SkeletonIK3D.t structure ptr ->
-      unit
-
-    val get_max_iterations :
-      Class0.SkeletonIK3D.t structure ptr -> BuiltinClass0.Int.t structure ptr
-
-    val start :
-      BuiltinClass0.Bool.t structure ptr ->
-      Class0.SkeletonIK3D.t structure ptr ->
-      unit
-
-    val stop : Class0.SkeletonIK3D.t structure ptr -> unit
   end
 
   module type SKELETONMODIFICATION2D = sig
@@ -48267,6 +53495,508 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.Skeleton2D.t structure ptr
   end
 
+  module type SKELETONMODIFIER3D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include NODE3D
+
+    val ___process_modification :
+      Class0.SkeletonModifier3D.t structure ptr -> unit
+
+    val get_skeleton :
+      Class0.SkeletonModifier3D.t structure ptr ->
+      Class0.Skeleton3D.t structure ptr
+
+    val set_active :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SkeletonModifier3D.t structure ptr ->
+      unit
+
+    val is_active :
+      Class0.SkeletonModifier3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_influence :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SkeletonModifier3D.t structure ptr ->
+      unit
+
+    val get_influence :
+      Class0.SkeletonModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+  end
+
+  module type LOOKATMODIFIER3D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include SKELETONMODIFIER3D
+
+    val set_target_node :
+      BuiltinClass0.NodePath.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_target_node :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.NodePath.t structure ptr
+
+    val set_bone_name :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_bone_name :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val set_bone :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_bone :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_forward_axis :
+      Class0.SkeletonModifier3D.BoneAxis.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_forward_axis :
+      Class0.LookAtModifier3D.t structure ptr ->
+      Class0.SkeletonModifier3D.BoneAxis.t structure ptr
+
+    val set_primary_rotation_axis :
+      BuiltinClass0.Vector3.Axis.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_primary_rotation_axis :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Vector3.Axis.t structure ptr
+
+    val set_use_secondary_rotation :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val is_using_secondary_rotation :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_origin_safe_margin :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_origin_safe_margin :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_origin_from :
+      Class0.LookAtModifier3D.OriginFrom.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_origin_from :
+      Class0.LookAtModifier3D.t structure ptr ->
+      Class0.LookAtModifier3D.OriginFrom.t structure ptr
+
+    val set_origin_bone_name :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_origin_bone_name :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val set_origin_bone :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_origin_bone :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_origin_external_node :
+      BuiltinClass0.NodePath.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_origin_external_node :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.NodePath.t structure ptr
+
+    val set_origin_offset :
+      BuiltinClass0.Vector3.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_origin_offset :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
+    val set_duration :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_duration :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_transition_type :
+      Class0.Tween.TransitionType.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_transition_type :
+      Class0.LookAtModifier3D.t structure ptr ->
+      Class0.Tween.TransitionType.t structure ptr
+
+    val set_ease_type :
+      Class0.Tween.EaseType.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_ease_type :
+      Class0.LookAtModifier3D.t structure ptr ->
+      Class0.Tween.EaseType.t structure ptr
+
+    val set_use_angle_limitation :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val is_using_angle_limitation :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_symmetry_limitation :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val is_limitation_symmetry :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_primary_limit_angle :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_primary_limit_angle :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_primary_damp_threshold :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_primary_damp_threshold :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_primary_positive_limit_angle :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_primary_positive_limit_angle :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_primary_positive_damp_threshold :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_primary_positive_damp_threshold :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_primary_negative_limit_angle :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_primary_negative_limit_angle :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_primary_negative_damp_threshold :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_primary_negative_damp_threshold :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_secondary_limit_angle :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_secondary_limit_angle :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_secondary_damp_threshold :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_secondary_damp_threshold :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_secondary_positive_limit_angle :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_secondary_positive_limit_angle :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_secondary_positive_damp_threshold :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_secondary_positive_damp_threshold :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_secondary_negative_limit_angle :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_secondary_negative_limit_angle :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_secondary_negative_damp_threshold :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LookAtModifier3D.t structure ptr ->
+      unit
+
+    val get_secondary_negative_damp_threshold :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val get_interpolation_remaining :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val is_interpolating :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val is_target_within_limitation :
+      Class0.LookAtModifier3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+  end
+
+  module type PHYSICALBONESIMULATOR3D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include SKELETONMODIFIER3D
+
+    val is_simulating_physics :
+      Class0.PhysicalBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val physical_bones_stop_simulation :
+      Class0.PhysicalBoneSimulator3D.t structure ptr -> unit
+
+    val physical_bones_start_simulation :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.PhysicalBoneSimulator3D.t structure ptr ->
+      unit
+
+    val physical_bones_add_collision_exception :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicalBoneSimulator3D.t structure ptr ->
+      unit
+
+    val physical_bones_remove_collision_exception :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.PhysicalBoneSimulator3D.t structure ptr ->
+      unit
+  end
+
+  module type RETARGETMODIFIER3D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include SKELETONMODIFIER3D
+
+    val set_profile :
+      Class0.SkeletonProfile.t structure ptr ->
+      Class0.RetargetModifier3D.t structure ptr ->
+      unit
+
+    val get_profile :
+      Class0.RetargetModifier3D.t structure ptr ->
+      Class0.SkeletonProfile.t structure ptr
+
+    val set_use_global_pose :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RetargetModifier3D.t structure ptr ->
+      unit
+
+    val is_using_global_pose :
+      Class0.RetargetModifier3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_enable_flags :
+      Class0.RetargetModifier3D.TransformFlag.t structure ptr ->
+      Class0.RetargetModifier3D.t structure ptr ->
+      unit
+
+    val get_enable_flags :
+      Class0.RetargetModifier3D.t structure ptr ->
+      Class0.RetargetModifier3D.TransformFlag.t structure ptr
+
+    val set_position_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RetargetModifier3D.t structure ptr ->
+      unit
+
+    val is_position_enabled :
+      Class0.RetargetModifier3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_rotation_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RetargetModifier3D.t structure ptr ->
+      unit
+
+    val is_rotation_enabled :
+      Class0.RetargetModifier3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_scale_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.RetargetModifier3D.t structure ptr ->
+      unit
+
+    val is_scale_enabled :
+      Class0.RetargetModifier3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+  end
+
+  module type SKELETONIK3D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include SKELETONMODIFIER3D
+
+    val set_root_bone :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.SkeletonIK3D.t structure ptr ->
+      unit
+
+    val get_root_bone :
+      Class0.SkeletonIK3D.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
+    val set_tip_bone :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.SkeletonIK3D.t structure ptr ->
+      unit
+
+    val get_tip_bone :
+      Class0.SkeletonIK3D.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
+    val set_target_transform :
+      BuiltinClass0.Transform3D.t structure ptr ->
+      Class0.SkeletonIK3D.t structure ptr ->
+      unit
+
+    val get_target_transform :
+      Class0.SkeletonIK3D.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr
+
+    val set_target_node :
+      BuiltinClass0.NodePath.t structure ptr ->
+      Class0.SkeletonIK3D.t structure ptr ->
+      unit
+
+    val get_target_node :
+      Class0.SkeletonIK3D.t structure ptr ->
+      BuiltinClass0.NodePath.t structure ptr
+
+    val set_override_tip_basis :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SkeletonIK3D.t structure ptr ->
+      unit
+
+    val is_override_tip_basis :
+      Class0.SkeletonIK3D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_use_magnet :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SkeletonIK3D.t structure ptr ->
+      unit
+
+    val is_using_magnet :
+      Class0.SkeletonIK3D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_magnet_position :
+      BuiltinClass0.Vector3.t structure ptr ->
+      Class0.SkeletonIK3D.t structure ptr ->
+      unit
+
+    val get_magnet_position :
+      Class0.SkeletonIK3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
+    val get_parent_skeleton :
+      Class0.SkeletonIK3D.t structure ptr -> Class0.Skeleton3D.t structure ptr
+
+    val is_running :
+      Class0.SkeletonIK3D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_min_distance :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SkeletonIK3D.t structure ptr ->
+      unit
+
+    val get_min_distance :
+      Class0.SkeletonIK3D.t structure ptr -> BuiltinClass0.Float.t structure ptr
+
+    val set_max_iterations :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SkeletonIK3D.t structure ptr ->
+      unit
+
+    val get_max_iterations :
+      Class0.SkeletonIK3D.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val start :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SkeletonIK3D.t structure ptr ->
+      unit
+
+    val stop : Class0.SkeletonIK3D.t structure ptr -> unit
+
+    val set_interpolation :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SkeletonIK3D.t structure ptr ->
+      unit
+
+    val get_interpolation :
+      Class0.SkeletonIK3D.t structure ptr -> BuiltinClass0.Float.t structure ptr
+  end
+
   module type SKELETONPROFILE = sig
     open! ApiTypes
     include ApiTypes.OBJECT
@@ -48409,6 +54139,17 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     val set_group :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.StringName.t structure ptr ->
+      Class0.SkeletonProfile.t structure ptr ->
+      unit
+
+    val is_required :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SkeletonProfile.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_required :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.SkeletonProfile.t structure ptr ->
       unit
   end
@@ -48762,6 +54503,51 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     val is_vertical :
       Class0.SplitContainer.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
+
+    val set_dragging_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SplitContainer.t structure ptr ->
+      unit
+
+    val is_dragging_enabled :
+      Class0.SplitContainer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_drag_area_margin_begin :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SplitContainer.t structure ptr ->
+      unit
+
+    val get_drag_area_margin_begin :
+      Class0.SplitContainer.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val set_drag_area_margin_end :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SplitContainer.t structure ptr ->
+      unit
+
+    val get_drag_area_margin_end :
+      Class0.SplitContainer.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val set_drag_area_offset :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SplitContainer.t structure ptr ->
+      unit
+
+    val get_drag_area_offset :
+      Class0.SplitContainer.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val set_drag_area_highlight_in_editor :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SplitContainer.t structure ptr ->
+      unit
+
+    val is_drag_area_highlight_in_editor_enabled :
+      Class0.SplitContainer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_drag_area_control :
+      Class0.SplitContainer.t structure ptr -> Class0.Control.t structure ptr
   end
 
   module type HSPLITCONTAINER = sig
@@ -48821,6 +54607,540 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
 
     val get_margin :
       Class0.SpringArm3D.t structure ptr -> BuiltinClass0.Float.t structure ptr
+  end
+
+  module type SPRINGBONECOLLISION3D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include NODE3D
+
+    val get_skeleton :
+      Class0.SpringBoneCollision3D.t structure ptr ->
+      Class0.Skeleton3D.t structure ptr
+
+    val set_bone_name :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.SpringBoneCollision3D.t structure ptr ->
+      unit
+
+    val get_bone_name :
+      Class0.SpringBoneCollision3D.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val set_bone :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneCollision3D.t structure ptr ->
+      unit
+
+    val get_bone :
+      Class0.SpringBoneCollision3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_position_offset :
+      BuiltinClass0.Vector3.t structure ptr ->
+      Class0.SpringBoneCollision3D.t structure ptr ->
+      unit
+
+    val get_position_offset :
+      Class0.SpringBoneCollision3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
+    val set_rotation_offset :
+      BuiltinClass0.Quaternion.t structure ptr ->
+      Class0.SpringBoneCollision3D.t structure ptr ->
+      unit
+
+    val get_rotation_offset :
+      Class0.SpringBoneCollision3D.t structure ptr ->
+      BuiltinClass0.Quaternion.t structure ptr
+  end
+
+  module type SPRINGBONECOLLISIONCAPSULE3D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include SPRINGBONECOLLISION3D
+
+    val set_radius :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SpringBoneCollisionCapsule3D.t structure ptr ->
+      unit
+
+    val get_radius :
+      Class0.SpringBoneCollisionCapsule3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_height :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SpringBoneCollisionCapsule3D.t structure ptr ->
+      unit
+
+    val get_height :
+      Class0.SpringBoneCollisionCapsule3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_inside :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SpringBoneCollisionCapsule3D.t structure ptr ->
+      unit
+
+    val is_inside :
+      Class0.SpringBoneCollisionCapsule3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+  end
+
+  module type SPRINGBONECOLLISIONPLANE3D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include SPRINGBONECOLLISION3D
+  end
+
+  module type SPRINGBONECOLLISIONSPHERE3D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include SPRINGBONECOLLISION3D
+
+    val set_radius :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SpringBoneCollisionSphere3D.t structure ptr ->
+      unit
+
+    val get_radius :
+      Class0.SpringBoneCollisionSphere3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_inside :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SpringBoneCollisionSphere3D.t structure ptr ->
+      unit
+
+    val is_inside :
+      Class0.SpringBoneCollisionSphere3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+  end
+
+  module type SPRINGBONESIMULATOR3D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include SKELETONMODIFIER3D
+
+    val set_root_bone_name :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_root_bone_name :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val set_root_bone :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_root_bone :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_end_bone_name :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_end_bone_name :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val set_end_bone :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_end_bone :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_extend_end_bone :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val is_end_bone_extended :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_end_bone_direction :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.BoneDirection.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_end_bone_direction :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      Class0.SpringBoneSimulator3D.BoneDirection.t structure ptr
+
+    val set_end_bone_length :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_end_bone_length :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_center_from :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.CenterFrom.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_center_from :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      Class0.SpringBoneSimulator3D.CenterFrom.t structure ptr
+
+    val set_center_node :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.NodePath.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_center_node :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.NodePath.t structure ptr
+
+    val set_center_bone_name :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_center_bone_name :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val set_center_bone :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_center_bone :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_radius :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_radius :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_rotation_axis :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.RotationAxis.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_rotation_axis :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      Class0.SpringBoneSimulator3D.RotationAxis.t structure ptr
+
+    val set_radius_damping_curve :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Curve.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_radius_damping_curve :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      Class0.Curve.t structure ptr
+
+    val set_stiffness :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_stiffness :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_stiffness_damping_curve :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Curve.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_stiffness_damping_curve :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      Class0.Curve.t structure ptr
+
+    val set_drag :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_drag :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_drag_damping_curve :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Curve.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_drag_damping_curve :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      Class0.Curve.t structure ptr
+
+    val set_gravity :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_gravity :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_gravity_damping_curve :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Curve.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_gravity_damping_curve :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      Class0.Curve.t structure ptr
+
+    val set_gravity_direction :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_gravity_direction :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
+    val set_setting_count :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_setting_count :
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val clear_settings : Class0.SpringBoneSimulator3D.t structure ptr -> unit
+
+    val set_individual_config :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val is_config_individual :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_joint_bone_name :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_joint_bone :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_joint_rotation_axis :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.RotationAxis.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_joint_rotation_axis :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      Class0.SpringBoneSimulator3D.RotationAxis.t structure ptr
+
+    val set_joint_radius :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_joint_radius :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_joint_stiffness :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_joint_stiffness :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_joint_drag :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_joint_drag :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_joint_gravity :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_joint_gravity :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_joint_gravity_direction :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_joint_gravity_direction :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
+    val get_joint_count :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_enable_all_child_collisions :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val are_all_child_collisions_enabled :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_exclude_collision_path :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.NodePath.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_exclude_collision_path :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.NodePath.t structure ptr
+
+    val set_exclude_collision_count :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_exclude_collision_count :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val clear_exclude_collisions :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val set_collision_path :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.NodePath.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_collision_path :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.NodePath.t structure ptr
+
+    val set_collision_count :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val get_collision_count :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val clear_collisions :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.SpringBoneSimulator3D.t structure ptr ->
+      unit
+
+    val reset : Class0.SpringBoneSimulator3D.t structure ptr -> unit
   end
 
   module type SPRITE2D = sig
@@ -48947,6 +55267,12 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       BuiltinClass0.StringName.t structure ptr ->
       Class0.SpriteFrames.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
+
+    val duplicate_animation :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.SpriteFrames.t structure ptr ->
+      unit
 
     val remove_animation :
       BuiltinClass0.StringName.t structure ptr ->
@@ -49133,6 +55459,51 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       BuiltinClass0.Bool.t structure ptr
   end
 
+  module type STATUSINDICATOR = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include NODE
+
+    val set_tooltip :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.StatusIndicator.t structure ptr ->
+      unit
+
+    val get_tooltip :
+      Class0.StatusIndicator.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val set_icon :
+      Class0.Texture2D.t structure ptr ->
+      Class0.StatusIndicator.t structure ptr ->
+      unit
+
+    val get_icon :
+      Class0.StatusIndicator.t structure ptr -> Class0.Texture2D.t structure ptr
+
+    val set_visible :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.StatusIndicator.t structure ptr ->
+      unit
+
+    val is_visible :
+      Class0.StatusIndicator.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_menu :
+      BuiltinClass0.NodePath.t structure ptr ->
+      Class0.StatusIndicator.t structure ptr ->
+      unit
+
+    val get_menu :
+      Class0.StatusIndicator.t structure ptr ->
+      BuiltinClass0.NodePath.t structure ptr
+
+    val get_rect :
+      Class0.StatusIndicator.t structure ptr ->
+      BuiltinClass0.Rect2.t structure ptr
+  end
+
   module type STREAMPEER = sig
     open! ApiTypes
     include ApiTypes.OBJECT
@@ -49209,6 +55580,11 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.StreamPeer.t structure ptr ->
       unit
 
+    val put_half :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.StreamPeer.t structure ptr ->
+      unit
+
     val put_float :
       BuiltinClass0.Float.t structure ptr ->
       Class0.StreamPeer.t structure ptr ->
@@ -49258,6 +55634,9 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
 
     val get_u64 :
       Class0.StreamPeer.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val get_half :
+      Class0.StreamPeer.t structure ptr -> BuiltinClass0.Float.t structure ptr
 
     val get_float :
       Class0.StreamPeer.t structure ptr -> BuiltinClass0.Float.t structure ptr
@@ -49800,6 +56179,15 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     val get_stretch_shrink :
       Class0.SubViewportContainer.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
+
+    val set_mouse_target :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SubViewportContainer.t structure ptr ->
+      unit
+
+    val is_mouse_target_enabled :
+      Class0.SubViewportContainer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
   end
 
   module type SURFACETOOL = sig
@@ -49932,6 +56320,12 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     val create_from :
       Class0.Mesh.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
+      Class0.SurfaceTool.t structure ptr ->
+      unit
+
+    val create_from_arrays :
+      BuiltinClass0.Array.t structure ptr ->
+      Class0.Mesh.PrimitiveType.t structure ptr ->
       Class0.SurfaceTool.t structure ptr ->
       unit
 
@@ -50139,6 +56533,12 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       BuiltinClass0.PackedStringArray.t structure ptr
   end
 
+  module type GDSCRIPTSYNTAXHIGHLIGHTER = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include EDITORSYNTAXHIGHLIGHTER
+  end
+
   module type SYSTEMFONT = sig
     open! ApiTypes
     include ApiTypes.OBJECT
@@ -50152,6 +56552,14 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     val get_antialiasing :
       Class0.SystemFont.t structure ptr ->
       Class0.TextServer.FontAntialiasing.t structure ptr
+
+    val set_disable_embedded_bitmaps :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SystemFont.t structure ptr ->
+      unit
+
+    val get_disable_embedded_bitmaps :
+      Class0.SystemFont.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val set_generate_mipmaps :
       BuiltinClass0.Bool.t structure ptr ->
@@ -50194,6 +56602,14 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     val get_subpixel_positioning :
       Class0.SystemFont.t structure ptr ->
       Class0.TextServer.SubpixelPositioning.t structure ptr
+
+    val set_keep_rounding_remainders :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.SystemFont.t structure ptr ->
+      unit
+
+    val get_keep_rounding_remainders :
+      Class0.SystemFont.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val set_multichannel_signed_distance_field :
       BuiltinClass0.Bool.t structure ptr ->
@@ -50299,6 +56715,26 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.CryptoKey.t structure ptr ->
       Class0.X509Certificate.t structure ptr ->
       Class0.TLSOptions.t structure ptr
+
+    val is_server :
+      Class0.TLSOptions.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val is_unsafe_client :
+      Class0.TLSOptions.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val get_common_name_override :
+      Class0.TLSOptions.t structure ptr -> BuiltinClass0.String.t structure ptr
+
+    val get_trusted_ca_chain :
+      Class0.TLSOptions.t structure ptr ->
+      Class0.X509Certificate.t structure ptr
+
+    val get_private_key :
+      Class0.TLSOptions.t structure ptr -> Class0.CryptoKey.t structure ptr
+
+    val get_own_certificate :
+      Class0.TLSOptions.t structure ptr ->
+      Class0.X509Certificate.t structure ptr
   end
 
   module type TABBAR = sig
@@ -50334,6 +56770,17 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       unit
 
     val get_tab_title :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TabBar.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val set_tab_tooltip :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.TabBar.t structure ptr ->
+      unit
+
+    val get_tab_tooltip :
       BuiltinClass0.Int.t structure ptr ->
       Class0.TabBar.t structure ptr ->
       BuiltinClass0.String.t structure ptr
@@ -50530,6 +56977,14 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     val get_select_with_rmb :
       Class0.TabBar.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
+    val set_deselect_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TabBar.t structure ptr ->
+      unit
+
+    val get_deselect_enabled :
+      Class0.TabBar.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
     val clear_tabs : Class0.TabBar.t structure ptr -> unit
   end
 
@@ -50578,6 +57033,15 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TabContainer.t structure ptr ->
       Class0.TabBar.AlignmentMode.t structure ptr
 
+    val set_tabs_position :
+      Class0.TabContainer.TabPosition.t structure ptr ->
+      Class0.TabContainer.t structure ptr ->
+      unit
+
+    val get_tabs_position :
+      Class0.TabContainer.t structure ptr ->
+      Class0.TabContainer.TabPosition.t structure ptr
+
     val set_clip_tabs :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.TabContainer.t structure ptr ->
@@ -50613,6 +57077,17 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TabContainer.t structure ptr ->
       BuiltinClass0.String.t structure ptr
 
+    val set_tab_tooltip :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.TabContainer.t structure ptr ->
+      unit
+
+    val get_tab_tooltip :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TabContainer.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
     val set_tab_icon :
       BuiltinClass0.Int.t structure ptr ->
       Class0.Texture2D.t structure ptr ->
@@ -50623,6 +57098,17 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       BuiltinClass0.Int.t structure ptr ->
       Class0.TabContainer.t structure ptr ->
       Class0.Texture2D.t structure ptr
+
+    val set_tab_icon_max_width :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TabContainer.t structure ptr ->
+      unit
+
+    val get_tab_icon_max_width :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TabContainer.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
 
     val set_tab_disabled :
       BuiltinClass0.Int.t structure ptr ->
@@ -50716,6 +57202,14 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     val get_tab_focus_mode :
       Class0.TabContainer.t structure ptr ->
       Class0.Control.FocusMode.t structure ptr
+
+    val set_deselect_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TabContainer.t structure ptr ->
+      unit
+
+    val get_deselect_enabled :
+      Class0.TabContainer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
   end
 
   module type TEXTEDIT = sig
@@ -50756,6 +57250,9 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
 
     val has_ime_text :
       Class0.TextEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val cancel_ime : Class0.TextEdit.t structure ptr -> unit
+    val apply_ime : Class0.TextEdit.t structure ptr -> unit
 
     val set_editable :
       BuiltinClass0.Bool.t structure ptr ->
@@ -50807,6 +57304,14 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     val get_tab_size :
       Class0.TextEdit.t structure ptr -> BuiltinClass0.Int.t structure ptr
 
+    val set_indent_wrapped_lines :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      unit
+
+    val is_indent_wrapped_lines :
+      Class0.TextEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
     val set_overtype_mode_enabled :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.TextEdit.t structure ptr ->
@@ -50821,6 +57326,14 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       unit
 
     val is_context_menu_enabled :
+      Class0.TextEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_emoji_menu_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      unit
+
+    val is_emoji_menu_enabled :
       Class0.TextEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val set_shortcut_keys_enabled :
@@ -50845,6 +57358,14 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       unit
 
     val is_middle_mouse_paste_enabled :
+      Class0.TextEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_empty_selection_clipboard_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      unit
+
+    val is_empty_selection_clipboard_enabled :
       Class0.TextEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val clear : Class0.TextEdit.t structure ptr -> unit
@@ -50875,6 +57396,11 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       unit
 
     val get_line :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_line_with_ime :
       BuiltinClass0.Int.t structure ptr ->
       Class0.TextEdit.t structure ptr ->
       BuiltinClass0.String.t structure ptr
@@ -50910,9 +57436,24 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TextEdit.t structure ptr ->
       unit
 
+    val remove_line_at :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      unit
+
     val insert_text_at_caret :
       BuiltinClass0.String.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      unit
+
+    val insert_text :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.TextEdit.t structure ptr ->
       unit
 
@@ -51025,6 +57566,7 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     val get_line_column_at_pos :
       BuiltinClass0.Vector2i.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.TextEdit.t structure ptr ->
       BuiltinClass0.Vector2i.t structure ptr
 
@@ -51123,7 +57665,6 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       unit
 
     val remove_secondary_carets : Class0.TextEdit.t structure ptr -> unit
-    val merge_overlapping_carets : Class0.TextEdit.t structure ptr -> unit
 
     val get_caret_count :
       Class0.TextEdit.t structure ptr -> BuiltinClass0.Int.t structure ptr
@@ -51133,18 +57674,31 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TextEdit.t structure ptr ->
       unit
 
-    val get_caret_index_edit_order :
+    val get_sorted_carets :
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.TextEdit.t structure ptr ->
       BuiltinClass0.PackedInt32Array.t structure ptr
 
-    val adjust_carets_after_edit :
+    val collapse_carets :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
-      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.TextEdit.t structure ptr ->
       unit
+
+    val merge_overlapping_carets : Class0.TextEdit.t structure ptr -> unit
+    val begin_multicaret_edit : Class0.TextEdit.t structure ptr -> unit
+    val end_multicaret_edit : Class0.TextEdit.t structure ptr -> unit
+
+    val is_in_mulitcaret_edit :
+      Class0.TextEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val multicaret_edit_ignore_caret :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
 
     val is_caret_visible :
       BuiltinClass0.Int.t structure ptr ->
@@ -51192,6 +57746,30 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TextEdit.t structure ptr ->
       BuiltinClass0.String.t structure ptr
 
+    val set_use_default_word_separators :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      unit
+
+    val is_default_word_separators_enabled :
+      Class0.TextEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_use_custom_word_separators :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      unit
+
+    val is_custom_word_separators_enabled :
+      Class0.TextEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_custom_word_separators :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      unit
+
+    val get_custom_word_separators :
+      Class0.TextEdit.t structure ptr -> BuiltinClass0.String.t structure ptr
+
     val set_selecting_enabled :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.TextEdit.t structure ptr ->
@@ -51218,9 +57796,6 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
 
     val set_selection_mode :
       Class0.TextEdit.SelectionMode.t structure ptr ->
-      BuiltinClass0.Int.t structure ptr ->
-      BuiltinClass0.Int.t structure ptr ->
-      BuiltinClass0.Int.t structure ptr ->
       Class0.TextEdit.t structure ptr ->
       unit
 
@@ -51236,6 +57811,9 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       unit
 
     val add_selection_for_next_occurrence :
+      Class0.TextEdit.t structure ptr -> unit
+
+    val skip_selection_for_next_occurrence :
       Class0.TextEdit.t structure ptr -> unit
 
     val select :
@@ -51257,15 +57835,43 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TextEdit.t structure ptr ->
       BuiltinClass0.String.t structure ptr
 
-    val get_selection_line :
+    val get_selection_at_line_column :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_line_ranges_from_carets :
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr
+
+    val get_selection_origin_line :
       BuiltinClass0.Int.t structure ptr ->
       Class0.TextEdit.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
 
-    val get_selection_column :
+    val get_selection_origin_column :
       BuiltinClass0.Int.t structure ptr ->
       Class0.TextEdit.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
+
+    val set_selection_origin_line :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      unit
+
+    val set_selection_origin_column :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      unit
 
     val get_selection_from_line :
       BuiltinClass0.Int.t structure ptr ->
@@ -51286,6 +57892,11 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       BuiltinClass0.Int.t structure ptr ->
       Class0.TextEdit.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
+
+    val is_caret_after_selection_origin :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
 
     val deselect :
       BuiltinClass0.Int.t structure ptr ->
@@ -51388,6 +57999,14 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       unit
 
     val is_fit_content_height_enabled :
+      Class0.TextEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_fit_content_width_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      unit
+
+    val is_fit_content_width_enabled :
       Class0.TextEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val get_scroll_pos_for_line :
@@ -51693,6 +58312,29 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       BuiltinClass0.Int.t structure ptr ->
       Class0.TextEdit.t structure ptr ->
       unit
+
+    val adjust_carets_after_edit :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      unit
+
+    val get_caret_index_edit_order :
+      Class0.TextEdit.t structure ptr ->
+      BuiltinClass0.PackedInt32Array.t structure ptr
+
+    val get_selection_line :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_selection_column :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TextEdit.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
   end
 
   module type CODEEDIT = sig
@@ -51933,6 +58575,9 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.CodeEdit.t structure ptr ->
       unit
 
+    val toggle_foldable_lines_at_carets :
+      Class0.CodeEdit.t structure ptr -> unit
+
     val is_line_folded :
       BuiltinClass0.Int.t structure ptr ->
       Class0.CodeEdit.t structure ptr ->
@@ -52157,6 +58802,18 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.CodeEdit.t structure ptr ->
       unit
 
+    val set_symbol_tooltip_on_hover_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.CodeEdit.t structure ptr ->
+      unit
+
+    val is_symbol_tooltip_on_hover_enabled :
+      Class0.CodeEdit.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val move_lines_up : Class0.CodeEdit.t structure ptr -> unit
+    val move_lines_down : Class0.CodeEdit.t structure ptr -> unit
+    val delete_lines : Class0.CodeEdit.t structure ptr -> unit
+    val duplicate_selection : Class0.CodeEdit.t structure ptr -> unit
     val duplicate_lines : Class0.CodeEdit.t structure ptr -> unit
   end
 
@@ -52271,6 +58928,14 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     val get_text_overrun_behavior :
       Class0.TextLine.t structure ptr ->
       Class0.TextServer.OverrunBehavior.t structure ptr
+
+    val set_ellipsis_char :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.TextLine.t structure ptr ->
+      unit
+
+    val get_ellipsis_char :
+      Class0.TextLine.t structure ptr -> BuiltinClass0.String.t structure ptr
 
     val get_objects :
       Class0.TextLine.t structure ptr -> BuiltinClass0.Array.t structure ptr
@@ -52609,6 +59274,15 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TextParagraph.t structure ptr ->
       Class0.TextServer.OverrunBehavior.t structure ptr
 
+    val set_ellipsis_char :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.TextParagraph.t structure ptr ->
+      unit
+
+    val get_ellipsis_char :
+      Class0.TextParagraph.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
     val set_width :
       BuiltinClass0.Float.t structure ptr ->
       Class0.TextParagraph.t structure ptr ->
@@ -52647,6 +59321,15 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
 
     val get_max_lines_visible :
       Class0.TextParagraph.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val set_line_spacing :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.TextParagraph.t structure ptr ->
+      unit
+
+    val get_line_spacing :
+      Class0.TextParagraph.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
 
     val get_line_objects :
       BuiltinClass0.Int.t structure ptr ->
@@ -52788,6 +59471,10 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TextServer.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val get_support_data :
+      Class0.TextServer.t structure ptr ->
+      BuiltinClass0.PackedByteArray.t structure ptr
+
     val is_locale_right_to_left :
       BuiltinClass0.String.t structure ptr ->
       Class0.TextServer.t structure ptr ->
@@ -52914,6 +59601,17 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TextServer.t structure ptr ->
       Class0.TextServer.FontAntialiasing.t structure ptr
 
+    val font_set_disable_embedded_bitmaps :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TextServer.t structure ptr ->
+      unit
+
+    val font_get_disable_embedded_bitmaps :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.TextServer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val font_set_generate_mipmaps :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
@@ -53024,6 +59722,17 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TextServer.t structure ptr ->
       Class0.TextServer.SubpixelPositioning.t structure ptr
 
+    val font_set_keep_rounding_remainders :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TextServer.t structure ptr ->
+      unit
+
+    val font_get_keep_rounding_remainders :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.TextServer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val font_set_embolden :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Float.t structure ptr ->
@@ -53047,6 +59756,17 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TextServer.SpacingType.t structure ptr ->
       Class0.TextServer.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
+
+    val font_set_baseline_offset :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.TextServer.t structure ptr ->
+      unit
+
+    val font_get_baseline_offset :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.TextServer.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
 
     val font_set_transform :
       BuiltinClass0.RID.t structure ptr ->
@@ -53386,6 +60106,11 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TextServer.t structure ptr ->
       BuiltinClass0.String.t structure ptr
 
+    val font_get_supported_glyphs :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.TextServer.t structure ptr ->
+      BuiltinClass0.PackedInt32Array.t structure ptr
+
     val font_render_range :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Vector2i.t structure ptr ->
@@ -53570,6 +60295,17 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TextServer.t structure ptr ->
       BuiltinClass0.String.t structure ptr
 
+    val shaped_text_set_custom_ellipsis :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TextServer.t structure ptr ->
+      unit
+
+    val shaped_text_get_custom_ellipsis :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.TextServer.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
     val shaped_text_set_orientation :
       BuiltinClass0.RID.t structure ptr ->
       Class0.TextServer.Orientation.t structure ptr ->
@@ -53652,6 +60388,12 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       BuiltinClass0.Int.t structure ptr
 
     val shaped_get_span_meta :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TextServer.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr
+
+    val shaped_get_span_embedded_object :
       BuiltinClass0.RID.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       Class0.TextServer.t structure ptr ->
@@ -53746,6 +60488,7 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     val shaped_text_get_word_breaks :
       BuiltinClass0.RID.t structure ptr ->
       Class0.TextServer.GraphemeFlag.t structure ptr ->
+      Class0.TextServer.GraphemeFlag.t structure ptr ->
       Class0.TextServer.t structure ptr ->
       BuiltinClass0.PackedInt32Array.t structure ptr
 
@@ -53786,6 +60529,18 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       BuiltinClass0.Variant.t structure ptr ->
       Class0.TextServer.t structure ptr ->
       BuiltinClass0.Rect2.t structure ptr
+
+    val shaped_text_get_object_range :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      Class0.TextServer.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr
+
+    val shaped_text_get_object_glyph :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Variant.t structure ptr ->
+      Class0.TextServer.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
 
     val shaped_text_get_size :
       BuiltinClass0.RID.t structure ptr ->
@@ -53962,6 +60717,11 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TextServer.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val is_valid_letter :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TextServer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val string_to_upper :
       BuiltinClass0.String.t structure ptr ->
       BuiltinClass0.String.t structure ptr ->
@@ -53969,6 +60729,12 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       BuiltinClass0.String.t structure ptr
 
     val string_to_lower :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.TextServer.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val string_to_title :
       BuiltinClass0.String.t structure ptr ->
       BuiltinClass0.String.t structure ptr ->
       Class0.TextServer.t structure ptr ->
@@ -54087,7 +60853,9 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     include TEXTURE2D
 
     val _MAX_FRAMES : int
-    (** The maximum number of frames supported by [AnimatedTexture]. If you need more frames in your animation, use [AnimationPlayer] or [AnimatedSprite2D]. *)
+    (** The maximum number of frames supported by \[AnimatedTexture\]. If you
+        need more frames in your animation, use \[AnimationPlayer\] or
+        \[AnimatedSprite2D\]. *)
 
     val set_frames :
       BuiltinClass0.Int.t structure ptr ->
@@ -54368,6 +61136,26 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
 
     val get_curve_z :
       Class0.CurveXYZTexture.t structure ptr -> Class0.Curve.t structure ptr
+  end
+
+  module type EXTERNALTEXTURE = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include TEXTURE2D
+
+    val set_size :
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.ExternalTexture.t structure ptr ->
+      unit
+
+    val get_external_texture_id :
+      Class0.ExternalTexture.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_external_buffer_id :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.ExternalTexture.t structure ptr ->
+      unit
   end
 
   module type GRADIENTTEXTURE1D = sig
@@ -55863,6 +62651,44 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     val get_y_sort_origin :
       Class0.TileData.t structure ptr -> BuiltinClass0.Int.t structure ptr
 
+    val set_occluder_polygons_count :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TileData.t structure ptr ->
+      unit
+
+    val get_occluder_polygons_count :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TileData.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val add_occluder_polygon :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TileData.t structure ptr ->
+      unit
+
+    val remove_occluder_polygon :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TileData.t structure ptr ->
+      unit
+
+    val set_occluder_polygon :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.OccluderPolygon2D.t structure ptr ->
+      Class0.TileData.t structure ptr ->
+      unit
+
+    val get_occluder_polygon :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TileData.t structure ptr ->
+      Class0.OccluderPolygon2D.t structure ptr
+
     val set_occluder :
       BuiltinClass0.Int.t structure ptr ->
       Class0.OccluderPolygon2D.t structure ptr ->
@@ -55871,6 +62697,9 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
 
     val get_occluder :
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.TileData.t structure ptr ->
       Class0.OccluderPolygon2D.t structure ptr
 
@@ -55984,6 +62813,11 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TileData.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
 
+    val is_valid_terrain_peering_bit :
+      Class0.TileSet.CellNeighbor.t structure ptr ->
+      Class0.TileData.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val set_navigation_polygon :
       BuiltinClass0.Int.t structure ptr ->
       Class0.NavigationPolygon.t structure ptr ->
@@ -55992,6 +62826,9 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
 
     val get_navigation_polygon :
       BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.TileData.t structure ptr ->
       Class0.NavigationPolygon.t structure ptr
 
@@ -56013,6 +62850,11 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       BuiltinClass0.String.t structure ptr ->
       Class0.TileData.t structure ptr ->
       BuiltinClass0.Variant.t structure ptr
+
+    val has_custom_data :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.TileData.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
 
     val set_custom_data_by_layer_id :
       BuiltinClass0.Int.t structure ptr ->
@@ -56250,6 +63092,27 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TileMap.t structure ptr ->
       Class0.TileData.t structure ptr
 
+    val is_cell_flipped_h :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TileMap.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val is_cell_flipped_v :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TileMap.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val is_cell_transposed :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TileMap.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val get_coords_for_body_rid :
       BuiltinClass0.RID.t structure ptr ->
       Class0.TileMap.t structure ptr ->
@@ -56349,6 +63212,272 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TileSet.CellNeighbor.t structure ptr ->
       Class0.TileMap.t structure ptr ->
       BuiltinClass0.Vector2i.t structure ptr
+  end
+
+  module type TILEMAPLAYER = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include NODE2D
+
+    val ___use_tile_data_runtime_update :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val ___tile_data_runtime_update :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileData.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val ___update_cells :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val set_cell :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val erase_cell :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val fix_invalid_tiles : Class0.TileMapLayer.t structure ptr -> unit
+    val clear : Class0.TileMapLayer.t structure ptr -> unit
+
+    val get_cell_source_id :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_cell_atlas_coords :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr
+
+    val get_cell_alternative_tile :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_cell_tile_data :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      Class0.TileData.t structure ptr
+
+    val is_cell_flipped_h :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val is_cell_flipped_v :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val is_cell_transposed :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_used_cells :
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr
+
+    val get_used_cells_by_id :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr
+
+    val get_used_rect :
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Rect2i.t structure ptr
+
+    val get_pattern :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      Class0.TileMapPattern.t structure ptr
+
+    val set_pattern :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileMapPattern.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val set_cells_terrain_connect :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val set_cells_terrain_path :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val has_body_rid :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_coords_for_body_rid :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr
+
+    val update_internals : Class0.TileMapLayer.t structure ptr -> unit
+
+    val notify_runtime_tile_data_update :
+      Class0.TileMapLayer.t structure ptr -> unit
+
+    val map_pattern :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileMapPattern.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr
+
+    val get_surrounding_cells :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr
+
+    val get_neighbor_cell :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileSet.CellNeighbor.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr
+
+    val map_to_local :
+      BuiltinClass0.Vector2i.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Vector2.t structure ptr
+
+    val local_to_map :
+      BuiltinClass0.Vector2.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.Vector2i.t structure ptr
+
+    val set_tile_map_data_from_array :
+      BuiltinClass0.PackedByteArray.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val get_tile_map_data_as_array :
+      Class0.TileMapLayer.t structure ptr ->
+      BuiltinClass0.PackedByteArray.t structure ptr
+
+    val set_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val is_enabled :
+      Class0.TileMapLayer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_tile_set :
+      Class0.TileSet.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val get_tile_set :
+      Class0.TileMapLayer.t structure ptr -> Class0.TileSet.t structure ptr
+
+    val set_y_sort_origin :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val get_y_sort_origin :
+      Class0.TileMapLayer.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val set_x_draw_order_reversed :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val is_x_draw_order_reversed :
+      Class0.TileMapLayer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_rendering_quadrant_size :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val get_rendering_quadrant_size :
+      Class0.TileMapLayer.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val set_collision_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val is_collision_enabled :
+      Class0.TileMapLayer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_use_kinematic_bodies :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val is_using_kinematic_bodies :
+      Class0.TileMapLayer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_collision_visibility_mode :
+      Class0.TileMapLayer.DebugVisibilityMode.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val get_collision_visibility_mode :
+      Class0.TileMapLayer.t structure ptr ->
+      Class0.TileMapLayer.DebugVisibilityMode.t structure ptr
+
+    val set_occlusion_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val is_occlusion_enabled :
+      Class0.TileMapLayer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_navigation_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val is_navigation_enabled :
+      Class0.TileMapLayer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_navigation_map :
+      BuiltinClass0.RID.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val get_navigation_map :
+      Class0.TileMapLayer.t structure ptr -> BuiltinClass0.RID.t structure ptr
+
+    val set_navigation_visibility_mode :
+      Class0.TileMapLayer.DebugVisibilityMode.t structure ptr ->
+      Class0.TileMapLayer.t structure ptr ->
+      unit
+
+    val get_navigation_visibility_mode :
+      Class0.TileMapLayer.t structure ptr ->
+      Class0.TileMapLayer.DebugVisibilityMode.t structure ptr
   end
 
   module type TILEMAPPATTERN = sig
@@ -56575,6 +63704,17 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       Class0.TileSet.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
 
+    val set_physics_layer_collision_priority :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.TileSet.t structure ptr ->
+      unit
+
+    val get_physics_layer_collision_priority :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TileSet.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val set_physics_layer_physics_material :
       BuiltinClass0.Int.t structure ptr ->
       Class0.PhysicsMaterial.t structure ptr ->
@@ -56738,6 +63878,11 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
       BuiltinClass0.String.t structure ptr ->
       Class0.TileSet.t structure ptr ->
       unit
+
+    val has_custom_data_layer_by_name :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.TileSet.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
 
     val get_custom_data_layer_name :
       BuiltinClass0.Int.t structure ptr ->
@@ -56905,19 +64050,30 @@ This notification is received [i]before[/i] the related [signal pose_updated] si
     include TILESETSOURCE
 
     val _TRANSFORM_FLIP_H : int
-    (** Represents cell's horizontal flip flag. Should be used directly with [TileMap] to flip placed tiles by altering their alternative IDs.
-[codeblock]
-var alternate_id = $TileMap.get_cell_alternative_tile(0, Vector2i(2, 2))
-if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
-    # If tile is not already flipped, flip it.
-    $TileMap.set_cell(0, Vector2i(2, 2), source_id, atlas_coords, alternate_id | TileSetAtlasSource.TRANSFORM_FLIP_H)
-[/codeblock] *)
+    (** Represents cell''s horizontal flip flag. Should be used directly with
+        \[TileMap\] to flip placed tiles by altering their alternative IDs.
+        \[codeblock\] var alternate_id = $TileMap.get_cell_alternative_tile(0,
+        Vector2i(2, 2)) if not alternate_id &
+        TileSetAtlasSource.TRANSFORM_FLIP_H: # If tile is not already flipped,
+        flip it. $TileMap.set_cell(0, Vector2i(2, 2), source_id, atlas_coords,
+        alternate_id | TileSetAtlasSource.TRANSFORM_FLIP_H) \[/codeblock\]
+        \[b\]Note:\[/b\] These transformations can be combined to do the
+        equivalent of 0, 90, 180, and 270 degree rotations, as shown below:
+        \[codeblock\] enum TileTransform \{! ROTATE_0 = 0, ROTATE_90 =
+        TileSetAtlasSource.TRANSFORM_TRANSPOSE |
+        TileSetAtlasSource.TRANSFORM_FLIP_H, ROTATE_180 =
+        TileSetAtlasSource.TRANSFORM_FLIP_H |
+        TileSetAtlasSource.TRANSFORM_FLIP_V, ROTATE_270 =
+        TileSetAtlasSource.TRANSFORM_TRANSPOSE |
+        TileSetAtlasSource.TRANSFORM_FLIP_V, \} \[/codeblock\] *)
 
     val _TRANSFORM_FLIP_V : int
-    (** Represents cell's vertical flip flag. See [constant TRANSFORM_FLIP_H] for usage. *)
+    (** Represents cell''s vertical flip flag. See \[constant TRANSFORM_FLIP_H\]
+        for usage. *)
 
     val _TRANSFORM_TRANSPOSE : int
-    (** Represents cell's transposed flag. See [constant TRANSFORM_FLIP_H] for usage. *)
+    (** Represents cell''s transposed flag. See \[constant TRANSFORM_FLIP_H\]
+        for usage. *)
 
     val set_texture :
       Class0.Texture2D.t structure ptr ->
@@ -57349,6 +64505,12 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val is_paused :
       Class0.Timer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
+    val set_ignore_time_scale :
+      BuiltinClass0.Bool.t structure ptr -> Class0.Timer.t structure ptr -> unit
+
+    val is_ignoring_time_scale :
+      Class0.Timer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
     val is_stopped :
       Class0.Timer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
@@ -57576,6 +64738,129 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       unit
   end
 
+  module type TRANSLATIONDOMAIN = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include REFCOUNTED
+
+    val get_translation_object :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      Class0.Translation.t structure ptr
+
+    val add_translation :
+      Class0.Translation.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      unit
+
+    val remove_translation :
+      Class0.Translation.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      unit
+
+    val clear : Class0.TranslationDomain.t structure ptr -> unit
+
+    val translate :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
+    val translate_plural :
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
+    val is_pseudolocalization_enabled :
+      Class0.TranslationDomain.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_pseudolocalization_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      unit
+
+    val is_pseudolocalization_accents_enabled :
+      Class0.TranslationDomain.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_pseudolocalization_accents_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      unit
+
+    val is_pseudolocalization_double_vowels_enabled :
+      Class0.TranslationDomain.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_pseudolocalization_double_vowels_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      unit
+
+    val is_pseudolocalization_fake_bidi_enabled :
+      Class0.TranslationDomain.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_pseudolocalization_fake_bidi_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      unit
+
+    val is_pseudolocalization_override_enabled :
+      Class0.TranslationDomain.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_pseudolocalization_override_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      unit
+
+    val is_pseudolocalization_skip_placeholders_enabled :
+      Class0.TranslationDomain.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_pseudolocalization_skip_placeholders_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      unit
+
+    val get_pseudolocalization_expansion_ratio :
+      Class0.TranslationDomain.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_pseudolocalization_expansion_ratio :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      unit
+
+    val get_pseudolocalization_prefix :
+      Class0.TranslationDomain.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val set_pseudolocalization_prefix :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      unit
+
+    val get_pseudolocalization_suffix :
+      Class0.TranslationDomain.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val set_pseudolocalization_suffix :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      unit
+
+    val pseudolocalize :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+  end
+
   module type TRANSLATIONSERVER = sig
     open! ApiTypes
     include ApiTypes.OBJECT
@@ -57602,6 +64887,7 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
 
     val standardize_locale :
       BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.TranslationServer.t structure ptr ->
       BuiltinClass0.String.t structure ptr
 
@@ -57665,6 +64951,21 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       BuiltinClass0.String.t structure ptr ->
       Class0.TranslationServer.t structure ptr ->
       Class0.Translation.t structure ptr
+
+    val has_domain :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.TranslationServer.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val get_or_add_domain :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.TranslationServer.t structure ptr ->
+      Class0.TranslationDomain.t structure ptr
+
+    val remove_domain :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.TranslationServer.t structure ptr ->
+      unit
 
     val clear : Class0.TranslationServer.t structure ptr -> unit
 
@@ -57941,6 +65242,12 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
 
     val get_allow_search :
       Class0.Tree.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_auto_tooltip :
+      BuiltinClass0.Bool.t structure ptr -> Class0.Tree.t structure ptr -> unit
+
+    val is_auto_tooltip_enabled :
+      Class0.Tree.t structure ptr -> BuiltinClass0.Bool.t structure ptr
   end
 
   module type TREEITEM = sig
@@ -57958,6 +65265,17 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       BuiltinClass0.Int.t structure ptr ->
       Class0.TreeItem.t structure ptr ->
       Class0.TreeItem.TreeCellMode.t structure ptr
+
+    val set_auto_translate_mode :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Node.AutoTranslateMode.t structure ptr ->
+      Class0.TreeItem.t structure ptr ->
+      unit
+
+    val get_auto_translate_mode :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TreeItem.t structure ptr ->
+      Class0.Node.AutoTranslateMode.t structure ptr
 
     val set_edit_multiline :
       BuiltinClass0.Int.t structure ptr ->
@@ -58097,6 +65415,17 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.TreeItem.t structure ptr ->
       Class0.Texture2D.t structure ptr
 
+    val set_icon_overlay :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Texture2D.t structure ptr ->
+      Class0.TreeItem.t structure ptr ->
+      unit
+
+    val get_icon_overlay :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TreeItem.t structure ptr ->
+      Class0.Texture2D.t structure ptr
+
     val set_icon_region :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Rect2.t structure ptr ->
@@ -58173,6 +65502,17 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.TreeItem.t structure ptr ->
       unit
 
+    val set_custom_draw_callback :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.TreeItem.t structure ptr ->
+      unit
+
+    val get_custom_draw_callback :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TreeItem.t structure ptr ->
+      BuiltinClass0.Callable.t structure ptr
+
     val set_collapsed :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.TreeItem.t structure ptr ->
@@ -58197,6 +65537,9 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       unit
 
     val is_visible :
+      Class0.TreeItem.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val is_visible_in_tree :
       Class0.TreeItem.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val uncollapse_tree : Class0.TreeItem.t structure ptr -> unit
@@ -58312,6 +65655,8 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.TreeItem.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val clear_buttons : Class0.TreeItem.t structure ptr -> unit
+
     val add_button :
       BuiltinClass0.Int.t structure ptr ->
       Class0.Texture2D.t structure ptr ->
@@ -58343,6 +65688,12 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       BuiltinClass0.Int.t structure ptr ->
       Class0.TreeItem.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
+
+    val get_button_color :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.TreeItem.t structure ptr ->
+      BuiltinClass0.Color.t structure ptr
 
     val get_button :
       BuiltinClass0.Int.t structure ptr ->
@@ -58613,6 +65964,11 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.Tween.t structure ptr ->
       Class0.MethodTweener.t structure ptr
 
+    val tween_subtween :
+      Class0.Tween.t structure ptr ->
+      Class0.Tween.t structure ptr ->
+      Class0.SubtweenTweener.t structure ptr
+
     val custom_step :
       BuiltinClass0.Float.t structure ptr ->
       Class0.Tween.t structure ptr ->
@@ -58644,6 +66000,11 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
 
     val set_pause_mode :
       Class0.Tween.TweenPauseMode.t structure ptr ->
+      Class0.Tween.t structure ptr ->
+      Class0.Tween.t structure ptr
+
+    val set_ignore_time_scale :
+      BuiltinClass0.Bool.t structure ptr ->
       Class0.Tween.t structure ptr ->
       Class0.Tween.t structure ptr
 
@@ -58760,10 +66121,26 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.PropertyTweener.t structure ptr ->
       Class0.PropertyTweener.t structure ptr
 
+    val set_custom_interpolator :
+      BuiltinClass0.Callable.t structure ptr ->
+      Class0.PropertyTweener.t structure ptr ->
+      Class0.PropertyTweener.t structure ptr
+
     val set_delay :
       BuiltinClass0.Float.t structure ptr ->
       Class0.PropertyTweener.t structure ptr ->
       Class0.PropertyTweener.t structure ptr
+  end
+
+  module type SUBTWEENTWEENER = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include TWEENER
+
+    val set_delay :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.SubtweenTweener.t structure ptr ->
+      Class0.SubtweenTweener.t structure ptr
   end
 
   module type UDPSERVER = sig
@@ -59040,11 +66417,31 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_version :
       Class0.UndoRedo.t structure ptr -> BuiltinClass0.Int.t structure ptr
 
+    val set_max_steps :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.UndoRedo.t structure ptr ->
+      unit
+
+    val get_max_steps :
+      Class0.UndoRedo.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
     val redo :
       Class0.UndoRedo.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val undo :
       Class0.UndoRedo.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+  end
+
+  module type UNIFORMSETCACHERD = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include OBJECT
+
+    val get_cache :
+      BuiltinClass0.RID.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.RDUniform.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
   end
 
   module type VBOXCONTAINER = sig
@@ -59377,6 +66774,14 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_contact_body :
       Class0.VehicleWheel3D.t structure ptr -> Class0.Node3D.t structure ptr
 
+    val get_contact_point :
+      Class0.VehicleWheel3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
+    val get_contact_normal :
+      Class0.VehicleWheel3D.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
     val set_roll_influence :
       BuiltinClass0.Float.t structure ptr ->
       Class0.VehicleWheel3D.t structure ptr ->
@@ -59666,6 +67071,10 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.Viewport.t structure ptr ->
       BuiltinClass0.Transform2D.t structure ptr
 
+    val get_stretch_transform :
+      Class0.Viewport.t structure ptr ->
+      BuiltinClass0.Transform2D.t structure ptr
+
     val get_final_transform :
       Class0.Viewport.t structure ptr ->
       BuiltinClass0.Transform2D.t structure ptr
@@ -59776,6 +67185,14 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_physics_object_picking_sort :
       Class0.Viewport.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
+    val set_physics_object_picking_first_only :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.Viewport.t structure ptr ->
+      unit
+
+    val get_physics_object_picking_first_only :
+      Class0.Viewport.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
     val get_viewport_rid :
       Class0.Viewport.t structure ptr -> BuiltinClass0.RID.t structure ptr
 
@@ -59796,16 +67213,8 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.Viewport.t structure ptr ->
       unit
 
-    val get_camera_2d :
-      Class0.Viewport.t structure ptr -> Class0.Camera2D.t structure ptr
-
-    val set_as_audio_listener_2d :
-      BuiltinClass0.Bool.t structure ptr ->
-      Class0.Viewport.t structure ptr ->
-      unit
-
-    val is_audio_listener_2d :
-      Class0.Viewport.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+    val notify_mouse_entered : Class0.Viewport.t structure ptr -> unit
+    val notify_mouse_exited : Class0.Viewport.t structure ptr -> unit
 
     val get_mouse_position :
       Class0.Viewport.t structure ptr -> BuiltinClass0.Vector2.t structure ptr
@@ -59816,6 +67225,7 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       unit
 
     val update_mouse_cursor_state : Class0.Viewport.t structure ptr -> unit
+    val gui_cancel_drag : Class0.Viewport.t structure ptr -> unit
 
     val gui_get_drag_data :
       Class0.Viewport.t structure ptr -> BuiltinClass0.Variant.t structure ptr
@@ -59829,6 +67239,9 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val gui_release_focus : Class0.Viewport.t structure ptr -> unit
 
     val gui_get_focus_owner :
+      Class0.Viewport.t structure ptr -> Class0.Control.t structure ptr
+
+    val gui_get_hovered_control :
       Class0.Viewport.t structure ptr -> Class0.Control.t structure ptr
 
     val set_disable_input :
@@ -59977,6 +67390,20 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_mesh_lod_threshold :
       Class0.Viewport.t structure ptr -> BuiltinClass0.Float.t structure ptr
 
+    val set_as_audio_listener_2d :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.Viewport.t structure ptr ->
+      unit
+
+    val is_audio_listener_2d :
+      Class0.Viewport.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val get_audio_listener_2d :
+      Class0.Viewport.t structure ptr -> Class0.AudioListener2D.t structure ptr
+
+    val get_camera_2d :
+      Class0.Viewport.t structure ptr -> Class0.Camera2D.t structure ptr
+
     val set_world_3d :
       Class0.World3D.t structure ptr -> Class0.Viewport.t structure ptr -> unit
 
@@ -59993,6 +67420,9 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
 
     val is_using_own_world_3d :
       Class0.Viewport.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val get_audio_listener_3d :
+      Class0.Viewport.t structure ptr -> Class0.AudioListener3D.t structure ptr
 
     val get_camera_3d :
       Class0.Viewport.t structure ptr -> Class0.Camera3D.t structure ptr
@@ -60054,6 +67484,15 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_texture_mipmap_bias :
       Class0.Viewport.t structure ptr -> BuiltinClass0.Float.t structure ptr
 
+    val set_anisotropic_filtering_level :
+      Class0.Viewport.AnisotropicFiltering.t structure ptr ->
+      Class0.Viewport.t structure ptr ->
+      unit
+
+    val get_anisotropic_filtering_level :
+      Class0.Viewport.t structure ptr ->
+      Class0.Viewport.AnisotropicFiltering.t structure ptr
+
     val set_vrs_mode :
       Class0.Viewport.VRSMode.t structure ptr ->
       Class0.Viewport.t structure ptr ->
@@ -60061,6 +67500,15 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
 
     val get_vrs_mode :
       Class0.Viewport.t structure ptr -> Class0.Viewport.VRSMode.t structure ptr
+
+    val set_vrs_update_mode :
+      Class0.Viewport.VRSUpdateMode.t structure ptr ->
+      Class0.Viewport.t structure ptr ->
+      unit
+
+    val get_vrs_update_mode :
+      Class0.Viewport.t structure ptr ->
+      Class0.Viewport.VRSUpdateMode.t structure ptr
 
     val set_vrs_texture :
       Class0.Texture2D.t structure ptr ->
@@ -60534,6 +67982,26 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.GPUParticlesCollisionHeightField3D.t structure ptr ->
       Class0.GPUParticlesCollisionHeightField3D.UpdateMode.t structure ptr
 
+    val set_heightfield_mask :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.GPUParticlesCollisionHeightField3D.t structure ptr ->
+      unit
+
+    val get_heightfield_mask :
+      Class0.GPUParticlesCollisionHeightField3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_heightfield_mask_value :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.GPUParticlesCollisionHeightField3D.t structure ptr ->
+      unit
+
+    val get_heightfield_mask_value :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.GPUParticlesCollisionHeightField3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
     val set_follow_camera_enabled :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.GPUParticlesCollisionHeightField3D.t structure ptr ->
@@ -60736,6 +68204,15 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.GeometryInstance3D.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
 
+    val set_lightmap_texel_scale :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.GeometryInstance3D.t structure ptr ->
+      unit
+
+    val get_lightmap_texel_scale :
+      Class0.GeometryInstance3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val set_lightmap_scale :
       Class0.GeometryInstance3D.LightmapScale.t structure ptr ->
       Class0.GeometryInstance3D.t structure ptr ->
@@ -60813,6 +68290,11 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.CPUParticles3D.t structure ptr ->
       unit
 
+    val set_visibility_aabb :
+      BuiltinClass0.AABB.t structure ptr ->
+      Class0.CPUParticles3D.t structure ptr ->
+      unit
+
     val set_lifetime_randomness :
       BuiltinClass0.Float.t structure ptr ->
       Class0.CPUParticles3D.t structure ptr ->
@@ -60865,6 +68347,10 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.CPUParticles3D.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
 
+    val get_visibility_aabb :
+      Class0.CPUParticles3D.t structure ptr ->
+      BuiltinClass0.AABB.t structure ptr
+
     val get_lifetime_randomness :
       Class0.CPUParticles3D.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
@@ -60901,7 +68387,36 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_mesh :
       Class0.CPUParticles3D.t structure ptr -> Class0.Mesh.t structure ptr
 
-    val restart : Class0.CPUParticles3D.t structure ptr -> unit
+    val set_use_fixed_seed :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.CPUParticles3D.t structure ptr ->
+      unit
+
+    val get_use_fixed_seed :
+      Class0.CPUParticles3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_seed :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.CPUParticles3D.t structure ptr ->
+      unit
+
+    val get_seed :
+      Class0.CPUParticles3D.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val restart :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.CPUParticles3D.t structure ptr ->
+      unit
+
+    val request_particles_process :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.CPUParticles3D.t structure ptr ->
+      unit
+
+    val capture_aabb :
+      Class0.CPUParticles3D.t structure ptr ->
+      BuiltinClass0.AABB.t structure ptr
 
     val set_direction :
       BuiltinClass0.Vector3.t structure ptr ->
@@ -61089,6 +68604,15 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.CPUParticles3D.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
 
+    val set_emission_ring_cone_angle :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.CPUParticles3D.t structure ptr ->
+      unit
+
+    val get_emission_ring_cone_angle :
+      Class0.CPUParticles3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
     val get_gravity :
       Class0.CPUParticles3D.t structure ptr ->
       BuiltinClass0.Vector3.t structure ptr
@@ -61226,6 +68750,13 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
 
     val get_meshes :
       Class0.CSGShape3D.t structure ptr -> BuiltinClass0.Array.t structure ptr
+
+    val bake_static_mesh :
+      Class0.CSGShape3D.t structure ptr -> Class0.ArrayMesh.t structure ptr
+
+    val bake_collision_shape :
+      Class0.CSGShape3D.t structure ptr ->
+      Class0.ConcavePolygonShape3D.t structure ptr
   end
 
   module type CSGCOMBINER3D = sig
@@ -61434,6 +68965,14 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_path_rotation :
       Class0.CSGPolygon3D.t structure ptr ->
       Class0.CSGPolygon3D.PathRotation.t structure ptr
+
+    val set_path_rotation_accurate :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.CSGPolygon3D.t structure ptr ->
+      unit
+
+    val get_path_rotation_accurate :
+      Class0.CSGPolygon3D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val set_path_local :
       BuiltinClass0.Bool.t structure ptr ->
@@ -61733,6 +69272,23 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.GPUParticles3D.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
 
+    val set_use_fixed_seed :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.GPUParticles3D.t structure ptr ->
+      unit
+
+    val get_use_fixed_seed :
+      Class0.GPUParticles3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_seed :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.GPUParticles3D.t structure ptr ->
+      unit
+
+    val get_seed :
+      Class0.GPUParticles3D.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
     val set_draw_order :
       Class0.GPUParticles3D.DrawOrder.t structure ptr ->
       Class0.GPUParticles3D.t structure ptr ->
@@ -61769,7 +69325,10 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_skin :
       Class0.GPUParticles3D.t structure ptr -> Class0.Skin.t structure ptr
 
-    val restart : Class0.GPUParticles3D.t structure ptr -> unit
+    val restart :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.GPUParticles3D.t structure ptr ->
+      unit
 
     val capture_aabb :
       Class0.GPUParticles3D.t structure ptr ->
@@ -61833,6 +69392,11 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_amount_ratio :
       Class0.GPUParticles3D.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
+
+    val request_particles_process :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.GPUParticles3D.t structure ptr ->
+      unit
   end
 
   module type LABEL3D = sig
@@ -62116,6 +69680,10 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_skin :
       Class0.MeshInstance3D.t structure ptr -> Class0.Skin.t structure ptr
 
+    val get_skin_reference :
+      Class0.MeshInstance3D.t structure ptr ->
+      Class0.SkinReference.t structure ptr
+
     val get_surface_override_material_count :
       Class0.MeshInstance3D.t structure ptr -> BuiltinClass0.Int.t structure ptr
 
@@ -62168,6 +69736,16 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       unit
 
     val create_debug_tangents : Class0.MeshInstance3D.t structure ptr -> unit
+
+    val bake_mesh_from_current_blend_shape_mix :
+      Class0.ArrayMesh.t structure ptr ->
+      Class0.MeshInstance3D.t structure ptr ->
+      Class0.ArrayMesh.t structure ptr
+
+    val bake_mesh_from_current_skeleton_pose :
+      Class0.ArrayMesh.t structure ptr ->
+      Class0.MeshInstance3D.t structure ptr ->
+      Class0.ArrayMesh.t structure ptr
   end
 
   module type SOFTBODY3D = sig
@@ -62300,6 +69878,7 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
       BuiltinClass0.NodePath.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
       Class0.SoftBody3D.t structure ptr ->
       unit
 
@@ -62728,6 +70307,14 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_shadow_reverse_cull_face :
       Class0.Light3D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
+    val set_shadow_caster_mask :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.Light3D.t structure ptr ->
+      unit
+
+    val get_shadow_caster_mask :
+      Class0.Light3D.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
     val set_bake_mode :
       Class0.Light3D.BakeMode.t structure ptr ->
       Class0.Light3D.t structure ptr ->
@@ -62894,6 +70481,14 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_environment_custom_energy :
       Class0.LightmapGI.t structure ptr -> BuiltinClass0.Float.t structure ptr
 
+    val set_texel_scale :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LightmapGI.t structure ptr ->
+      unit
+
+    val get_texel_scale :
+      Class0.LightmapGI.t structure ptr -> BuiltinClass0.Float.t structure ptr
+
     val set_max_texture_size :
       BuiltinClass0.Int.t structure ptr ->
       Class0.LightmapGI.t structure ptr ->
@@ -62901,6 +70496,22 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
 
     val get_max_texture_size :
       Class0.LightmapGI.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val set_supersampling_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.LightmapGI.t structure ptr ->
+      unit
+
+    val is_supersampling_enabled :
+      Class0.LightmapGI.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_supersampling_factor :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.LightmapGI.t structure ptr ->
+      unit
+
+    val get_supersampling_factor :
+      Class0.LightmapGI.t structure ptr -> BuiltinClass0.Float.t structure ptr
 
     val set_use_denoiser :
       BuiltinClass0.Bool.t structure ptr ->
@@ -62918,6 +70529,14 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_denoiser_strength :
       Class0.LightmapGI.t structure ptr -> BuiltinClass0.Float.t structure ptr
 
+    val set_denoiser_range :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.LightmapGI.t structure ptr ->
+      unit
+
+    val get_denoiser_range :
+      Class0.LightmapGI.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
     val set_interior :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.LightmapGI.t structure ptr ->
@@ -62933,6 +70552,15 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
 
     val is_directional :
       Class0.LightmapGI.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_shadowmask_mode :
+      Class0.LightmapGIData.ShadowmaskMode.t structure ptr ->
+      Class0.LightmapGI.t structure ptr ->
+      unit
+
+    val get_shadowmask_mode :
+      Class0.LightmapGI.t structure ptr ->
+      Class0.LightmapGIData.ShadowmaskMode.t structure ptr
 
     val set_use_texture_for_bounces :
       BuiltinClass0.Bool.t structure ptr ->
@@ -62952,6 +70580,50 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.CameraAttributes.t structure ptr
   end
 
+  module type OCCLUDERINSTANCE3D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include VISUALINSTANCE3D
+
+    val set_bake_mask :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.OccluderInstance3D.t structure ptr ->
+      unit
+
+    val get_bake_mask :
+      Class0.OccluderInstance3D.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_bake_mask_value :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.OccluderInstance3D.t structure ptr ->
+      unit
+
+    val get_bake_mask_value :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.OccluderInstance3D.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_bake_simplification_distance :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.OccluderInstance3D.t structure ptr ->
+      unit
+
+    val get_bake_simplification_distance :
+      Class0.OccluderInstance3D.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_occluder :
+      Class0.Occluder3D.t structure ptr ->
+      Class0.OccluderInstance3D.t structure ptr ->
+      unit
+
+    val get_occluder :
+      Class0.OccluderInstance3D.t structure ptr ->
+      Class0.Occluder3D.t structure ptr
+  end
+
   module type REFLECTIONPROBE = sig
     open! ApiTypes
     include ApiTypes.OBJECT
@@ -62963,6 +70635,15 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       unit
 
     val get_intensity :
+      Class0.ReflectionProbe.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_blend_distance :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.ReflectionProbe.t structure ptr ->
+      unit
+
+    val get_blend_distance :
       Class0.ReflectionProbe.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
 
@@ -63062,6 +70743,15 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       unit
 
     val get_cull_mask :
+      Class0.ReflectionProbe.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_reflection_mask :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.ReflectionProbe.t structure ptr ->
+      unit
+
+    val get_reflection_mask :
       Class0.ReflectionProbe.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
 
@@ -63171,10 +70861,10 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     include SHADER
 
     val _NODE_ID_INVALID : int
-    (** Denotes invalid [VisualShader] node. *)
+    (** Indicates an invalid \[VisualShader\] node. *)
 
     val _NODE_ID_OUTPUT : int
-    (** Denotes output node of [VisualShader]. *)
+    (** Indicates an output node of \[VisualShader\]. *)
 
     val set_mode :
       Class0.Shader.Mode.t structure ptr ->
@@ -63290,6 +70980,19 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.VisualShader.t structure ptr ->
       BuiltinClass0.Vector2.t structure ptr
 
+    val attach_node_to_frame :
+      Class0.VisualShader.Type.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.VisualShader.t structure ptr ->
+      unit
+
+    val detach_node_from_frame :
+      Class0.VisualShader.Type.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.VisualShader.t structure ptr ->
+      unit
+
     val add_varying :
       BuiltinClass0.String.t structure ptr ->
       Class0.VisualShader.VaryingMode.t structure ptr ->
@@ -63355,6 +71058,15 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_default_input_values :
       Class0.VisualShaderNode.t structure ptr ->
       BuiltinClass0.Array.t structure ptr
+
+    val set_frame :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.VisualShaderNode.t structure ptr ->
+      unit
+
+    val get_frame :
+      Class0.VisualShaderNode.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
   end
 
   module type VISUALSHADERNODEBILLBOARD = sig
@@ -63510,13 +71222,13 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.VisualShaderNodeCubemap.Source.t structure ptr
 
     val set_cube_map :
-      Class0.Cubemap.t structure ptr ->
+      Class0.TextureLayered.t structure ptr ->
       Class0.VisualShaderNodeCubemap.t structure ptr ->
       unit
 
     val get_cube_map :
       Class0.VisualShaderNodeCubemap.t structure ptr ->
-      Class0.Cubemap.t structure ptr
+      Class0.TextureLayered.t structure ptr
 
     val set_texture_type :
       Class0.VisualShaderNodeCubemap.TextureType.t structure ptr ->
@@ -64049,6 +71761,15 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.VisualShaderNodeIntParameter.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
 
+    val set_enum_names :
+      BuiltinClass0.PackedStringArray.t structure ptr ->
+      Class0.VisualShaderNodeIntParameter.t structure ptr ->
+      unit
+
+    val get_enum_names :
+      Class0.VisualShaderNodeIntParameter.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr
+
     val set_default_value_enabled :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.VisualShaderNodeIntParameter.t structure ptr ->
@@ -64237,6 +71958,25 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     open! ApiTypes
     include ApiTypes.OBJECT
     include VISUALSHADERNODE
+
+    val set_op_type :
+      Class0.VisualShaderNodeRemap.OpType.t structure ptr ->
+      Class0.VisualShaderNodeRemap.t structure ptr ->
+      unit
+
+    val get_op_type :
+      Class0.VisualShaderNodeRemap.t structure ptr ->
+      Class0.VisualShaderNodeRemap.OpType.t structure ptr
+  end
+
+  module type VISUALSHADERNODEREROUTE = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include VISUALSHADERNODE
+
+    val get_port_type :
+      Class0.VisualShaderNodeReroute.t structure ptr ->
+      Class0.VisualShaderNode.PortType.t structure ptr
   end
 
   module type VISUALSHADERNODERESIZABLEBASE = sig
@@ -64252,30 +71992,6 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_size :
       Class0.VisualShaderNodeResizableBase.t structure ptr ->
       BuiltinClass0.Vector2.t structure ptr
-  end
-
-  module type VISUALSHADERNODECOMMENT = sig
-    open! ApiTypes
-    include ApiTypes.OBJECT
-    include VISUALSHADERNODERESIZABLEBASE
-
-    val set_title :
-      BuiltinClass0.String.t structure ptr ->
-      Class0.VisualShaderNodeComment.t structure ptr ->
-      unit
-
-    val get_title :
-      Class0.VisualShaderNodeComment.t structure ptr ->
-      BuiltinClass0.String.t structure ptr
-
-    val set_description :
-      BuiltinClass0.String.t structure ptr ->
-      Class0.VisualShaderNodeComment.t structure ptr ->
-      unit
-
-    val get_description :
-      Class0.VisualShaderNodeComment.t structure ptr ->
-      BuiltinClass0.String.t structure ptr
   end
 
   module type VISUALSHADERNODECURVETEXTURE = sig
@@ -64306,6 +72022,82 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_texture :
       Class0.VisualShaderNodeCurveXYZTexture.t structure ptr ->
       Class0.CurveXYZTexture.t structure ptr
+  end
+
+  module type VISUALSHADERNODEFRAME = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include VISUALSHADERNODERESIZABLEBASE
+
+    val set_title :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.VisualShaderNodeFrame.t structure ptr ->
+      unit
+
+    val get_title :
+      Class0.VisualShaderNodeFrame.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val set_tint_color_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.VisualShaderNodeFrame.t structure ptr ->
+      unit
+
+    val is_tint_color_enabled :
+      Class0.VisualShaderNodeFrame.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val set_tint_color :
+      BuiltinClass0.Color.t structure ptr ->
+      Class0.VisualShaderNodeFrame.t structure ptr ->
+      unit
+
+    val get_tint_color :
+      Class0.VisualShaderNodeFrame.t structure ptr ->
+      BuiltinClass0.Color.t structure ptr
+
+    val set_autoshrink_enabled :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.VisualShaderNodeFrame.t structure ptr ->
+      unit
+
+    val is_autoshrink_enabled :
+      Class0.VisualShaderNodeFrame.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr
+
+    val add_attached_node :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.VisualShaderNodeFrame.t structure ptr ->
+      unit
+
+    val remove_attached_node :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.VisualShaderNodeFrame.t structure ptr ->
+      unit
+
+    val set_attached_nodes :
+      BuiltinClass0.PackedInt32Array.t structure ptr ->
+      Class0.VisualShaderNodeFrame.t structure ptr ->
+      unit
+
+    val get_attached_nodes :
+      Class0.VisualShaderNodeFrame.t structure ptr ->
+      BuiltinClass0.PackedInt32Array.t structure ptr
+  end
+
+  module type VISUALSHADERNODECOMMENT = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include VISUALSHADERNODEFRAME
+
+    val set_description :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.VisualShaderNodeComment.t structure ptr ->
+      unit
+
+    val get_description :
+      Class0.VisualShaderNodeComment.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
   end
 
   module type VISUALSHADERNODEGROUPBASE = sig
@@ -64567,13 +72359,13 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     include VISUALSHADERNODESAMPLE3D
 
     val set_texture_array :
-      Class0.Texture2DArray.t structure ptr ->
+      Class0.TextureLayered.t structure ptr ->
       Class0.VisualShaderNodeTexture2DArray.t structure ptr ->
       unit
 
     val get_texture_array :
       Class0.VisualShaderNodeTexture2DArray.t structure ptr ->
-      Class0.Texture2DArray.t structure ptr
+      Class0.TextureLayered.t structure ptr
   end
 
   module type VISUALSHADERNODETEXTURE3D = sig
@@ -65632,6 +73424,15 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
 
     val get_max_queued_packets :
       Class0.WebSocketPeer.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val set_heartbeat_interval :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.WebSocketPeer.t structure ptr ->
+      unit
+
+    val get_heartbeat_interval :
+      Class0.WebSocketPeer.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
   end
 
   module type WINDOW = sig
@@ -65640,14 +73441,19 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     include VIEWPORT
 
     val _NOTIFICATION_VISIBILITY_CHANGED : int
-    (** Emitted when [Window]'s visibility changes, right before [signal visibility_changed]. *)
+    (** Emitted when \[Window\]''s visibility changes, right before \[signal
+        visibility_changed\]. *)
 
     val _NOTIFICATION_THEME_CHANGED : int
-    (** Sent when the node needs to refresh its theme items. This happens in one of the following cases:
-- The [member theme] property is changed on this node or any of its ancestors.
-- The [member theme_type_variation] property is changed on this node.
-- The node enters the scene tree.
-[b]Note:[/b] As an optimization, this notification won't be sent from changes that occur while this node is outside of the scene tree. Instead, all of the theme item updates can be applied at once when the node enters the scene tree. *)
+    (** Sent when the node needs to refresh its theme items. This happens in one
+        of the following cases:
+        - The \[member theme\] property is changed on this node or any of its
+          ancestors.
+        - The \[member theme_type_variation\] property is changed on this node.
+        - The node enters the scene tree. \[b\]Note:\[/b\] As an optimization,
+          this notification won''t be sent from changes that occur while this
+          node is outside of the scene tree. Instead, all of the theme item
+          updates can be applied at once when the node enters the scene tree. *)
 
     val ___get_contents_minimum_size :
       Class0.Window.t structure ptr -> BuiltinClass0.Vector2.t structure ptr
@@ -65764,6 +73570,14 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val is_transient :
       Class0.Window.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
+    val set_transient_to_focused :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.Window.t structure ptr ->
+      unit
+
+    val is_transient_to_focused :
+      Class0.Window.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
     val set_exclusive :
       BuiltinClass0.Bool.t structure ptr ->
       Class0.Window.t structure ptr ->
@@ -65784,6 +73598,12 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.Window.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val grab_focus : Class0.Window.t structure ptr -> unit
+    val start_drag : Class0.Window.t structure ptr -> unit
+
+    val start_resize :
+      Class0.DisplayServer.WindowResizeEdge.t structure ptr ->
+      Class0.Window.t structure ptr ->
+      unit
 
     val set_ime_active :
       BuiltinClass0.Bool.t structure ptr ->
@@ -65800,6 +73620,14 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
 
     val get_contents_minimum_size :
       Class0.Window.t structure ptr -> BuiltinClass0.Vector2.t structure ptr
+
+    val set_force_native :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.Window.t structure ptr ->
+      unit
+
+    val get_force_native :
+      Class0.Window.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val set_content_scale_size :
       BuiltinClass0.Vector2i.t structure ptr ->
@@ -66191,12 +74019,12 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.Button.t structure ptr
 
     val remove_button :
-      Class0.Control.t structure ptr ->
+      Class0.Button.t structure ptr ->
       Class0.AcceptDialog.t structure ptr ->
       unit
 
     val register_text_enter :
-      Class0.Control.t structure ptr ->
+      Class0.LineEdit.t structure ptr ->
       Class0.AcceptDialog.t structure ptr ->
       unit
 
@@ -66286,6 +74114,70 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.EditorFileDialog.t structure ptr ->
       BuiltinClass0.PackedStringArray.t structure ptr
 
+    val get_option_name :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EditorFileDialog.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_option_values :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EditorFileDialog.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr
+
+    val get_option_default :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EditorFileDialog.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_option_name :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorFileDialog.t structure ptr ->
+      unit
+
+    val set_option_values :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr ->
+      Class0.EditorFileDialog.t structure ptr ->
+      unit
+
+    val set_option_default :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EditorFileDialog.t structure ptr ->
+      unit
+
+    val set_option_count :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EditorFileDialog.t structure ptr ->
+      unit
+
+    val get_option_count :
+      Class0.EditorFileDialog.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val add_option :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.EditorFileDialog.t structure ptr ->
+      unit
+
+    val get_selected_options :
+      Class0.EditorFileDialog.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
+    val clear_filename_filter : Class0.EditorFileDialog.t structure ptr -> unit
+
+    val set_filename_filter :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.EditorFileDialog.t structure ptr ->
+      unit
+
+    val get_filename_filter :
+      Class0.EditorFileDialog.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
     val get_current_dir :
       Class0.EditorFileDialog.t structure ptr ->
       BuiltinClass0.String.t structure ptr
@@ -66371,6 +74263,7 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.EditorFileDialog.t structure ptr ->
       unit
 
+    val popup_file_dialog : Class0.EditorFileDialog.t structure ptr -> unit
     val invalidate : Class0.EditorFileDialog.t structure ptr -> unit
   end
 
@@ -66395,6 +74288,68 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_filters :
       Class0.FileDialog.t structure ptr ->
       BuiltinClass0.PackedStringArray.t structure ptr
+
+    val clear_filename_filter : Class0.FileDialog.t structure ptr -> unit
+
+    val set_filename_filter :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.FileDialog.t structure ptr ->
+      unit
+
+    val get_filename_filter :
+      Class0.FileDialog.t structure ptr -> BuiltinClass0.String.t structure ptr
+
+    val get_option_name :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.FileDialog.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
+    val get_option_values :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.FileDialog.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr
+
+    val get_option_default :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.FileDialog.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val set_option_name :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.String.t structure ptr ->
+      Class0.FileDialog.t structure ptr ->
+      unit
+
+    val set_option_values :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr ->
+      Class0.FileDialog.t structure ptr ->
+      unit
+
+    val set_option_default :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.FileDialog.t structure ptr ->
+      unit
+
+    val set_option_count :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.FileDialog.t structure ptr ->
+      unit
+
+    val get_option_count :
+      Class0.FileDialog.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val add_option :
+      BuiltinClass0.String.t structure ptr ->
+      BuiltinClass0.PackedStringArray.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.FileDialog.t structure ptr ->
+      unit
+
+    val get_selected_options :
+      Class0.FileDialog.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
 
     val get_current_dir :
       Class0.FileDialog.t structure ptr -> BuiltinClass0.String.t structure ptr
@@ -66511,6 +74466,17 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.PopupMenu.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr
 
+    val set_prefer_native_menu :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.PopupMenu.t structure ptr ->
+      unit
+
+    val is_prefer_native_menu :
+      Class0.PopupMenu.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val is_native_menu :
+      Class0.PopupMenu.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
     val add_item :
       BuiltinClass0.String.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
@@ -66619,6 +74585,13 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.PopupMenu.t structure ptr ->
       unit
 
+    val add_submenu_node_item :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.PopupMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.PopupMenu.t structure ptr ->
+      unit
+
     val set_item_text :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.String.t structure ptr ->
@@ -66691,6 +74664,12 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.PopupMenu.t structure ptr ->
       unit
 
+    val set_item_submenu_node :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.PopupMenu.t structure ptr ->
+      Class0.PopupMenu.t structure ptr ->
+      unit
+
     val set_item_as_separator :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Bool.t structure ptr ->
@@ -66729,6 +74708,12 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       unit
 
     val set_item_multistate :
+      BuiltinClass0.Int.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.PopupMenu.t structure ptr ->
+      unit
+
+    val set_item_multistate_max :
       BuiltinClass0.Int.t structure ptr ->
       BuiltinClass0.Int.t structure ptr ->
       Class0.PopupMenu.t structure ptr ->
@@ -66815,6 +74800,11 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.PopupMenu.t structure ptr ->
       BuiltinClass0.String.t structure ptr
 
+    val get_item_submenu_node :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.PopupMenu.t structure ptr ->
+      Class0.PopupMenu.t structure ptr
+
     val is_item_separator :
       BuiltinClass0.Int.t structure ptr ->
       Class0.PopupMenu.t structure ptr ->
@@ -66846,6 +74836,16 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.Shortcut.t structure ptr
 
     val get_item_indent :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.PopupMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_item_multistate_max :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.PopupMenu.t structure ptr ->
+      BuiltinClass0.Int.t structure ptr
+
+    val get_item_multistate :
       BuiltinClass0.Int.t structure ptr ->
       Class0.PopupMenu.t structure ptr ->
       BuiltinClass0.Int.t structure ptr
@@ -66926,6 +74926,18 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
 
     val get_allow_search :
       Class0.PopupMenu.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val is_system_menu :
+      Class0.PopupMenu.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_system_menu :
+      Class0.NativeMenu.SystemMenus.t structure ptr ->
+      Class0.PopupMenu.t structure ptr ->
+      unit
+
+    val get_system_menu :
+      Class0.PopupMenu.t structure ptr ->
+      Class0.NativeMenu.SystemMenus.t structure ptr
   end
 
   module type POPUPPANEL = sig
@@ -67104,6 +75116,15 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_camera_attributes :
       Class0.WorldEnvironment.t structure ptr ->
       Class0.CameraAttributes.t structure ptr
+
+    val set_compositor :
+      Class0.Compositor.t structure ptr ->
+      Class0.WorldEnvironment.t structure ptr ->
+      unit
+
+    val get_compositor :
+      Class0.WorldEnvironment.t structure ptr ->
+      Class0.Compositor.t structure ptr
   end
 
   module type X509CERTIFICATE = sig
@@ -67204,10 +75225,91 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       GlobalEnum.Error.t structure ptr
   end
 
+  module type XRBODYMODIFIER3D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include SKELETONMODIFIER3D
+
+    val set_body_tracker :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.XRBodyModifier3D.t structure ptr ->
+      unit
+
+    val get_body_tracker :
+      Class0.XRBodyModifier3D.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
+    val set_body_update :
+      Class0.XRBodyModifier3D.BodyUpdate.t structure ptr ->
+      Class0.XRBodyModifier3D.t structure ptr ->
+      unit
+
+    val get_body_update :
+      Class0.XRBodyModifier3D.t structure ptr ->
+      Class0.XRBodyModifier3D.BodyUpdate.t structure ptr
+
+    val set_bone_update :
+      Class0.XRBodyModifier3D.BoneUpdate.t structure ptr ->
+      Class0.XRBodyModifier3D.t structure ptr ->
+      unit
+
+    val get_bone_update :
+      Class0.XRBodyModifier3D.t structure ptr ->
+      Class0.XRBodyModifier3D.BoneUpdate.t structure ptr
+  end
+
   module type XRCAMERA3D = sig
     open! ApiTypes
     include ApiTypes.OBJECT
     include CAMERA3D
+  end
+
+  module type XRFACEMODIFIER3D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include NODE3D
+
+    val set_face_tracker :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.XRFaceModifier3D.t structure ptr ->
+      unit
+
+    val get_face_tracker :
+      Class0.XRFaceModifier3D.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
+    val set_target :
+      BuiltinClass0.NodePath.t structure ptr ->
+      Class0.XRFaceModifier3D.t structure ptr ->
+      unit
+
+    val get_target :
+      Class0.XRFaceModifier3D.t structure ptr ->
+      BuiltinClass0.NodePath.t structure ptr
+  end
+
+  module type XRHANDMODIFIER3D = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include SKELETONMODIFIER3D
+
+    val set_hand_tracker :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.XRHandModifier3D.t structure ptr ->
+      unit
+
+    val get_hand_tracker :
+      Class0.XRHandModifier3D.t structure ptr ->
+      BuiltinClass0.StringName.t structure ptr
+
+    val set_bone_update :
+      Class0.XRHandModifier3D.BoneUpdate.t structure ptr ->
+      Class0.XRHandModifier3D.t structure ptr ->
+      unit
+
+    val get_bone_update :
+      Class0.XRHandModifier3D.t structure ptr ->
+      Class0.XRHandModifier3D.BoneUpdate.t structure ptr
   end
 
   module type XRINTERFACE = sig
@@ -67371,6 +75473,15 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.MobileVRInterface.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
 
+    val set_offset_rect :
+      BuiltinClass0.Rect2.t structure ptr ->
+      Class0.MobileVRInterface.t structure ptr ->
+      unit
+
+    val get_offset_rect :
+      Class0.MobileVRInterface.t structure ptr ->
+      BuiltinClass0.Rect2.t structure ptr
+
     val set_oversample :
       BuiltinClass0.Float.t structure ptr ->
       Class0.MobileVRInterface.t structure ptr ->
@@ -67397,6 +75508,24 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_k2 :
       Class0.MobileVRInterface.t structure ptr ->
       BuiltinClass0.Float.t structure ptr
+
+    val get_vrs_min_radius :
+      Class0.MobileVRInterface.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_vrs_min_radius :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.MobileVRInterface.t structure ptr ->
+      unit
+
+    val get_vrs_strength :
+      Class0.MobileVRInterface.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_vrs_strength :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.MobileVRInterface.t structure ptr ->
+      unit
   end
 
   module type WEBXRINTERFACE = sig
@@ -67440,6 +75569,10 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.WebXRInterface.t structure ptr ->
       BuiltinClass0.String.t structure ptr
 
+    val get_enabled_features :
+      Class0.WebXRInterface.t structure ptr ->
+      BuiltinClass0.String.t structure ptr
+
     val set_requested_reference_space_types :
       BuiltinClass0.String.t structure ptr ->
       Class0.WebXRInterface.t structure ptr ->
@@ -67457,7 +75590,7 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_input_source_tracker :
       BuiltinClass0.Int.t structure ptr ->
       Class0.WebXRInterface.t structure ptr ->
-      Class0.XRPositionalTracker.t structure ptr
+      Class0.XRControllerTracker.t structure ptr
 
     val get_input_source_target_ray_mode :
       BuiltinClass0.Int.t structure ptr ->
@@ -67504,6 +75637,14 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
     val get_pose_name :
       Class0.XRNode3D.t structure ptr ->
       BuiltinClass0.StringName.t structure ptr
+
+    val set_show_when_tracked :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.XRNode3D.t structure ptr ->
+      unit
+
+    val get_show_when_tracked :
+      Class0.XRNode3D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
 
     val get_is_active :
       Class0.XRNode3D.t structure ptr -> BuiltinClass0.Bool.t structure ptr
@@ -67646,37 +75787,170 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       Class0.XRPose.TrackingConfidence.t structure ptr
   end
 
-  module type XRPOSITIONALTRACKER = sig
+  module type XRSERVER = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include OBJECT
+
+    val get_world_scale :
+      Class0.XRServer.t structure ptr -> BuiltinClass0.Float.t structure ptr
+
+    val set_world_scale :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.XRServer.t structure ptr ->
+      unit
+
+    val get_world_origin :
+      Class0.XRServer.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr
+
+    val set_world_origin :
+      BuiltinClass0.Transform3D.t structure ptr ->
+      Class0.XRServer.t structure ptr ->
+      unit
+
+    val get_reference_frame :
+      Class0.XRServer.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr
+
+    val clear_reference_frame : Class0.XRServer.t structure ptr -> unit
+
+    val center_on_hmd :
+      Class0.XRServer.RotationMode.t structure ptr ->
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.XRServer.t structure ptr ->
+      unit
+
+    val get_hmd_transform :
+      Class0.XRServer.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr
+
+    val set_camera_locked_to_origin :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.XRServer.t structure ptr ->
+      unit
+
+    val is_camera_locked_to_origin :
+      Class0.XRServer.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val add_interface :
+      Class0.XRInterface.t structure ptr ->
+      Class0.XRServer.t structure ptr ->
+      unit
+
+    val get_interface_count :
+      Class0.XRServer.t structure ptr -> BuiltinClass0.Int.t structure ptr
+
+    val remove_interface :
+      Class0.XRInterface.t structure ptr ->
+      Class0.XRServer.t structure ptr ->
+      unit
+
+    val get_interface :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.XRServer.t structure ptr ->
+      Class0.XRInterface.t structure ptr
+
+    val get_interfaces :
+      Class0.XRServer.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
+    val find_interface :
+      BuiltinClass0.String.t structure ptr ->
+      Class0.XRServer.t structure ptr ->
+      Class0.XRInterface.t structure ptr
+
+    val add_tracker :
+      Class0.XRTracker.t structure ptr ->
+      Class0.XRServer.t structure ptr ->
+      unit
+
+    val remove_tracker :
+      Class0.XRTracker.t structure ptr ->
+      Class0.XRServer.t structure ptr ->
+      unit
+
+    val get_trackers :
+      BuiltinClass0.Int.t structure ptr ->
+      Class0.XRServer.t structure ptr ->
+      BuiltinClass0.Dictionary.t structure ptr
+
+    val get_tracker :
+      BuiltinClass0.StringName.t structure ptr ->
+      Class0.XRServer.t structure ptr ->
+      Class0.XRTracker.t structure ptr
+
+    val get_primary_interface :
+      Class0.XRServer.t structure ptr -> Class0.XRInterface.t structure ptr
+
+    val set_primary_interface :
+      Class0.XRInterface.t structure ptr ->
+      Class0.XRServer.t structure ptr ->
+      unit
+  end
+
+  module type XRTRACKER = sig
     open! ApiTypes
     include ApiTypes.OBJECT
     include REFCOUNTED
 
     val get_tracker_type :
-      Class0.XRPositionalTracker.t structure ptr ->
+      Class0.XRTracker.t structure ptr ->
       Class0.XRServer.TrackerType.t structure ptr
 
     val set_tracker_type :
       Class0.XRServer.TrackerType.t structure ptr ->
-      Class0.XRPositionalTracker.t structure ptr ->
+      Class0.XRTracker.t structure ptr ->
       unit
 
     val get_tracker_name :
-      Class0.XRPositionalTracker.t structure ptr ->
+      Class0.XRTracker.t structure ptr ->
       BuiltinClass0.StringName.t structure ptr
 
     val set_tracker_name :
       BuiltinClass0.StringName.t structure ptr ->
-      Class0.XRPositionalTracker.t structure ptr ->
+      Class0.XRTracker.t structure ptr ->
       unit
 
     val get_tracker_desc :
-      Class0.XRPositionalTracker.t structure ptr ->
-      BuiltinClass0.String.t structure ptr
+      Class0.XRTracker.t structure ptr -> BuiltinClass0.String.t structure ptr
 
     val set_tracker_desc :
       BuiltinClass0.String.t structure ptr ->
-      Class0.XRPositionalTracker.t structure ptr ->
+      Class0.XRTracker.t structure ptr ->
       unit
+  end
+
+  module type XRFACETRACKER = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include XRTRACKER
+
+    val get_blend_shape :
+      Class0.XRFaceTracker.BlendShapeEntry.t structure ptr ->
+      Class0.XRFaceTracker.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_blend_shape :
+      Class0.XRFaceTracker.BlendShapeEntry.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.XRFaceTracker.t structure ptr ->
+      unit
+
+    val get_blend_shapes :
+      Class0.XRFaceTracker.t structure ptr ->
+      BuiltinClass0.PackedFloat32Array.t structure ptr
+
+    val set_blend_shapes :
+      BuiltinClass0.PackedFloat32Array.t structure ptr ->
+      Class0.XRFaceTracker.t structure ptr ->
+      unit
+  end
+
+  module type XRPOSITIONALTRACKER = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include XRTRACKER
 
     val get_tracker_profile :
       Class0.XRPositionalTracker.t structure ptr ->
@@ -67732,96 +76006,169 @@ if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
       unit
   end
 
-  module type XRSERVER = sig
+  module type XRBODYTRACKER = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include XRPOSITIONALTRACKER
+
+    val set_has_tracking_data :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.XRBodyTracker.t structure ptr ->
+      unit
+
+    val get_has_tracking_data :
+      Class0.XRBodyTracker.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_body_flags :
+      Class0.XRBodyTracker.BodyFlags.t structure ptr ->
+      Class0.XRBodyTracker.t structure ptr ->
+      unit
+
+    val get_body_flags :
+      Class0.XRBodyTracker.t structure ptr ->
+      Class0.XRBodyTracker.BodyFlags.t structure ptr
+
+    val set_joint_flags :
+      Class0.XRBodyTracker.Joint.t structure ptr ->
+      Class0.XRBodyTracker.JointFlags.t structure ptr ->
+      Class0.XRBodyTracker.t structure ptr ->
+      unit
+
+    val get_joint_flags :
+      Class0.XRBodyTracker.Joint.t structure ptr ->
+      Class0.XRBodyTracker.t structure ptr ->
+      Class0.XRBodyTracker.JointFlags.t structure ptr
+
+    val set_joint_transform :
+      Class0.XRBodyTracker.Joint.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr ->
+      Class0.XRBodyTracker.t structure ptr ->
+      unit
+
+    val get_joint_transform :
+      Class0.XRBodyTracker.Joint.t structure ptr ->
+      Class0.XRBodyTracker.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr
+  end
+
+  module type XRCONTROLLERTRACKER = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include XRPOSITIONALTRACKER
+  end
+
+  module type XRHANDTRACKER = sig
+    open! ApiTypes
+    include ApiTypes.OBJECT
+    include XRPOSITIONALTRACKER
+
+    val set_has_tracking_data :
+      BuiltinClass0.Bool.t structure ptr ->
+      Class0.XRHandTracker.t structure ptr ->
+      unit
+
+    val get_has_tracking_data :
+      Class0.XRHandTracker.t structure ptr -> BuiltinClass0.Bool.t structure ptr
+
+    val set_hand_tracking_source :
+      Class0.XRHandTracker.HandTrackingSource.t structure ptr ->
+      Class0.XRHandTracker.t structure ptr ->
+      unit
+
+    val get_hand_tracking_source :
+      Class0.XRHandTracker.t structure ptr ->
+      Class0.XRHandTracker.HandTrackingSource.t structure ptr
+
+    val set_hand_joint_flags :
+      Class0.XRHandTracker.HandJoint.t structure ptr ->
+      Class0.XRHandTracker.HandJointFlags.t structure ptr ->
+      Class0.XRHandTracker.t structure ptr ->
+      unit
+
+    val get_hand_joint_flags :
+      Class0.XRHandTracker.HandJoint.t structure ptr ->
+      Class0.XRHandTracker.t structure ptr ->
+      Class0.XRHandTracker.HandJointFlags.t structure ptr
+
+    val set_hand_joint_transform :
+      Class0.XRHandTracker.HandJoint.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr ->
+      Class0.XRHandTracker.t structure ptr ->
+      unit
+
+    val get_hand_joint_transform :
+      Class0.XRHandTracker.HandJoint.t structure ptr ->
+      Class0.XRHandTracker.t structure ptr ->
+      BuiltinClass0.Transform3D.t structure ptr
+
+    val set_hand_joint_radius :
+      Class0.XRHandTracker.HandJoint.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.XRHandTracker.t structure ptr ->
+      unit
+
+    val get_hand_joint_radius :
+      Class0.XRHandTracker.HandJoint.t structure ptr ->
+      Class0.XRHandTracker.t structure ptr ->
+      BuiltinClass0.Float.t structure ptr
+
+    val set_hand_joint_linear_velocity :
+      Class0.XRHandTracker.HandJoint.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr ->
+      Class0.XRHandTracker.t structure ptr ->
+      unit
+
+    val get_hand_joint_linear_velocity :
+      Class0.XRHandTracker.HandJoint.t structure ptr ->
+      Class0.XRHandTracker.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+
+    val set_hand_joint_angular_velocity :
+      Class0.XRHandTracker.HandJoint.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr ->
+      Class0.XRHandTracker.t structure ptr ->
+      unit
+
+    val get_hand_joint_angular_velocity :
+      Class0.XRHandTracker.HandJoint.t structure ptr ->
+      Class0.XRHandTracker.t structure ptr ->
+      BuiltinClass0.Vector3.t structure ptr
+  end
+
+  module type XRVRS = sig
     open! ApiTypes
     include ApiTypes.OBJECT
     include OBJECT
 
-    val get_world_scale :
-      Class0.XRServer.t structure ptr -> BuiltinClass0.Float.t structure ptr
+    val get_vrs_min_radius :
+      Class0.XRVRS.t structure ptr -> BuiltinClass0.Float.t structure ptr
 
-    val set_world_scale :
+    val set_vrs_min_radius :
       BuiltinClass0.Float.t structure ptr ->
-      Class0.XRServer.t structure ptr ->
+      Class0.XRVRS.t structure ptr ->
       unit
 
-    val get_world_origin :
-      Class0.XRServer.t structure ptr ->
-      BuiltinClass0.Transform3D.t structure ptr
+    val get_vrs_strength :
+      Class0.XRVRS.t structure ptr -> BuiltinClass0.Float.t structure ptr
 
-    val set_world_origin :
-      BuiltinClass0.Transform3D.t structure ptr ->
-      Class0.XRServer.t structure ptr ->
+    val set_vrs_strength :
+      BuiltinClass0.Float.t structure ptr ->
+      Class0.XRVRS.t structure ptr ->
       unit
 
-    val get_reference_frame :
-      Class0.XRServer.t structure ptr ->
-      BuiltinClass0.Transform3D.t structure ptr
+    val get_vrs_render_region :
+      Class0.XRVRS.t structure ptr -> BuiltinClass0.Rect2i.t structure ptr
 
-    val center_on_hmd :
-      Class0.XRServer.RotationMode.t structure ptr ->
-      BuiltinClass0.Bool.t structure ptr ->
-      Class0.XRServer.t structure ptr ->
+    val set_vrs_render_region :
+      BuiltinClass0.Rect2i.t structure ptr ->
+      Class0.XRVRS.t structure ptr ->
       unit
 
-    val get_hmd_transform :
-      Class0.XRServer.t structure ptr ->
-      BuiltinClass0.Transform3D.t structure ptr
-
-    val add_interface :
-      Class0.XRInterface.t structure ptr ->
-      Class0.XRServer.t structure ptr ->
-      unit
-
-    val get_interface_count :
-      Class0.XRServer.t structure ptr -> BuiltinClass0.Int.t structure ptr
-
-    val remove_interface :
-      Class0.XRInterface.t structure ptr ->
-      Class0.XRServer.t structure ptr ->
-      unit
-
-    val get_interface :
-      BuiltinClass0.Int.t structure ptr ->
-      Class0.XRServer.t structure ptr ->
-      Class0.XRInterface.t structure ptr
-
-    val get_interfaces :
-      Class0.XRServer.t structure ptr ->
-      BuiltinClass0.Dictionary.t structure ptr
-
-    val find_interface :
-      BuiltinClass0.String.t structure ptr ->
-      Class0.XRServer.t structure ptr ->
-      Class0.XRInterface.t structure ptr
-
-    val add_tracker :
-      Class0.XRPositionalTracker.t structure ptr ->
-      Class0.XRServer.t structure ptr ->
-      unit
-
-    val remove_tracker :
-      Class0.XRPositionalTracker.t structure ptr ->
-      Class0.XRServer.t structure ptr ->
-      unit
-
-    val get_trackers :
-      BuiltinClass0.Int.t structure ptr ->
-      Class0.XRServer.t structure ptr ->
-      BuiltinClass0.Dictionary.t structure ptr
-
-    val get_tracker :
-      BuiltinClass0.StringName.t structure ptr ->
-      Class0.XRServer.t structure ptr ->
-      Class0.XRPositionalTracker.t structure ptr
-
-    val get_primary_interface :
-      Class0.XRServer.t structure ptr -> Class0.XRInterface.t structure ptr
-
-    val set_primary_interface :
-      Class0.XRInterface.t structure ptr ->
-      Class0.XRServer.t structure ptr ->
-      unit
+    val make_vrs_texture :
+      BuiltinClass0.Vector2.t structure ptr ->
+      BuiltinClass0.PackedVector2Array.t structure ptr ->
+      Class0.XRVRS.t structure ptr ->
+      BuiltinClass0.RID.t structure ptr
   end
 
   module type ZIPPACKER = sig

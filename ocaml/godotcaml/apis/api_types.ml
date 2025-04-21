@@ -44,6 +44,7 @@ module type CLASS_SIZES = sig
   val _PackedVector2Array : int
   val _PackedVector3Array : int
   val _PackedColorArray : int
+  val _PackedVector4Array : int
   val _Variant : int
 end
 
@@ -861,6 +862,28 @@ module ApiTypes = struct
     let to_type_ptr = coerce (ptr s) type_ptr.plain
     let typ = view ~read:of_voidp ~write:to_voidp (ptr void)
     let size = ClassSizes._PackedColorArray
+
+    (** Change this to gc_alloc! (or just remove) *)
+    let new_uninit () = allocate_n ~count:1 s
+  end
+
+  module PackedVector4Array = struct
+    type t
+
+    let s : t structure typ = structure "PackedVector4Array_Dummy"
+
+    let _ =
+      field s "_PackedVector4Array_dummy_do_not_touch"
+        (array ClassSizes._PackedVector4Array uint8_t)
+
+    let () = seal s
+    let type_enum = GlobalEnum0.VariantType._TYPE_PACKED_VECTOR4_ARRAY
+    let type_name = "PackedVector4Array"
+    let of_voidp = coerce (ptr void) (ptr s)
+    let to_voidp = coerce (ptr s) (ptr void)
+    let to_type_ptr = coerce (ptr s) type_ptr.plain
+    let typ = view ~read:of_voidp ~write:to_voidp (ptr void)
+    let size = ClassSizes._PackedVector4Array
 
     (** Change this to gc_alloc! (or just remove) *)
     let new_uninit () = allocate_n ~count:1 s

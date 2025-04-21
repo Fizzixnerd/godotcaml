@@ -94,10 +94,42 @@ module C = struct
     let int = 2
     let float = 3
     let string = 4
+    let vector2 = 5
+    let vector2i = 6
+    let rect2 = 7
+    let rect2i = 8
+    let vector3 = 9
+    let vector3i = 10
+    let transform2d = 11
+    let vector4 = 12
+    let vector4i = 13
+    let plane = 14
+    let quaternion = 15
+    let aabb = 16
+    let basis = 17
+    let transform3d = 18
+    let projection = 19
+    let color = 20
     let string_name = 21
+    let node_path = 22
+    let rid = 23
     let object_ = 24
     let callable = 25
     let signal = 26
+    let dictionary = 27
+    let array = 28
+    let packed_byte_array = 29
+    let packed_int32_array = 30
+    let packed_int64_array = 31
+    let packed_float32_array = 32
+    let packed_float64_array = 33
+    let packed_string_array = 34
+    let packed_vector2_array = 35
+    let packed_vector3_array = 36
+    let packed_color_array = 37
+    let packed_color_array = 38
+    let packed_vector4_array = 39
+    let max = 40
   end
 
   let variant_operator = typedef enum (M.typedef_name "VariantOperator")
@@ -208,18 +240,25 @@ module C = struct
 
   module GetVariantToTypeConstructor = (val get_variant_to_type_constructor.dyn)
 
-  let ptr_builtin_method =
-    fn_suite ""
-      (type_ptr.plain @-> ptr type_ptr.const @-> type_ptr.plain @-> int
-     @-> returning void)
+  let variant_get_internal_ptr_func =
+    fn_suite
+      (M.typedef_name "VariantGetInternalPtrFunc")
+      (variant_ptr.plain @-> returning (ptr void))
 
-  module PtrBuiltinMethod = (val ptr_builtin_method.dyn)
+  module VariantGetInternalPtrFunc = (val variant_get_internal_ptr_func.dyn)
 
   let ptr_operator_evaluator =
     fn_suite ""
       (type_ptr.const @-> type_ptr.const @-> type_ptr.plain @-> returning void)
 
   module PtrOperatorEvaluator = (val ptr_operator_evaluator.dyn)
+
+  let ptr_builtin_method =
+    fn_suite ""
+      (type_ptr.plain @-> ptr type_ptr.const @-> type_ptr.plain @-> int
+     @-> returning void)
+
+  module PtrBuiltinMethod = (val ptr_builtin_method.dyn)
 
   let ptr_constructor =
     fn_suite
@@ -490,6 +529,14 @@ module C = struct
 
   module ClassFreePropertyList = (val class_free_property_list.dyn)
 
+  let class_free_property_list2 =
+    fn_suite
+      (M.typedef_name "ClassFreePropertyList2")
+      (class_instance_ptr.plain @-> property_info_ptr.const @-> uint32_t
+     @-> returning void)
+
+  module ClassFreePropertyList2 = (val class_free_property_list2.dyn)
+
   let class_property_can_revert =
     fn_suite
       (M.typedef_name "ClassFreePropertyCanRevert")
@@ -551,6 +598,11 @@ module C = struct
 
   module ClassCreateInstance = (val class_create_instance.dyn)
 
+  let class_create_instance2 =
+    fn_suite "" (ptr void @-> gbool @-> returning object_ptr.plain)
+
+  module ClassCreateInstance2 = (val class_create_instance2.dyn)
+
   let class_free_instance =
     fn_suite "" (ptr void @-> class_instance_ptr.plain @-> returning void)
 
@@ -568,10 +620,23 @@ module C = struct
 
   module ClassGetVirtual = (val class_get_virtual.dyn)
 
+  let class_get_virtual2 =
+    fn_suite ""
+      (ptr void @-> string_name_ptr.const @-> uint32_t
+      @-> returning ClassCallVirtual.t)
+
+  module ClassGetVirtual2 = (val class_get_virtual2.dyn)
+
   let class_get_virtual_call_data =
     fn_suite "" (ptr void @-> string_name_ptr.const @-> returning (ptr void))
 
   module ClassGetVirtualCallData = (val class_get_virtual_call_data.dyn)
+
+  let class_get_virtual_call_data2 =
+    fn_suite ""
+      (ptr void @-> string_name_ptr.const @-> uint32_t @-> returning (ptr void))
+
+  module ClassGetVirtualCallData2 = (val class_get_virtual_call_data2.dyn)
 
   let class_call_virtual_with_data =
     fn_suite ""
@@ -580,7 +645,7 @@ module C = struct
 
   module ClassCallVirtualWithData = (val class_call_virtual_with_data.dyn)
 
-  module ClassCreationInfo2 = struct
+  module ClassCreationInfo4 = struct
     open Living_ctypes.Default
 
     type t
@@ -591,6 +656,11 @@ module C = struct
     let is_virtual_f = field class_creation_info2_struct "is_virtual" gbool
     let is_abstract_f = field class_creation_info2_struct "is_abstract" gbool
     let is_exposed_f = field class_creation_info2_struct "is_exposed" gbool
+    let is_runtime_f = field class_creation_info2_struct "is_runtime" gbool
+
+    let icon_path_f =
+      field class_creation_info2_struct "icon_path" string_ptr.const
+
     let set_func_f = field class_creation_info2_struct "set_func" ClassSet.t_opt
     let get_func_f = field class_creation_info2_struct "get_func" ClassGet.t_opt
 
@@ -600,7 +670,7 @@ module C = struct
 
     let free_property_list_func_f =
       field class_creation_info2_struct "free_property_list_func"
-        ClassFreePropertyList.t_opt
+        ClassFreePropertyList2.t_opt
 
     let property_can_revert_func_f =
       field class_creation_info2_struct "property_can_revert_func"
@@ -630,7 +700,7 @@ module C = struct
 
     let create_instance_func_f =
       field class_creation_info2_struct "create_instance_func"
-        ClassCreateInstance.t
+        ClassCreateInstance2.t
 
     let free_instance_func_f =
       field class_creation_info2_struct "free_instance_func" ClassFreeInstance.t
@@ -640,11 +710,12 @@ module C = struct
         ClassRecreateInstance.t_opt
 
     let get_virtual_func_f =
-      field class_creation_info2_struct "get_virtual_func" ClassGetVirtual.t_opt
+      field class_creation_info2_struct "get_virtual_func"
+        ClassGetVirtual2.t_opt
 
     let get_virtual_call_data_func_f =
       field class_creation_info2_struct "get_virtual_call_data_func"
-        ClassGetVirtualCallData.t_opt
+        ClassGetVirtualCallData2.t_opt
 
     let call_virtual_with_data_func_f =
       field class_creation_info2_struct "call_virtual_with_data_func"
@@ -661,12 +732,13 @@ module C = struct
     let s =
       typedef class_creation_info2_struct (M.typedef_name "ClassCreationInfo2")
 
-    let make allocator ?is_virtual ?is_abstract ?is_exposed ?get ?set
-        ?get_property_list ?free_property_list ?property_can_revert
-        ?property_get_revert ?validate_property ?notification ?to_string
-        ?reference ?unreference ?recreate_instance ?get_virtual
-        ?get_virtual_call_data ?call_virtual_with_data ?get_rid ?class_userdata
-        create_instance free_instance : t structure ptr Living_core.Default.t =
+    let make allocator ?is_virtual ?is_abstract ?is_exposed ?is_runtime
+        ?icon_path ?get ?set ?get_property_list ?free_property_list
+        ?property_can_revert ?property_get_revert ?validate_property
+        ?notification ?to_string ?reference ?unreference ?recreate_instance
+        ?get_virtual ?get_virtual_call_data ?call_virtual_with_data ?get_rid
+        ?class_userdata create_instance free_instance :
+        t structure ptr Living_core.Default.t =
       let open Living_core.Default.Let_syntax in
       let debooleanize : bool -> Unsigned.UInt8.t =
        fun x -> Unsigned.UInt8.of_int (if x then 1 else 0)
@@ -683,6 +755,15 @@ module C = struct
       let* () =
         ret |-> is_exposed_f
         <-@ (is_exposed |> Option.value ~default:true |> debooleanize)
+      in
+      let* () =
+        ret |-> is_exposed_f
+        <-@ (is_runtime |> Option.value ~default:true |> debooleanize)
+      in
+      let* () =
+        ret |-> icon_path_f
+        <-@ (icon_path
+            |> Option.value ~default:(coerce (ptr void) string_ptr.const null))
       in
       let* () = ret |-> get_func_f <-@ get in
       let* () = ret |-> set_func_f <-@ set in
@@ -748,6 +829,8 @@ module C = struct
     let int_is_uint64 = 8
     let real_is_float = 9
     let real_is_double = 10
+    let int_is_char16 = 11
+    let int_is_char32 = 12
   end
 
   let class_method_call =
@@ -850,6 +933,46 @@ module C = struct
       Living_core.Default.return ret
   end
 
+  module ClassVirtualMethodInfo = struct
+    type t
+
+    let s : t structure typ = structure "gdoclassvirtualmethodinfo"
+    let name_f = field s "name" string_name_ptr.plain
+    let method_flags_f = field s "method_flags" uint32_t
+    let return_value_f = field s "return_value" PropertyInfo.s
+
+    let return_value_metadata_f =
+      field s "return_value_metadata" ClassMethodArgumentMetadata.typ
+
+    let argument_count_f = field s "argument_count" uint32_t
+    let arguments_f = field s "arguments" (ptr PropertyInfo.s)
+
+    let arguments_metadata_f =
+      field s "arguments_metadata" (ptr ClassMethodArgumentMetadata.typ)
+
+    let () = seal s
+
+    let make ?method_flags ?return_value_metadata allocator name return_value
+        argument_count arguments arguments_metadata =
+      let open Living_core.Default.Let_syntax in
+      let* ret = allocator s in
+      let* () = ret |-> name_f <-@ name in
+      let* () =
+        ret |-> method_flags_f
+        <-@ Option.value ~default:ClassMethodFlags.default method_flags
+      in
+      let* () = ret |-> return_value_f <-@ return_value in
+      let* () =
+        ret |-> return_value_metadata_f
+        <-@ Option.value ~default:ClassMethodArgumentMetadata.none
+              return_value_metadata
+      in
+      let* () = ret |-> argument_count_f <-@ argument_count in
+      let* () = ret |-> arguments_f <-@ arguments in
+      let* () = ret |-> arguments_metadata_f <-@ arguments_metadata in
+      Living_core.Default.return ret
+  end
+
   (* CALLABLE *)
 
   let callable_custom_call =
@@ -886,12 +1009,18 @@ module C = struct
 
   module CallableCustomToString = (val callable_custom_to_string.dyn)
 
-  module CallableInfoStruct = struct
+  let callable_custom_get_argument_count =
+    fn_suite "" (ptr void @-> returning int)
+
+  module CallableCustomGetArgumentCount =
+    (val callable_custom_get_argument_count.dyn)
+
+  module CallableInfoStruct2 = struct
     open Living_ctypes.Default
 
     type t
 
-    let s : t structure typ = structure "gdocallableinfostruct"
+    let s : t structure typ = structure "gdocallableinfostruct2"
     let callable_userdata_f = field s "callable_userdata" (ptr void)
     let token_f = field s "token" class_library_ptr.plain
     let object_id_f = field s "object_id" instance_id
@@ -902,11 +1031,15 @@ module C = struct
     let equal_func_f = field s "equal_func" CallableCustomEqual.t_opt
     let less_than_func_f = field s "less_than_func" CallableCustomLessThan.t_opt
     let to_string_func_f = field s "to_string_func" CallableCustomToString.t_opt
+
+    let get_argument_count_func_f =
+      field s "get_argument_count_func" CallableCustomGetArgumentCount.t_opt
+
     let () = seal s
 
     let make ?callable_userdata ?object_id ?is_valid_func ?free_func ?hash_func
-        ?equal_func ?less_than_func ?to_string_func allocator token call_func :
-        t structure ptr Living_core.Default.t =
+        ?equal_func ?less_than_func ?to_string_func ?get_argument_count_func
+        allocator token call_func : t structure ptr Living_core.Default.t =
       let open Living_core.Default.Let_syntax in
       let* ret = allocator s in
       let* () =
@@ -925,6 +1058,7 @@ module C = struct
       let* () = ret |-> equal_func_f <-@ equal_func in
       let* () = ret |-> less_than_func_f <-@ less_than_func in
       let* () = ret |-> to_string_func_f <-@ to_string_func in
+      let* () = ret |-> get_argument_count_func_f <-@ get_argument_count_func in
       Living_core.Default.return ret
   end
 

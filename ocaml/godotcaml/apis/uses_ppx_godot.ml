@@ -136,6 +136,9 @@ module%gclass Player = struct
 
         let sprite_path = BuiltinClass.NodePath.of_string "PlayerSprite" in
         let* sprite = self |> get_node sprite_path in
+        let* sprite_name = Class.AnimatedSprite2D.get_name sprite in
+
+        Stdio.prerr_endline (BuiltinClass.String.of_string_name sprite_name);
 
         let animation_name =
           BuiltinClass.String.of_string_name
