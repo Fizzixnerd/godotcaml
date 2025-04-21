@@ -1197,13 +1197,14 @@ module C = struct
   let interface_get_class_tag =
     fn_suite "" (string_name_ptr.const @-> returning (ptr void))
 
-  let interface_callable_custom_create =
-    fn_suite "" (type_ptr.uninit @-> ptr CallableInfoStruct.s @-> returning void)
+  let interface_callable_custom_create2 =
+    fn_suite ""
+      (type_ptr.uninit @-> ptr CallableInfoStruct2.s @-> returning void)
 
-  let interface_classdb_register_extension_class2 =
+  let interface_classdb_register_extension_class4 =
     fn_suite ""
       (class_library_ptr.plain @-> string_name_ptr.const
-     @-> string_name_ptr.const @-> ptr ClassCreationInfo2.s @-> returning void)
+     @-> string_name_ptr.const @-> ptr ClassCreationInfo4.s @-> returning void)
 
   let interface_classdb_register_extension_class_method =
     fn_suite ""

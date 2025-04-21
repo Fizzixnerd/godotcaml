@@ -961,6 +961,14 @@ module PackedColorArray = struct
   let of_ocaml (x : ocaml_t) : godot_t = x
 end
 
+module PackedVector4Array = struct
+  type godot_t = PackedVector4Array.t structure ptr
+  type ocaml_t = PackedVector4Array.t structure ptr
+
+  let to_ocaml (x : godot_t) : ocaml_t = x
+  let of_ocaml (x : ocaml_t) : godot_t = x
+end
+
 module Variant = struct
   type godot_t = Variant.t structure ptr
   type ocaml_t = Godotcaml.C.variant_ptr structure ptr

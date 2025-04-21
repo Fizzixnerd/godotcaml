@@ -44955,12 +44955,13 @@ module Class = struct
       Class0.InputEventKey.t structure ptr -> BuiltinClass0.Int.t structure ptr
 
     val set_location :
-      Class0.KeyLocation.t structure ptr ->
+      GlobalEnum.KeyLocation.t structure ptr ->
       Class0.InputEventKey.t structure ptr ->
       unit
 
     val get_location :
-      Class0.InputEventKey.t structure ptr -> Class0.KeyLocation.t structure ptr
+      Class0.InputEventKey.t structure ptr ->
+      GlobalEnum.KeyLocation.t structure ptr
 
     val set_echo :
       BuiltinClass0.Bool.t structure ptr ->

@@ -229,18 +229,18 @@ let object_method_bind_ptrcall mb_ptr obj_ptr args ret =
   get_fun "object_method_bind_ptrcall" interface_object_method_bind_ptrcall.typ
     mb_ptr obj_ptr args ret
 
-let callable_custom_create callable_ptr callable_custom_info =
-  get_fun "callable_custom_create" interface_callable_custom_create.typ
+let callable_custom_create2 callable_ptr callable_custom_info =
+  get_fun "callable_custom_create2" interface_callable_custom_create2.typ
     callable_ptr callable_custom_info
 
 let classdb_construct_object class_name =
   get_fun "classdb_construct_object" interface_classdb_construct_object.typ
     class_name
 
-let classdb_register_extension_class2 library class_name parent_class_name
+let classdb_register_extension_class4 library class_name parent_class_name
     extension_funcs =
-  get_fun "classdb_register_extension_class2"
-    interface_classdb_register_extension_class2.typ library class_name
+  get_fun "classdb_register_extension_class4"
+    interface_classdb_register_extension_class4.typ library class_name
     parent_class_name extension_funcs
 
 let classdb_register_extension_class_method library class_name method_info =

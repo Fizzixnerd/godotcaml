@@ -411,6 +411,7 @@ module Gen = struct
         "EulerOrder";
         "Key";
         "KeyModifierMask";
+        "KeyLocation";
         "MouseButton";
         "MouseButtonMask";
         "JoyButton";
