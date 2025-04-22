@@ -11,32 +11,32 @@ module type CONV = sig
   type godot_t
   type ocaml_t
 
-  val to_ocaml : godot_t -> ocaml_t
-  val of_ocaml : ocaml_t -> godot_t
+  val to_ocaml : godot_t -> ocaml_t LCore.t
+  val of_ocaml : ocaml_t -> godot_t LCore.t
 end
 
 module Nil = struct
   type godot_t = Nil.t structure ptr
   type ocaml_t = unit
 
-  let to_ocaml : Nil.t structure ptr -> unit = fun _ -> ()
-  let of_ocaml () = coerce_ptr (ptr Nil.s) null
+  let to_ocaml : Nil.t structure ptr -> unit LCore.t = fun _ -> LCore.return ()
+  let of_ocaml () = LCore.return (coerce_ptr (ptr Nil.s) null)
 end
 
 module Bool = struct
   type godot_t = Bool.t structure ptr
   type ocaml_t = bool
 
-  let to_ocaml : Bool.t structure ptr -> bool =
+  let to_ocaml : Bool.t structure ptr -> bool LCore.t =
    fun x ->
     let open Unsigned.UInt8 in
     let ret =
       let* p = !@(coerce_ptr (ptr uint8_t) x) in
       LCore.return (not (equal p (of_int 0)))
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : bool -> Bool.t structure ptr =
+  let of_ocaml : bool -> Bool.t structure ptr LCore.t =
    fun x ->
     let open Unsigned.UInt8 in
     let ret =
@@ -45,41 +45,41 @@ module Bool = struct
       let* () = LCore.map (coerce_ptr (ptr uint8_t)) ret <-@ x' in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Int = struct
   type godot_t = Int.t structure ptr
   type ocaml_t = int64
 
-  let to_ocaml : Int.t structure ptr -> int64 =
-   fun x -> LCore.unsafe_free !@(coerce_ptr (ptr int64_t) x)
+  let to_ocaml : Int.t structure ptr -> int64 LCore.t =
+   fun x -> !@(coerce_ptr (ptr int64_t) x)
 
-  let of_ocaml : int64 -> Int.t structure ptr =
+  let of_ocaml : int64 -> Int.t structure ptr LCore.t =
    fun x ->
     let ret =
       let ret = gc_alloc ~count:1 Int.s in
       let* () = LCore.map (coerce_ptr (ptr int64_t)) ret <-@ x in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Float = struct
   type godot_t = Float.t structure ptr
   type ocaml_t = float
 
-  let to_ocaml : Float.t structure ptr -> float =
-   fun x -> LCore.unsafe_free !@(coerce_ptr (ptr double) x)
+  let to_ocaml : Float.t structure ptr -> float LCore.t =
+   fun x -> !@(coerce_ptr (ptr double) x)
 
-  let of_ocaml : float -> Float.t structure ptr =
+  let of_ocaml : float -> Float.t structure ptr LCore.t =
    fun x ->
     let ret =
       let ret = gc_alloc ~count:1 Float.s in
       let* () = LCore.map (coerce_ptr (ptr double)) ret <-@ x in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module String = struct
@@ -91,10 +91,8 @@ module String = struct
   let _of_string_name_constructor =
     lazy (variant_get_ptr_constructor String.type_enum 2l)
 
-  let to_ocaml : String.t structure ptr -> string =
+  let to_ocaml : String.t structure ptr -> string LCore.t =
    fun str_ptr ->
-    LCore.unsafe_free
-    @@
     let const_str = coerce_ptr string_ptr.const str_ptr in
     let len =
       Int64.to_int_exn
@@ -108,34 +106,27 @@ module String = struct
     in
     LCore.map (string_from_ptr ~length:len) char_buf
 
-  let of_ocaml : string -> String.t structure ptr =
+  let of_ocaml : string -> String.t structure ptr LCore.t =
    fun s ->
-    LCore.unsafe_free
-    @@
     let* str_ptr = gc_alloc ~count:1 String.s in
     string_new_with_utf8_chars (coerce_ptr string_ptr.uninit str_ptr) s;
     LCore.return str_ptr
 
-  let of_string_name : StringName.t structure ptr -> string =
+  let of_string_name : StringName.t structure ptr -> string LCore.t =
    fun str_name_ptr ->
-    LCore.unsafe_free
-    @@
     let open Godotcaml_base.Godotcaml.C in
     let s = coerce_ptr type_ptr.uninit @@ String.new_uninit () in
     let* args = Gdforeign.foreign_array1 str_name_ptr in
     let () = Lazy.force _of_string_name_constructor s args in
-    LCore.named_return "String.of_string_name"
-    @@ to_ocaml (coerce_ptr String.typ s)
+    to_ocaml (coerce_ptr String.typ s)
 end
 
 module Vector2 = struct
   type godot_t = Vector2.t structure ptr
   type ocaml_t = v2
 
-  let to_ocaml : Vector2.t structure ptr -> v2 =
+  let to_ocaml : Vector2.t structure ptr -> v2 LCore.t =
    fun x ->
-    LCore.unsafe_free
-    @@
     let float_ptr = coerce_ptr (ptr float) x in
     let pv1 = float_ptr in
     let* pv2 = float_ptr +@ 1 in
@@ -143,10 +134,8 @@ module Vector2 = struct
     let* v2 = !@pv2 in
     LCore.return (V2.v v1 v2)
 
-  let of_ocaml : v2 -> Vector2.t structure ptr =
+  let of_ocaml : v2 -> Vector2.t structure ptr LCore.t =
    fun v ->
-    LCore.unsafe_free
-    @@
     let ret = gc_alloc ~count:1 Vector2.s in
     let float_ptr = LCore.map (coerce_ptr (ptr float)) ret in
     let pv1 = float_ptr in
@@ -160,7 +149,7 @@ module Vector2i = struct
   type godot_t = Vector2i.t structure ptr
   type ocaml_t = int32 * int32
 
-  let to_ocaml : Vector2i.t structure ptr -> int32 * int32 =
+  let to_ocaml : Vector2i.t structure ptr -> (int32 * int32) LCore.t =
    fun x ->
     let ret =
       let int32_ptr = coerce_ptr (ptr int32_t) x in
@@ -168,9 +157,9 @@ module Vector2i = struct
       let* v2 = int32_ptr +@ 1 |> LCore.bind ( !@ ) in
       LCore.return (v1, v2)
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : int32 * int32 -> Vector2i.t structure ptr =
+  let of_ocaml : int32 * int32 -> Vector2i.t structure ptr LCore.t =
    fun (x, y) ->
     let ret =
       let ret = gc_alloc ~count:1 Vector2i.s in
@@ -180,14 +169,14 @@ module Vector2i = struct
       let* () = pv2 <-@ y in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Rect2 = struct
   type godot_t = Rect2.t structure ptr
   type ocaml_t = v2 * size2
 
-  let to_ocaml : Rect2.t structure ptr -> v2 * size2 =
+  let to_ocaml : Rect2.t structure ptr -> (v2 * size2) LCore.t =
    fun x ->
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
@@ -197,9 +186,9 @@ module Rect2 = struct
       let* s2 = float_ptr +@ 3 |> LCore.bind ( !@ ) in
       LCore.return (V2.v v1 v2, Size2.v s1 s2)
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : v2 * size2 -> Rect2.t structure ptr =
+  let of_ocaml : v2 * size2 -> Rect2.t structure ptr LCore.t =
    fun (v, s) ->
     let ret =
       let ret = gc_alloc ~count:1 Rect2.s in
@@ -213,14 +202,14 @@ module Rect2 = struct
       let* () = ps2 <-@ V2.y s in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Rect2i = struct
   type godot_t = Rect2i.t structure ptr
   type ocaml_t = (int32 * int32) * (int32 * int32)
 
-  let to_ocaml : Rect2i.t structure ptr -> (int32 * int32) * (int32 * int32) =
+  let to_ocaml : Rect2i.t structure ptr -> ((int32 * int32) * (int32 * int32)) LCore.t =
    fun x ->
     let ret =
       let int32_ptr = coerce_ptr (ptr int32_t) x in
@@ -230,9 +219,9 @@ module Rect2i = struct
       let* s2 = int32_ptr +@ 3 |> LCore.bind ( !@ ) in
       LCore.return ((v1, v2), (s1, s2))
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : (int32 * int32) * (int32 * int32) -> Rect2i.t structure ptr =
+  let of_ocaml : (int32 * int32) * (int32 * int32) -> Rect2i.t structure ptr LCore.t =
    fun ((x, y), (sx, sy)) ->
     let ret =
       let ret = gc_alloc ~count:1 Rect2i.s in
@@ -247,14 +236,14 @@ module Rect2i = struct
       let* () = ps2 <-@ sy in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Vector3 = struct
   type godot_t = Vector3.t structure ptr
   type ocaml_t = v3
 
-  let to_ocaml : Vector3.t structure ptr -> v3 =
+  let to_ocaml : Vector3.t structure ptr -> v3 LCore.t =
    fun x ->
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
@@ -263,9 +252,9 @@ module Vector3 = struct
       let* v3 = float_ptr +@ 2 |> LCore.bind ( !@ ) in
       LCore.return (V3.v v1 v2 v3)
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : v3 -> Vector3.t structure ptr =
+  let of_ocaml : v3 -> Vector3.t structure ptr LCore.t =
    fun v ->
     let ret =
       let ret = gc_alloc ~count:1 Vector3.s in
@@ -277,14 +266,14 @@ module Vector3 = struct
       let* () = pv3 <-@ V3.z v in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Vector3i = struct
   type godot_t = Vector3i.t structure ptr
   type ocaml_t = int32 * int32 * int32
 
-  let to_ocaml : Vector3i.t structure ptr -> int32 * int32 * int32 =
+  let to_ocaml : Vector3i.t structure ptr -> (int32 * int32 * int32) LCore.t =
    fun x ->
     let ret =
       let int32_ptr = coerce_ptr (ptr int32_t) x in
@@ -293,9 +282,9 @@ module Vector3i = struct
       let* v3 = int32_ptr +@ 2 |> LCore.bind ( !@ ) in
       LCore.return (v1, v2, v3)
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : int32 * int32 * int32 -> Vector3i.t structure ptr =
+  let of_ocaml : int32 * int32 * int32 -> Vector3i.t structure ptr LCore.t =
    fun (x, y, z) ->
     let ret =
       let ret = gc_alloc ~count:1 Vector3i.s in
@@ -307,14 +296,14 @@ module Vector3i = struct
       let* () = pv3 <-@ z in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Transform2D = struct
   type godot_t = Transform2D.t structure ptr
   type ocaml_t = m2 * v2
 
-  let to_ocaml : Transform2D.t structure ptr -> ocaml_t =
+  let to_ocaml : Transform2D.t structure ptr -> ocaml_t LCore.t =
    fun x ->
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
@@ -326,9 +315,9 @@ module Transform2D = struct
       let* v2 = float_ptr +@ 5 |> LCore.bind ( !@ ) in
       LCore.return (M2.v m1 m2 m3 m4, V2.v v1 v2)
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : ocaml_t -> Transform2D.t structure ptr =
+  let of_ocaml : ocaml_t -> Transform2D.t structure ptr LCore.t =
    fun (m, o) ->
     let ret =
       let ret = gc_alloc ~count:1 Transform2D.s in
@@ -346,14 +335,14 @@ module Transform2D = struct
       let* () = pv2 <-@ V2.y o in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Vector4 = struct
   type godot_t = Vector4.t structure ptr
   type ocaml_t = v4
 
-  let to_ocaml : Vector4.t structure ptr -> v4 =
+  let to_ocaml : Vector4.t structure ptr -> v4 LCore.t =
    fun x ->
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
@@ -363,9 +352,9 @@ module Vector4 = struct
       let* v4 = float_ptr +@ 3 |> LCore.bind ( !@ ) in
       LCore.return (V4.v v1 v2 v3 v4)
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : v4 -> Vector4.t structure ptr =
+  let of_ocaml : v4 -> Vector4.t structure ptr LCore.t =
    fun v ->
     let ret =
       let ret = gc_alloc ~count:1 Vector4.s in
@@ -379,14 +368,14 @@ module Vector4 = struct
       let* () = pv4 <-@ V4.w v in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Vector4i = struct
   type godot_t = Vector4i.t structure ptr
   type ocaml_t = int32 * int32 * int32 * int32
 
-  let to_ocaml : Vector4i.t structure ptr -> int32 * int32 * int32 * int32 =
+  let to_ocaml : Vector4i.t structure ptr -> (int32 * int32 * int32 * int32) LCore.t =
    fun x ->
     let ret =
       let int32_ptr = coerce_ptr (ptr int32_t) x in
@@ -396,9 +385,9 @@ module Vector4i = struct
       let* v4 = int32_ptr +@ 3 |> LCore.bind ( !@ ) in
       LCore.return (v1, v2, v3, v4)
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : int32 * int32 * int32 * int32 -> Vector4i.t structure ptr =
+  let of_ocaml : int32 * int32 * int32 * int32 -> Vector4i.t structure ptr LCore.t =
    fun (x, y, z, w) ->
     let ret =
       let ret = gc_alloc ~count:1 Vector4i.s in
@@ -413,14 +402,14 @@ module Vector4i = struct
       let* () = pv4 <-@ w in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Plane = struct
   type godot_t = Plane.t structure ptr
   type ocaml_t = v3 * float
 
-  let to_ocaml : Plane.t structure ptr -> v3 * float =
+  let to_ocaml : Plane.t structure ptr -> (v3 * float) LCore.t =
    fun x ->
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
@@ -430,9 +419,9 @@ module Plane = struct
       let* d = float_ptr +@ 3 |> LCore.bind ( !@ ) in
       LCore.return (V3.v v1 v2 v3, d)
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : v3 * float -> Plane.t structure ptr =
+  let of_ocaml : v3 * float -> Plane.t structure ptr LCore.t =
    fun (v, d) ->
     let ret =
       let ret = gc_alloc ~count:1 Plane.s in
@@ -446,14 +435,14 @@ module Plane = struct
       let* () = pd <-@ d in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Quaternion = struct
   type godot_t = Quaternion.t structure ptr
   type ocaml_t = quat
 
-  let to_ocaml : Quaternion.t structure ptr -> quat =
+  let to_ocaml : Quaternion.t structure ptr -> quat LCore.t =
    fun x ->
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
@@ -463,9 +452,9 @@ module Quaternion = struct
       let* v4 = float_ptr +@ 3 |> LCore.bind ( !@ ) in
       LCore.return (Quat.v v1 v2 v3 v4)
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : quat -> Quaternion.t structure ptr =
+  let of_ocaml : quat -> Quaternion.t structure ptr LCore.t =
    fun q ->
     let ret =
       let ret = gc_alloc ~count:1 Quaternion.s in
@@ -479,14 +468,14 @@ module Quaternion = struct
       let* () = pv4 <-@ V4.w q in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module AABB = struct
   type godot_t = AABB.t structure ptr
   type ocaml_t = v3 * size3
 
-  let to_ocaml : AABB.t structure ptr -> v3 * size3 =
+  let to_ocaml : AABB.t structure ptr -> (v3 * size3) LCore.t =
    fun x ->
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
@@ -498,9 +487,9 @@ module AABB = struct
       let* s3 = float_ptr +@ 5 |> LCore.bind ( !@ ) in
       LCore.return (V3.v v1 v2 v3, Size3.v s1 s2 s3)
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : v3 * size3 -> AABB.t structure ptr =
+  let of_ocaml : v3 * size3 -> AABB.t structure ptr LCore.t =
    fun (v, s) ->
     let ret =
       let ret = gc_alloc ~count:1 AABB.s in
@@ -518,14 +507,14 @@ module AABB = struct
       let* () = ps3 <-@ V3.z s in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Basis = struct
   type godot_t = Basis.t structure ptr
   type ocaml_t = m3
 
-  let to_ocaml : Basis.t structure ptr -> m3 =
+  let to_ocaml : Basis.t structure ptr -> m3 LCore.t =
    fun x ->
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
@@ -540,9 +529,9 @@ module Basis = struct
       let* m9 = float_ptr +@ 8 |> LCore.bind ( !@ ) in
       LCore.return (M3.v m1 m2 m3 m4 m5 m6 m7 m8 m9)
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : m3 -> Basis.t structure ptr =
+  let of_ocaml : m3 -> Basis.t structure ptr LCore.t =
    fun m ->
     let ret =
       let ret = gc_alloc ~count:1 Basis.s in
@@ -566,14 +555,14 @@ module Basis = struct
       let* () = pm9 <-@ M3.e22 m in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Transform3D = struct
   type godot_t = Transform3D.t structure ptr
   type ocaml_t = m3 * v3
 
-  let to_ocaml : Transform3D.t structure ptr -> m3 * v3 =
+  let to_ocaml : Transform3D.t structure ptr -> (m3 * v3) LCore.t =
    fun x ->
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
@@ -591,9 +580,9 @@ module Transform3D = struct
       let* v3 = float_ptr +@ 11 |> LCore.bind ( !@ ) in
       LCore.return (M3.v m1 m2 m3 m4 m5 m6 m7 m8 m9, V3.v v1 v2 v3)
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : m3 * v3 -> Transform3D.t structure ptr =
+  let of_ocaml : m3 * v3 -> Transform3D.t structure ptr LCore.t =
    fun (m, o) ->
     let ret =
       let ret = gc_alloc ~count:1 Transform3D.s in
@@ -623,14 +612,14 @@ module Transform3D = struct
       let* () = pv3 <-@ V3.z o in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Projection = struct
   type godot_t = Projection.t structure ptr
   type ocaml_t = m4
 
-  let to_ocaml : Projection.t structure ptr -> m4 =
+  let to_ocaml : Projection.t structure ptr -> m4 LCore.t =
    fun x ->
     let ret =
       let float_ptr = coerce_ptr (ptr double) x in
@@ -652,9 +641,9 @@ module Projection = struct
       let* m16 = float_ptr +@ 15 |> LCore.bind ( !@ ) in
       LCore.return (M4.v m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12 m13 m14 m15 m16)
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : m4 -> Projection.t structure ptr =
+  let of_ocaml : m4 -> Projection.t structure ptr LCore.t =
    fun m ->
     let ret =
       let ret = gc_alloc ~count:1 Projection.s in
@@ -692,14 +681,14 @@ module Projection = struct
       let* () = pm16 <-@ M4.e33 m in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module Color = struct
   type godot_t = Color.t structure ptr
   type ocaml_t = color
 
-  let to_ocaml : Color.t structure ptr -> color =
+  let to_ocaml : Color.t structure ptr -> color LCore.t =
    fun x ->
     let ret =
       let float_ptr = coerce_ptr (ptr float) x in
@@ -709,9 +698,9 @@ module Color = struct
       let* c4 = float_ptr +@ 3 |> LCore.bind ( !@ ) in
       LCore.return (V4.v c1 c2 c3 c4)
     in
-    LCore.unsafe_free ret
+    ret
 
-  let of_ocaml : color -> Color.t structure ptr =
+  let of_ocaml : color -> Color.t structure ptr LCore.t =
    fun c ->
     let ret =
       let ret = gc_alloc ~count:1 Color.s in
@@ -726,26 +715,23 @@ module Color = struct
       let* () = pc4 <-@ V4.w c in
       ret
     in
-    LCore.unsafe_free ret
+    ret
 end
 
 module StringName = struct
   type godot_t = StringName.t structure ptr
   type ocaml_t = StringName.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 
   let _of_string_constructor =
     lazy (variant_get_ptr_constructor StringName.type_enum 2l)
 
-  let of_string =
-    String_memo.memo @@ fun _ x ->
-    LCore.unsafe_free
-    @@
+  let of_string = fun x ->
     let open Godotcaml_base.Godotcaml.C in
     let sn = coerce_ptr type_ptr.uninit @@ StringName.new_uninit () in
-    let str = String.of_ocaml x in
+    let* str = String.of_ocaml x in
     let* args = Gdforeign.foreign_array1 str in
     let () = Lazy.force _of_string_constructor sn args in
     LCore.named_return "StringName.of_string"
@@ -756,19 +742,17 @@ module NodePath = struct
   type godot_t = NodePath.t structure ptr
   type ocaml_t = NodePath.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 
   let _of_string_constructor =
     lazy (variant_get_ptr_constructor NodePath.type_enum 2l)
 
   let of_string =
-    String_memo.memo @@ fun _ x ->
-    LCore.unsafe_free
-    @@
+    fun x ->
     let open Godotcaml_base.Godotcaml.C in
     let np = coerce_ptr type_ptr.uninit @@ NodePath.new_uninit () in
-    let str = String.of_ocaml x in
+    let* str = String.of_ocaml x in
     let* args = Gdforeign.foreign_array1 str in
     let () = Lazy.force _of_string_constructor np args in
     LCore.named_return "NodePath.of_string"
@@ -779,8 +763,8 @@ module RID = struct
   type godot_t = RID.t structure ptr
   type ocaml_t = RID.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module Object = struct
@@ -853,136 +837,136 @@ module Object = struct
   let reference _x = LCore.return false
   let unreference _x = LCore.return true
   let coerce_to_ref_counted x = x
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module Callable = struct
   type godot_t = Callable.t structure ptr
   type ocaml_t = Callable.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module Signal = struct
   type godot_t = Signal.t structure ptr
   type ocaml_t = Signal.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module Dictionary = struct
   type godot_t = Dictionary.t structure ptr
   type ocaml_t = Dictionary.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module Array = struct
   type godot_t = Array.t structure ptr
   type ocaml_t = Array.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module PackedByteArray = struct
   type godot_t = PackedByteArray.t structure ptr
   type ocaml_t = PackedByteArray.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module PackedInt32Array = struct
   type godot_t = PackedInt32Array.t structure ptr
   type ocaml_t = PackedInt32Array.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module PackedInt64Array = struct
   type godot_t = PackedInt64Array.t structure ptr
   type ocaml_t = PackedInt64Array.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module PackedFloat32Array = struct
   type godot_t = PackedFloat32Array.t structure ptr
   type ocaml_t = PackedFloat32Array.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module PackedFloat64Array = struct
   type godot_t = PackedFloat64Array.t structure ptr
   type ocaml_t = PackedFloat64Array.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module PackedStringArray = struct
   type godot_t = PackedStringArray.t structure ptr
   type ocaml_t = PackedStringArray.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module PackedVector2Array = struct
   type godot_t = PackedVector2Array.t structure ptr
   type ocaml_t = PackedVector2Array.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module PackedVector3Array = struct
   type godot_t = PackedVector3Array.t structure ptr
   type ocaml_t = PackedVector3Array.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module PackedColorArray = struct
   type godot_t = PackedColorArray.t structure ptr
   type ocaml_t = PackedColorArray.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module PackedVector4Array = struct
   type godot_t = PackedVector4Array.t structure ptr
   type ocaml_t = PackedVector4Array.t structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
 
 module Variant = struct
   type godot_t = Variant.t structure ptr
   type ocaml_t = Godotcaml.C.variant_ptr structure ptr
 
-  let to_ocaml (x : godot_t) : ocaml_t =
-    coerce_ptr Godotcaml.C.variant_ptr.plain x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t =
+    LCore.return (coerce_ptr Godotcaml.C.variant_ptr.plain x)
 
-  let of_ocaml (x : ocaml_t) : godot_t = coerce_ptr (ptr Variant.s) x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return (coerce_ptr (ptr Variant.s) x)
 end
 
 module Void = struct
   type godot_t = unit
   type ocaml_t = unit
 
-  let to_ocaml (x : godot_t) : ocaml_t = x
-  let of_ocaml (x : ocaml_t) : godot_t = x
+  let to_ocaml (x : godot_t) : ocaml_t LCore.t = LCore.return x
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 end
