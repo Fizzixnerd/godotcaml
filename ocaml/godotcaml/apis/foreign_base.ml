@@ -136,17 +136,18 @@ let string_name_new_with_utf8_chars str_name_ptr str =
   get_fun "string_name_new_with_utf8_chars"
     interface_string_name_new_with_utf8_chars.typ str_name_ptr str
 
-module String_memo = Memo.Make (Base.String)
-
 (** Call the destructor at some point! *)
 let string_name_of_string =
-  String_memo.memo @@ fun _ str ->
+ fun str ->
   let open Living_core.Default.Let_syntax in
   let* ptr = gc_alloc ~count:1 StringName.s in
   let string_name = coerce StringName.typ string_name_ptr.uninit ptr in
   let () = string_name_new_with_utf8_chars string_name str in
   Living_core.Default.named_return "string_name_of_string"
     (coerce string_name_ptr.uninit string_name_ptr.const string_name)
+
+let variant_stringify variant str_ptr =
+  get_fun "variant_stringify" interface_variant_stringify.typ variant str_ptr
 
 let variant_new_copy dest src =
   get_fun "variant_new_copy" interface_variant_new_copy.typ dest src
@@ -225,6 +226,10 @@ let object_cast_to obj_ptr class_tag =
 let object_get_instance_id obj_ptr =
   get_fun "object_get_instance_id" interface_object_get_instance_id.typ obj_ptr
 
+let object_method_bind_call mb_ptr obj_ptr args num_args ret err =
+  get_fun "object_method_bind_call" interface_object_method_bind_call.typ
+    mb_ptr obj_ptr args num_args ret err
+
 let object_method_bind_ptrcall mb_ptr obj_ptr args ret =
   get_fun "object_method_bind_ptrcall" interface_object_method_bind_ptrcall.typ
     mb_ptr obj_ptr args ret
@@ -271,9 +276,10 @@ let foreign_builtin_operator2 variant_type arg_type_opt operator typ ret_typ
       left right ret
   in
   let* ret = gc_alloc ~count:1 ret_typ in
-  let () = op (lhs_of_ocaml lhs) (rhs_of_ocaml rhs) ret in
-  Living_core.Default.named_return "foreign_builtin_operator2"
-    (ret_to_ocaml ret)
+  let* lhs = lhs_of_ocaml lhs in
+  let* rhs = rhs_of_ocaml rhs in
+  let () = op lhs rhs ret in
+  ret_to_ocaml ret
 
 (* FIXME *)
 let foreign_builtin_operator1 variant_type arg_type_opt operator typ ret_typ lhs

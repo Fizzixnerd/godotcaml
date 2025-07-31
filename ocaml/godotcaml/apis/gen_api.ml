@@ -1169,7 +1169,7 @@ module Gen = struct
               (Printf.sprintf "%sL"
                  (meth.hash |> Option.value ~default:0L |> Int64.to_string))
         ^/^ t ^/^ qualified_s this ret_type
-        ^/^ string (ret_type ^ ".to_ocaml")
+        ^/^ string (ret_type ^ (if meth.is_vararg then ".ocaml_of_variant" else ".to_ocaml"))
         ^/^ (meth.arguments |> Option.value ~default:[]
             |> List.map ~f:(method_argument_typ this)
             |> PPrint.concat)
@@ -1348,8 +1348,8 @@ end
               (to_type_enum type_name) type_name
           else
             {| 
-  let to_ocaml (x: t structure ptr) = x 
-  let of_ocaml (x: t structure ptr) = x
+  let to_ocaml (x: t structure ptr) = Living.Living_core.Default.return x 
+  let of_ocaml (x: t structure ptr) = Living.Living_core.Default.return x
             |})
          (var_str type_name))
 
@@ -1376,10 +1376,18 @@ end
 module Variant = struct
   include Variant
 
-  let ocaml_to_variant : t structure ptr -> C.variant_ptr structure ptr = coerce_ptr C.variant_ptr.plain
-  let ocaml_of_variant : C.variant_ptr structure ptr -> t structure ptr = coerce_ptr (ptr s)
-  let godot_to_variant : t structure ptr -> C.variant_ptr structure ptr = coerce_ptr C.variant_ptr.plain
-  let godot_of_variant : C.variant_ptr structure ptr -> t structure ptr = coerce_ptr (ptr s)
+  let ocaml_to_variant : t structure ptr -> C.variant_ptr structure ptr Living_core.Default.t = fun x -> Living_core.Default.return (coerce_ptr C.variant_ptr.plain x)
+  let ocaml_of_variant : C.variant_ptr structure ptr -> t structure ptr Living_core.Default.t = fun x -> Living_core.Default.return (coerce_ptr (ptr s) x)
+  let godot_to_variant : t structure ptr -> C.variant_ptr structure ptr Living_core.Default.t = fun x -> Living_core.Default.return (coerce_ptr C.variant_ptr.plain x)
+  let godot_of_variant : C.variant_ptr structure ptr -> t structure ptr Living_core.Default.t = fun x -> Living_core.Default.return (coerce_ptr (ptr s) x)
+
+  let to_string (x: t structure ptr) : string Living_core.Default.t =
+    let open Living_core.Default.Let_syntax in
+    let variant_ptr = coerce_ptr C.variant_ptr.const x in
+    let* new_string_ptr = Living_core.Default.map (coerce_ptr C.string_ptr.plain) (gc_alloc String.s ~count:1) in
+    let () = variant_stringify variant_ptr new_string_ptr in
+    let* inited_string_ptr = coerce_ptr (ptr String.s) new_string_ptr |> String.to_ocaml in
+    Living_core.Default.named_return "Variant.to_string" inited_string_ptr
 end
       |}
     else
@@ -1399,21 +1407,23 @@ module %s = struct
   include %s
   include Conv.%s
 
-  let godot_to_variant (x:godot_t) : C.variant_ptr structure ptr = 
-    let new_variant_ptr = coerce_ptr C.variant_ptr.uninit (Living_core.Default.unsafe_free @@ gc_alloc Variant.s ~count:1) in
+  let godot_to_variant (x:godot_t) : C.variant_ptr structure ptr Living_core.Default.t = 
+    let open Living_core.Default.Let_syntax in
+    let* new_variant_ptr = Living_core.Default.map (coerce_ptr C.variant_ptr.uninit) (gc_alloc Variant.s ~count:1) in
     let () = get_variant_from_type_constructor type_enum new_variant_ptr (coerce_ptr C.type_ptr.plain x) in
     let inited_variant_ptr = coerce_ptr C.variant_ptr.plain new_variant_ptr in
-    inited_variant_ptr
+    Living_core.Default.return inited_variant_ptr
 
-  let ocaml_to_variant : ocaml_t -> C.variant_ptr structure ptr = fun x ->
-    godot_to_variant (of_ocaml x)
+  let ocaml_to_variant : ocaml_t -> C.variant_ptr structure ptr Living_core.Default.t = fun x ->
+    of_ocaml x |> Living_core.Default.bind godot_to_variant
 
-  let godot_of_variant : C.variant_ptr structure ptr -> godot_t = fun x ->
-    let new_type_ptr = Living_core.Default.unsafe_free (gc_alloc s ~count:1) in
+  let godot_of_variant : C.variant_ptr structure ptr -> godot_t Living_core.Default.t = fun x ->
+    let open Living_core.Default.Let_syntax in
+    let* new_type_ptr = gc_alloc s ~count:1 in
     let () = get_variant_to_type_constructor type_enum (coerce_ptr C.type_ptr.uninit new_type_ptr) x in
-    coerce_ptr (ptr s) new_type_ptr
+    Living_core.Default.return (coerce_ptr (ptr s) new_type_ptr)
 
-  let ocaml_of_variant (x: C.variant_ptr structure ptr) : ocaml_t = to_ocaml (godot_of_variant x)
+  let ocaml_of_variant (x: C.variant_ptr structure ptr) : ocaml_t Living_core.Default.t = godot_of_variant x |> Living_core.Default.bind to_ocaml
 
   let godot_typ : godot_t typ = ptr s
 end
@@ -1586,7 +1596,7 @@ end
     let xs = ks |> List.map ~f:(fun k -> sprintf "x%d" k) in
     let xs' = xs |> List.map ~f:(fun x -> sprintf "%s'" x) in
     let let_xs' =
-      xs |> List.map ~f:(fun x -> sprintf "let %s' = %s_of_ocaml %s in" x x x)
+      xs |> List.map ~f:(fun x -> sprintf "let* %s' = %s_of_ocaml %s in" x x x)
     in
     let x_of_ocamls = xs |> List.map ~f:(fun x -> sprintf "%s_of_ocaml" x) in
     sprintf
@@ -1601,13 +1611,13 @@ let foreign_utility_function%d =
       Living_core.Default.map (coerce (ptr ret_typ) type_ptr.plain) (gc_alloc ret_typ ~count:1)
     in
     %s
-    (* let x0 = x0_of_ocaml x0 in *)
+    (* let* x0' = x0_of_ocaml x0 in *)
     let* arr = foreign_array%d %s in
     let () =
       coerce PtrUtilityFunction.t ptr_utility_function.typ utility_function
         ret arr count
     in
-    Living_core.Default.named_return name (ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret))
+    ret_to_ocaml (coerce type_ptr.plain (ptr ret_typ) ret)
     |}
       n
       (concat_with_spaces x_of_ocamls)
@@ -1621,7 +1631,7 @@ let foreign_utility_function%d =
     let xs = ks |> List.map ~f:(fun k -> sprintf "x%d" k) in
     let xs' = xs |> List.map ~f:(fun x -> sprintf "%s'" x) in
     let let_xs' =
-      xs |> List.map ~f:(fun x -> sprintf "let %s' = %s_of_ocaml %s in" x x x)
+      xs |> List.map ~f:(fun x -> sprintf "let* %s' = %s_of_ocaml %s in" x x x)
     in
     let x_of_ocamls = xs |> List.map ~f:(fun x -> sprintf "%s_of_ocaml" x) in
     sprintf
@@ -1636,7 +1646,7 @@ let foreign_utility_function%d_void =
       coerce (ptr ret_typ) type_ptr.plain null
     in
     %s
-    (* let x0 = x0_of_ocaml x0 in *)
+    (* let* x0' = x0_of_ocaml x0 in *)
     let* arr = foreign_array%d %s in
     let () =
       coerce PtrUtilityFunction.t ptr_utility_function.typ utility_function
@@ -1659,28 +1669,30 @@ let foreign_utility_function%d_void =
       xs
       |> List.map ~f:(fun x ->
              sprintf
-               "let %s' = coerce %s_typ type_ptr.const (%s_of_ocaml %s) in" x x
-               x x)
+               "let* %s' = Living_core.Default.map (coerce %s_typ \
+                type_ptr.const) (%s_of_ocaml %s) in"
+               x x x x)
     in
     let x_typs = xs |> List.map ~f:(sprintf "%s_typ") in
     let x_of_ocamls = xs |> List.map ~f:(sprintf "%s_of_ocaml") in
     sprintf
       {|
 let foreign_method%d class_name method_name hash _fn ret_typ ret_to_ocaml %s %s =
-  let method_string_name = Living_core.Default.unsafe_free @@ string_name_of_string method_name in
-  let class_string_name = Living_core.Default.unsafe_free @@ string_name_of_string class_name in
-  let method_bind = classdb_get_method_bind class_string_name method_string_name hash in
   fun %s self ->
     let open Living_core.Default.Let_syntax in
-    let* ret = 
+    let* method_string_name = string_name_of_string method_name in
+    let* class_string_name = string_name_of_string class_name in
+    let method_bind = classdb_get_method_bind class_string_name method_string_name hash in
+    let* ret =
       gc_alloc ret_typ ~count:1
         |> Living_core.Default.map (coerce_ptr type_ptr.plain)
     in
+    (* let* xn's *)
     %s
-    let* args = Living_core.Default.map (coerce_ptr (ptr type_ptr.const)) (foreign_array%d %s) in
+    let* args = foreign_array%d %s in
     let self = coerce_ptr object_ptr.plain self in
     let () = object_method_bind_ptrcall method_bind self args ret in
-    Living_core.Default.named_return method_name (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
+    ret_to_ocaml (coerce_ptr (ptr ret_typ) ret)
       |}
       n
       (concat_with_spaces x_typs)
@@ -1698,8 +1710,9 @@ let foreign_method%d class_name method_name hash _fn ret_typ ret_to_ocaml %s %s 
       xs
       |> List.map ~f:(fun x ->
              sprintf
-               "let %s' = coerce %s_typ type_ptr.const (%s_of_ocaml %s) in" x x
-               x x)
+               "let* %s' = Living_core.Default.map (coerce %s_typ \
+                type_ptr.const) (%s_of_ocaml %s) in"
+               x x x x)
     in
     let x_typs = xs |> List.map ~f:(sprintf "%s_typ") in
     let x_of_ocamls = xs |> List.map ~f:(sprintf "%s_of_ocaml") in
@@ -1734,8 +1747,9 @@ let foreign_method%d_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
       xs
       |> List.map ~f:(fun x ->
              sprintf
-               "let %s' = coerce %s_typ type_ptr.const (%s_of_ocaml %s) in" x x
-               x x)
+               "let* %s' = Living_core.Default.map (coerce %s_typ \
+                type_ptr.const) (%s_of_ocaml %s) in"
+               x x x x)
     in
     let x_typs = xs |> List.map ~f:(sprintf "%s_typ") in
     let x_of_ocamls = xs |> List.map ~f:(sprintf "%s_of_ocaml") in
@@ -1755,7 +1769,7 @@ let foreign_method%d_static class_name method_name hash _fn ret_typ ret_to_ocaml
     let* args = Living_core.Default.map (coerce_ptr (ptr type_ptr.const)) (foreign_array%d %s) in
     let self = coerce_ptr object_ptr.plain null in
     let () = object_method_bind_ptrcall method_bind self args ret in
-    Living_core.Default.named_return method_name (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
+    ret_to_ocaml (coerce_ptr (ptr ret_typ) ret)
       |}
       n
       (concat_with_spaces x_typs)
@@ -1775,28 +1789,29 @@ let foreign_method%d_static class_name method_name hash _fn ret_typ ret_to_ocaml
       xs
       |> List.map ~f:(fun x ->
              sprintf
-               "let %s' = coerce %s_typ type_ptr.const (%s_of_ocaml %s) in" x x
-               x x)
+               "let* %s' = Living_core.Default.map (coerce %s_typ \
+                variant_ptr.const) (%s_of_ocaml %s) in"
+               x x x x)
     in
     let x_typs = xs |> List.map ~f:(sprintf "%s_typ") in
     let x_of_ocamls = xs |> List.map ~f:(sprintf "%s_of_ocaml") in
     sprintf
       {|
-let foreign_method%dv class_name method_name hash _fn ret_typ ret_to_ocaml %s %s =
+let foreign_method%dv class_name method_name hash _fn _ret_typ ret_of_variant %s %s =
   let method_string_name = Living_core.Default.unsafe_free @@ string_name_of_string method_name in
   let class_string_name = Living_core.Default.unsafe_free @@ string_name_of_string class_name in
   let method_bind = classdb_get_method_bind class_string_name method_string_name hash in
   fun %s vs self ->
     let open Living_core.Default.Let_syntax in
     let* ret =
-      gc_alloc ret_typ ~count:1
-      |> Living_core.Default.map (coerce_ptr type_ptr.plain)
+      gc_alloc Api_types.ApiTypes.Variant.typ ~count:1
+      |> Living_core.Default.map (coerce_ptr variant_ptr.uninit)
     in
     %s
-    let* args = Living_core.Default.map (coerce_ptr (ptr type_ptr.const)) (foreign_arrayv (%s)) in
+    let* args = foreign_variant_arrayv (%s) in
     let self = coerce_ptr object_ptr.plain self in
-    let () = object_method_bind_ptrcall method_bind self args ret in
-    Living_core.Default.named_return method_name (ret_to_ocaml (coerce_ptr (ptr ret_typ) ret))
+    let () = object_method_bind_call method_bind self args Base.Int64.(%dL + Base.Int64.of_int (Base.List.length vs)) ret Foreign_base.global_call_error in
+    ret_of_variant (coerce_ptr variant_ptr.plain ret)
       |}
       n
       (concat_with_spaces x_typs)
@@ -1804,6 +1819,7 @@ let foreign_method%dv class_name method_name hash _fn ret_typ ret_to_ocaml %s %s
       (concat_with_spaces xs)
       (concat_with_spaces let_xs')
       (concat_with_cons (xs' @ [ "vs" ]))
+      n
     |> string
 
   (** FIXME: DO ALL THESE *)
@@ -2060,14 +2076,26 @@ let foreign_array0 =
   Living_core.Default.named_return "foreign_array0"
     (coerce_ptr (ptr type_ptr.const) null)
 
-(* TODO: Optimize this with a ref or something to make it not O(n^2)! *)
 let foreign_arrayv xs =
-  let count = Variadic.length xs in
+  let xs = Base.Array.of_list xs in
+  let count = Base.Array.length xs in
   let arr = allocate_n type_ptr.const ~count in
   for i = 0 to count - 1 do
     let ret = 
       let arri = arr |> Living_core.Default.bind (fun x -> x +@ i) in
-      arri <-@ coerce_ptr type_ptr.const (List.nth_exn xs i)
+      arri <-@ coerce_ptr type_ptr.const (Base.Array.get xs i)
+    in Living_core.Default.unsafe_free ret
+  done;
+  arr
+
+let foreign_variant_arrayv xs =
+  let xs = Base.Array.of_list xs in
+  let count = Base.Array.length xs in
+  let arr = allocate_n variant_ptr.const ~count in
+  for i = 0 to count - 1 do
+    let ret = 
+      let arri = arr |> Living_core.Default.bind (fun x -> x +@ i) in
+      arri <-@ coerce_ptr variant_ptr.const (Base.Array.get xs i)
     in Living_core.Default.unsafe_free ret
   done;
   arr
@@ -2123,11 +2151,11 @@ let foreign_method1v_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
   let method_bind = classdb_get_method_bind class_string_name method_string_name hash in
   fun x0 vs self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr type_ptr.plain null in
-    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
-    let* args = Living_core.Default.map (coerce_ptr (ptr type_ptr.const)) (foreign_arrayv (x0' :: vs)) in
+    let ret = coerce_ptr variant_ptr.uninit null in
+    let* x0' = Living_core.Default.map (coerce x0_typ variant_ptr.const) (x0_of_ocaml x0) in
+    let* args = foreign_variant_arrayv (x0' :: vs) in
     let self = coerce_ptr object_ptr.plain self in
-    let () = object_method_bind_ptrcall method_bind self args ret in
+    let () = object_method_bind_call method_bind self args Base.Int64.(1L + Base.Int64.of_int (Base.List.length vs)) ret Foreign_base.global_call_error in
     Living_core.Default.named_return method_name ()
 
 let foreign_method1_void_static class_name method_name hash _fn _ret_typ _ret_to_ocaml x0_typ x0_of_ocaml =
@@ -2137,7 +2165,7 @@ let foreign_method1_void_static class_name method_name hash _fn _ret_typ _ret_to
   fun x0 ->
     let open Living_core.Default.Let_syntax in
     let ret = coerce_ptr type_ptr.plain null in
-    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
+    let* x0' = Living_core.Default.map (coerce x0_typ type_ptr.const) (x0_of_ocaml x0) in
     let* args = Living_core.Default.map (coerce_ptr (ptr type_ptr.const)) (foreign_array1 x0') in
     let self = coerce_ptr object_ptr.plain null in
     let () = object_method_bind_ptrcall method_bind self args ret in
@@ -2150,8 +2178,8 @@ let foreign_method2_void_static class_name method_name hash _fn _ret_typ _ret_to
   fun x0 x1 ->
     let open Living_core.Default.Let_syntax in
     let ret = coerce_ptr type_ptr.plain null in
-    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
-    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
+    let* x0' = Living_core.Default.map (coerce x0_typ type_ptr.const) (x0_of_ocaml x0) in
+    let* x1' = Living_core.Default.map (coerce x1_typ type_ptr.const) (x1_of_ocaml x1) in
     let* args = Living_core.Default.map (coerce_ptr (ptr type_ptr.const)) (foreign_array2 x0' x1') in
     let self = coerce_ptr object_ptr.plain null in
     let () = object_method_bind_ptrcall method_bind self args ret in
@@ -2163,12 +2191,12 @@ let foreign_method2v_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
   let method_bind = classdb_get_method_bind class_string_name method_string_name hash in
   fun x0 x1 vs self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr type_ptr.plain null in
-    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
-    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
-    let* args = Living_core.Default.map (coerce_ptr (ptr type_ptr.const)) (foreign_arrayv (x0' :: x1' :: vs)) in
+    let ret = coerce_ptr variant_ptr.uninit null in
+    let* x0' = Living_core.Default.map (coerce x0_typ variant_ptr.const) (x0_of_ocaml x0) in
+    let* x1' = Living_core.Default.map (coerce x1_typ variant_ptr.const) (x1_of_ocaml x1) in
+    let* args = Living_core.Default.map (coerce_ptr (ptr variant_ptr.const)) (foreign_arrayv (x0' :: x1' :: vs)) in
     let self = coerce_ptr object_ptr.plain self in
-    let () = object_method_bind_ptrcall method_bind self args ret in
+    let () = object_method_bind_call method_bind self args Base.Int64.(2L + Base.Int64.of_int (Base.List.length vs)) ret Foreign_base.global_call_error in
     Living_core.Default.named_return method_name ()
 
 let foreign_method3v_void class_name method_name hash _fn _ret_typ _ret_to_ocaml x0_typ x1_typ x2_typ x0_of_ocaml x1_of_ocaml x2_of_ocaml =
@@ -2177,13 +2205,13 @@ let foreign_method3v_void class_name method_name hash _fn _ret_typ _ret_to_ocaml
   let method_bind = classdb_get_method_bind class_string_name method_string_name hash in
   fun x0 x1 x2 vs self ->
     let open Living_core.Default.Let_syntax in
-    let ret = coerce_ptr type_ptr.plain null in
-    let x0' = coerce x0_typ type_ptr.const (x0_of_ocaml x0) in
-    let x1' = coerce x1_typ type_ptr.const (x1_of_ocaml x1) in
-    let x2' = coerce x2_typ type_ptr.const (x2_of_ocaml x2) in
-    let* args = Living_core.Default.map (coerce_ptr (ptr type_ptr.const)) (foreign_arrayv (x0' :: x1' :: x2' :: vs)) in
+    let ret = coerce_ptr variant_ptr.uninit null in
+    let* x0' = Living_core.Default.map (coerce x0_typ variant_ptr.const) (x0_of_ocaml x0) in
+    let* x1' = Living_core.Default.map (coerce x1_typ variant_ptr.const) (x1_of_ocaml x1) in
+    let* x2' = Living_core.Default.map (coerce x2_typ variant_ptr.const) (x2_of_ocaml x2) in
+    let* args = Living_core.Default.map (coerce_ptr (ptr variant_ptr.const)) (foreign_arrayv (x0' :: x1' :: x2' :: vs)) in
     let self = coerce_ptr object_ptr.plain self in
-    let () = object_method_bind_ptrcall method_bind self args ret in
+    let () = object_method_bind_call method_bind self args Base.Int64.(3L + Base.Int64.of_int (Base.List.length vs)) ret Foreign_base.global_call_error in
     Living_core.Default.named_return method_name ()
     |}
   in

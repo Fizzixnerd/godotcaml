@@ -5,7 +5,7 @@
  (preprocess
   (pps ppx_jane ppx_yojson_conv))
  (flags
-  (:standard -g -w -32)))
+  (:standard -g -w -32-27)))
 
 (library
  (modules Godotcaml Bootstrap)
@@ -15,7 +15,7 @@
  (preprocess
   (pps ppx_jane))
  (flags
-  (:standard -g -w -32)))
+  (:standard -g -w -32-27)))
 
 (library
  (modules
@@ -37,7 +37,7 @@
  (preprocess
   (pps ppx_jane ppx_yojson_conv))
  (flags
-  (:standard -g -w -32)))
+  (:standard -g -w -32-27)))
 
 (library
  (name ppx_godot)
@@ -49,7 +49,7 @@
  (preprocess
   (pps ppxlib.metaquot))
  (flags
-  (:standard -g -w -32)))
+  (:standard -g -w -32-27)))
 
 (executable
  (name my_ocaml_extension)
@@ -63,4 +63,4 @@
  (preprocess
   (pps ppx_godot ppxlib.metaquot))
  (flags
-  (:standard -g -w -32)))
+  (:standard -g -w -32-27)))

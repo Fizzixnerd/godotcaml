@@ -21,6 +21,7 @@ depends: [
   "re"
   "topological_sort"
   "gg"
+  "memo"
   "ppxlib"
   "ppxlib-metaquot"
   "ppx_deriving"

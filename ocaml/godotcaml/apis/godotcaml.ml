@@ -12,7 +12,7 @@ module type SUITE = sig
   type 'a uninit
 
   type 'a ptr_suite = {
-    plain : 'a structure ptr typ;
+    plain : 'a structure plain ptr typ;
     const : 'a structure const ptr typ;
     uninit : 'a structure uninit ptr typ;
   }
@@ -522,13 +522,6 @@ module C = struct
 
   module ClassGetPropertyList = (val class_get_property_list.dyn)
 
-  let class_free_property_list =
-    fn_suite
-      (M.typedef_name "ClassFreePropertyList")
-      (class_instance_ptr.plain @-> property_info_ptr.const @-> returning void)
-
-  module ClassFreePropertyList = (val class_free_property_list.dyn)
-
   let class_free_property_list2 =
     fn_suite
       (M.typedef_name "ClassFreePropertyList2")
@@ -593,11 +586,6 @@ module C = struct
 
   module ClassCallVirtual = (val class_call_virtual.dyn)
 
-  let class_create_instance =
-    fn_suite "" (ptr void @-> returning object_ptr.plain)
-
-  module ClassCreateInstance = (val class_create_instance.dyn)
-
   let class_create_instance2 =
     fn_suite "" (ptr void @-> gbool @-> returning object_ptr.plain)
 
@@ -614,23 +602,12 @@ module C = struct
 
   module ClassRecreateInstance = (val class_recreate_instance.dyn)
 
-  let class_get_virtual =
-    fn_suite ""
-      (ptr void @-> string_name_ptr.const @-> returning ClassCallVirtual.t)
-
-  module ClassGetVirtual = (val class_get_virtual.dyn)
-
   let class_get_virtual2 =
     fn_suite ""
       (ptr void @-> string_name_ptr.const @-> uint32_t
       @-> returning ClassCallVirtual.t)
 
   module ClassGetVirtual2 = (val class_get_virtual2.dyn)
-
-  let class_get_virtual_call_data =
-    fn_suite "" (ptr void @-> string_name_ptr.const @-> returning (ptr void))
-
-  module ClassGetVirtualCallData = (val class_get_virtual_call_data.dyn)
 
   let class_get_virtual_call_data2 =
     fn_suite ""
@@ -650,87 +627,87 @@ module C = struct
 
     type t
 
-    let class_creation_info2_struct : t structure typ =
+    let class_creation_info4_struct : t structure typ =
       structure (M.typedef_name "ClassCreationInfo2")
 
-    let is_virtual_f = field class_creation_info2_struct "is_virtual" gbool
-    let is_abstract_f = field class_creation_info2_struct "is_abstract" gbool
-    let is_exposed_f = field class_creation_info2_struct "is_exposed" gbool
-    let is_runtime_f = field class_creation_info2_struct "is_runtime" gbool
+    let is_virtual_f = field class_creation_info4_struct "is_virtual" gbool
+    let is_abstract_f = field class_creation_info4_struct "is_abstract" gbool
+    let is_exposed_f = field class_creation_info4_struct "is_exposed" gbool
+    let is_runtime_f = field class_creation_info4_struct "is_runtime" gbool
 
     let icon_path_f =
-      field class_creation_info2_struct "icon_path" string_ptr.const
+      field class_creation_info4_struct "icon_path" string_ptr.const
 
-    let set_func_f = field class_creation_info2_struct "set_func" ClassSet.t_opt
-    let get_func_f = field class_creation_info2_struct "get_func" ClassGet.t_opt
+    let set_func_f = field class_creation_info4_struct "set_func" ClassSet.t_opt
+    let get_func_f = field class_creation_info4_struct "get_func" ClassGet.t_opt
 
     let get_property_list_func_f =
-      field class_creation_info2_struct "get_property_list_func"
+      field class_creation_info4_struct "get_property_list_func"
         ClassGetPropertyList.t_opt
 
     let free_property_list_func_f =
-      field class_creation_info2_struct "free_property_list_func"
+      field class_creation_info4_struct "free_property_list_func"
         ClassFreePropertyList2.t_opt
 
     let property_can_revert_func_f =
-      field class_creation_info2_struct "property_can_revert_func"
+      field class_creation_info4_struct "property_can_revert_func"
         ClassPropertyCanRevert.t_opt
 
     let property_get_revert_func_f =
-      field class_creation_info2_struct "property_get_revert_func"
+      field class_creation_info4_struct "property_get_revert_func"
         ClassPropertyGetRevert.t_opt
 
     let validate_property_func_f =
-      field class_creation_info2_struct "validate_property_func"
+      field class_creation_info4_struct "validate_property_func"
         ClassValidateProperty.t_opt
 
     let notification_func_f =
-      field class_creation_info2_struct "notification_func"
+      field class_creation_info4_struct "notification_func"
         ClassNotification2.t_opt
 
     let to_string_func_f =
-      field class_creation_info2_struct "to_string_func" ClassToString.t_opt
+      field class_creation_info4_struct "to_string_func" ClassToString.t_opt
 
     let reference_func_f =
-      field class_creation_info2_struct "reference_func" ClassReference.t_opt
+      field class_creation_info4_struct "reference_func" ClassReference.t_opt
 
     let unreference_func_f =
-      field class_creation_info2_struct "unreference_func"
+      field class_creation_info4_struct "unreference_func"
         ClassUnreference.t_opt
 
     let create_instance_func_f =
-      field class_creation_info2_struct "create_instance_func"
+      field class_creation_info4_struct "create_instance_func"
         ClassCreateInstance2.t
 
     let free_instance_func_f =
-      field class_creation_info2_struct "free_instance_func" ClassFreeInstance.t
+      field class_creation_info4_struct "free_instance_func" ClassFreeInstance.t
 
     let recreate_instance_func_f =
-      field class_creation_info2_struct "recreate_instance_func"
+      field class_creation_info4_struct "recreate_instance_func"
         ClassRecreateInstance.t_opt
 
     let get_virtual_func_f =
-      field class_creation_info2_struct "get_virtual_func"
+      field class_creation_info4_struct "get_virtual_func"
         ClassGetVirtual2.t_opt
 
     let get_virtual_call_data_func_f =
-      field class_creation_info2_struct "get_virtual_call_data_func"
+      field class_creation_info4_struct "get_virtual_call_data_func"
         ClassGetVirtualCallData2.t_opt
 
     let call_virtual_with_data_func_f =
-      field class_creation_info2_struct "call_virtual_with_data_func"
+      field class_creation_info4_struct "call_virtual_with_data_func"
         ClassCallVirtualWithData.t_opt
 
     let get_rid_func_f =
-      field class_creation_info2_struct "get_rid_func" ClassGetRID.t_opt
+      field class_creation_info4_struct "get_rid_func" ClassGetRID.t_opt
 
     let class_userdata_f =
-      field class_creation_info2_struct "class_userdata" (ptr void)
+      field class_creation_info4_struct "class_userdata" (ptr void)
 
-    let () = seal class_creation_info2_struct
+    let () = seal class_creation_info4_struct
 
     let s =
-      typedef class_creation_info2_struct (M.typedef_name "ClassCreationInfo2")
+      typedef class_creation_info4_struct (M.typedef_name "ClassCreationInfo2")
 
     let make allocator ?is_virtual ?is_abstract ?is_exposed ?is_runtime
         ?icon_path ?get ?set ?get_property_list ?free_property_list
@@ -757,7 +734,7 @@ module C = struct
         <-@ (is_exposed |> Option.value ~default:true |> debooleanize)
       in
       let* () =
-        ret |-> is_exposed_f
+        ret |-> is_runtime_f
         <-@ (is_runtime |> Option.value ~default:true |> debooleanize)
       in
       let* () =
@@ -1132,12 +1109,17 @@ module C = struct
   let interface_variant_get_ptr_constructor =
     fn_suite
       (M.typedef_name "InterfaceVariantGetPtrConstructor")
-      (variant_type @-> int32_t @-> returning ptr_constructor.typ)
+      (variant_type @-> int32_t @-> returning PtrConstructor.t)
 
   let interface_variant_get_ptr_destructor =
     fn_suite
       (M.typedef_name "InterfaceVariantGetPtrDestructor")
       (variant_type @-> returning ptr_destructor.typ)
+
+  let interface_variant_stringify =
+    fn_suite
+      (M.typedef_name "InterfaceVariantStringify")
+      (variant_ptr.const @-> string_ptr.plain @-> returning void)
 
   (* turbo snip *)
 
@@ -1184,6 +1166,11 @@ module C = struct
   let interface_object_get_instance_id =
     fn_suite "" (object_ptr.const @-> returning instance_id)
 
+  let interface_object_method_bind_call = 
+    fn_suite ""
+      (method_bind_ptr.const @-> object_ptr.plain @-> ptr variant_ptr.const
+     @-> gint @-> variant_ptr.uninit @-> ptr CallError.s @-> returning void)
+  
   let interface_object_method_bind_ptrcall =
     fn_suite ""
       (method_bind_ptr.const @-> object_ptr.plain @-> ptr type_ptr.const

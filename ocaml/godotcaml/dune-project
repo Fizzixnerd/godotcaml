@@ -31,6 +31,7 @@
   re
   topological_sort
   gg
+  memo
   ppxlib
   ppxlib-metaquot
   ppx_deriving
@@ -51,7 +52,7 @@
  (name ppx_godot)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml dune godotcaml my_ocaml_extension)
+ (depends ocaml dune godotcaml)
  (tags
   (topics "to describe" your project)))
 

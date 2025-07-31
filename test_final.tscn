@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" uid="uid://g5phpn1mgs4o" path="res://icon.svg" id="1_icon"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_icon")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Main" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[node name="Player" type="Player3" parent="."]
+position = Vector2(100, 100)
+sprite_frames = SubResource("SpriteFrames_1")
+animation = &"default"
+autoplay = "default"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 10
+offset_top = 10
+offset_right = 300
+offset_bottom = 40
+text = "Player2Final - Use WASD to move"
+
+[node name="Instructions" type="Label" parent="."]
+offset_left = 10
+offset_top = 50
+offset_right = 400
+offset_bottom = 100
+text = "Note: Player starts at top-left corner (0,4)
+Move it to center with D and S keys"

@@ -23,13 +23,11 @@ module Class = struct
           Living_core.Default.unsafe_free
           @@ InstanceBindingCallbacks.make (gc_alloc ~count:1 ?finalise:None)
 
-        let _godot_create _ =
+        let _godot_create _ _ =
           let open Godotcaml_base.Godotcaml.C in
           let open Godotcaml_apis.Gdforeign in
           let open Living in
           let open Living_core.Default.Let_syntax in
-          Living_core.Default.unsafe_free
-          @@
           let* ret =
             Living_core.Default.map
               (coerce_ptr object_ptr.plain)
@@ -45,32 +43,64 @@ module Class = struct
             instance_binding_callbacks;
           init ret
 
-        let new_ () = Living_core.Default.return @@ _godot_create ()
+        let _godot_unsafe_create x y =
+          Living_core.Default.unsafe_free (_godot_create x y)
+
+        let new_ () = _godot_create () false
 
         let new_ptr =
           let open Godotcaml_base.Godotcaml.C in
           let open Godotcaml_apis.Gdforeign in
-          ClassCreateInstance.of_fun _godot_create
+          ClassCreateInstance2.of_fun _godot_unsafe_create
 
         let finalizer_ptr =
           let open Godotcaml_base.Godotcaml.C in
           let open Godotcaml_apis.Gdforeign in
           ClassFreeInstance.of_fun _godot_finalizer
 
+        let to_string =
+          let open Godotcaml_base.Godotcaml.C in
+          let open Godotcaml_apis.Gdforeign in
+          let open Living in
+          let open Living_core.Default in
+          let open Living_core.Default.Let_syntax in
+          let open Living_ctypes.Default in
+          ClassToString.of_fun
+            (fun _self _is_valid (out_str : string_ptr structure ptr) ->
+              Living_core.Default.unsafe_free
+              @@
+              let* () =
+                return _is_valid
+                <-@ Unsigned.UInt8.of_int (if true then 1 else 0)
+              in
+              let* out =
+                Living_core.Default.bind ( !@ )
+                  (BuiltinClass.String.of_ocaml _godot_class_name)
+              in
+              let* () =
+                return (coerce_ptr BuiltinClass.String.godot_typ out_str)
+                <-@ out
+              in
+              Living_core.Default.return ())
+
         let _godot_class_info =
           let open Godotcaml_base.Godotcaml.C in
           let open Godotcaml_apis.Gdforeign in
           let get_virtual =
-            ClassGetVirtual.of_fun (fun _ f_str_name ->
+            ClassGetVirtual2.of_fun (fun _ f_str_name _method_flags ->
                 _godot_virtual_function_lookup f_str_name
                 |> Option.value ~default:(coerce_ptr ClassCallVirtual.t null))
           in
           Living_core.Default.unsafe_free
-          @@ ClassCreationInfo2.make
+          @@ ClassCreationInfo4.make
                (gc_alloc ~count:1 ?finalise:None)
-               new_ptr finalizer_ptr ~get_virtual
+               new_ptr finalizer_ptr ~get_virtual ~is_runtime:true ~to_string
 
         let () =
+          let () =
+            Stdio.printf "Registering class: %s, inherits: %s\n"
+              _godot_class_name _godot_inherits
+          in
           let open Godotcaml_base.Godotcaml.C in
           let open Godotcaml_apis.Gdforeign in
           let open Living in
@@ -86,7 +116,7 @@ module Class = struct
               string_name_of_string _godot_class_name
             in
             let () = on_load_func () in
-            classdb_register_extension_class2
+            classdb_register_extension_class4
               !Godotcaml_apis.Gdforeign.library
               godot_class_name_strname godot_inherits_strname _godot_class_info;
             !_godot_vars_loader ();
@@ -111,7 +141,11 @@ module Class = struct
             (f : Godotcaml_base.Godotcaml.C.ClassCallVirtual.t) =
           Hashtbl.add _godot_virtual_function_table ~key:function_name ~data:f
 
-        let _godot_virtual_function_lookup function_stringname =
+        let _godot_virtual_function_lookup
+            (function_stringname :
+              Godotcaml_base.Godotcaml.C.string_name_ptr structure
+              Godotcaml_apis.Gdforeign.Suite.const
+              ptr) =
           let open Godotcaml_apis.Api_builtins in
           let open Godotcaml_apis.Gdforeign in
           let open Living in
@@ -119,11 +153,8 @@ module Class = struct
           Living_core.Default.unsafe_free
           @@
           let* s =
-            Living_core.Default.map BuiltinClass0.String.to_ocaml
-              (BuiltinClass.StringName.substr
-                 (BuiltinClass0.Int.of_ocaml 0L)
-                 (BuiltinClass0.Int.of_ocaml (-1L))
-                 (coerce_ptr StringName.typ function_stringname))
+            BuiltinClass.String.of_string_name
+              (coerce_ptr BuiltinClass.StringName.typ function_stringname)
           in
           Living_core.Default.return
             (Hashtbl.find _godot_virtual_function_table s)
@@ -173,7 +204,8 @@ end
 module Signal = struct
   let parse_args : (arg_label * expression) list -> module_expr list =
    fun args_with_labels ->
-    args_with_labels |> List.map ~f:(fun x -> extract_module_expr (snd x))
+    args_with_labels
+    |> List.map ~f:(fun (_label, arg) -> extract_module_expr arg)
 
   let expander ~ctxt _rec_flag signal_name _trash args =
     let loc = Expansion_context.Extension.extension_point_loc ctxt in
@@ -226,10 +258,9 @@ module Signal = struct
               in
               let* signal_name_strname = string_name_of_string _signal_name in
               let* x = mkstrnamep "x" in
-              let* int = mkstrnamep "int" in
-              let$ hint_str =
+              let* hint_str =
                 Godotcaml_apis.Api_builtins.BuiltinClass0.String.of_ocaml "??"
-                |> coerce_ptr string_ptr.plain
+                |> Living_core.Default.map (coerce_ptr string_ptr.plain)
               in
               let zero = Unsigned.UInt32.of_int 0 in
               let six = Unsigned.UInt32.of_int 6 in
@@ -470,7 +501,10 @@ module Func = struct
                         Living.Living_core.Default.return
                           (coerce_ptr Ret.typ ret)
                       in
-                      let* ret_ptr = !@(Ret.of_ocaml ret'') in
+                      let* ret_ptr =
+                        Living.Living_core.Default.map ( !@ )
+                          (Ret.of_ocaml ret'')
+                      in
                       ret' <-@ ret_ptr]
                   else [%expr Living.Living_core.Default.return ()]]
               in
@@ -511,9 +545,9 @@ module Func = struct
                 let* arguments_info = gc_alloc ~count PropertyInfo.s in
                 let* arguments_metadata = gc_alloc ~count int in
                 let* callable = mkstrnamep "Callable" in
-                let$ hint_str =
+                let* hint_str =
                   Godotcaml_apis.Api_builtins.BuiltinClass0.String.of_ocaml "??"
-                  |> coerce_ptr string_ptr.plain
+                  |> Living_core.Default.map (coerce_ptr string_ptr.plain)
                 in
                 let zero = Unsigned.UInt32.of_int 0 in
                 let six = Unsigned.UInt32.of_int 6 in
@@ -697,7 +731,7 @@ module Override = struct
                                  ([%e function_expr ys] self)]
                            else
                              [%expr
-                               let ret' =
+                               let* ret' =
                                  Ret.of_ocaml ([%e function_expr ys] self)
                                in
                                Living_core.Default.return
@@ -776,7 +810,7 @@ module Callable = struct
       let ident = pexp_ident { txt = Ldot (lident mod_name, func_name); loc } in
       pexp_apply ident [ (Nolabel, e) ]
     in
-    let call_ocaml_of_variant = call "ocaml_of_variant" in
+    let call_ocaml_of_variant = fun mod_name x -> call "unsafe_free" "LCore" (call "ocaml_of_variant" mod_name x) in
     let call_es =
       xs
       |> List.mapi ~f:(fun i (mod_name, _) ->
@@ -814,6 +848,7 @@ module Callable = struct
          [%expr
            let final_ret =
              let open Living in
+             let module LCore = Living_core.Default in
              let open Living_core.Default.Let_syntax in
              let open Godotcaml_apis.Gdforeign in
              let open Godotcaml_base.Godotcaml.C in
@@ -856,7 +891,7 @@ module Callable = struct
              in
              let$ callable_func_ptr = CallableCustomCall.of_fun callable_func in
              let* info_struct =
-               Godotcaml_base.Godotcaml.C.CallableInfoStruct.make
+               Godotcaml_base.Godotcaml.C.CallableInfoStruct2.make
                  (gc_alloc ~count:1 ?finalise:None)
                  !Godotcaml_apis.Gdforeign.library
                  callable_func_ptr
@@ -867,7 +902,7 @@ module Callable = struct
                  @@ Godotcaml_apis.Gdforeign.gc_alloc ~count:1
                       Godotcaml_apis.Api_types.ApiTypes.Callable.s)
              in
-             let () = callable_custom_create callable_ptr info_struct in
+             let () = callable_custom_create2 callable_ptr info_struct in
              Living_core.Default.return
              @@ coerce_ptr
                   (ptr Godotcaml_apis.Api_types.ApiTypes.Callable.s)

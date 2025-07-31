@@ -13,7 +13,6 @@ depends: [
   "ocaml"
   "dune" {>= "3.15"}
   "godotcaml"
-  "my_ocaml_extension"
   "odoc" {with-doc}
 ]
 build: [

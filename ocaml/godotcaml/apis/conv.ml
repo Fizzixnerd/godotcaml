@@ -89,36 +89,50 @@ module String = struct
   type ocaml_t = string
 
   let _of_string_name_constructor =
-    lazy (variant_get_ptr_constructor String.type_enum 2l)
+    lazy
+      (coerce Godotcaml.C.PtrConstructor.t Godotcaml.C.ptr_constructor.typ
+         (variant_get_ptr_constructor String.type_enum 2l))
+
+  let _of_node_path_constructor =
+    lazy
+      (coerce Godotcaml.C.PtrConstructor.t Godotcaml.C.ptr_constructor.typ
+         (variant_get_ptr_constructor String.type_enum 3l))
 
   let to_ocaml : String.t structure ptr -> string LCore.t =
    fun str_ptr ->
     let const_str = coerce_ptr string_ptr.const str_ptr in
-    let len =
-      Int64.to_int_exn
-      @@ string_to_utf8_chars const_str (coerce_ptr (ptr char) null) 0L
+    let len64 =
+      string_to_utf8_chars const_str (coerce_ptr (ptr char) null) 0L
     in
-    let char_buf = gc_alloc ~count:(len + 1) char in
-    let _ =
-      LCore.map
-        (fun cb -> string_to_utf8_chars const_str cb (Int64.of_int @@ len))
-        char_buf
-    in
-    LCore.map (string_from_ptr ~length:len) char_buf
+    let len = Int64.to_int_exn len64 in
+    let* char_buf = gc_alloc ~count:(len + 1) char in
+    let _ = string_to_utf8_chars const_str char_buf len64 in
+    let* _ = char_buf +@ len <-@ '\000' in
+
+    LCore.named_return "String.to_ocaml" (string_from_ptr ~length:len char_buf)
 
   let of_ocaml : string -> String.t structure ptr LCore.t =
    fun s ->
     let* str_ptr = gc_alloc ~count:1 String.s in
     string_new_with_utf8_chars (coerce_ptr string_ptr.uninit str_ptr) s;
-    LCore.return str_ptr
+    LCore.named_return "String.of_ocaml" str_ptr
+
+  let _of_constructor c ptr =
+    let open Godotcaml_base.Godotcaml.C in
+    let* s =
+      Living_core.Default.map
+        (coerce_ptr type_ptr.uninit)
+        (gc_alloc ~count:1 String.s)
+    in
+    let* args = Gdforeign.foreign_array1 ptr in
+    let () = Lazy.force c s args in
+    to_ocaml (coerce_ptr String.typ s)
 
   let of_string_name : StringName.t structure ptr -> string LCore.t =
-   fun str_name_ptr ->
-    let open Godotcaml_base.Godotcaml.C in
-    let s = coerce_ptr type_ptr.uninit @@ String.new_uninit () in
-    let* args = Gdforeign.foreign_array1 str_name_ptr in
-    let () = Lazy.force _of_string_name_constructor s args in
-    to_ocaml (coerce_ptr String.typ s)
+    _of_constructor _of_string_name_constructor
+
+  let of_node_path : NodePath.t structure ptr -> string LCore.t =
+    _of_constructor _of_node_path_constructor
 end
 
 module Vector2 = struct
@@ -209,7 +223,8 @@ module Rect2i = struct
   type godot_t = Rect2i.t structure ptr
   type ocaml_t = (int32 * int32) * (int32 * int32)
 
-  let to_ocaml : Rect2i.t structure ptr -> ((int32 * int32) * (int32 * int32)) LCore.t =
+  let to_ocaml :
+      Rect2i.t structure ptr -> ((int32 * int32) * (int32 * int32)) LCore.t =
    fun x ->
     let ret =
       let int32_ptr = coerce_ptr (ptr int32_t) x in
@@ -221,7 +236,8 @@ module Rect2i = struct
     in
     ret
 
-  let of_ocaml : (int32 * int32) * (int32 * int32) -> Rect2i.t structure ptr LCore.t =
+  let of_ocaml :
+      (int32 * int32) * (int32 * int32) -> Rect2i.t structure ptr LCore.t =
    fun ((x, y), (sx, sy)) ->
     let ret =
       let ret = gc_alloc ~count:1 Rect2i.s in
@@ -375,7 +391,8 @@ module Vector4i = struct
   type godot_t = Vector4i.t structure ptr
   type ocaml_t = int32 * int32 * int32 * int32
 
-  let to_ocaml : Vector4i.t structure ptr -> (int32 * int32 * int32 * int32) LCore.t =
+  let to_ocaml :
+      Vector4i.t structure ptr -> (int32 * int32 * int32 * int32) LCore.t =
    fun x ->
     let ret =
       let int32_ptr = coerce_ptr (ptr int32_t) x in
@@ -387,7 +404,8 @@ module Vector4i = struct
     in
     ret
 
-  let of_ocaml : int32 * int32 * int32 * int32 -> Vector4i.t structure ptr LCore.t =
+  let of_ocaml :
+      int32 * int32 * int32 * int32 -> Vector4i.t structure ptr LCore.t =
    fun (x, y, z, w) ->
     let ret =
       let ret = gc_alloc ~count:1 Vector4i.s in
@@ -726,16 +744,22 @@ module StringName = struct
   let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 
   let _of_string_constructor =
-    lazy (variant_get_ptr_constructor StringName.type_enum 2l)
+    lazy
+      (coerce Godotcaml.C.PtrConstructor.t Godotcaml.C.ptr_constructor.typ
+         (variant_get_ptr_constructor StringName.type_enum 2l))
 
-  let of_string = fun x ->
+  let of_string =
+   fun x ->
     let open Godotcaml_base.Godotcaml.C in
-    let sn = coerce_ptr type_ptr.uninit @@ StringName.new_uninit () in
+    let* sn =
+      Living_core.Default.map
+        (coerce_ptr type_ptr.uninit)
+        (gc_alloc ~count:1 StringName.s)
+    in
     let* str = String.of_ocaml x in
     let* args = Gdforeign.foreign_array1 str in
     let () = Lazy.force _of_string_constructor sn args in
-    LCore.named_return "StringName.of_string"
-    @@ to_ocaml (coerce_ptr StringName.typ sn)
+    to_ocaml (coerce_ptr StringName.typ sn)
 end
 
 module NodePath = struct
@@ -746,17 +770,22 @@ module NodePath = struct
   let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return x
 
   let _of_string_constructor =
-    lazy (variant_get_ptr_constructor NodePath.type_enum 2l)
+    lazy
+      (coerce Godotcaml.C.PtrConstructor.t Godotcaml.C.ptr_constructor.typ
+         (variant_get_ptr_constructor NodePath.type_enum 2l))
 
   let of_string =
-    fun x ->
+   fun x ->
     let open Godotcaml_base.Godotcaml.C in
-    let np = coerce_ptr type_ptr.uninit @@ NodePath.new_uninit () in
+    let* np =
+      Living_core.Default.map
+        (coerce_ptr type_ptr.uninit)
+        (gc_alloc ~count:1 NodePath.s)
+    in
     let* str = String.of_ocaml x in
     let* args = Gdforeign.foreign_array1 str in
     let () = Lazy.force _of_string_constructor np args in
-    LCore.named_return "NodePath.of_string"
-    @@ to_ocaml (coerce_ptr NodePath.typ np)
+    to_ocaml (coerce_ptr NodePath.typ np)
 end
 
 module RID = struct
@@ -960,7 +989,8 @@ module Variant = struct
   let to_ocaml (x : godot_t) : ocaml_t LCore.t =
     LCore.return (coerce_ptr Godotcaml.C.variant_ptr.plain x)
 
-  let of_ocaml (x : ocaml_t) : godot_t LCore.t = LCore.return (coerce_ptr (ptr Variant.s) x)
+  let of_ocaml (x : ocaml_t) : godot_t LCore.t =
+    LCore.return (coerce_ptr (ptr Variant.s) x)
 end
 
 module Void = struct
